@@ -1,6 +1,6 @@
 # Mr. B Ord
-- [ ] Rätta språklistan framför välkomstrutan och verifiera tom gissning.
-- [ ] Jämför releaseberedskap med Yatzy och redovisa återstående krav.
+- [x] Rätta språklistan framför välkomstrutan och verifiera tom gissning på telefon och dator; inga försök förbrukas.
+- [x] Jämför releaseberedskap med Yatzy och redovisa återstående krav.
 - [x] Förbättra svensk ordkontroll med 2 569 verifierade böjningar och dölj författarnamnet i inställningarna; bevara licensen.
 - [x] Följ telefonens språk automatiskt och lägg in Yatzys 40 språkval samt 32 lokala ordpaket inklusive svenska.
 - [ ] Slutför alla språk inför släpp: orddata saknas för th/gu/kn/ml/mr/or/pa/te; nya språktexter har engelsk reservtext och internationella ordurval behöver språkgranskning.
@@ -15,3 +15,5 @@
 - [x] Förstora Radera utan att flytta andra knappar.
 - [x] Kontrollera och dokumentera underlagen och återstående krav för iPhone-släpp; eget iOS-projekt och integritetsmanifest skapade.
 - [ ] Slutverifiera iPhone-paket: kräver Mac/Xcode, fullständig native sync, egen ikon/startbild, signering och fysisk enhetstestning.
+- [ ] Ord-specifika support- och integritetssidor samt App Store-material och integritetsdeklarationer: kräver rätt kontaktuppgifter, slutliga annonsval och App Store Connect-verifiering.
+- [ ] Lokalisera iPhones systemtexter för tillstånd och verifiera att mobilens språk, native sparning och återöppning fungerar efter fullständig native sync på Mac/Xcode.
