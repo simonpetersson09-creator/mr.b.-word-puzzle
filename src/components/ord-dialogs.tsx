@@ -24,7 +24,7 @@ export function OrdDialogs({ panel, close, save, round, setSettings }: { panel: 
       <h2>{t('rules')}</h2><p className="modal-description">Ett ord. Fem bokstäver. Sex chanser.</p>
       <div className="rules-body"><p>Gissa dagens svenska ord på högst sex försök. Skriv ett ord med fem bokstäver och tryck på <strong>Gissa</strong>.</p>
         <div className="example">{'KANAL'.split('').map((c,i) => <span className={`tile ${evaluate('KANAL','KANEL')[i]}`} key={i}>{c}</span>)}</div>
-        <div className="legend rule-label"><i className="correct" />Rätt bokstav, rätt plats</div><div className="legend rule-label"><i className="present" />Rätt bokstav, annan plats</div><div className="legend rule-label"><i className="absent" />Ingen återstående träff</div>
+        <div className="rule-label"><i className="correct" />Rätt bokstav, rätt plats</div><div className="rule-label"><i className="present" />Rätt bokstav, annan plats</div><div className="rule-label"><i className="absent" />Ingen återstående träff</div>
         <p>Om svaret är <strong>KANEL</strong> blir det andra A:et i KANAL grått. Varje bokstav i svaret kan bara ge en träff.</p>
         <p>Å, Ä och Ö är egna bokstäver. Ogiltiga ord kostar inga försök. Alla får samma ord, som byts vid midnatt svensk tid.</p>
       </div><Button className="guess-button" onClick={close}>Då kör vi</Button>

@@ -79,15 +79,13 @@ function Index() {
         <Button className="tool-button" variant="ghost" aria-label="Statistik" title="Statistik" onClick={() => setPanel('stats')}><ChartNoAxesColumnIncreasing /></Button>
         <Button className="tool-button" variant="ghost" aria-label="Inställningar" title="Inställningar" onClick={() => setPanel('settings')}><Settings2 /></Button>
       </nav></header>
-      <main className="game"><section className="game-heading"><h1>Mr. B <span>Ord</span></h1><p>Fem bokstäver. Sex chanser. Din dagliga ordpaus.</p><div className="puzzle-date"><span>Dagens ord #{dayNumber(date)-dayNumber('2026-11-12')+1}</span><i className="date-dot" /><span>{formatted}</span></div></section>
+      <main className="game">
         <div className="board-zone"><div className="board" role="grid" aria-label="Spelplan, sex rader med fem bokstäver">{Array.from({length:6},(_,row) => {
           const guess=round.guesses[row], active=!done && row===round.guesses.length;
           const letters=guess ?? (active ? input : ''); const colors=guess ? evaluate(guess,round.answer) : [];
           return Array.from({length:5},(_,col) => <div role="gridcell" key={`${row}-${col}`} aria-label={`Rad ${row+1}, plats ${col+1}: ${letters[col] ?? 'tom'}${colors[col] ? ', '+({correct:'rätt plats',present:'annan plats',absent:'ingen träff'})[colors[col]] : ''}`} className={`tile ${active ? 'active' : ''} ${active && letters[col] ? 'filled' : ''} ${colors[col] ?? ''} ${guess ? 'reveal' : ''}`}>{letters[col]}</div>);
         })}</div></div>
         <div className={`game-message ${message ? 'error' : ''}`} aria-live="polite">{message || (done ? (hasWon(round) ? `Snyggt! ${round.answer} på ${round.guesses.length} försök.` : `Dagens ord var ${round.answer}.`) : `Försök ${round.guesses.length+1} av 6`)}</div>
-        <div className="legend"><span><i className="correct" />Rätt plats</span><span><i className="present" />Annan plats</span><span><i className="absent" />Ingen träff</span></div>
-        <footer className="game-footer"><LockKeyhole /><span>Sparas på din enhet</span><span>·</span><span>Nytt ord vid midnatt</span></footer>
         <Button className="guess-button" disabled={!ready} onClick={done ? () => setPanel('stats') : enter}>{done ? <ChartNoAxesColumnIncreasing /> : <ArrowRight />}{done ? 'Visa resultat' : t('guess')}</Button>
         <div className="keyboard" aria-label="Svenskt tangentbord">{['QWERTYUIOPÅ','ASDFGHJKLÖÄ','ZXCVBNM'].map((row,i) => <div className="key-row" key={row}>{row.split('').map(c => <Button key={c} variant="secondary" className={`key ${marks[c] ?? ''}`} disabled={!ready || done} onClick={() => type(c)} aria-label={`Bokstav ${c}`}>{c}</Button>)}{i===2 && <><Button variant="secondary" className="key" disabled={done || !ready} onClick={erase} aria-label="Radera" title="Radera"><Delete /></Button><Button variant="secondary" className="key" disabled={done || !ready} onClick={enter} aria-label="Skicka gissning" title="Gissa"><ArrowRight /></Button></>}</div>)}</div>
       </main>
