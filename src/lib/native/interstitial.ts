@@ -9,14 +9,15 @@ export function createDailyAds(adapter: AdAdapter, clock = Date.now) {
   const started = new Set<string>(), consumed = new Set<string>();
   return {
     async initialize() { try { eligible = await adapter.consent(); } catch { eligible = false; } },
-    preload(date: string, guesses: number) {
-      if (!eligible || guesses !== 1 || started.has(date)) return;
-      started.add(date);
+    preload(roundId: string, guesses: number) {
+      // Resume an unfinished word too; inventory is lost when the app restarts.
+      if (!eligible || guesses < 1 || started.has(roundId) || consumed.has(roundId)) return;
+      started.add(roundId);
       pending = adapter.prepare().then(() => { preparedAt = clock(); }).catch(() => { preparedAt = null; });
     },
-    async afterResult(date: string, finished: boolean) {
-      if (!finished || consumed.has(date)) return;
-      consumed.add(date);
+    async afterResult(roundId: string, finished: boolean) {
+      if (!finished || consumed.has(roundId)) return;
+      consumed.add(roundId);
       if (!eligible || preparedAt === null || clock() - preparedAt >= AD_TTL) return;
       preparedAt = null;
       try { await adapter.show(); } catch { /* The saved result remains available. */ }
