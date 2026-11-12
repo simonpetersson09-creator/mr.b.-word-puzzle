@@ -22,8 +22,9 @@ export function dailyAnswer(date: string): string {
   const index = dayNumber(date) - dayNumber('2026-11-12');
   // The original dated schedule stays immutable. Subsequent cycles use a frozen
   // seeded shuffle: random order without changing the answer on restart/offline.
-  if (index < answers.length) return answers[((index % answers.length) + answers.length) % answers.length] ?? answers[0];
-  const cycle = Math.floor(index / answers.length);
+  if (date <= '2026-11-12') return answers[((index % answers.length) + answers.length) % answers.length] ?? answers[0];
+  const randomIndex = dayNumber(date) - dayNumber('2026-11-13');
+  const cycle = Math.floor(randomIndex / answers.length) + 1;
   const pool: string[] = [...answers];
   let seed = (cycle ^ 0x6d72624f) >>> 0;
   for (let i = pool.length - 1; i > 0; i--) {
@@ -31,7 +32,7 @@ export function dailyAnswer(date: string): string {
     const j = seed % (i + 1), a = pool[i], b = pool[j];
     if (a && b) { pool[i] = b; pool[j] = a; }
   }
-  return pool[index % answers.length] ?? answers[0];
+  return pool[randomIndex % answers.length] ?? answers[0];
 }
 export const newRound = (date: string): Round => ({ date, answer: dailyAnswer(date), guesses: [] });
 export const hasWon = (round: Round) => round.guesses.includes(round.answer);

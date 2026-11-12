@@ -31,7 +31,11 @@ use the editor.
 
 ## Project architecture
 - Keep daily-game logic and licensed dictionaries separate from presentation; pure tests protect scoring and calendar rules.
-- Store all daily rounds in one device-local versioned snapshot and derive statistics from completed rounds; this makes final results idempotent across restarts.
+- Store all daily rounds in one device-local versioned snapshot with a recovery copy and a serialized native Preferences mirror; derive statistics from completed rounds to keep results idempotent across restarts and WebView eviction.
 - Retain immutable dated answer schedules and saved answers; app updates must not change already assigned puzzles.
 - Keep the normal TanStack Start bootstrap and package native apps through a separate client-only root; local assets and word lists allow offline mobile play.
 - Keep advertisements disabled until native consent and presentation are integrated and verified; gameplay must not depend on ads.
+- Compute game-day keys from the device timezone's wall-clock parts; this preserves the daily boundary across daylight-saving transitions.
+- Use a frozen seeded answer shuffle from the new schedule epoch while retaining existing saved answers; offline restarts must not reroll puzzles.
+- Isolate interstitial policy behind an injectable adapter; consent precedes preload and result dismissal consumes ready inventory without blocking gameplay.
+- Keep the app's own iOS project and privacy manifest separate from reference apps; production identifiers and signing must never be copied.
