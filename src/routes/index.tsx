@@ -4,11 +4,12 @@ import { ChartNoAxesColumnIncreasing, CircleHelp, Settings2, Delete, ArrowRight 
 import mrB from '@/assets/mr-b.png';
 import { Button } from '@/components/ui/button';
 import { OrdDialogs, type Panel } from '@/components/ord-dialogs';
-import { emptySave, evaluate, hasWon, isFinished, keyboardMarks, newRound, stockholmDate, submitGuess, dayNumber, type Save } from '@/lib/ord/engine';
-import { loadSave, mergeRound, persistSave, SAVE_KEY } from '@/lib/ord/storage';
+import { emptySave, evaluate, hasWon, isFinished, keyboardMarks, newRound, gameDate, submitGuess, dayNumber, type Save } from '@/lib/ord/engine';
+import { initializeSave, loadSave, mergeRound, persistSave, flushNativeSave, SAVE_KEY } from '@/lib/ord/storage';
 import { installViewportSync } from '@/lib/native/viewport';
 import { feedback } from '@/lib/native/feedback';
 import { t } from '@/lib/i18n';
+import { dailyAds, initializeAds } from '@/lib/native/interstitial';
 
 export const Route = createFileRoute("/")({
   head: () => ({ meta: [
@@ -37,30 +38,44 @@ function Index() {
     if (!persistSave(next)) setMessage(t('storage'));
   }
   useEffect(() => {
-    const loaded = loadSave(); saveRef.current = loaded; setSave(loaded); setDate(stockholmDate()); setReady(true);
+    let mounted = true;
+    void initializeSave().then(loaded => {
+      if (!mounted) return;
+      saveRef.current = loaded; setSave(loaded); setDate(gameDate()); setReady(true);
+      void initializeAds().then(() => {
+        const active = loaded.rounds[gameDate()];
+        if (active && !isFinished(active)) dailyAds.preload(active.date, active.guesses.length);
+      });
+    });
     const cleanup = installViewportSync();
     function refreshDay() {
-      const current = stockholmDate();
+      const current = gameDate();
       setDate(prior => { if (prior !== current) { setInput(''); setMessage(''); setPanel(null); if (panelTimer.current) clearTimeout(panelTimer.current); } return current; });
     }
     function reload(event: StorageEvent) { if (event.key === SAVE_KEY) { const updated=loadSave(); saveRef.current=updated; setSave(updated); setInput(''); } }
     const timer=setInterval(refreshDay,1000);
     window.addEventListener('focus',refreshDay); document.addEventListener('visibilitychange',refreshDay); window.addEventListener('storage',reload);
-    return () => { cleanup(); clearInterval(timer); if(panelTimer.current) clearTimeout(panelTimer.current); window.removeEventListener('focus',refreshDay); document.removeEventListener('visibilitychange',refreshDay); window.removeEventListener('storage',reload); };
+    return () => { mounted = false; cleanup(); clearInterval(timer); if(panelTimer.current) clearTimeout(panelTimer.current); window.removeEventListener('focus',refreshDay); document.removeEventListener('visibilitychange',refreshDay); window.removeEventListener('storage',reload); };
   },[]);
   function enter() {
     if (!ready || done) return;
-    const currentDate=stockholmDate();
+    const currentDate=gameDate();
     if (currentDate !== date) { setDate(currentDate); setInput(''); setMessage('Ett nytt ord är här'); return; }
-    const latest=loadSave(), active=latest.rounds[date] ?? round;
+    const latest=loadSave(), active=latest.rounds[date] ?? saveRef.current.rounds[date] ?? round;
     const result=submitGuess(active,input);
     if(result.error) { setMessage(t(result.error)); return; }
-    setMessage(''); setInput(''); commit(mergeRound({...latest,settings:saveRef.current.settings},result.round));
+    setMessage(''); setInput(''); commit(mergeRound({...latest,rounds:{...saveRef.current.rounds,...latest.rounds},settings:saveRef.current.settings},result.round));
+    void initializeAds().then(() => dailyAds.preload(date,result.round.guesses.length));
     void feedback(saveRef.current.settings,hasWon(result.round));
     if(isFinished(result.round)) panelTimer.current=setTimeout(() => setPanel('stats'),650);
   }
   function type(letter: string) { if(!ready || done) return; setMessage(''); setInput(prior => prior.length < 5 ? prior+letter : prior); }
   function erase() { if(done) return; setMessage(''); setInput(prior => prior.slice(0,-1)); }
+  function closePanel() {
+    const showAd = panel === 'stats' && done;
+    setPanel(null);
+    if (showAd) void flushNativeSave().then(() => dailyAds.afterResult(date,true)).catch(() => setMessage(t('storage')));
+  }
   useEffect(() => {
     function keydown(event: KeyboardEvent) {
       if(panel || event.ctrlKey || event.metaKey || event.altKey || event.repeat) return;
@@ -86,10 +101,10 @@ function Index() {
           return Array.from({length:5},(_,col) => <div role="gridcell" key={`${row}-${col}`} aria-label={`Rad ${row+1}, plats ${col+1}: ${letters[col] ?? 'tom'}${colors[col] ? ', '+({correct:'rätt plats',present:'annan plats',absent:'ingen träff'})[colors[col]] : ''}`} className={`tile ${active ? 'active' : ''} ${active && letters[col] ? 'filled' : ''} ${colors[col] ?? ''} ${guess ? 'reveal' : ''}`}>{letters[col]}</div>);
         })}</div></div>
         <div className={`game-message ${message ? 'error' : ''}`} aria-live="polite">{message || (done ? (hasWon(round) ? `Snyggt! ${round.answer} på ${round.guesses.length} försök.` : `Dagens ord var ${round.answer}.`) : '')}<span className="sr-only">{!done && !message ? `Försök ${round.guesses.length+1} av 6` : ''}</span></div>
-        <div className="keyboard" aria-label="Svenskt tangentbord">{['QWERTYUIOPÅ','ASDFGHJKLÖÄ','ZXCVBNM'].map((row,i) => <div className="key-row" key={row}>{row.split('').map(c => <Button key={c} variant="secondary" className={`key ${marks[c] ?? ''}`} disabled={!ready || done} onClick={() => type(c)} aria-label={`Bokstav ${c}`}>{c}</Button>)}{i===2 && <Button variant="secondary" className="key" disabled={done || !ready} onClick={erase} aria-label="Radera" title="Radera"><Delete /></Button>}</div>)}</div>
+        <div className="keyboard" aria-label="Svenskt tangentbord">{['QWERTYUIOPÅ','ASDFGHJKLÖÄ','ZXCVBNM'].map((row,i) => <div className="key-row" key={row}>{row.split('').map(c => <Button key={c} variant="secondary" className={`key ${marks[c] ?? ''}`} disabled={!ready || done} onClick={() => type(c)} aria-label={`Bokstav ${c}`}>{c}</Button>)}{i===2 && <Button variant="secondary" className="key erase-key" disabled={done || !ready} onClick={erase} aria-label="Radera" title="Radera"><Delete /></Button>}</div>)}</div>
         <Button className="guess-button" disabled={!ready} onClick={done ? () => setPanel('stats') : enter}>{done ? <ChartNoAxesColumnIncreasing /> : <ArrowRight />}{done ? 'Visa resultat' : t('guess')}</Button>
       </main>
-      <OrdDialogs panel={panel} close={() => setPanel(null)} save={save} round={round} setSettings={settings => commit({...saveRef.current,settings})} />
+      <OrdDialogs panel={panel} close={closePanel} save={save} round={round} setSettings={settings => commit({...saveRef.current,settings})} />
     </div>
   );
 }

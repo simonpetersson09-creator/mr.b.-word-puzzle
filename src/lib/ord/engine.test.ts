@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { answers } from './words/answers';
-import { dailyAnswer, dictionarySet, emptySave, evaluate, isFinished, hasWon, keyboardMarks, newRound, statistics, stockholmDate, submitGuess, type Round } from './engine';
-import { loadSave, mergeRound, persistSave } from './storage';
+import { dailyAnswer, dictionarySet, emptySave, evaluate, isFinished, hasWon, keyboardMarks, newRound, statistics, gameDate, submitGuess, type Round } from './engine';
+import { loadSave, mergeRound, persistSave, SAVE_KEY, BACKUP_KEY } from './storage';
 
 describe('Mr. B Ord rules', () => {
   beforeEach(() => localStorage.clear());
@@ -10,13 +10,28 @@ describe('Mr. B Ord rules', () => {
     expect(dailyAnswer('2026-11-13')).toBe('TIGER');
     for(const answer of answers) { expect(answer).toHaveLength(5); expect(dictionarySet.has(answer)).toBe(true); }
   });
-  it('changes date at Stockholm midnight in winter', () => {
-    expect(stockholmDate(new Date('2026-11-12T22:59:59Z'))).toBe('2026-11-12');
-    expect(stockholmDate(new Date('2026-11-12T23:00:00Z'))).toBe('2026-11-13');
+  it('changes the local game day at exactly 03:00 in winter', () => {
+    expect(gameDate(new Date('2026-11-13T01:59:59Z'),'Europe/Stockholm')).toBe('2026-11-12');
+    expect(gameDate(new Date('2026-11-13T02:00:00Z'),'Europe/Stockholm')).toBe('2026-11-13');
   });
   it('uses Stockholm summer time', () => {
-    expect(stockholmDate(new Date('2026-07-12T21:59:59Z'))).toBe('2026-07-12');
-    expect(stockholmDate(new Date('2026-07-12T22:00:00Z'))).toBe('2026-07-13');
+    expect(gameDate(new Date('2026-07-13T00:59:59Z'),'Europe/Stockholm')).toBe('2026-07-12');
+    expect(gameDate(new Date('2026-07-13T01:00:00Z'),'Europe/Stockholm')).toBe('2026-07-13');
+  });
+  it('uses the phone timezone rather than forcing Stockholm', () => {
+    expect(gameDate(new Date('2026-11-13T07:59:59Z'),'America/New_York')).toBe('2026-11-12');
+    expect(gameDate(new Date('2026-11-13T08:00:00Z'),'America/New_York')).toBe('2026-11-13');
+  });
+  it('handles the autumn repeated hour and spring skipped hour', () => {
+    expect(gameDate(new Date('2026-10-25T01:59:59Z'),'Europe/Stockholm')).toBe('2026-10-24');
+    expect(gameDate(new Date('2026-10-25T02:00:00Z'),'Europe/Stockholm')).toBe('2026-10-25');
+    expect(gameDate(new Date('2026-03-29T00:59:59Z'),'Europe/Stockholm')).toBe('2026-03-28');
+    expect(gameDate(new Date('2026-03-29T01:00:00Z'),'Europe/Stockholm')).toBe('2026-03-29');
+  });
+  it('shuffles future cycles but retains fixed historical assignments', () => {
+    const next = Array.from({length:72},(_,i) => dailyAnswer(new Date(Date.UTC(2027,0,23+i)).toISOString().slice(0,10)));
+    expect(new Set(next).size).toBe(72); expect(next).not.toEqual(answers);
+    expect(dailyAnswer('2027-01-23')).toBe(next[0]); expect(dailyAnswer('2026-11-12')).toBe('KANEL');
   });
   it('marks duplicate letters green first, then consumes leftovers left to right', () => {
     expect(evaluate('KANAL','KANEL')).toEqual(['correct','correct','correct','absent','correct']);
@@ -58,6 +73,25 @@ describe('Mr. B Ord rules', () => {
     const round=submitGuess(newRound('2026-11-12'),'KANEL').round;
     let save=mergeRound(emptySave(),round); persistSave(save); save=mergeRound(loadSave(),round); persistSave(save);
     expect(statistics(loadSave().rounds,round.date)).toMatchObject({played:1,wins:1,percentage:100,current:1,longest:1,distribution:[1,0,0,0,0,0]});
+  });
+  it('cannot restart a completed daily round even after reopening', () => {
+    persistSave(mergeRound(emptySave(),submitGuess(newRound('2026-11-12'),'KANEL').round));
+    const saved=loadSave(), next=mergeRound(saved,newRound('2026-11-12'));
+    expect(next.rounds['2026-11-12']?.guesses).toEqual(['KANEL']);
+    expect(submitGuess(next.rounds['2026-11-12'] ?? newRound('2026-11-12'),'TIGER').error).toBe('finished');
+  });
+  it('recovers all results and settings from a backup if the main save is damaged', () => {
+    const save=mergeRound(emptySave(),submitGuess(newRound('2026-11-12'),'KANEL').round);
+    save.settings.sound=false; persistSave(save); localStorage.setItem(SAVE_KEY,'broken');
+    expect(loadSave()).toEqual(save); expect(localStorage.getItem(BACKUP_KEY)).not.toBeNull();
+  });
+  it('retains historical five-letter words after a dictionary update', () => {
+    const save=mergeRound(emptySave(),{date:'2026-11-12',answer:'ABCDE',guesses:['ABCDE']});
+    persistSave(save); expect(loadSave().rounds['2026-11-12']).toEqual(save.rounds['2026-11-12']);
+  });
+  it('does not let future results extend todays streak after clock reversal', () => {
+    const rounds={'2026-11-13':{date:'2026-11-13',answer:'TIGER',guesses:['TIGER']}};
+    expect(statistics(rounds,'2026-11-12')).toMatchObject({played:0,current:0});
   });
   it('breaks a streak on a missed day, but not an unfinished current day', () => {
     const rounds={'2026-11-12':{date:'2026-11-12',answer:'KANEL',guesses:['KANEL']},'2026-11-13':{date:'2026-11-13',answer:'TIGER',guesses:['TIGER']}};
