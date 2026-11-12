@@ -73,7 +73,8 @@ function Index() {
   const formatted = new Intl.DateTimeFormat('sv-SE',{day:'numeric',month:'long',timeZone:'Europe/Stockholm'}).format(new Date(date+'T12:00:00Z'));
   return (
     <div className="app-screen">
-      <header className="app-header"><div className="brand"><img src={mrB} alt="Mr. B" /><div className="brand-label">MR. B<span className="sr-only"> Ord</span><small>EN LITEN PAUS. ETT NYTT ORD.</small></div></div><nav className="header-tools" aria-label="Spelmeny">
+      <h1 className="sr-only">Mr. B Ord – dagens svenska ordspel</h1>
+      <header className="app-header"><div className="brand"><img src={mrB} alt="Mr. B" /><div className="brand-label">MR. B<span className="sr-only"> Ord</span><small>{`Dagens ord #${dayNumber(date)-dayNumber('2026-11-12')+1} · ${formatted}`}</small></div></div><nav className="header-tools" aria-label="Spelmeny">
         <Button className="tool-button" variant="ghost" aria-label="Regler" title="Regler" onClick={() => setPanel('rules')}><CircleHelp /></Button>
         <Button className="tool-button" variant="ghost" aria-label="Statistik" title="Statistik" onClick={() => setPanel('stats')}><ChartNoAxesColumnIncreasing /></Button>
         <Button className="tool-button" variant="ghost" aria-label="Inställningar" title="Inställningar" onClick={() => setPanel('settings')}><Settings2 /></Button>
