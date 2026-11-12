@@ -1,5 +1,5 @@
 # Mr. B Ord
-- [ ] Rätta granskningens grekiska inmatning, sparnings-/backupfel, delklar välkomst och återöppning över 03.00; leverera licenser offline i appen och verifiera regressionerna.
+- [x] Rätta grekisk inmatning och tangenttecken utan att ändra sparade svar, oberoende sparnings-/backupvägar med felvarning, delklar välkomst och återöppning över 03.00; licenser och orddata bundlade i appen, regressioner och telefonflöden verifierade.
 - [x] Säkerställ separata annonsförsök efter vart och ett av tre ord, inklusive Nästa ord; tre visningar testade med adapter, verkliga annonser kräver fortsatt aktivering/enhetstest.
 - [x] Gör tangenttryck tydligare utan att flytta spelplan eller tangentbord; gul markering och tryckeffekt verifierade.
 - [x] Genomför fullständig genomgång; verifierade fel, återstående släppkrav och rekommenderade ändringar finns i RELEASE_REVIEW.md (2026-11-12).

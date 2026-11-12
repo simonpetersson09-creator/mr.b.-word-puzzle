@@ -6,9 +6,26 @@ vi.mock('@capacitor/preferences', () => ({ Preferences: {
   set: async ({ key, value }: { key: string; value: string }) => { native.set(key, value); if (native.writeFailures.has(key)) throw new Error('write failed'); native.values.set(key, value); },
 } }));
 import { emptySave, newRound, submitGuess, statistics } from './engine';
-import { initializeSave, persistSave, flushNativeSave, mergeRound, onSaveError, SAVE_KEY, BACKUP_KEY } from './storage';
+import { initializeSave, loadSave, persistSave, flushNativeSave, mergeRound, onSaveError, SAVE_KEY, BACKUP_KEY } from './storage';
 describe('iPhone result durability', () => {
   beforeEach(async () => { await flushNativeSave().catch(() => {}); localStorage.clear(); native.values.clear(); native.set.mockClear(); native.readFailures.clear(); native.writeFailures.clear(); });
+  it('reads local backup even if the primary storage read throws', () => {
+    const save = mergeRound(emptySave(), submitGuess(newRound('2026-11-12'), 'KANEL').round);
+    localStorage.setItem(BACKUP_KEY, JSON.stringify(save));
+    const original = Storage.prototype.getItem;
+    const spy = vi.spyOn(Storage.prototype, 'getItem').mockImplementation(function(this: Storage, key: string) {
+      if (key === SAVE_KEY) throw new Error('read failed');
+      return original.call(this, key);
+    });
+    expect(loadSave()).toEqual(save);
+    spy.mockRestore();
+  });
+  it('keeps a recovered win in memory when rewriting both native copies fails', async () => {
+    const save = mergeRound(emptySave(), submitGuess(newRound('2026-11-12'), 'KANEL').round);
+    native.values.set(BACKUP_KEY, JSON.stringify(save));
+    native.writeFailures.add(SAVE_KEY); native.writeFailures.add(BACKUP_KEY);
+    expect(await initializeSave()).toEqual(save);
+  });
   it('restores the native backup and settings when the primary read throws', async () => {
     const save = mergeRound(emptySave(), submitGuess(newRound('2026-11-12'), 'KANEL').round);
     save.settings.haptics = false;
