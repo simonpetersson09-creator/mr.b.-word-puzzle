@@ -4,6 +4,14 @@ import { emptySave,newRound,submitGuess,statistics } from './engine';
 import { persistSave,loadSave,mergeRound } from './storage';
 import { letters,wordPacks } from './words/localized';
 describe('Languages and word quality',()=>{
+ it('an empty guess consumes no attempt or daily round',()=>{
+  const round=newRound('2026-11-12');
+  const result=submitGuess(round,'');
+  expect(result.error).toBe('short');
+  expect(result.round).toBe(round);
+  expect(result.round.guesses).toEqual([]);
+  expect(statistics({[round.date]:result.round},round.date).played).toBe(0);
+ });
  it('matches all 40 Yatzy languages and device regional tags',()=>{
   expect(Object.keys(languages)).toHaveLength(40);
   expect(resolveLanguage(['sv-SE'])).toBe('sv');
