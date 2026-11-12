@@ -52,6 +52,7 @@
   --shadow: 0 6px 20px oklch(0.14 0.03 210 / 0.3);
   --gold-fill: linear-gradient(135deg, var(--primary-light), var(--primary));
   --board-letter-size: 22px;
+  --board-gap: 7px;
 }
 * { box-sizing: border-box; border-color: var(--border); letter-spacing: 0; }
 html, body { margin: 0; background: var(--background); color: var(--foreground); font-family: var(--font-sans); overscroll-behavior: none; }
@@ -77,10 +78,10 @@ h1 span { color: var(--primary); }
 .puzzle-date { margin-top: 18px; display: flex; gap: 9px; justify-content: center; align-items: center; color: var(--primary); font-size: 10px; text-transform: uppercase; font-weight: 600; }
 .date-dot { width: 3px; height: 3px; background: var(--muted-foreground); border-radius: 50%; }
 .board-zone { display: flex; flex: 1; min-height: 0; width: 100%; align-items: center; justify-content: center; container-type: size; margin: 12px 0 2px; }
-.board { width: min(330px, 100cqw, calc((100cqh - 4px) * 5 / 6)); aspect-ratio: 5 / 6; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); grid-template-rows: repeat(6, minmax(0, 1fr)); gap: 7px; }
+.board { width: min(330px, 100cqw, calc((100cqh - var(--board-gap) / 5) * 5 / 6)); display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); grid-template-rows: repeat(6, auto); gap: var(--board-gap); }
 .tile { min-width: 0; aspect-ratio: 1; display: grid; place-items: center; border: 1.5px solid var(--border); border-radius: 5px; color: var(--foreground); font-family: var(--font-display); font-size: 27px; font-weight: 700; background: transparent; }
 .tile.active { border-color: color-mix(in oklch, var(--primary) 75%, var(--border)); background: var(--card); }
-.board .tile { min-height: 0; aspect-ratio: auto; font-size: var(--board-letter-size); line-height: 1; overflow: hidden; }
+.board .tile { min-height: 0; aspect-ratio: 1; font-size: var(--board-letter-size); line-height: 1; overflow: hidden; }
 .tile.filled { border-color: var(--primary); }
 .tile.correct, .key.correct { background: var(--correct); border-color: var(--correct); color: var(--foreground); }
 .tile.present, .key.present { background: var(--present); border-color: var(--present); color: var(--primary-foreground); }
@@ -103,7 +104,7 @@ h1 span { color: var(--primary); }
 .key:active { transform: translateY(1px); }
 .key:disabled { opacity: .65; }
 .key svg { width: 19px; height: 19px; }
-.guess-button { width: 100%; height: 43px; background: var(--gold-fill); color: var(--primary-foreground); margin-top: 6px; font-family: var(--font-display); font-weight: 700; border-radius: 5px; box-shadow: var(--shadow); }
+.guess-button { width: 100%; height: 43px; flex-shrink: 0; background: var(--gold-fill); color: var(--primary-foreground); margin: 6px 0 8px; font-family: var(--font-display); font-weight: 700; border-radius: 5px; box-shadow: var(--shadow); }
 .guess-button:hover { filter: brightness(1.05); }
 .game-footer { flex-shrink: 0; margin-top: 17px; display: flex; gap: 6px; align-items: center; font-size: 9px; color: var(--muted-foreground); }
 .game-footer svg { width: 11px; height: 11px; }
@@ -144,8 +145,8 @@ h1 span { color: var(--primary); }
 @media (min-width: 700px) { .game { max-height: 850px; margin-block: auto; padding-bottom: 25px; } }
 @media (max-width: 600px) {
  .app-header { padding: 15px 20px 8px; } .brand img { width: 28px; height: 36px; } .brand-label { font-size: 13px; } .brand-label small { font-size: 8px; } .tool-button { width: 34px; height: 34px; } .tool-button svg { width: 16px; height: 16px; } .header-tools { gap: 6px; }
- .game { padding: 6px 15px 13px; } h1 { font-size: 40px; } .game-heading p { font-size: 11px; margin-top: 7px; } .puzzle-date { margin-top: 13px; font-size: 9px; } .board-zone { margin-top: 8px; } .board { gap: 6px; width: 100%; height: min(calc(100cqh - 4px), calc(100cqw * 6 / 5)); aspect-ratio: auto; } .legend { margin-bottom: 12px; font-size: 9px; gap: 15px; } .key { height: 44px; font-size: 12px; } .key-row { gap: 4px; } .game-footer { margin-top: 10px; }
+  .game { padding: 6px 15px 8px; } h1 { font-size: 40px; } .game-heading p { font-size: 11px; margin-top: 7px; } .puzzle-date { margin-top: 13px; font-size: 9px; } .board-zone { margin-top: 8px; } .board { --board-gap: 6px; width: min(100cqw, calc((100cqh - var(--board-gap) / 5) * 5 / 6)); } .legend { margin-bottom: 4px; font-size: 9px; gap: 15px; } .keyboard { width: calc(100% + 14px); } .key { height: 46px; font-size: 14px; } .key-row { gap: 4px; } .game-footer { margin-top: 4px; }
 }
-@media (max-height: 760px) { :root { --board-letter-size: 20px; } .game-heading p { display: none; } .app-header { padding-top: 9px; padding-bottom: 3px; } h1 { font-size: 32px; } .puzzle-date { margin-top: 7px; } .game { padding-top: 0; padding-bottom: 8px; } .board-zone { margin-top: 7px; } .board { gap: 4px; } .game-message { min-height: 23px; } .legend { margin-bottom: 8px; } .key { height: 39px; } .guess-button { height: 40px; flex-shrink: 0; } .game-footer { margin-top: 8px; } }
-@media (max-height: 600px) { :root { --board-letter-size: 16px; } .app-header { padding-top: 6px; padding-bottom: 0; } h1 { font-size: 28px; } .puzzle-date { margin-top: 4px; } .board-zone { margin-top: 4px; } .game-message { min-height: 21px; } .legend { margin-bottom: 6px; } .key { height: 35px; } .keyboard { gap: 4px; } .guess-button { height: 36px; } .game-footer { margin-top: 6px; } }
+@media (max-height: 760px) { :root { --board-letter-size: 20px; } .game-heading p { display: none; } .app-header { padding-top: 9px; padding-bottom: 3px; } h1 { font-size: 32px; } .puzzle-date { margin-top: 7px; } .game { padding-top: 0; padding-bottom: 8px; } .board-zone { margin-top: 7px; } .board { --board-gap: 4px; } .game-message { min-height: 23px; } .legend { margin-bottom: 4px; } .key { height: 44px; } .guess-button { height: 40px; } .game-footer { margin-top: 4px; } }
+@media (max-height: 600px) { :root { --board-letter-size: 16px; } .app-header { padding-top: 6px; padding-bottom: 0; } h1 { font-size: 28px; } .puzzle-date { margin-top: 4px; } .board-zone { margin-top: 4px; } .game-message { min-height: 21px; } .legend { margin-bottom: 3px; } .key { height: 40px; } .keyboard { gap: 4px; } .guess-button { height: 36px; margin-bottom: 6px; } .game-footer { margin-top: 3px; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
