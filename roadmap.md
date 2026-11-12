@@ -1,4 +1,7 @@
 # Mr. B Ord
+- [ ] Säkerställ mellanannons efter vart och ett av tre ord, inklusive Nästa ord, med separata testade förladdningar.
+- [ ] Gör tangenttryck tydligare utan att flytta spelplan eller tangentbord.
+- [ ] Genomför fullständig genomgång och redovisa verifierade fel, återstående släppkrav och rekommenderade ändringar.
 - [x] Ändra till tre olika ord per lokal dag; gamla svar/resultat, statistik och dagsbyte 03.00 bevarade, 38 tester godkända och treordsflödet verifierat i telefonvyn.
 - [x] Rätta språklistan framför välkomstrutan och verifiera tom gissning på telefon och dator; inga försök förbrukas.
 - [x] Jämför releaseberedskap med Yatzy och redovisa återstående krav.

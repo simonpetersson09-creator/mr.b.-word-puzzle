@@ -37,7 +37,7 @@ use the editor.
 - Keep advertisements disabled until native consent and presentation are integrated and verified; gameplay must not depend on ads.
 - Compute game-day keys from the device timezone's wall-clock parts; this preserves the daily boundary across daylight-saving transitions.
 - Use a frozen seeded answer shuffle from the new schedule epoch while retaining existing saved answers; offline restarts must not reroll puzzles.
-- Isolate interstitial policy behind an injectable adapter; consent precedes preload and result dismissal consumes ready inventory without blocking gameplay.
+- Isolate interstitial policy behind an injectable adapter keyed by dated round slot; consent precedes per-round preload (including resumed words), and result exit awaits ready-ad dismissal before unlocking the next word to avoid cross-round inventory races; unavailable ads never block play.
 - Keep the app's own iOS project and privacy manifest separate from reference apps; production identifiers and signing must never be copied.
 - Use Yatzy's language registry, native device-language detection and bundled translations; fallback copy is English until each locale is fully reviewed.
 - Store the chosen word language on each dated round and lock it after the first valid guess; switching languages must never grant another daily game or lose statistics.

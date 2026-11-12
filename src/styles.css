@@ -50,6 +50,9 @@
   --key-ink: var(--foreground);
   --key-border: oklch(0.48 0.036 210);
   --key-shadow: 0 2px 0 oklch(0.18 0.035 210);
+  --key-pressed-fill: var(--primary-light);
+  --key-pressed-ink: var(--primary-foreground);
+  --key-pressed-ring: 0 0 0 2px var(--primary);
   --overlay: oklch(0.1 0.025 210 / 0.8);
   --shadow: 0 6px 20px oklch(0.14 0.03 210 / 0.3);
   --gold-fill: linear-gradient(135deg, var(--primary-light), var(--primary));
@@ -93,12 +96,13 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .key-row:last-of-type { width: min(100%, calc(100% * var(--row-columns,8) / var(--key-columns,11))); margin-inline: auto; }
 .key { padding: 0; min-width: 0; height: 46px; font-family: var(--font-display); font-size: 13px; font-weight: 700; border-radius: 5px; background: var(--key); color: var(--key-ink); border: 1px solid var(--key-border); box-shadow: var(--key-shadow); }
 .key:hover { filter: brightness(1.08); }
-.key:active { transform: translateY(1px); }
+.key:active, .key.key-pressed { transform: translateY(2px); }
 .key:disabled { opacity: .65; }
 .key svg { width: 19px; height: 19px; }
 .key.erase-key { width: calc(100% + 10px); max-width: none; }
 .key.erase-key svg { width: 23px; height: 23px; }
 .key.erase-key { color: var(--primary); background: var(--secondary); border-color: var(--border); }
+.key:active, .key.key-pressed { background: var(--key-pressed-fill); color: var(--key-pressed-ink); border-color: var(--primary); box-shadow: var(--key-pressed-ring); filter: none; }
 .word-input { width: 100%; height: 48px; background: var(--secondary); color: var(--foreground); border: 1px solid var(--primary); border-radius: 6px; text-align: center; font: 22px var(--font-display); }
 .welcome-body { text-align: center; }
 .welcome-mrb { width: 64px; height: 84px; object-fit: contain; margin: 0 auto 10px; }

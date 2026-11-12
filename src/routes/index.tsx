@@ -37,6 +37,14 @@ function Index() {
   const [message,setMessage] = useState('');
   const [panel,setPanel] = useState<Panel>(null);
   const panelTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const resultExit = useRef<Promise<void> | null>(null);
+  const [pressedKey,setPressedKey] = useState<string | null>(null);
+  function flashKey(letter: string) {
+    if (pressTimer.current) clearTimeout(pressTimer.current);
+    setPressedKey(letter);
+    pressTimer.current=setTimeout(()=>setPressedKey(null),180);
+  }
   const saveRef = useRef(save);
   const desiredLanguage=save.settings.gameLanguage && save.settings.gameLanguage !== 'auto' ? save.settings.gameLanguage : phoneLanguage;
   const key=roundKey(date,slot);
@@ -79,7 +87,7 @@ function Index() {
     function reload(event: StorageEvent) { if (event.key === SAVE_KEY) { const updated=loadSave(); saveRef.current=updated; setSave(updated); setSlot(activeSlot(updated,gameDate())); setInput(''); } }
     const timer=setInterval(refreshDay,1000);
     window.addEventListener('focus',refreshDay); document.addEventListener('visibilitychange',refreshDay); window.addEventListener('storage',reload);
-    return () => { mounted = false; cleanup(); cleanupOpening(); window.removeEventListener('languagechange',languageChanged); clearInterval(timer); if(panelTimer.current) clearTimeout(panelTimer.current); window.removeEventListener('focus',refreshDay); document.removeEventListener('visibilitychange',refreshDay); window.removeEventListener('storage',reload); };
+    return () => { mounted = false; cleanup(); cleanupOpening(); window.removeEventListener('languagechange',languageChanged); clearInterval(timer); if(panelTimer.current) clearTimeout(panelTimer.current); if(pressTimer.current) clearTimeout(pressTimer.current); window.removeEventListener('focus',refreshDay); document.removeEventListener('visibilitychange',refreshDay); window.removeEventListener('storage',reload); };
   },[]);
   function enter() {
     if (!ready || done || welcome || !available) return;
@@ -93,12 +101,18 @@ function Index() {
     void feedback(saveRef.current.settings,hasWon(result.round));
     if(isFinished(result.round)) panelTimer.current=setTimeout(() => setPanel('stats'),650);
   }
-  function type(letter: string) { if(!ready || done || welcome || !available) return; setMessage(''); setInput(prior => letters(prior).length < 5 ? prior+letter : prior); }
-  function erase() { if(done) return; setMessage(''); setInput(prior => letters(prior).slice(0,-1).join('')); }
+  function type(letter: string) { if(!ready || done || welcome || !available) return; flashKey(letter); setMessage(''); setInput(prior => letters(prior).length < 5 ? prior+letter : prior); }
+  function erase() { if(done) return; flashKey('erase'); setMessage(''); setInput(prior => letters(prior).slice(0,-1).join('')); }
   function closePanel() {
+    if (resultExit.current) return resultExit.current;
     const showAd = panel === 'stats' && done;
-    setPanel(null);
-    if (showAd) void flushNativeSave().then(() => dailyAds.afterResult(key,true)).catch(() => setMessage(t('storage')));
+    if (!showAd) { setPanel(null); return Promise.resolve(); }
+    // Do not unlock the next word until the native ad has been dismissed.
+    const exit = flushNativeSave().then(() => dailyAds.afterResult(key,true))
+      .catch(() => setMessage(t('storage')))
+      .finally(() => { setPanel(null); resultExit.current=null; });
+    resultExit.current=exit;
+    return exit;
   }
   useEffect(() => {
     function keydown(event: KeyboardEvent) {
@@ -125,7 +139,7 @@ function Index() {
           return Array.from({length:5},(_,col) => <div role="gridcell" key={`${row}-${col}`} aria-label={t('cell',{row:row+1,col:col+1,letter:chars[col] ?? t('empty')})+(colors[col] ? ', '+t(colors[col]) : '')} className={`tile ${active ? 'active' : ''} ${active && chars[col] ? 'filled' : ''} ${colors[col] ?? ''} ${guess ? 'reveal' : ''}`}>{chars[col]}</div>);
         })}</div></div>
         <div className={`game-message ${message ? 'error' : ''}`} aria-live="polite">{message || (done ? (hasWon(round) ? t('found',{word:round.answer,count:round.guesses.length}) : t('answer',{word:round.answer})) : '')}<span className="sr-only">{!done && !message ? t('attempt',{count:round.guesses.length+1}) : ''}</span></div>
-        {!available ? <p className="game-message">{t('unavailable')}</p> : rows ? <div className="keyboard" aria-label={t('keyboard')} style={{'--key-columns':Math.max(...rows.map(row=>row.length))} as React.CSSProperties}>{rows.map((row,i) => <div className="key-row" key={i} style={{'--row-columns':row.length+(i===rows.length-1 ? 1 : 0)} as React.CSSProperties}>{row.map(c => <Button key={c} variant="secondary" className={`key ${marks[c] ?? ''}`} disabled={!ready || done || welcome} onClick={() => type(c)} aria-label={t('letter',{letter:c})}>{c}</Button>)}{i===rows.length-1 && <Button variant="secondary" className="key erase-key" disabled={done || !ready || welcome} onClick={erase} aria-label={t('erase')} title={t('erase')}><Delete /></Button>}</div>)}</div> : <input className="word-input" value={input} disabled={!ready || done || welcome} aria-label={t('typeWord')} autoCapitalize="characters" autoCorrect="off" autoComplete="off" spellCheck={false} onChange={event=>setInput(letters(uppercase(event.target.value,wordLanguage)).slice(0,5).join(''))} onKeyDown={event=>{if (event.key==='Enter') enter();}} />}
+        {!available ? <p className="game-message">{t('unavailable')}</p> : rows ? <div className="keyboard" aria-label={t('keyboard')} style={{'--key-columns':Math.max(...rows.map(row=>row.length))} as React.CSSProperties}>{rows.map((row,i) => <div className="key-row" key={i} style={{'--row-columns':row.length+(i===rows.length-1 ? 1 : 0)} as React.CSSProperties}>{row.map(c => <Button key={c} variant="secondary" className={`key ${marks[c] ?? ''} ${pressedKey===c ? 'key-pressed' : ''}`} disabled={!ready || done || welcome} onPointerDown={()=>flashKey(c)} onClick={() => type(c)} aria-label={t('letter',{letter:c})}>{c}</Button>)}{i===rows.length-1 && <Button variant="secondary" className={`key erase-key ${pressedKey==='erase' ? 'key-pressed' : ''}`} disabled={done || !ready || welcome} onPointerDown={()=>flashKey('erase')} onClick={erase} aria-label={t('erase')} title={t('erase')}><Delete /></Button>}</div>)}</div> : <input className="word-input" value={input} disabled={!ready || done || welcome} aria-label={t('typeWord')} autoCapitalize="characters" autoCorrect="off" autoComplete="off" spellCheck={false} onChange={event=>setInput(letters(uppercase(event.target.value,wordLanguage)).slice(0,5).join(''))} onKeyDown={event=>{if (event.key==='Enter') enter();}} />}
         <Button className="guess-button" disabled={!ready || !available || welcome} onClick={done ? () => setPanel('stats') : enter}>{done ? <ChartNoAxesColumnIncreasing /> : <ArrowRight />}{done ? t('result') : t('guess')}</Button>
       </main>
       <OrdDialogs welcome={ready && welcome && !panel} dismissWelcome={()=>{setWelcome(false); if(done) setPanel('stats');}} nextWord={nextWord} dailyDone={dailyDone} phoneLanguage={phoneLanguage} panel={panel} close={closePanel} save={save} round={round} setSettings={settings => {commit({...saveRef.current,settings});setAppLanguage(settings.language && settings.language!=='auto' ? settings.language : phoneLanguage);setInput('');}} />
