@@ -39,3 +39,8 @@ use the editor.
 - Use a frozen seeded answer shuffle from the new schedule epoch while retaining existing saved answers; offline restarts must not reroll puzzles.
 - Isolate interstitial policy behind an injectable adapter; consent precedes preload and result dismissal consumes ready inventory without blocking gameplay.
 - Keep the app's own iOS project and privacy manifest separate from reference apps; production identifiers and signing must never be copied.
+- Use Yatzy's language registry, native device-language detection and bundled translations; fallback copy is English until each locale is fully reviewed.
+- Store the chosen word language on each dated round and lock it after the first valid guess; switching languages must never grant another daily game or lose statistics.
+- Segment words into Unicode grapheme clusters; use the native text keyboard for scripts that cannot fit a fixed alphabet keyboard.
+- Bundle frequency-derived candidate dictionaries separately under their data license; languages without adequate offline word data remain unavailable rather than silently using another language's words.
+- Show a state-aware welcome dialog on cold launch and native foreground entry; visibility changes cover the browser preview without replaying on focus alone.
