@@ -51,6 +51,7 @@
   --overlay: oklch(0.1 0.025 210 / 0.8);
   --shadow: 0 6px 20px oklch(0.14 0.03 210 / 0.3);
   --gold-fill: linear-gradient(135deg, var(--primary-light), var(--primary));
+  --board-letter-size: 22px;
 }
 * { box-sizing: border-box; border-color: var(--border); letter-spacing: 0; }
 html, body { margin: 0; background: var(--background); color: var(--foreground); font-family: var(--font-sans); overscroll-behavior: none; }
@@ -76,10 +77,10 @@ h1 span { color: var(--primary); }
 .puzzle-date { margin-top: 18px; display: flex; gap: 9px; justify-content: center; align-items: center; color: var(--primary); font-size: 10px; text-transform: uppercase; font-weight: 600; }
 .date-dot { width: 3px; height: 3px; background: var(--muted-foreground); border-radius: 50%; }
 .board-zone { display: flex; flex: 1; min-height: 0; width: 100%; align-items: center; justify-content: center; container-type: size; margin: 12px 0 2px; }
-.board { width: min(330px, 100cqw, calc((100cqh - 30px) * 5 / 6)); aspect-ratio: 5 / 6; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); grid-template-rows: repeat(6, minmax(0, 1fr)); gap: 7px; }
+.board { width: min(330px, 100cqw, calc((100cqh - 4px) * 5 / 6)); aspect-ratio: 5 / 6; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); grid-template-rows: repeat(6, minmax(0, 1fr)); gap: 7px; }
 .tile { min-width: 0; aspect-ratio: 1; display: grid; place-items: center; border: 1.5px solid var(--border); border-radius: 5px; color: var(--foreground); font-family: var(--font-display); font-size: 27px; font-weight: 700; background: transparent; }
 .tile.active { border-color: color-mix(in oklch, var(--primary) 75%, var(--border)); background: var(--card); }
-.board .tile { min-height: 0; aspect-ratio: auto; }
+.board .tile { min-height: 0; aspect-ratio: auto; font-size: var(--board-letter-size); line-height: 1; overflow: hidden; }
 .tile.filled { border-color: var(--primary); }
 .tile.correct, .key.correct { background: var(--correct); border-color: var(--correct); color: var(--foreground); }
 .tile.present, .key.present { background: var(--present); border-color: var(--present); color: var(--primary-foreground); }
@@ -140,10 +141,11 @@ h1 span { color: var(--primary); }
 .switch[data-state=checked] .switch-thumb { transform: translateX(18px); background: var(--primary-foreground); }
 .setting-detail { display: flex; justify-content: space-between; padding: 18px 0; font-size: 12px; color: var(--muted-foreground); }
 .license-note { color: var(--muted-foreground); font-size: 10px; line-height: 1.7; margin-top: 24px; }
-@media (min-width: 700px) { .game { max-height: 850px; margin-block: auto; padding-bottom: 25px; } .board { width: min(330px,100cqw,calc((100cqh - 30px)*5/6)); } }
+@media (min-width: 700px) { .game { max-height: 850px; margin-block: auto; padding-bottom: 25px; } }
 @media (max-width: 600px) {
  .app-header { padding: 15px 20px 8px; } .brand img { width: 28px; height: 36px; } .brand-label { font-size: 13px; } .brand-label small { font-size: 8px; } .tool-button { width: 34px; height: 34px; } .tool-button svg { width: 16px; height: 16px; } .header-tools { gap: 6px; }
- .game { padding: 6px 15px 13px; } h1 { font-size: 40px; } .game-heading p { font-size: 11px; margin-top: 7px; } .puzzle-date { margin-top: 13px; font-size: 9px; } .board-zone { margin-top: 14px; } .board { gap: 6px; width: min(305px,100cqw,calc((100cqh - 30px)*5/6)); } .tile { font-size: 25px; } .legend { margin-bottom: 16px; font-size: 9px; gap: 15px; } .key { height: 44px; font-size: 12px; } .key-row { gap: 4px; } .game-footer { margin-top: 14px; }
+ .game { padding: 6px 15px 13px; } h1 { font-size: 40px; } .game-heading p { font-size: 11px; margin-top: 7px; } .puzzle-date { margin-top: 13px; font-size: 9px; } .board-zone { margin-top: 8px; } .board { gap: 6px; width: min(305px,100cqw,calc((100cqh - 4px)*5/6)); } .legend { margin-bottom: 12px; font-size: 9px; gap: 15px; } .key { height: 44px; font-size: 12px; } .key-row { gap: 4px; } .game-footer { margin-top: 10px; }
 }
-@media (max-height: 700px) { .game-heading p { display: none; } .app-header { padding-top: 9px; padding-bottom: 3px; } h1 { font-size: 32px; } .puzzle-date { margin-top: 7px; } .game { padding-top: 0; padding-bottom: 8px; } .board-zone { margin-top: 9px; } .board { gap: 4px; } .tile { font-size: 21px; } .legend { margin-bottom: 10px; } .key { height: 37px; } .guess-button { height: 38px; } .game-footer { margin-top: 8px; } }
+@media (max-height: 760px) { :root { --board-letter-size: 20px; } .game-heading p { display: none; } .app-header { padding-top: 9px; padding-bottom: 3px; } h1 { font-size: 32px; } .puzzle-date { margin-top: 7px; } .game { padding-top: 0; padding-bottom: 8px; } .board-zone { margin-top: 7px; } .board { gap: 4px; } .game-message { min-height: 23px; } .legend { margin-bottom: 8px; } .key { height: 39px; } .guess-button { height: 40px; flex-shrink: 0; } .game-footer { margin-top: 8px; } }
+@media (max-height: 600px) { :root { --board-letter-size: 16px; } .app-header { padding-top: 6px; padding-bottom: 0; } h1 { font-size: 28px; } .puzzle-date { margin-top: 4px; } .board-zone { margin-top: 4px; } .game-message { min-height: 21px; } .legend { margin-bottom: 6px; } .key { height: 35px; } .keyboard { gap: 4px; } .guess-button { height: 36px; } .game-footer { margin-top: 6px; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
