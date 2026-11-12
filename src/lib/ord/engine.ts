@@ -10,10 +10,28 @@ export const emptySave = (): Save => ({ version: 1, rounds: {}, settings: { soun
 export function stockholmDate(now = new Date()): string {
   return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Stockholm', year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
 }
+// Use wall-clock parts, not elapsed-hour subtraction (DST changes are not 24-hour days).
+export function gameDate(now = new Date(), timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone): string {
+  const parts = new Intl.DateTimeFormat('sv-SE', { timeZone, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', hourCycle: 'h23' }).formatToParts(now);
+  const part = (type: Intl.DateTimeFormatPartTypes) => parts.find(p => p.type === type)?.value ?? '';
+  const date = `${part('year')}-${part('month')}-${part('day')}`;
+  return Number(part('hour')) < 3 ? new Date((dayNumber(date) - 1) * 86400000).toISOString().slice(0, 10) : date;
+}
 export const dayNumber = (date: string) => Math.floor(Date.parse(date + 'T00:00:00Z') / 86400000);
 export function dailyAnswer(date: string): string {
   const index = dayNumber(date) - dayNumber('2026-11-12');
-  return answers[((index % answers.length) + answers.length) % answers.length] ?? answers[0];
+  // The original dated schedule stays immutable. Subsequent cycles use a frozen
+  // seeded shuffle: random order without changing the answer on restart/offline.
+  if (index < answers.length) return answers[((index % answers.length) + answers.length) % answers.length] ?? answers[0];
+  const cycle = Math.floor(index / answers.length);
+  const pool: string[] = [...answers];
+  let seed = (cycle ^ 0x6d72624f) >>> 0;
+  for (let i = pool.length - 1; i > 0; i--) {
+    seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+    const j = seed % (i + 1), a = pool[i], b = pool[j];
+    if (a && b) { pool[i] = b; pool[j] = a; }
+  }
+  return pool[index % answers.length] ?? answers[0];
 }
 export const newRound = (date: string): Round => ({ date, answer: dailyAnswer(date), guesses: [] });
 export const hasWon = (round: Round) => round.guesses.includes(round.answer);
@@ -50,7 +68,7 @@ export function submitGuess(round: Round, raw: string): { round: Round; error?: 
   return { round: { ...round, guesses: [...round.guesses, guess] } };
 }
 export function statistics(rounds: Record<string, Round>, today: string) {
-  const completed = Object.values(rounds).filter(isFinished).sort((a,b) => a.date.localeCompare(b.date));
+  const completed = Object.values(rounds).filter(r => r.date <= today && isFinished(r)).sort((a,b) => a.date.localeCompare(b.date));
   const distribution = Array<number>(6).fill(0);
   let longest = 0, streak = 0, previous = '', wins = 0;
   for (const round of completed) {
