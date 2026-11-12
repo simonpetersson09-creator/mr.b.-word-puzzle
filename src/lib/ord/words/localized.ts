@@ -38,8 +38,8 @@ export function keyboardRows(language: Language): string[][] | null {
   if (['ja','ko','th','hi','bn','gu','kn','ml','mr','or','pa','ta','te'].includes(language)) return null;
   const base=layouts[language] ?? layouts.en ?? [];
   const used=new Set(base.join(''));
-  const extra=[...new Set((wordPacks[language]?.guesses ?? []).join(''))].filter(c=>!used.has(c) && /\p{L}/u.test(c));
+  const extra=[...new Set((wordPacks[language]?.guesses ?? []).join(''))].filter(c=>!used.has(c) && /\p{L}/u.test(c) && (language === 'ru' || language === 'uk' ? /\p{Script=Cyrillic}/u.test(c) : language === 'el' ? /\p{Script=Greek}/u.test(c) : /\p{Script=Latin}/u.test(c)));
   const rows=base.map(row=>Array.from(row));
-  if (extra.length) rows.push(extra);
+  for(let i=0;i<extra.length;i+=11) rows.push(extra.slice(i,i+11));
   return rows;
 }

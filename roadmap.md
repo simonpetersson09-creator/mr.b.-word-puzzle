@@ -1,7 +1,8 @@
 # Mr. B Ord
-- [ ] Förbättra ordkontrollens kvalitet och förklara ordlistans ursprung; dölj författarnamnet i inställningarna men bevara licensen.
-- [ ] Lägg till Yatzys språk och följ telefonens språk automatiskt.
-- [ ] Visa en anpassad välkomstruta vid varje öppning och förfina tangentbordet i Mr. B-stilen.
+- [x] Förbättra svensk ordkontroll med 2 569 verifierade böjningar och dölj författarnamnet i inställningarna; bevara licensen.
+- [x] Följ telefonens språk automatiskt och lägg in Yatzys 40 språkval samt 32 lokala ordpaket inklusive svenska.
+- [ ] Slutför alla språk inför släpp: orddata saknas för th/gu/kn/ml/mr/or/pa/te; nya språktexter har engelsk reservtext och internationella ordurval behöver språkgranskning.
+- [x] Visa en anpassad välkomstruta vid varje öppning och förfina tangentbordet i Mr. B-stilen; kallstart, återupptagning och mobilbredd verifierade.
 - [x] Återanvänd tillgänglig Mr. B-grafik, design och lämpliga mobilverktyg.
 - [x] Bygg dagligt svenskt ordspel med licensierade ordlistor, lokal lagring och statistik.
 - [x] Bygg regler och inställningar samt testa spelregler och små skärmar.
