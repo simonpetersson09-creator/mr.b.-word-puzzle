@@ -1,18 +1,25 @@
 import * as Switch from '@radix-ui/react-switch';
-import { Share2, Volume2, Vibrate, Check } from 'lucide-react';
+import { Share2, Volume2, Vibrate, Check, ArrowRight, Globe2 } from 'lucide-react';
 import { useState } from 'react';
 import mrB from '@/assets/mr-b.png';
 import { Button } from './ui/button';
 import { GameDialog } from './ui/game-dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { evaluate, hasWon, isFinished, statistics, type Round, type Save, type Settings } from '@/lib/ord/engine';
-import { t } from '@/lib/i18n';
+import { useTranslation } from '@/lib/i18n';
+import { languages, type Language } from '@/lib/i18n/languages';
+import { wordPacks } from '@/lib/ord/words/localized';
 import { nativeAdsEnabled, needsAdPrivacyOptions, showAdPrivacyOptions } from '@/lib/native/interstitial';
 
 export type Panel = 'rules' | 'stats' | 'settings' | null;
-export function OrdDialogs({ panel, close, save, round, setSettings }: { panel: Panel; close: () => void; save: Save; round: Round; setSettings: (settings: Settings) => void }) {
+export function OrdDialogs({ panel, close, save, round, setSettings, welcome, dismissWelcome, phoneLanguage }: { panel: Panel; close: () => void; save: Save; round: Round; setSettings: (settings: Settings) => void; welcome:boolean; dismissWelcome:()=>void; phoneLanguage:Language }) {
+  const {t}=useTranslation();
   const [copied, setCopied] = useState(false);
   const stats = statistics(save.rounds, round.date);
-  const done = isFinished(round);
+  const done = isFinished(round), started=round.guesses.length>0;
+  function languagePicker(kind:'language'|'gameLanguage') {
+    return <Select value={save.settings[kind] ?? 'auto'} disabled={kind==='gameLanguage' && started} onValueChange={value=>{if (value==='auto' || value in languages) setSettings({...save.settings,[kind]:value});}}><SelectTrigger className="language-select" aria-label={t(kind)}><SelectValue /></SelectTrigger><SelectContent><SelectItem value="auto">{t('automatic')} · {languages[phoneLanguage]}</SelectItem>{Object.entries(languages).map(([code,label])=><SelectItem key={code} value={code} disabled={kind==='gameLanguage' && code!=='sv' && !wordPacks[code as Language]}>{label}</SelectItem>)}</SelectContent></Select>;
+  }
   async function share() {
     const text = `Mr. B Ord · ${round.date}\n${hasWon(round) ? round.guesses.length : 'X'}/6\n\n` + round.guesses.map(g => evaluate(g, round.answer).map(m => ({ correct:'🟩', present:'🟨', absent:'⬜' })[m]).join('')).join('\n');
     try {
@@ -21,27 +28,26 @@ export function OrdDialogs({ panel, close, save, round, setSettings }: { panel: 
     } catch { setCopied(false); }
   }
   return <>
-    <GameDialog open={panel === 'rules'} onClose={close} title={t('rules')} description="Regler för dagens ordspel">
-      <h2>{t('rules')}</h2><p className="modal-description">Ett ord. Fem bokstäver. Sex chanser.</p>
-      <div className="rules-body"><p>Gissa dagens svenska ord på högst sex försök. Skriv ett ord med fem bokstäver och tryck på <strong>Gissa</strong>.</p>
-        <div className="example">{'KANAL'.split('').map((c,i) => <span className={`tile ${evaluate('KANAL','KANEL')[i]}`} key={i}>{c}</span>)}</div>
-        <div className="rule-label"><i className="correct" />Rätt bokstav, rätt plats</div><div className="rule-label"><i className="present" />Rätt bokstav, annan plats</div><div className="rule-label"><i className="absent" />Ingen återstående träff</div>
-        <p>Om svaret är <strong>KANEL</strong> blir det andra A:et i KANAL grått. Varje bokstav i svaret kan bara ge en träff.</p>
-        <p>Å, Ä och Ö är egna bokstäver. Endast ord med fem bokstäver i den svenska ordlistan godkänns. Ogiltiga ord kostar inga försök. Du kan spela en runda per dag. Ett nytt ord kommer klockan 03.00 i telefonens lokala tid.</p>
-      </div><Button className="guess-button" onClick={close}>Då kör vi</Button>
+    <GameDialog open={welcome} onClose={dismissWelcome} title={started ? t('welcomeBack') : t('welcome')} description={t('dailyMoment')}>
+      <div className="welcome-body"><img className="welcome-mrb" src={mrB} alt="Mr. B" /><span className="welcome-brand">MR. B ORD</span><h2>{started ? t('welcomeBack') : t('welcome')}</h2><p className="welcome-tagline">{t('dailyMoment')}</p><div className="welcome-example" aria-hidden="true">{['M','R','.','B','!'].map((letter,i)=><span className={`tile ${i===0 || i===4 ? 'correct' : i===3 ? 'present' : ''}`} key={i}>{letter}</span>)}</div><p className="modal-description">{t(done ? 'welcomeDone' : started ? 'welcomeResume' : 'welcomeNew')}</p><div className="welcome-language"><Globe2 /><span>{t('gameLanguage')}</span>{languagePicker('gameLanguage')}</div><Button className="welcome-play" onClick={dismissWelcome}><ArrowRight />{t(done ? 'result' : started ? 'resume' : 'start')}</Button><p className="next-puzzle">{t('next')}</p></div>
     </GameDialog>
-    <GameDialog open={panel === 'stats'} onClose={close} title={t('stats')} description="Avslutade rundor och fördelning av vinster">
-      {done ? <div className="result-banner"><img src={mrB} alt="Mr. B" /><div><h2>{hasWon(round) ? t('won') : t('lost')}</h2><p>{hasWon(round) ? `Du hittade ${round.answer} på ${round.guesses.length} ${round.guesses.length === 1 ? 'försök' : 'försök'}.` : `Dagens ord var ${round.answer}.`}</p></div></div> : <><h2>{t('stats')}</h2><p className="modal-description">Varje dag är en ny chans.</p></>}
-      <div className="stat-metrics"><div><strong>{stats.played}</strong><span>Spelade</span></div><div><strong>{stats.percentage}%</strong><span>Vinster</span></div><div><strong>{stats.current}</strong><span>Segersvit</span></div><div><strong>{stats.longest}</strong><span>Längsta svit</span></div></div>
-      <div className="distribution"><h3>Vinster per försök</h3>{stats.distribution.map((count, i) => <div className="distribution-row" key={i}><span>{i+1}</span><div className="bar-track"><div className={`bar ${count ? 'nonzero' : ''}`} style={{width: `${Math.max(9, count / Math.max(1,...stats.distribution) * 100)}%`}}>{count}</div></div></div>)}</div>
-      {done && <><Button className="guess-button" onClick={() => { void share(); }}>{copied ? <Check /> : <Share2 />}{copied ? t('copied') : t('share')}</Button><p className="next-puzzle">Nästa ord klockan 03.00 · lokal tid</p></>}
+    <GameDialog open={panel === 'rules'} onClose={close} title={t('rules')} description={t('rulesIntro')}>
+      <h2>{t('rules')}</h2><p className="modal-description">{t('rulesIntro')}</p>
+      <div className="rules-body"><p>{t('rulesBody')}</p><div className="example">{'KANAL'.split('').map((c,i) => <span className={`tile ${evaluate('KANAL','KANEL')[i]}`} key={i}>{c}</span>)}</div>{(['correct','present','absent'] as const).map(mark=><div className="rule-label" key={mark}><i className={mark} />{t(mark)}</div>)}<p>{t('rulesDetail')}</p></div><Button className="guess-button" onClick={close}><ArrowRight />{t('resume')}</Button>
     </GameDialog>
-    <GameDialog open={panel === 'settings'} onClose={close} title={t('settings')} description="Ljud och vibrationer för spelet">
-      <h2>{t('settings')}</h2><p className="modal-description">Precis som du vill spela.</p>
+    <GameDialog open={panel === 'stats'} onClose={close} title={t('stats')} description={t('statsIntro')}>
+      {done ? <div className="result-banner"><img src={mrB} alt="Mr. B" /><div><h2>{hasWon(round) ? t('won') : t('lost')}</h2><p>{hasWon(round) ? t('found',{word:round.answer,count:round.guesses.length}) : t('answer',{word:round.answer})}</p></div></div> : <><h2>{t('stats')}</h2><p className="modal-description">{t('statsIntro')}</p></>}
+      <div className="stat-metrics">{([['played',stats.played],['wins',stats.percentage+'%'],['streak',stats.current],['longest',stats.longest]] as const).map(([key,value])=><div key={key}><strong>{value}</strong><span>{t(key)}</span></div>)}</div>
+      <div className="distribution"><h3>{t('distribution')}</h3>{stats.distribution.map((count, i) => <div className="distribution-row" key={i}><span>{i+1}</span><div className="bar-track"><div className={`bar ${count ? 'nonzero' : ''}`} style={{width: `${Math.max(9, count / Math.max(1,...stats.distribution) * 100)}%`}}>{count}</div></div></div>)}</div>
+      {done && <><Button className="guess-button" onClick={() => { void share(); }}>{copied ? <Check /> : <Share2 />}{copied ? t('copied') : t('share')}</Button><p className="next-puzzle">{t('next')}</p></>}
+    </GameDialog>
+    <GameDialog open={panel === 'settings'} onClose={close} title={t('settings')} description={t('settingsIntro')}>
+      <h2>{t('settings')}</h2><p className="modal-description">{t('settingsIntro')}</p>
       {(['sound','haptics'] as const).map(key => <div className="setting-row" key={key}><span className="setting-label">{key === 'sound' ? <Volume2 /> : <Vibrate />}{t(key)}</span><Switch.Root className="switch" checked={save.settings[key]} onCheckedChange={checked => setSettings({...save.settings,[key]:checked})} aria-label={t(key)}><Switch.Thumb className="switch-thumb" /></Switch.Root></div>)}
-      <div className="setting-detail"><span>Spelspråk</span><span>Svenska</span></div><div className="setting-detail"><span>Dagens ord byts</span><span>03.00 · lokal tid</span></div>
-      {needsAdPrivacyOptions() && <Button variant="secondary" onClick={() => { void showAdPrivacyOptions(); }}>Annonsintegritet</Button>}
-      <p className="license-note">Mr. B Ord · version 1.0<br />Svensk ordlista © Göran Andersson, LGPL-3.0. Ordlistorna finns separat i projektet. {nativeAdsEnabled() ? 'Mellanannonser kan visas efter avslutat spel.' : 'Inga annonser eller spårning är aktiverade.'}</p>
+      <div className="setting-row language-row"><span className="setting-label"><Globe2 />{t('language')}</span>{languagePicker('language')}</div><div className="setting-row language-row"><span>{t('gameLanguage')}</span>{languagePicker('gameLanguage')}</div>{started && <p className="license-note">{t('lockedLanguage')}</p>}
+      <div className="setting-detail"><span>{t('changes')}</span><span>{t('localTime')}</span></div>
+      {needsAdPrivacyOptions() && <Button variant="secondary" onClick={() => { void showAdPrivacyOptions(); }}>{t('adPrivacy')}</Button>}
+      <p className="license-note">Mr. B Ord · 1.0<br />{nativeAdsEnabled() ? t('adsOn') : t('adsOff')}</p>
     </GameDialog>
   </>;
 }
