@@ -30,9 +30,9 @@ type AdModule = typeof import('@capacitor-community/admob');
 let module: AdModule | null = null;
 const testAds = import.meta.env.DEV;
 // Production must supply Ord's own IDs, never IDs copied from another Mr. B app.
-const unit = testAds ? 'ca-app-pub-3940256099942544/4411468910' : import.meta.env.VITE_ORD_IOS_INTERSTITIAL_ID;
+const unit = testAds ? 'ca-app-pub-3940256099942544/4411468910' : import.meta.env['VITE_ORD_IOS_INTERSTITIAL_ID'];
 // Explicit release gate remains closed until native UMP/ATT/presentation verification.
-export const nativeAdsEnabled = () => Capacitor.getPlatform() === 'ios' && Capacitor.isPluginAvailable('AdMob') && import.meta.env.VITE_ORD_ADS_VERIFIED === 'true' && Boolean(unit);
+export const nativeAdsEnabled = () => Capacitor.getPlatform() === 'ios' && Capacitor.isPluginAvailable('AdMob') && import.meta.env['VITE_ORD_ADS_VERIFIED'] === 'true' && Boolean(unit);
 let privacyRequired = false;
 export const needsAdPrivacyOptions = () => privacyRequired;
 const adapter: AdAdapter = {
@@ -42,7 +42,7 @@ const adapter: AdAdapter = {
     module = mod;
     let info = await mod.AdMob.requestConsentInfo();
     if (info.isConsentFormAvailable && info.status === mod.AdmobConsentStatus.REQUIRED) info = await mod.AdMob.showConsentForm();
-    privacyRequired = info.privacyOptionsRequirementStatus === mod.PrivacyOptionsRequirementStatus.REQUIRED;
+    privacyRequired = info.privacyOptionsRequirementStatus === 'REQUIRED';
     if (!info.canRequestAds) return false;
     const tracking = await mod.AdMob.trackingAuthorizationStatus();
     if (tracking.status === 'notDetermined') await mod.AdMob.requestTrackingAuthorization();
