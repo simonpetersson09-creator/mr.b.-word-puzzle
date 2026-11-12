@@ -13,7 +13,7 @@ export function stockholmDate(now = new Date()): string {
 export const dayNumber = (date: string) => Math.floor(Date.parse(date + 'T00:00:00Z') / 86400000);
 export function dailyAnswer(date: string): string {
   const index = dayNumber(date) - dayNumber('2026-11-12');
-  return answers[((index % answers.length) + answers.length) % answers.length];
+  return answers[((index % answers.length) + answers.length) % answers.length] ?? answers[0];
 }
 export const newRound = (date: string): Round => ({ date, answer: dailyAnswer(date), guesses: [] });
 export const hasWon = (round: Round) => round.guesses.includes(round.answer);
@@ -24,7 +24,9 @@ export function evaluate(guess: string, answer: string): Mark[] {
   for (let i = 0; i < 5; i++) if (guess[i] === answer[i]) { marks[i] = 'correct'; remaining[i] = ''; }
   for (let i = 0; i < 5; i++) {
     if (marks[i] === 'correct') continue;
-    const at = remaining.indexOf(guess[i]);
+    const letter = guess[i];
+    if (!letter) continue;
+    const at = remaining.indexOf(letter);
     if (at >= 0) { marks[i] = 'present'; remaining[at] = ''; }
   }
   return marks;
@@ -33,8 +35,10 @@ export function keyboardMarks(round: Round): Record<string, Mark> {
   const result: Record<string, Mark> = {};
   const rank = { absent: 0, present: 1, correct: 2 };
   for (const guess of round.guesses) evaluate(guess, round.answer).forEach((mark, i) => {
-    const prior = result[guess[i]];
-    if (!prior || rank[mark] > rank[prior]) result[guess[i]] = mark;
+    const letter = guess[i];
+    if (!letter) return;
+    const prior = result[letter];
+    if (!prior || rank[mark] > rank[prior]) result[letter] = mark;
   });
   return result;
 }
@@ -51,7 +55,7 @@ export function statistics(rounds: Record<string, Round>, today: string) {
   let longest = 0, streak = 0, previous = '', wins = 0;
   for (const round of completed) {
     if (hasWon(round)) {
-      wins++; distribution[round.guesses.length - 1]++;
+      wins++; const bucket = round.guesses.length - 1; distribution[bucket] = (distribution[bucket] ?? 0) + 1;
       streak = previous && dayNumber(round.date) - dayNumber(previous) === 1 ? streak + 1 : 1;
       longest = Math.max(longest, streak);
     } else streak = 0;
