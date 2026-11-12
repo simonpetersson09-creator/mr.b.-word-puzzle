@@ -3,7 +3,9 @@
 - [x] Bygg dagligt svenskt ordspel med licensierade ordlistor, lokal lagring och statistik.
 - [x] Bygg regler och inställningar samt testa spelregler och små skärmar.
 - [x] Förbered egen mobilidentitet och dokumentera annons- och enhetsverifiering som återstår.
-- [ ] Säkerställ en runda per lokal speldag med byte klockan 03.00, giltiga ord och beständig statistik/svit.
-- [ ] Matcha mellanannonser och förladdning mot övriga Mr. B-spel, med säker samtyckeshantering.
-- [ ] Förstora Radera utan att flytta andra knappar.
-- [ ] Kontrollera och dokumentera underlagen och återstående krav för iPhone-släpp.
+- [x] Säkerställ en runda per lokal speldag med byte klockan 03.00, giltiga ord och statistik/svit; automatiska tester och mobilflöde verifierade.
+- [x] Förbered mellanannonser och förladdning enligt Ludos placerings-, samtyckes- och cacheprinciper.
+- [ ] Aktivera/verifiera annonser: väntar på Ord-appens egna annons-ID:n från Simon och fysisk iPhone-testning av UMP/ATT/visning.
+- [x] Förstora Radera utan att flytta andra knappar.
+- [x] Kontrollera och dokumentera underlagen och återstående krav för iPhone-släpp; eget iOS-projekt och integritetsmanifest skapade.
+- [ ] Slutverifiera iPhone-paket: kräver Mac/Xcode, fullständig native sync, egen ikon/startbild, signering och fysisk enhetstestning.
