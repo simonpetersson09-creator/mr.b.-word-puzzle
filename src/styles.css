@@ -60,12 +60,15 @@ body { -webkit-tap-highlight-color: transparent; }
 button { touch-action: manipulation; }
 button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .app-screen { min-height: 540px; height: var(--app-dvh, 100dvh); display: flex; flex-direction: column; overflow: hidden; padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
-.app-header { width: 100%; max-width: 1120px; margin: 0 auto; padding: 18px 20px 10px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
-.brand { display: flex; align-items: center; gap: 11px; min-width: 0; }
+.app-header { width: 100%; max-width: 470px; margin: 0 auto; padding: 18px 15px 10px; display: grid; grid-template-columns: 87px minmax(0, 1fr) 87px; align-items: center; flex-shrink: 0; }
+.brand { display: flex; align-items: center; justify-content: center; gap: 9px; min-width: 0; }
 .brand img { width: 38px; height: 46px; object-fit: contain; flex-shrink: 0; }
 .brand-label { font-family: var(--font-display); font-size: 17px; font-weight: 700; white-space: nowrap; }
+.brand-label h1 { margin: 0; font: inherit; }
+.brand-label { text-align: center; }
 .brand-label small { display: block; font-family: var(--font-sans); font-size: 9px; font-weight: 500; color: var(--muted-foreground); margin-top: 3px; text-transform: uppercase; }
 .header-tools { display: flex; gap: 7px; flex-shrink: 0; }
+.header-tools-right { justify-content: flex-end; }
 .tool-button { width: 40px; height: 40px; color: var(--muted-foreground); border: 1px solid var(--border); border-radius: 6px; background: transparent; }
 .tool-button:hover { color: var(--primary); background: var(--secondary); }
 .tool-button svg { width: 18px; height: 18px; }
@@ -85,13 +88,13 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .game-message.error { color: var(--destructive); }
 .keyboard { width: 100%; display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
 .key-row { display: grid; grid-template-columns: repeat(11, minmax(0,1fr)); gap: 5px; }
-.key-row:last-of-type { grid-template-columns: repeat(9, minmax(0,1fr)); width: 85%; margin-inline: auto; }
+.key-row:last-of-type { grid-template-columns: repeat(8, minmax(0,1fr)); width: calc((100% - 10 * 5px) * 8 / 11 + 7 * 5px); margin-inline: auto; }
 .key { padding: 0; height: 46px; font-size: 13px; font-weight: 700; border-radius: 5px; background: var(--key); color: var(--key-ink); border: 0; box-shadow: 0 2px 0 color-mix(in oklch, var(--key) 65%, var(--background)); }
 .key:hover { filter: brightness(1.08); }
 .key:active { transform: translateY(1px); }
 .key:disabled { opacity: .65; }
 .key svg { width: 19px; height: 19px; }
-.guess-button { width: 100%; height: 42px; flex-shrink: 0; background: var(--gold-fill); color: var(--primary-foreground); margin: 7px 0 7px; font-family: var(--font-display); font-weight: 700; border-radius: 5px; box-shadow: var(--shadow); }
+.guess-button { width: 145px; max-width: 50%; align-self: flex-end; height: 42px; flex-shrink: 0; background: var(--gold-fill); color: var(--primary-foreground); margin: 7px -7px 0 0; font-family: var(--font-display); font-weight: 700; border-radius: 5px; box-shadow: var(--shadow); }
 .guess-button:hover { filter: brightness(1.05); }
 .modal-overlay { position: fixed; inset: 0; z-index: 50; background: var(--overlay); backdrop-filter: blur(5px); }
 .modal { position: fixed; z-index: 51; top: 50%; left: 50%; transform: translate(-50%,-50%); width: min(420px, calc(100% - 28px)); max-height: calc(100dvh - 44px); overflow-y: auto; border: 1px solid var(--border); background: var(--card); padding: 30px 25px 25px; border-radius: 8px; box-shadow: var(--shadow); }
@@ -131,18 +134,18 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .setting-detail { display: flex; justify-content: space-between; padding: 18px 0; font-size: 12px; color: var(--muted-foreground); }
 .license-note { color: var(--muted-foreground); font-size: 10px; line-height: 1.7; margin-top: 24px; }
 @media (min-width: 700px) {
-  .app-header { padding: 22px 38px; } .brand img { width: 38px; height: 46px; } .brand-label { font-size: 17px; } .brand-label small { font-size: 9px; }
+  .app-header { padding: 22px 15px; } .brand img { width: 30px; height: 38px; } .brand-label { font-size: 17px; } .brand-label small { font-size: 9px; }
   .game { max-height: 850px; margin-block: auto; padding-bottom: 25px; }
   .board { --board-w: min(400px, 100cqw, calc((100cqh - var(--board-gap) / 5) * 5 / 6)); }
 }
 @media (max-width: 600px) {
-  .app-header { padding: 12px 16px 7px; } .brand { gap: 9px; } .brand img { width: 28px; height: 36px; } .brand-label { font-size: 14px; } .brand-label small { font-size: 8px; margin-top: 2px; } .tool-button { width: 34px; height: 34px; } .tool-button svg { width: 16px; height: 16px; } .header-tools { gap: 6px; }
-  .game { padding: 0 15px 8px; } .board { --board-gap: 4px; } .key { height: 44px; font-size: 14px; } .key-row { gap: 4px; } .keyboard { width: calc(100% + 14px); }
+  .app-header { padding: 12px 15px 7px; grid-template-columns: 74px minmax(0, 1fr) 74px; } .brand { gap: 6px; } .brand img { width: 24px; height: 34px; } .brand-label { font-size: 16px; } .brand-label small { font-size: 8px; margin-top: 2px; } .tool-button { width: 34px; height: 34px; } .tool-button svg { width: 16px; height: 16px; } .header-tools { gap: 6px; }
+  .game { padding: 0 15px 8px; } .board { --board-gap: 4px; } .key { height: 44px; font-size: 14px; } .key-row { gap: 4px; } .key-row:last-of-type { width: calc((100% - 10 * 4px) * 8 / 11 + 7 * 4px); } .keyboard { width: calc(100% + 14px); }
 }
 @media (max-height: 760px) {
-  .app-header { padding-top: 9px; padding-bottom: 4px; } .board { --board-gap: 4px; } .board-zone { margin-top: 2px; } .game-message { min-height: 20px; } .keyboard { gap: 5px; } .key { height: 43px; } .guess-button { height: 39px; margin: 5px 0 5px; } .game { padding-bottom: 6px; }
+  .app-header { padding-top: 9px; padding-bottom: 4px; } .board { --board-gap: 4px; } .board-zone { margin-top: 2px; } .game-message { min-height: 20px; } .keyboard { gap: 5px; } .key { height: 43px; } .guess-button { height: 39px; margin-top: 5px; } .game { padding-bottom: 6px; }
 }
 @media (max-height: 600px) {
-  .app-header { padding-top: 6px; padding-bottom: 2px; } .board { --board-gap: 3px; } .game-message { min-height: 18px; } .keyboard { gap: 4px; } .key { height: 38px; } .guess-button { height: 34px; margin: 4px 0 4px; }
+  .app-header { padding-top: 6px; padding-bottom: 2px; } .board { --board-gap: 3px; } .game-message { min-height: 18px; } .keyboard { gap: 4px; } .key { height: 38px; } .guess-button { height: 34px; margin-top: 4px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }

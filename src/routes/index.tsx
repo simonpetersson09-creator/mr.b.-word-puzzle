@@ -73,9 +73,9 @@ function Index() {
   const formatted = new Intl.DateTimeFormat('sv-SE',{day:'numeric',month:'long',timeZone:'Europe/Stockholm'}).format(new Date(date+'T12:00:00Z'));
   return (
     <div className="app-screen">
-      <h1 className="sr-only">Mr. B Ord – dagens svenska ordspel</h1>
-      <header className="app-header"><div className="brand"><img src={mrB} alt="Mr. B" /><div className="brand-label">MR. B<span className="sr-only"> Ord</span><small>{`Dagens ord #${dayNumber(date)-dayNumber('2026-11-12')+1} · ${formatted}`}</small></div></div><nav className="header-tools" aria-label="Spelmeny">
+      <header className="app-header"><nav className="header-tools header-tools-left" aria-label="Spelregler">
         <Button className="tool-button" variant="ghost" aria-label="Regler" title="Regler" onClick={() => setPanel('rules')}><CircleHelp /></Button>
+      </nav><div className="brand"><img src={mrB} alt="" /><div className="brand-label"><h1>MR. B ORD</h1><small>{`Ord #${dayNumber(date)-dayNumber('2026-11-12')+1} · ${formatted}`}</small></div></div><nav className="header-tools header-tools-right" aria-label="Spelmeny">
         <Button className="tool-button" variant="ghost" aria-label="Statistik" title="Statistik" onClick={() => setPanel('stats')}><ChartNoAxesColumnIncreasing /></Button>
         <Button className="tool-button" variant="ghost" aria-label="Inställningar" title="Inställningar" onClick={() => setPanel('settings')}><Settings2 /></Button>
       </nav></header>
@@ -85,9 +85,9 @@ function Index() {
           const letters=guess ?? (active ? input : ''); const colors=guess ? evaluate(guess,round.answer) : [];
           return Array.from({length:5},(_,col) => <div role="gridcell" key={`${row}-${col}`} aria-label={`Rad ${row+1}, plats ${col+1}: ${letters[col] ?? 'tom'}${colors[col] ? ', '+({correct:'rätt plats',present:'annan plats',absent:'ingen träff'})[colors[col]] : ''}`} className={`tile ${active ? 'active' : ''} ${active && letters[col] ? 'filled' : ''} ${colors[col] ?? ''} ${guess ? 'reveal' : ''}`}>{letters[col]}</div>);
         })}</div></div>
-        <div className={`game-message ${message ? 'error' : ''}`} aria-live="polite">{message || (done ? (hasWon(round) ? `Snyggt! ${round.answer} på ${round.guesses.length} försök.` : `Dagens ord var ${round.answer}.`) : `Försök ${round.guesses.length+1} av 6`)}</div>
+        <div className={`game-message ${message ? 'error' : ''}`} aria-live="polite">{message || (done ? (hasWon(round) ? `Snyggt! ${round.answer} på ${round.guesses.length} försök.` : `Dagens ord var ${round.answer}.`) : '')}<span className="sr-only">{!done && !message ? `Försök ${round.guesses.length+1} av 6` : ''}</span></div>
+        <div className="keyboard" aria-label="Svenskt tangentbord">{['QWERTYUIOPÅ','ASDFGHJKLÖÄ','ZXCVBNM'].map((row,i) => <div className="key-row" key={row}>{row.split('').map(c => <Button key={c} variant="secondary" className={`key ${marks[c] ?? ''}`} disabled={!ready || done} onClick={() => type(c)} aria-label={`Bokstav ${c}`}>{c}</Button>)}{i===2 && <Button variant="secondary" className="key" disabled={done || !ready} onClick={erase} aria-label="Radera" title="Radera"><Delete /></Button>}</div>)}</div>
         <Button className="guess-button" disabled={!ready} onClick={done ? () => setPanel('stats') : enter}>{done ? <ChartNoAxesColumnIncreasing /> : <ArrowRight />}{done ? 'Visa resultat' : t('guess')}</Button>
-        <div className="keyboard" aria-label="Svenskt tangentbord">{['QWERTYUIOPÅ','ASDFGHJKLÖÄ','ZXCVBNM'].map((row,i) => <div className="key-row" key={row}>{row.split('').map(c => <Button key={c} variant="secondary" className={`key ${marks[c] ?? ''}`} disabled={!ready || done} onClick={() => type(c)} aria-label={`Bokstav ${c}`}>{c}</Button>)}{i===2 && <><Button variant="secondary" className="key" disabled={done || !ready} onClick={erase} aria-label="Radera" title="Radera"><Delete /></Button><Button variant="secondary" className="key" disabled={done || !ready} onClick={enter} aria-label="Skicka gissning" title="Gissa"><ArrowRight /></Button></>}</div>)}</div>
       </main>
       <OrdDialogs panel={panel} close={() => setPanel(null)} save={save} round={round} setSettings={settings => commit({...saveRef.current,settings})} />
     </div>
