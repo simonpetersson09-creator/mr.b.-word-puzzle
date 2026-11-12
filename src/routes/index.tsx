@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from 'react';
-import { ChartNoAxesColumnIncreasing, CircleHelp, Settings2, Delete, ArrowRight, LockKeyhole } from 'lucide-react';
+import { ChartNoAxesColumnIncreasing, CircleHelp, Settings2, Delete, ArrowRight } from 'lucide-react';
 import mrB from '@/assets/mr-b.png';
 import { Button } from '@/components/ui/button';
 import { OrdDialogs, type Panel } from '@/components/ord-dialogs';
