@@ -8,8 +8,8 @@ export const uppercase = (word: string, language: Language) => language === 'el'
 const sets = new Map<Language, Set<string>>();
 export function acceptsWord(word: string, language: Language): boolean {
   let set = sets.get(language);
-  if (!set) { set = new Set(wordPacks[language]?.guesses ?? []); sets.set(language,set); }
-  return set.has(word);
+  if (!set) { set = new Set((wordPacks[language]?.guesses ?? []).map(word => word.normalize('NFC'))); sets.set(language,set); }
+  return set.has(word.normalize('NFC'));
 }
 export function localizedAnswer(date: string, language: Language): string | null {
   const pool = wordPacks[language]?.answers;
@@ -38,9 +38,10 @@ export function keyboardRows(language: Language): string[][] | null {
   };
   if (['ja','ko','th','hi','bn','gu','kn','ml','mr','or','pa','ta','te'].includes(language)) return null;
   const base=layouts[language] ?? layouts.en ?? [];
-  const used=new Set(base.join(''));
-  const extra=[...new Set((wordPacks[language]?.guesses ?? []).join(''))].filter(c=>!used.has(c) && /\p{L}/u.test(c) && (language === 'ru' || language === 'uk' ? /\p{Script=Cyrillic}/u.test(c) : language === 'el' ? /\p{Script=Greek}/u.test(c) : /\p{Script=Latin}/u.test(c)));
-  const rows=base.map(row=>Array.from(row));
+  const used=new Set(base.flatMap(letters));
+  const answerLetters = new Set((wordPacks[language]?.answers ?? []).flatMap(letters));
+  const extra=[...new Set((wordPacks[language]?.guesses ?? []).flatMap(letters))].filter(c=>!used.has(c) && /\p{L}/u.test(c) && (answerLetters.has(c) || (language === 'ru' || language === 'uk' ? /\p{Script=Cyrillic}/u.test(c) : language === 'el' ? /\p{Script=Greek}/u.test(c) : /\p{Script=Latin}/u.test(c))));
+  const rows=base.map(letters);
   for(let i=0;i<extra.length;i+=11) rows.push(extra.slice(i,i+11));
   return rows;
 }

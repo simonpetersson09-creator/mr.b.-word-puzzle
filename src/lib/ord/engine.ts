@@ -93,7 +93,9 @@ export function keyboardMarks(round: Round): Record<string, Mark> {
 export function submitGuess(round: Round, raw: string): { round: Round; error?: 'short' | 'unknown' | 'finished' } {
   if (isFinished(round)) return { round, error: 'finished' };
   const language = round.language ?? 'sv';
-  const guess = uppercase(raw,language);
+  const typed = uppercase(raw,language);
+  // Retain the exact saved spelling when a Unicode-equivalent answer is entered.
+  const guess = typed.normalize('NFC') === round.answer.normalize('NFC') ? round.answer : typed;
   if (letters(guess).length !== 5 || !/^[\p{L}\p{M}]+$/u.test(guess)) return { round, error: 'short' };
   if (!(language === 'sv' ? dictionarySet.has(guess) : acceptsWord(guess,language))) return { round, error: 'unknown' };
   return { round: { ...round, guesses: [...round.guesses, guess] } };

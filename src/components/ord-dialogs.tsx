@@ -12,7 +12,7 @@ import { languages, type Language } from '@/lib/i18n/languages';
 import { wordPacks } from '@/lib/ord/words/localized';
 import { nativeAdsEnabled, needsAdPrivacyOptions, showAdPrivacyOptions } from '@/lib/native/interstitial';
 
-export type Panel = 'rules' | 'stats' | 'settings' | 'licenses' | null;
+export type Panel = 'rules' | 'stats' | 'settings' | null;
 export function OrdDialogs({ panel, close, save, round, setSettings, welcome, dismissWelcome, phoneLanguage, nextWord, dailyDone }: { panel: Panel; close: () => void | Promise<void>; save: Save; round: Round; setSettings: (settings: Settings) => void; welcome:boolean; dismissWelcome:()=>void; phoneLanguage:Language; nextWord:()=>void; dailyDone:boolean }) {
   const {t}=useTranslation();
   const [copied, setCopied] = useState(false);
