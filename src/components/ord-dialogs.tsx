@@ -12,16 +12,16 @@ import { wordPacks } from '@/lib/ord/words/localized';
 import { nativeAdsEnabled, needsAdPrivacyOptions, showAdPrivacyOptions } from '@/lib/native/interstitial';
 
 export type Panel = 'rules' | 'stats' | 'settings' | null;
-export function OrdDialogs({ panel, close, save, round, setSettings, welcome, dismissWelcome, phoneLanguage }: { panel: Panel; close: () => void; save: Save; round: Round; setSettings: (settings: Settings) => void; welcome:boolean; dismissWelcome:()=>void; phoneLanguage:Language }) {
+export function OrdDialogs({ panel, close, save, round, setSettings, welcome, dismissWelcome, phoneLanguage, nextWord, dailyDone }: { panel: Panel; close: () => void; save: Save; round: Round; setSettings: (settings: Settings) => void; welcome:boolean; dismissWelcome:()=>void; phoneLanguage:Language; nextWord:()=>void; dailyDone:boolean }) {
   const {t}=useTranslation();
   const [copied, setCopied] = useState(false);
   const stats = statistics(save.rounds, round.date);
-  const done = isFinished(round), started=round.guesses.length>0;
+  const done = isFinished(round), started=Object.values(save.rounds).some(r=>r.date===round.date && r.guesses.length>0);
   function languagePicker(kind:'language'|'gameLanguage') {
     return <Select value={save.settings[kind] ?? 'auto'} disabled={kind==='gameLanguage' && started} onValueChange={value=>{if (value==='auto' || value in languages) setSettings({...save.settings,[kind]:value});}}><SelectTrigger className="language-select" aria-label={t(kind)}><SelectValue /></SelectTrigger><SelectContent><SelectItem value="auto">{t('automatic')} · {languages[phoneLanguage]}</SelectItem>{Object.entries(languages).map(([code,label])=><SelectItem key={code} value={code} disabled={kind==='gameLanguage' && code!=='sv' && !wordPacks[code as Language]}>{label}</SelectItem>)}</SelectContent></Select>;
   }
   async function share() {
-    const text = `Mr. B Ord · ${round.date}\n${hasWon(round) ? round.guesses.length : 'X'}/6\n\n` + round.guesses.map(g => evaluate(g, round.answer).map(m => ({ correct:'🟩', present:'🟨', absent:'⬜' })[m]).join('')).join('\n');
+    const text = `Mr. B Ord · ${round.date} · ${(round.slot ?? 0)+1}/3\n${hasWon(round) ? round.guesses.length : 'X'}/6\n\n` + round.guesses.map(g => evaluate(g, round.answer).map(m => ({ correct:'🟩', present:'🟨', absent:'⬜' })[m]).join('')).join('\n');
     try {
       if (navigator.share) await navigator.share({ text });
       else { await navigator.clipboard.writeText(text); setCopied(true); }
@@ -39,7 +39,7 @@ export function OrdDialogs({ panel, close, save, round, setSettings, welcome, di
       {done ? <div className="result-banner"><img src={mrB} alt="Mr. B" /><div><h2>{hasWon(round) ? t('won') : t('lost')}</h2><p>{hasWon(round) ? t('found',{word:round.answer,count:round.guesses.length}) : t('answer',{word:round.answer})}</p></div></div> : <><h2>{t('stats')}</h2><p className="modal-description">{t('statsIntro')}</p></>}
       <div className="stat-metrics">{([['played',stats.played],['wins',stats.percentage+'%'],['streak',stats.current],['longest',stats.longest]] as const).map(([key,value])=><div key={key}><strong>{value}</strong><span>{t(key)}</span></div>)}</div>
       <div className="distribution"><h3>{t('distribution')}</h3>{stats.distribution.map((count, i) => <div className="distribution-row" key={i}><span>{i+1}</span><div className="bar-track"><div className={`bar ${count ? 'nonzero' : ''}`} style={{width: `${Math.max(9, count / Math.max(1,...stats.distribution) * 100)}%`}}>{count}</div></div></div>)}</div>
-      {done && <><Button className="guess-button" onClick={() => { void share(); }}>{copied ? <Check /> : <Share2 />}{copied ? t('copied') : t('share')}</Button><p className="next-puzzle">{t('next')}</p></>}
+      {done && <>{!dailyDone && <Button className="welcome-play" onClick={()=>{close();nextWord();}}><ArrowRight />{t('nextWord')}</Button>}<Button className="guess-button" onClick={() => { void share(); }}>{copied ? <Check /> : <Share2 />}{copied ? t('copied') : t('share')}</Button><p className="next-puzzle">{t('next')}</p></>}
     </GameDialog>
     <GameDialog open={panel === 'settings'} onClose={close} title={t('settings')} description={t('settingsIntro')}>
       <h2>{t('settings')}</h2><p className="modal-description">{t('settingsIntro')}</p>
