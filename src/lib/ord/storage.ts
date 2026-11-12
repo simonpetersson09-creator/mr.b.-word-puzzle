@@ -1,5 +1,7 @@
 import { Capacitor } from '@capacitor/core';
 import { emptySave, isFinished, type Save, type Round } from './engine';
+import { languages, type Language } from '@/lib/i18n/languages';
+import { letters } from './words/localized';
 // Adapted from Ludo: SSR-safe local storage, separate namespace, guarded reads.
 export const SAVE_KEY = 'mrb-ord:v1:save';
 export const BACKUP_KEY = `${SAVE_KEY}:backup`;
@@ -13,12 +15,16 @@ function decode(text: string | null): Save | null {
     const rounds: Record<string, Round> = {};
     for (const [date, r] of Object.entries(value.rounds)) {
       // Historical valid rounds must survive future dictionary revisions.
-      if (!r || !/^\d{4}-\d{2}-\d{2}$/.test(date) || r.date !== date || typeof r.answer !== 'string' || !/^[A-ZÅÄÖ]{5}$/.test(r.answer) || !Array.isArray(r.guesses) || r.guesses.length > 6 || !r.guesses.every(g => typeof g === 'string' && /^[A-ZÅÄÖ]{5}$/.test(g))) continue;
+      const validWord = (word: unknown) => typeof word === 'string' && letters(word).length === 5 && /^[\p{L}\p{M}]+$/u.test(word);
+      if (!r || !/^\d{4}-\d{2}-\d{2}$/.test(date) || r.date !== date || !validWord(r.answer) || !Array.isArray(r.guesses) || r.guesses.length > 6 || !r.guesses.every(validWord)) continue;
+      if (r.language !== undefined && !(r.language in languages)) continue;
       const win = r.guesses.indexOf(r.answer);
       if (win >= 0 && win !== r.guesses.length - 1) continue;
-      rounds[date] = { date, answer: r.answer, guesses: [...r.guesses] };
+      rounds[date] = { date, answer: r.answer, guesses: [...r.guesses], ...(r.language ? {language:r.language} : {}) };
     }
-    return { version: 1, rounds, settings: { sound: value.settings?.sound !== false, haptics: value.settings?.haptics !== false } };
+    const settingLanguage = (v: unknown): Language | 'auto' | undefined => v === 'auto' ? v : typeof v === 'string' && v in languages ? v as Language : undefined;
+    const language = settingLanguage(value.settings?.language), gameLanguage = settingLanguage(value.settings?.gameLanguage);
+    return { version: 1, rounds, settings: { sound: value.settings?.sound !== false, haptics: value.settings?.haptics !== false, ...(language ? {language} : {}), ...(gameLanguage ? {gameLanguage} : {}) } };
   } catch { return null; }
 }
 function combine(primary: Save | null, backup: Save | null): Save {

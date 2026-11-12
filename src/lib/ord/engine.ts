@@ -1,11 +1,14 @@
 import dictionary from './words/guesses.json';
 import { answers } from './words/answers';
+import inflections from './words/inflections.json';
+import { acceptsWord, letters, localizedAnswer, uppercase } from './words/localized';
+import type { Language } from '@/lib/i18n/languages';
 
 export type Mark = 'correct' | 'present' | 'absent';
-export interface Round { date: string; answer: string; guesses: string[] }
-export interface Settings { sound: boolean; haptics: boolean }
+export interface Round { date: string; answer: string; guesses: string[]; language?: Language }
+export interface Settings { sound: boolean; haptics: boolean; language?: Language | 'auto'; gameLanguage?: Language | 'auto' }
 export interface Save { version: 1; rounds: Record<string, Round>; settings: Settings }
-export const dictionarySet = new Set<string>(dictionary);
+export const dictionarySet = new Set<string>([...dictionary,...inflections]);
 export const emptySave = (): Save => ({ version: 1, rounds: {}, settings: { sound: true, haptics: true } });
 export function stockholmDate(now = new Date()): string {
   return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Stockholm', year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
@@ -34,16 +37,17 @@ export function dailyAnswer(date: string): string {
   }
   return pool[randomIndex % answers.length] ?? answers[0];
 }
-export const newRound = (date: string): Round => ({ date, answer: dailyAnswer(date), guesses: [] });
+export const newRound = (date: string, language: Language = 'sv'): Round => language === 'sv' ? ({ date, answer: dailyAnswer(date), guesses: [] }) : ({date, language, answer: localizedAnswer(date,language) ?? '', guesses:[]});
 export const hasWon = (round: Round) => round.guesses.includes(round.answer);
 export const isFinished = (round: Round) => hasWon(round) || round.guesses.length === 6;
 export function evaluate(guess: string, answer: string): Mark[] {
   const marks: Mark[] = Array(5).fill('absent');
-  const remaining = answer.split('');
-  for (let i = 0; i < 5; i++) if (guess[i] === answer[i]) { marks[i] = 'correct'; remaining[i] = ''; }
+  const guessLetters = letters(guess), answerLetters = letters(answer);
+  const remaining = [...answerLetters];
+  for (let i = 0; i < 5; i++) if (guessLetters[i] === answerLetters[i]) { marks[i] = 'correct'; remaining[i] = ''; }
   for (let i = 0; i < 5; i++) {
     if (marks[i] === 'correct') continue;
-    const letter = guess[i];
+    const letter = guessLetters[i];
     if (!letter) continue;
     const at = remaining.indexOf(letter);
     if (at >= 0) { marks[i] = 'present'; remaining[at] = ''; }
@@ -54,7 +58,7 @@ export function keyboardMarks(round: Round): Record<string, Mark> {
   const result: Record<string, Mark> = {};
   const rank = { absent: 0, present: 1, correct: 2 };
   for (const guess of round.guesses) evaluate(guess, round.answer).forEach((mark, i) => {
-    const letter = guess[i];
+    const letter = letters(guess)[i];
     if (!letter) return;
     const prior = result[letter];
     if (!prior || rank[mark] > rank[prior]) result[letter] = mark;
@@ -63,9 +67,10 @@ export function keyboardMarks(round: Round): Record<string, Mark> {
 }
 export function submitGuess(round: Round, raw: string): { round: Round; error?: 'short' | 'unknown' | 'finished' } {
   if (isFinished(round)) return { round, error: 'finished' };
-  const guess = raw.normalize('NFC').toLocaleUpperCase('sv-SE');
-  if (!/^[A-ZÅÄÖ]{5}$/.test(guess)) return { round, error: 'short' };
-  if (!dictionarySet.has(guess)) return { round, error: 'unknown' };
+  const language = round.language ?? 'sv';
+  const guess = uppercase(raw,language);
+  if (letters(guess).length !== 5 || !/^[\p{L}\p{M}]+$/u.test(guess)) return { round, error: 'short' };
+  if (!(language === 'sv' ? dictionarySet.has(guess) : acceptsWord(guess,language))) return { round, error: 'unknown' };
   return { round: { ...round, guesses: [...round.guesses, guess] } };
 }
 export function statistics(rounds: Record<string, Round>, today: string) {
