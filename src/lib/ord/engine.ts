@@ -1,11 +1,11 @@
 import dictionary from './words/guesses.json';
 import { answers } from './words/answers';
 import inflections from './words/inflections.json';
-import { acceptsWord, letters, localizedAnswer, uppercase } from './words/localized';
+import { acceptsWord, letters, localizedAnswer, uppercase, wordPacks } from './words/localized';
 import type { Language } from '@/lib/i18n/languages';
 
 export type Mark = 'correct' | 'present' | 'absent';
-export interface Round { date: string; answer: string; guesses: string[]; language?: Language }
+export interface Round { date: string; answer: string; guesses: string[]; language?: Language; slot?: number }
 export interface Settings { sound: boolean; haptics: boolean; language?: Language | 'auto'; gameLanguage?: Language | 'auto' }
 export interface Save { version: 1; rounds: Record<string, Round>; settings: Settings }
 export const dictionarySet = new Set<string>([...dictionary,...inflections]);
@@ -37,7 +37,26 @@ export function dailyAnswer(date: string): string {
   }
   return pool[randomIndex % answers.length] ?? answers[0];
 }
-export const newRound = (date: string, language: Language = 'sv'): Round => language === 'sv' ? ({ date, answer: dailyAnswer(date), guesses: [] }) : ({date, language, answer: localizedAnswer(date,language) ?? '', guesses:[]});
+export const DAILY_WORDS = 3;
+export const roundKey = (date: string, slot = 0) => slot === 0 ? date : `${date}:${slot + 1}`;
+export function newRound(date: string, language: Language = 'sv', slot = 0, excluded: string[] = []): Round {
+  const first = language === 'sv' ? dailyAnswer(date) : localizedAnswer(date,language) ?? '';
+  const pool: readonly string[] = language === 'sv' ? answers : wordPacks[language]?.answers ?? [];
+  const start = Math.max(0,pool.indexOf(first));
+  const selected = [first];
+  for (let offset=1; selected.length<=slot && offset<=pool.length; offset++) {
+    const candidate=pool[(start+offset)%pool.length];
+    if (candidate && !selected.includes(candidate) && !excluded.includes(candidate)) selected.push(candidate);
+  }
+  return {date,answer:selected[slot] ?? '',guesses:[],...(language !== 'sv' ? {language} : {}),...(slot ? {slot} : {})};
+}
+export function activeSlot(save: Save, date: string): number {
+  for(let slot=0;slot<DAILY_WORDS;slot++) {
+    const round=save.rounds[roundKey(date,slot)];
+    if (!round || !isFinished(round)) return slot;
+  }
+  return DAILY_WORDS-1;
+}
 export const hasWon = (round: Round) => round.guesses.includes(round.answer);
 export const isFinished = (round: Round) => hasWon(round) || round.guesses.length === 6;
 export function evaluate(guess: string, answer: string): Mark[] {
@@ -80,10 +99,16 @@ export function statistics(rounds: Record<string, Round>, today: string) {
   for (const round of completed) {
     if (hasWon(round)) {
       wins++; const bucket = round.guesses.length - 1; distribution[bucket] = (distribution[bucket] ?? 0) + 1;
-      streak = previous && dayNumber(round.date) - dayNumber(previous) === 1 ? streak + 1 : 1;
-      longest = Math.max(longest, streak);
-    } else streak = 0;
-    previous = round.date;
+    }
+  }
+  // Preserve the daily streak: one or more wins counts as one winning day.
+  const dates=[...new Set(completed.map(round=>round.date))];
+  for (const date of dates) {
+    if (completed.some(round=>round.date===date && hasWon(round))) {
+      streak = previous && dayNumber(date)-dayNumber(previous)===1 ? streak+1 : 1;
+      longest=Math.max(longest,streak);
+    } else streak=0;
+    previous=date;
   }
   const last = completed.at(-1);
   const current = last && dayNumber(today) - dayNumber(last.date) <= 1 ? streak : 0;

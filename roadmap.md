@@ -1,4 +1,5 @@
 # Mr. B Ord
+- [x] Ändra till tre olika ord per lokal dag; gamla svar/resultat, statistik och dagsbyte 03.00 bevarade, 38 tester godkända och treordsflödet verifierat i telefonvyn.
 - [x] Rätta språklistan framför välkomstrutan och verifiera tom gissning på telefon och dator; inga försök förbrukas.
 - [x] Jämför releaseberedskap med Yatzy och redovisa återstående krav.
 - [x] Förbättra svensk ordkontroll med 2 569 verifierade böjningar och dölj författarnamnet i inställningarna; bevara licensen.

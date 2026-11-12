@@ -1,5 +1,5 @@
 import { Capacitor } from '@capacitor/core';
-import { emptySave, isFinished, type Save, type Round } from './engine';
+import { emptySave, isFinished, roundKey, DAILY_WORDS, type Save, type Round } from './engine';
 import { languages, type Language } from '@/lib/i18n/languages';
 import { letters } from './words/localized';
 // Adapted from Ludo: SSR-safe local storage, separate namespace, guarded reads.
@@ -13,14 +13,15 @@ function decode(text: string | null): Save | null {
     const value = raw as Partial<Save>;
     if (value.version !== 1 || !value.rounds || typeof value.rounds !== 'object') return null;
     const rounds: Record<string, Round> = {};
-    for (const [date, r] of Object.entries(value.rounds)) {
+    for (const [key, r] of Object.entries(value.rounds)) {
+      const date=r?.date, slot=r?.slot ?? 0;
       // Historical valid rounds must survive future dictionary revisions.
       const validWord = (word: unknown) => typeof word === 'string' && letters(word).length === 5 && /^[\p{L}\p{M}]+$/u.test(word);
-      if (!r || !/^\d{4}-\d{2}-\d{2}$/.test(date) || r.date !== date || !validWord(r.answer) || !Array.isArray(r.guesses) || r.guesses.length > 6 || !r.guesses.every(validWord)) continue;
+      if (!r || typeof date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(date) || !Number.isInteger(slot) || slot<0 || slot>=DAILY_WORDS || key!==roundKey(date,slot) || !validWord(r.answer) || !Array.isArray(r.guesses) || r.guesses.length > 6 || !r.guesses.every(validWord)) continue;
       if (r.language !== undefined && !(r.language in languages)) continue;
       const win = r.guesses.indexOf(r.answer);
       if (win >= 0 && win !== r.guesses.length - 1) continue;
-      rounds[date] = { date, answer: r.answer, guesses: [...r.guesses], ...(r.language ? {language:r.language} : {}) };
+      rounds[key] = { date, answer: r.answer, guesses: [...r.guesses], ...(r.language ? {language:r.language} : {}), ...(slot ? {slot} : {}) };
     }
     const settingLanguage = (v: unknown): Language | 'auto' | undefined => v === 'auto' ? v : typeof v === 'string' && v in languages ? v as Language : undefined;
     const language = settingLanguage(value.settings?.language), gameLanguage = settingLanguage(value.settings?.gameLanguage);
@@ -73,7 +74,11 @@ export function persistSave(save: Save): boolean {
   return saved;
 }
 export function mergeRound(save: Save, round: Round): Save {
-  const existing = save.rounds[round.date];
+  const slot=round.slot ?? 0;
+  if (!Number.isInteger(slot) || slot<0 || slot>=DAILY_WORDS) return save;
+  // Additional words unlock in order, not by changing the language or key.
+  for(let prior=0;prior<slot;prior++) { const r=save.rounds[roundKey(round.date,prior)]; if (!r || !isFinished(r)) return save; }
+  const key=roundKey(round.date,slot), existing = save.rounds[key];
   if (existing && (isFinished(existing) || existing.answer !== round.answer || existing.guesses.length > round.guesses.length)) return save;
-  return { ...save, rounds: { ...save.rounds, [round.date]: round } };
+  return { ...save, rounds: { ...save.rounds, [key]: round } };
 }
