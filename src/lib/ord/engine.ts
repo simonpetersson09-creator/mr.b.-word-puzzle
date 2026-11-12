@@ -59,6 +59,12 @@ export function activeSlot(save: Save, date: string): number {
 }
 export const hasWon = (round: Round) => round.guesses.includes(round.answer);
 export const isFinished = (round: Round) => hasWon(round) || round.guesses.length === 6;
+export function welcomeState(save: Save, round: Round): 'complete' | 'next' | 'resume' | 'new' {
+  const rounds = Object.values(save.rounds).filter(r => r.date === round.date);
+  if (rounds.filter(isFinished).length === DAILY_WORDS) return 'complete';
+  if (isFinished(round)) return 'next';
+  return round.guesses.length ? 'resume' : 'new';
+}
 export function evaluate(guess: string, answer: string): Mark[] {
   const marks: Mark[] = Array(5).fill('absent');
   const guessLetters = letters(guess), answerLetters = letters(answer);

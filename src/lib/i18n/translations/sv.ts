@@ -1,4 +1,5 @@
 export const sv = {
+  welcomeNext: 'Ett ord är klart. Fortsätt med nästa av dagens tre ord.',
   nextWord: 'Nästa ord',
   short: 'Skriv fem bokstäver först', unknown: 'Ordet finns inte i ordlistan', finished: 'Dagens runda är avslutad',
   guess: 'Gissa', rules: 'Så spelar du', stats: 'Din statistik', settings: 'Inställningar',
