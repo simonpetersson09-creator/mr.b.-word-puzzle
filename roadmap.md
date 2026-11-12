@@ -1,4 +1,6 @@
 # Mr. B Ord
+- [ ] Rätta språklistan framför välkomstrutan och verifiera tom gissning.
+- [ ] Jämför releaseberedskap med Yatzy och redovisa återstående krav.
 - [x] Förbättra svensk ordkontroll med 2 569 verifierade böjningar och dölj författarnamnet i inställningarna; bevara licensen.
 - [x] Följ telefonens språk automatiskt och lägg in Yatzys 40 språkval samt 32 lokala ordpaket inklusive svenska.
 - [ ] Slutför alla språk inför släpp: orddata saknas för th/gu/kn/ml/mr/or/pa/te; nya språktexter har engelsk reservtext och internationella ordurval behöver språkgranskning.
