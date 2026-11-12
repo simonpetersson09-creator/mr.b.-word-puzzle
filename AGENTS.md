@@ -45,3 +45,6 @@ use the editor.
 - Segment words into Unicode grapheme clusters; use the native text keyboard for scripts that cannot fit a fixed alphabet keyboard.
 - Bundle frequency-derived candidate dictionaries separately under their data license; languages without adequate offline word data remain unavailable rather than silently using another language's words.
 - Show a state-aware welcome dialog on cold launch and native foreground entry; visibility changes cover the browser preview without replaying on focus alone.
+- Preserve Greek tonos during input casing rather than altering frozen dictionaries or saved answers; accented scheduled words must remain winnable.
+- Read and write recovery copies independently and notify subscribed UI on persistence errors; a broken primary must not prevent backup recovery or hide a native write failure.
+- Bundle attribution, license texts and redistributable word data into the shared client UI; legal notices must remain readable offline in the native shell.

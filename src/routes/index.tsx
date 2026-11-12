@@ -5,7 +5,7 @@ import mrB from '@/assets/mr-b.png';
 import { Button } from '@/components/ui/button';
 import { OrdDialogs, type Panel } from '@/components/ord-dialogs';
 import { emptySave, evaluate, hasWon, isFinished, keyboardMarks, newRound, gameDate, submitGuess, activeSlot, roundKey, DAILY_WORDS, type Save } from '@/lib/ord/engine';
-import { initializeSave, loadSave, mergeRound, persistSave, flushNativeSave, SAVE_KEY } from '@/lib/ord/storage';
+import { initializeSave, loadSave, mergeRound, persistSave, flushNativeSave, onSaveError, SAVE_KEY } from '@/lib/ord/storage';
 import { installViewportSync } from '@/lib/native/viewport';
 import { feedback } from '@/lib/native/feedback';
 import { deviceLanguage, setAppLanguage, useTranslation } from '@/lib/i18n';
@@ -31,6 +31,8 @@ function Index() {
   const [welcome,setWelcome]=useState(true);
   const [save,setSave] = useState<Save>(emptySave);
   const [date,setDate] = useState('2026-11-12');
+  const dateRef = useRef(date);
+  useEffect(() => { dateRef.current = date; }, [date]);
   const [slot,setSlot]=useState(0);
   const [ready,setReady] = useState(false);
   const [input,setInput] = useState('');
@@ -58,7 +60,10 @@ function Index() {
   const rows=keyboardRows(wordLanguage);
   function openWelcome() {
     if (panelTimer.current) clearTimeout(panelTimer.current);
-    setDate(gameDate()); setSlot(activeSlot(saveRef.current,gameDate())); setPanel(null); setMessage(''); setWelcome(true);
+    const current = gameDate();
+    if (dateRef.current !== current) { setInput(''); setPressedKey(null); }
+    dateRef.current = current;
+    setDate(current); setSlot(activeSlot(saveRef.current,current)); setPanel(null); setMessage(''); setWelcome(true);
     void deviceLanguage().then(lang=>{setPhoneLanguage(lang); const choice=saveRef.current.settings.language; setAppLanguage(choice && choice!=='auto' ? choice : lang);});
   }
   const done = isFinished(round), marks = keyboardMarks(round);
@@ -68,6 +73,7 @@ function Index() {
   }
   useEffect(() => {
     let mounted = true;
+    const unsubscribeErrors = onSaveError(() => { if (mounted) setMessage(t('storage')); });
     void Promise.all([initializeSave(),deviceLanguage()]).then(([loaded,lang]) => {
       if (!mounted) return;
       saveRef.current = loaded; setSave(loaded); setPhoneLanguage(lang); setAppLanguage(loaded.settings.language && loaded.settings.language!=='auto' ? loaded.settings.language : lang); setDate(gameDate()); setSlot(activeSlot(loaded,gameDate())); setReady(true);
@@ -87,7 +93,7 @@ function Index() {
     function reload(event: StorageEvent) { if (event.key === SAVE_KEY) { const updated=loadSave(); saveRef.current=updated; setSave(updated); setSlot(activeSlot(updated,gameDate())); setInput(''); } }
     const timer=setInterval(refreshDay,1000);
     window.addEventListener('focus',refreshDay); document.addEventListener('visibilitychange',refreshDay); window.addEventListener('storage',reload);
-    return () => { mounted = false; cleanup(); cleanupOpening(); window.removeEventListener('languagechange',languageChanged); clearInterval(timer); if(panelTimer.current) clearTimeout(panelTimer.current); if(pressTimer.current) clearTimeout(pressTimer.current); window.removeEventListener('focus',refreshDay); document.removeEventListener('visibilitychange',refreshDay); window.removeEventListener('storage',reload); };
+    return () => { mounted = false; unsubscribeErrors(); cleanup(); cleanupOpening(); window.removeEventListener('languagechange',languageChanged); clearInterval(timer); if(panelTimer.current) clearTimeout(panelTimer.current); if(pressTimer.current) clearTimeout(pressTimer.current); window.removeEventListener('focus',refreshDay); document.removeEventListener('visibilitychange',refreshDay); window.removeEventListener('storage',reload); };
   },[]);
   function enter() {
     if (!ready || done || welcome || !available) return;
