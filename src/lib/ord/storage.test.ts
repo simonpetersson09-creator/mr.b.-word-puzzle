@@ -1,14 +1,51 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-const native = vi.hoisted(() => ({ values: new Map<string, string>(), set: vi.fn(), enabled: true }));
+const native = vi.hoisted(() => ({ values: new Map<string, string>(), set: vi.fn(), enabled: true, readFailures: new Set<string>(), writeFailures: new Set<string>() }));
 vi.mock('@capacitor/core', () => ({ Capacitor: { isNativePlatform: () => native.enabled } }));
 vi.mock('@capacitor/preferences', () => ({ Preferences: {
-  get: async ({ key }: { key: string }) => ({ value: native.values.get(key) ?? null }),
-  set: async ({ key, value }: { key: string; value: string }) => { native.set(key, value); native.values.set(key, value); },
+  get: async ({ key }: { key: string }) => { if (native.readFailures.has(key)) throw new Error('read failed'); return { value: native.values.get(key) ?? null }; },
+  set: async ({ key, value }: { key: string; value: string }) => { native.set(key, value); if (native.writeFailures.has(key)) throw new Error('write failed'); native.values.set(key, value); },
 } }));
 import { emptySave, newRound, submitGuess, statistics } from './engine';
-import { initializeSave, persistSave, flushNativeSave, mergeRound, SAVE_KEY, BACKUP_KEY } from './storage';
+import { initializeSave, loadSave, persistSave, flushNativeSave, mergeRound, onSaveError, SAVE_KEY, BACKUP_KEY } from './storage';
 describe('iPhone result durability', () => {
-  beforeEach(async () => { await flushNativeSave(); localStorage.clear(); native.values.clear(); native.set.mockClear(); });
+  beforeEach(async () => { await flushNativeSave().catch(() => {}); localStorage.clear(); native.values.clear(); native.set.mockClear(); native.readFailures.clear(); native.writeFailures.clear(); });
+  it('reads local backup even if the primary storage read throws', () => {
+    const save = mergeRound(emptySave(), submitGuess(newRound('2026-11-12'), 'KANEL').round);
+    localStorage.setItem(BACKUP_KEY, JSON.stringify(save));
+    const original = Storage.prototype.getItem;
+    const spy = vi.spyOn(Storage.prototype, 'getItem').mockImplementation(function(this: Storage, key: string) {
+      if (key === SAVE_KEY) throw new Error('read failed');
+      return original.call(this, key);
+    });
+    expect(loadSave()).toEqual(save);
+    spy.mockRestore();
+  });
+  it('keeps a recovered win in memory when rewriting both native copies fails', async () => {
+    const save = mergeRound(emptySave(), submitGuess(newRound('2026-11-12'), 'KANEL').round);
+    native.values.set(BACKUP_KEY, JSON.stringify(save));
+    native.writeFailures.add(SAVE_KEY); native.writeFailures.add(BACKUP_KEY);
+    expect(await initializeSave()).toEqual(save);
+  });
+  it('restores the native backup and settings when the primary read throws', async () => {
+    const save = mergeRound(emptySave(), submitGuess(newRound('2026-11-12'), 'KANEL').round);
+    save.settings.haptics = false;
+    native.values.set(BACKUP_KEY, JSON.stringify(save)); native.readFailures.add(SAVE_KEY);
+    const restored = await initializeSave();
+    expect(restored).toEqual(save);
+    expect(statistics(restored.rounds, '2026-11-12')).toMatchObject({played:1,wins:1,current:1});
+  });
+  it('reports native write failure immediately and still writes the backup', async () => {
+    native.writeFailures.add(SAVE_KEY);
+    const listener = vi.fn(), unsubscribe = onSaveError(listener);
+    const save = mergeRound(emptySave(), submitGuess(newRound('2026-11-12'), 'KANEL').round);
+    persistSave(save);
+    await expect(flushNativeSave()).rejects.toThrow('write failed');
+    expect(listener).toHaveBeenCalledTimes(1);
+    expect(JSON.parse(native.values.get(BACKUP_KEY) ?? '{}')).toEqual(save);
+    unsubscribe();
+    native.writeFailures.clear(); persistSave(save); await flushNativeSave();
+    expect(JSON.parse(native.values.get(SAVE_KEY) ?? '{}')).toEqual(save);
+  });
   it('restores wins, settings and streak from native storage after WebView eviction', async () => {
     const save = mergeRound(emptySave(), submitGuess(newRound('2026-11-12'),'KANEL').round);
     save.settings.haptics = false;

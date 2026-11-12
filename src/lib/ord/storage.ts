@@ -6,6 +6,12 @@ import { letters } from './words/localized';
 export const SAVE_KEY = 'mrb-ord:v1:save';
 export const BACKUP_KEY = `${SAVE_KEY}:backup`;
 let nativeWrites = Promise.resolve();
+const errorListeners = new Set<() => void>();
+export function onSaveError(listener: () => void) { errorListeners.add(listener); return () => { errorListeners.delete(listener); }; }
+function reportError() { errorListeners.forEach(listener => listener()); }
+function readLocal(key: string): string | null {
+  try { return localStorage.getItem(key); } catch { reportError(); return null; }
+}
 function decode(text: string | null): Save | null {
   try {
     const raw: unknown = JSON.parse(text ?? 'null');
@@ -35,41 +41,44 @@ function combine(primary: Save | null, backup: Save | null): Save {
   return { ...result, settings: primary.settings };
 }
 export function loadSave(): Save {
-  try {
-    return combine(decode(localStorage.getItem(SAVE_KEY)), decode(localStorage.getItem(BACKUP_KEY)));
-  } catch { return emptySave(); }
+  return combine(decode(readLocal(SAVE_KEY)), decode(readLocal(BACKUP_KEY)));
 }
 export async function initializeSave(): Promise<Save> {
   const local = loadSave();
   if (!Capacitor.isNativePlatform()) return local;
+  let recovered = local;
   try {
     const { Preferences } = await import('@capacitor/preferences');
-    const primary = await Preferences.get({ key: SAVE_KEY });
-    const backup = await Preferences.get({ key: BACKUP_KEY });
-    const native = combine(decode(primary.value), decode(backup.value));
-    const recovered = combine(local, native);
+    const read = async (key: string) => {
+      try { return (await Preferences.get({ key })).value; } catch { reportError(); return null; }
+    };
+    const [primary, backup] = await Promise.all([read(SAVE_KEY), read(BACKUP_KEY)]);
+    const native = combine(decode(primary), decode(backup));
+    recovered = combine(local, native);
     // Native settings remain authoritative after WebView storage eviction.
-    if (!localStorage.getItem(SAVE_KEY) && (primary.value || backup.value)) recovered.settings = native.settings;
+    if (!readLocal(SAVE_KEY) && (primary || backup)) recovered.settings = native.settings;
     persistSave(recovered);
     await flushNativeSave();
     return recovered;
-  } catch { return local; }
+  } catch { reportError(); return recovered; }
 }
 export const flushNativeSave = () => nativeWrites;
 // One atomic snapshot: rounds themselves are the result ledger; no double-counted counters.
 export function persistSave(save: Save): boolean {
   const snapshot = JSON.stringify(save);
   let saved = false;
-  try { localStorage.setItem(SAVE_KEY, snapshot); saved = true; } catch { /* Report failure to the player. */ }
-  try { localStorage.setItem(BACKUP_KEY, snapshot); } catch { /* Primary remains usable. */ }
+  try { localStorage.setItem(SAVE_KEY, snapshot); saved = true; } catch { reportError(); }
+  try { localStorage.setItem(BACKUP_KEY, snapshot); saved = true; } catch { reportError(); }
   if (Capacitor.isNativePlatform()) {
     nativeWrites = nativeWrites.catch(() => {}).then(async () => {
       const { Preferences } = await import('@capacitor/preferences');
-      await Preferences.set({ key: SAVE_KEY, value: snapshot });
-      await Preferences.set({ key: BACKUP_KEY, value: snapshot });
+      // Attempt both copies even if one fails; keep failures observable to flush callers.
+      const writes = await Promise.allSettled([Preferences.set({ key: SAVE_KEY, value: snapshot }), Preferences.set({ key: BACKUP_KEY, value: snapshot })]);
+      const failure = writes.find(result => result.status === 'rejected');
+      if (failure?.status === 'rejected') throw failure.reason;
     });
     // Keep the rejection observable via flushNativeSave without an unhandled error.
-    void nativeWrites.catch(() => {});
+    void nativeWrites.catch(reportError);
   }
   return saved;
 }

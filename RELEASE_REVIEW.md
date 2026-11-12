@@ -8,13 +8,13 @@
 - Kvadratiska rutor och tangentbord inom skärmkanterna på 320×568, 393×706, 393×852 och 1280×1800.
 - Alla 32 ordpaket: fem grafem och alla svar finns bland godkända gissningar. Detta intygar inte språklig korrekthet.
 
-## Faktiska kvarvarande brister
-1. **Grekiska ord kan inte alltid vinnas:** 228/240 svar misslyckar med svaret som inmatning. Grekisk versalkonvertering tar bort accenter men svaren behåller dem (`localized.ts`, `submitGuess`, `hasWon`).
-2. **Native sparningsfel kan vara tysta:** returvärdet från `persistSave` gäller lokal webblagring, inte den asynkrona Preferences-spegeln. Pågående rundor får inte omedelbar varning vid native-skrivfel.
-3. **Backup missas vid kastat native-läsfel:** `initializeSave` läser primär före backup i samma try-block. Misslyckad primärläsning kan hindra återställning av en intakt backup.
-4. **Fel välkomsttext i ett delklart läge:** välkomsttext väljs utifrån aktuellt ords `done`, inte `dailyDone`. Då kan texten säga att alla tre är klara.
-5. **Oskickade bokstäver kan följa med över 03.00:** foreground-hanteraren uppdaterar datum utan att tömma input, och timerkontrollen kan då missa återställningen.
-6. **Licenser saknar synlig leveransväg:** attribution och licenser finns i källunderlaget men inte tillgängliga i appen eller uttryckligen kopierade till native-paketet. Distributionskraven behöver granskas.
+## Rättat efter granskningen
+1. **Grekiska svar:** versalkonverteringen behåller accenter och inmatning bevarar exakt sparad stavning för Unicode-ekvivalenta svar. Alla 240 svar kan vinnas i regressionstest, och alla deras grafem finns på tangentbordet. Ett accentuerat svar löst via telefonens skärmtangenter och resultat/statistik återlästa efter omstart. Ordens språkliga kvalitet återstår att granska.
+2. **Sparningsfel:** aktiva spelvyn prenumererar på fel från asynkrona native-skrivningar. Båda kopiorna försöks oberoende, och fel förblir observerbara vid flush. Återhämtade resultat behålls i minnet även när omsparning misslyckas.
+3. **Backup:** native och lokal primär-/backup läses oberoende. Regressioner verifierar återhämtning av vinst och inställningar när primärläsning kastar.
+4. **Välkomst:** tre avslutade ord krävs för klartexten; ett avslutat ord och en ofärdig dag ger inte längre fel besked. Ren tillståndsfunktion testad och telefonens återöppning kontrollerad.
+5. **Återöppning över 03.00:** datumreferens jämförs innan välkomsten öppnas och oskickade bokstäver töms vid dagsbyte. Telefonflödet verifierat över 03.00 lokal tid.
+6. **Licensleverans:** inställningarna öppnar en offline-läsbar licensdialog med attribution och fullständiga licenser. Samma klientkod används av native-skalet; orddata och licenser kan hämtas som JSON i webbläsaren. Nedladdning via iOS WebView och juridiska distributionskrav är fortfarande overifierade.
 
 ## Saknas eller är ännu overifierat
 - Egna AdMob app-/mellanannons-ID:n, slutligt UMP-meddelande, nätverkslista och verklig samtyckes-/annonsvisning efter alla tre ord. Annonser är fortfarande avstängda. Annonsnätverket kan neka leverans; tre faktiskt visade annonser går inte att garantera utan att blockera spel.
@@ -25,7 +25,7 @@
 - Egna publicerade support-/integritetssidor, kontaktuppgifter, App Store-skärmbilder, beskrivningar, åldersklassning och slutliga integritetsdeklarationer.
 
 ## Rekommenderad ordning
-1. Rätta grekisk normalisering, native fel-/backupvägar och återöppningsfallen med konkreta regressionstester.
+1. De tekniska rättningarna ovan är genomförda; verifiera native felvarningar och återöppning på fysisk iPhone.
 2. Redigera svarspoolerna språkligt, välj ett granskat releasespråkurval och leverera licensunderlaget i appen.
 3. Slutför iPhone-paket och butiksmaterial; prova hela flödet på fysisk iPhone.
 4. Aktivera annonser först efter egna ID:n och godkända samtyckes-/visningstester.
