@@ -35,8 +35,8 @@ describe('Mr. B Ord rules', () => {
   });
   it('keeps keyboard colors in the priority green > yellow > grey', () => {
     const marks=keyboardMarks({date:'2026-11-12',answer:'KANEL',guesses:['KANAL','LAMPA']});
-    expect(marks.A).toBe('correct'); expect(marks.L).toBe('correct');
-    expect(keyboardMarks({date:'2026-11-12',answer:'KANEL',guesses:['GLASS','SOPPA']}).A).toBe('present');
+    expect(marks['A']).toBe('correct'); expect(marks['L']).toBe('correct');
+    expect(keyboardMarks({date:'2026-11-12',answer:'KANEL',guesses:['GLASS','SOPPA']})['A']).toBe('present');
   });
   it('wins on the sixth attempt and prevents further guesses', () => {
     const round:Round={date:'2026-11-12',answer:'KANEL',guesses:['TIGER','ÄPPLE','PÄRON','BANAN','MANGO']};

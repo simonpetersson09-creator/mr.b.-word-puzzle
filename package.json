@@ -11,7 +11,12 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "native:web": "vite build --config vite.native.config.ts",
+    "native:sync:ios": "bun run native:web && cap sync ios",
+    "native:sync:android": "bun run native:web && cap sync android",
+    "native:open:ios": "cap open ios",
+    "native:open:android": "cap open android"
   },
   "overrides": {
     "rolldown": "1.2.1"

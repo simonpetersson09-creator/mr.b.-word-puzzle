@@ -76,8 +76,8 @@ h1 span { color: var(--primary); }
 .puzzle-date { margin-top: 18px; display: flex; gap: 9px; justify-content: center; align-items: center; color: var(--primary); font-size: 10px; text-transform: uppercase; font-weight: 600; }
 .date-dot { width: 3px; height: 3px; background: var(--muted-foreground); border-radius: 50%; }
 .board-zone { display: flex; flex: 1; min-height: 0; width: 100%; align-items: center; justify-content: center; container-type: size; margin: 12px 0 2px; }
-.board { width: min(330px, 100cqw, calc((100cqh - 30px) * 5 / 6)); display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; }
-.tile { aspect-ratio: 1; display: grid; place-items: center; border: 1.5px solid var(--border); border-radius: 5px; color: var(--foreground); font-family: var(--font-display); font-size: 27px; font-weight: 700; background: transparent; }
+.board { width: min(330px, 100cqw, calc((100cqh - 30px) * 5 / 6)); display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 7px; }
+.tile { min-width: 0; aspect-ratio: 1; display: grid; place-items: center; border: 1.5px solid var(--border); border-radius: 5px; color: var(--foreground); font-family: var(--font-display); font-size: 27px; font-weight: 700; background: transparent; }
 .tile.active { border-color: color-mix(in oklch, var(--primary) 75%, var(--border)); background: var(--card); }
 .tile.filled { border-color: var(--primary); }
 .tile.correct, .key.correct { background: var(--correct); border-color: var(--correct); color: var(--foreground); }
