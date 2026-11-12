@@ -28,3 +28,10 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project architecture
+- Keep daily-game logic and licensed dictionaries separate from presentation; pure tests protect scoring and calendar rules.
+- Store all daily rounds in one device-local versioned snapshot and derive statistics from completed rounds; this makes final results idempotent across restarts.
+- Retain immutable dated answer schedules and saved answers; app updates must not change already assigned puzzles.
+- Keep the normal TanStack Start bootstrap and package native apps through a separate client-only root; local assets and word lists allow offline mobile play.
+- Keep advertisements disabled until native consent and presentation are integrated and verified; gameplay must not depend on ads.

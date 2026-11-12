@@ -20,7 +20,8 @@ describe('Mr. B Ord rules', () => {
   });
   it('marks duplicate letters green first, then consumes leftovers left to right', () => {
     expect(evaluate('KANAL','KANEL')).toEqual(['correct','correct','correct','absent','correct']);
-    expect(evaluate('AAAAB','BANAN')).toEqual(['present','correct','present','absent','present']);
+    expect(evaluate('AAAAB','BANAN')).toEqual(['absent','correct','absent','correct','present']);
+    expect(evaluate('AAABB','KANEL')).toEqual(['absent','correct','absent','absent','absent']);
   });
   it('treats Å Ä Ö as separate letters and accepts Swedish words', () => {
     expect(evaluate('ÅÄÖAA','ÅÄÖBB')).toEqual(['correct','correct','correct','absent','absent']);
@@ -35,7 +36,7 @@ describe('Mr. B Ord rules', () => {
   it('keeps keyboard colors in the priority green > yellow > grey', () => {
     const marks=keyboardMarks({date:'2026-11-12',answer:'KANEL',guesses:['KANAL','LAMPA']});
     expect(marks.A).toBe('correct'); expect(marks.L).toBe('correct');
-    expect(keyboardMarks({date:'2026-11-12',answer:'KANEL',guesses:['LAMPA','GLASS']}).A).toBe('present');
+    expect(keyboardMarks({date:'2026-11-12',answer:'KANEL',guesses:['GLASS','SOPPA']}).A).toBe('present');
   });
   it('wins on the sixth attempt and prevents further guesses', () => {
     const round:Round={date:'2026-11-12',answer:'KANEL',guesses:['TIGER','ÄPPLE','PÄRON','BANAN','MANGO']};
