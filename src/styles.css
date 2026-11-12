@@ -148,4 +148,7 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 @media (max-height: 600px) {
   .app-header { padding-top: 6px; padding-bottom: 2px; } .board { --board-gap: 3px; } .game-message { min-height: 18px; } .keyboard { gap: 4px; } .key { height: 38px; } .guess-button { height: 34px; margin-top: 4px; }
 }
+@media (max-width: 600px) {
+  .game { padding-bottom: 24px; }
+}
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
