@@ -1,4 +1,5 @@
 # Mr.B. Word Puzzle
+- [ ] Samlad kontroll: 40 översättningar, 32 spelspråk, tre dagliga svar, mobilens språk, annonser, terminal/Xcode jämfört med Yatzy/Ludo, iPhone-vyer och iPhone 15-bild; bedöm licenslänken utan att radera nödvändiga notices.
 - [x] Stabiliserat statistikdialogen och landsplaceringens utrymme; välkomstsidans tre ord visas som sammanhängande steg med aktuell/avklarad/låst markering. Fördröjd landsplacering och positioner verifierade på 320, 394 och 1280 px utan runtimefel.
 - [x] Skydda tilldelade svar med separat fryst schema; behåll minneskopian och återförsök efter tillfälliga sparfel.
 - [x] Granska alla 29 beroendefynd; uppdaterade paket ger tom bun audit och inga kända produktionssårbarheter. Djupgranskningens obehöriga rankningsskrivningar åtgärdade.
