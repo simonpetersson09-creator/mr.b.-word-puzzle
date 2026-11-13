@@ -1,4 +1,4 @@
-# Mr. B Ord – implementation and verification
+# Mr.B. Word Puzzle – implementation and verification
 
 ## Actually reused
 - **Ludo:** original `mr-b-die.png` graphic; exact `installViewportSync` helper; SSR-safe storage pattern and isolated key namespace; Capacitor vibration patterns and native/web fallback adapted to Ord settings; local Capacitor packaging configuration and root-substitution pattern.

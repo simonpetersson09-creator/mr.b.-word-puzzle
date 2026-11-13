@@ -1,4 +1,4 @@
-# Mr. B Ord – releasegranskning 2026-11-12
+# Mr.B. Word Puzzle – releasegranskning 2026-11-12
 
 ## Genomfört och verifierat
 - Annonsförsök efter vart och ett av dagens tre ord med separata nycklar; nästa ord väntar på annonsens stängning. Återupptagna ofärdiga ord kan förladdas igen. Verifierat med testadapter, inte riktiga annonser.
