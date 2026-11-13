@@ -3,6 +3,7 @@ import { answers } from './words/answers';
 import inflections from './words/inflections.json';
 import { acceptsWord, letters, localizedAnswer, uppercase, wordPacks } from './words/localized';
 import type { Language } from '@/lib/i18n/languages';
+import { answerPool } from './words/answer-policy';
 
 export type Mark = 'correct' | 'present' | 'absent';
 export interface Round { date: string; answer: string; guesses: string[]; language?: Language; slot?: number }
@@ -41,7 +42,7 @@ export const DAILY_WORDS = 3;
 export const roundKey = (date: string, slot = 0) => slot === 0 ? date : `${date}:${slot + 1}`;
 export function newRound(date: string, language: Language = 'sv', slot = 0, excluded: string[] = []): Round {
   const first = language === 'sv' ? dailyAnswer(date) : localizedAnswer(date,language) ?? '';
-  const pool: readonly string[] = language === 'sv' ? answers : wordPacks[language]?.answers ?? [];
+  const pool: readonly string[] = language === 'sv' ? answers : answerPool(date,language,wordPacks[language]?.answers ?? []);
   const start = Math.max(0,pool.indexOf(first));
   const selected = [first];
   for (let offset=1; selected.length<=slot && offset<=pool.length; offset++) {
@@ -97,7 +98,7 @@ export function submitGuess(round: Round, raw: string): { round: Round; error?: 
   // Retain the exact saved spelling when a Unicode-equivalent answer is entered.
   const guess = typed.normalize('NFC') === round.answer.normalize('NFC') ? round.answer : typed;
   if (letters(guess).length !== 5 || !/^[\p{L}\p{M}]+$/u.test(guess)) return { round, error: 'short' };
-  if (!(language === 'sv' ? dictionarySet.has(guess) : acceptsWord(guess,language))) return { round, error: 'unknown' };
+  if (guess !== round.answer && !(language === 'sv' ? dictionarySet.has(guess) : acceptsWord(guess,language))) return { round, error: 'unknown' };
   return { round: { ...round, guesses: [...round.guesses, guess] } };
 }
 export function statistics(rounds: Record<string, Round>, today: string) {
