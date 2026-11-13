@@ -1,5 +1,5 @@
 import * as Switch from '@radix-ui/react-switch';
-import { Share2, Volume2, Vibrate, Check, ArrowRight, Globe2, ShieldCheck, ChevronRight, Flame, Trophy } from 'lucide-react';
+import { Share2, Vibrate, Check, ArrowRight, Globe2, ShieldCheck, ChevronRight, Flame, Trophy, Sparkles } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import mrB from '@/assets/mr-b.png';
 import { Button } from './ui/button';
@@ -14,6 +14,7 @@ import { languages, languageFlags, type Language } from '@/lib/i18n/languages';
 import { wordPacks } from '@/lib/ord/words/localized';
 import { dailyAds, getAdConsentChoices, initializeAds, nativeAdsEnabled, needsAdPrivacyOptions, showAdPrivacyOptions } from '@/lib/native/interstitial';
 import { readAdConsentChoices } from '@/lib/native/ad-consent';
+import { feedback } from '@/lib/native/feedback';
 
 export type Panel = 'rules' | 'stats' | 'settings' | null;
 export function OrdDialogs({ panel, close, save, round, setSettings, welcome, dismissWelcome, phoneLanguage, nextWord, dailyDone }: { panel: Panel; close: () => void | Promise<void>; save: Save; round: Round; setSettings: (settings: Settings) => void; welcome:boolean; dismissWelcome:()=>void; phoneLanguage:Language; nextWord:()=>void; dailyDone:boolean }) {
@@ -53,7 +54,7 @@ export function OrdDialogs({ panel, close, save, round, setSettings, welcome, di
   const goalPct = Math.round((stats.current - prevGoal) / Math.max(1, goal - prevGoal) * 100);
   const done = isFinished(round), started=Object.values(save.rounds).some(r=>r.date===round.date && r.guesses.length>0);
   const openingState = welcomeState(save,round);
-  const welcomeCopy = openingState === 'complete' ? 'welcomeDone' : openingState === 'next' ? 'welcomeNext' : openingState === 'resume' ? 'welcomeResume' : 'welcomeNew';
+  const welcomeCopy = openingState === 'complete' ? 'welcomeWarmDone' : openingState === 'next' ? 'welcomeWarmNext' : openingState === 'resume' ? 'welcomeWarmResume' : 'welcomeFresh';
   function languagePicker(kind:'language'|'gameLanguage') {
     return <Select value={save.settings[kind] ?? 'auto'} disabled={kind==='gameLanguage' && started} onValueChange={value=>{if (value==='auto' || value in languages) setSettings({...save.settings,[kind]:value});}}><SelectTrigger className="language-select" aria-label={t(kind)}><SelectValue /></SelectTrigger><SelectContent className="language-options"><SelectItem value="auto">{languageFlags[phoneLanguage]} {t('automatic')} · {languages[phoneLanguage]}</SelectItem>{Object.entries(languages).map(([code,label])=><SelectItem key={code} value={code} disabled={kind==='gameLanguage' && code!=='sv' && !wordPacks[code as Language]}>{languageFlags[code as Language]} {label}</SelectItem>)}</SelectContent></Select>;
   }
@@ -65,8 +66,20 @@ export function OrdDialogs({ panel, close, save, round, setSettings, welcome, di
     } catch { setCopied(false); }
   }
   return <>
-    <GameDialog open={welcome} onClose={dismissWelcome} title={started ? t('welcomeBack') : t('welcome')} description={t('dailyMoment')}>
-      <div className="welcome-body"><h2>{started ? t('welcomeBack') : t('welcome')}</h2><p className="welcome-tagline">{t('dailyMoment')}</p><div className="welcome-example" aria-hidden="true">{['M','R','.','B','!'].map((letter,i)=><span className={`tile ${i===0 || i===4 ? 'correct' : i===3 ? 'present' : ''}`} key={i}>{letter}</span>)}</div><p className="modal-description">{t(welcomeCopy)}</p><div className="welcome-language"><Globe2 /><span>{t('gameLanguage')}</span>{languagePicker('gameLanguage')}</div><Button className="welcome-play" onClick={dismissWelcome}><ArrowRight />{t(done ? 'result' : started ? 'resume' : 'start')}</Button><p className="next-puzzle">{t('next')}</p></div>
+    <GameDialog open={welcome} onClose={dismissWelcome} title={started ? t('welcomeBack') : t('welcomeReady')} description={t(welcomeCopy)}>
+      <div className="welcome-body welcome-refreshed">
+        <span className="welcome-brand">Mr.B. Word Puzzle</span>
+        <div className="welcome-symbol" aria-hidden="true"><Sparkles /></div>
+        <h2>{started ? t('welcomeBack') : t('welcomeReady')}</h2>
+        <p className="welcome-intro">{t(welcomeCopy)}</p>
+        <div className="welcome-progress" aria-label={t('todayWords')}>
+          {today.map((r,i)=><div key={i} className={`welcome-word ${r && isFinished(r) ? hasWon(r) ? 'won' : 'lost' : i===(round.slot ?? 0) ? 'current' : ''}`}><span>{r && isFinished(r) ? hasWon(r) ? <Check /> : '×' : <span className="welcome-mystery">?</span>}</span><small>{t('word')} {i+1}</small></div>)}
+        </div>
+        {started && <p className="welcome-saved"><ShieldCheck />{t('welcomeSaved')}</p>}
+        <div className="welcome-language"><Globe2 /><span>{t('gameLanguage')}</span>{languagePicker('gameLanguage')}</div>
+        <Button className="welcome-play" onClick={dismissWelcome}>{t(done ? 'result' : started ? 'resume' : 'welcomeBegin')}<ArrowRight /></Button>
+        <p className="next-puzzle">{t('next')}</p>
+      </div>
     </GameDialog>
     <GameDialog open={panel === 'rules'} onClose={close} title={t('rules')} description={t('rulesIntro')}>
       <h2>{t('rules')}</h2><p className="modal-description">{t('rulesIntro')}</p>
@@ -86,14 +99,14 @@ export function OrdDialogs({ panel, close, save, round, setSettings, welcome, di
       <div className="streak-hero"><div className={`streak-flame ${stats.current ? 'lit' : ''}`}><Flame /></div><div className="streak-text"><strong>{stats.current}</strong><span>{t('streakDays')}</span></div><div className="streak-best"><Trophy /><span>{stats.longest}</span></div></div>
       <div className="streak-goal"><div className="streak-goal-label"><span>{stats.current ? t('nextGoal',{count: goal - stats.current, goal}) : t('startStreak')}</span><b>{goal}</b></div><div className="streak-goal-track"><div style={{width: `${Math.max(4, goalPct)}%`}} /></div></div>
       <div className="today-words"><span>{t('todayWords')}</span><div>{today.map((r,i)=><i key={i} className={!r || !isFinished(r) ? '' : hasWon(r) ? 'won' : 'lost'}>{r && isFinished(r) ? (hasWon(r) ? r.guesses.length : '×') : ''}</i>)}</div></div>
-      {rank && <div className="country-rank"><span className="country-flag" aria-hidden="true">{flagFor(rank.country)}</span><div><strong>{t('betterThan',{pct: rank.betterThan})}</strong><span>{t('inCountry',{country: new Intl.DisplayNames([document.documentElement.lang || 'en'],{type:'region'}).of(rank.country) ?? rank.country, count: rank.players})}</span></div></div>}
+      {rank && <div className="country-rank"><span className="country-flag" aria-hidden="true">{flagFor(rank.country)}</span><div><strong>{t('betterThan',{pct: rank.betterThan})}</strong><span>{t('inCountry',{country: new Intl.DisplayNames([document.documentElement.lang || 'en'],{type:'region'}).of(rank.country) ?? rank.country})}</span></div></div>}
       <div className="stat-metrics">{([['played',stats.played],['wins',stats.percentage+'%']] as const).map(([key,value])=><div key={key}><strong>{value}</strong><span>{t(key)}</span></div>)}</div>
       <div className="distribution"><h3>{t('distribution')}</h3>{stats.distribution.map((count, i) => <div className="distribution-row" key={i}><span>{i+1}</span><div className="bar-track"><div className={`bar ${count ? 'nonzero' : ''}`} style={{width: `${Math.max(9, count / Math.max(1,...stats.distribution) * 100)}%`}}>{count}</div></div></div>)}</div>
       {done && <>{!dailyDone && <Button className="welcome-play" onClick={()=>{void Promise.resolve(close()).then(nextWord);}}><ArrowRight />{t('nextWord')}</Button>}<Button className="guess-button" onClick={() => { void share(); }}>{copied ? <Check /> : <Share2 />}{copied ? t('copied') : t('share')}</Button><p className="next-puzzle">{t('next')}</p></>}
     </GameDialog>
     <GameDialog open={panel === 'settings' && !licensesOpen} onClose={close} title={t('settings')} description={t('settingsIntro')}>
       <h2>{t('settings')}</h2><p className="modal-description">{t('settingsIntro')}</p>
-      {(['sound','haptics'] as const).map(key => <div className="setting-row" key={key}><span className="setting-label">{key === 'sound' ? <Volume2 /> : <Vibrate />}{t(key)}</span><Switch.Root className="switch" checked={save.settings[key]} onCheckedChange={checked => setSettings({...save.settings,[key]:checked})} aria-label={t(key)}><Switch.Thumb className="switch-thumb" /></Switch.Root></div>)}
+      <div className="setting-row"><span className="setting-label"><Vibrate />{t('haptics')}</span><Switch.Root className="switch" checked={save.settings.haptics} onCheckedChange={checked => {const settings={...save.settings,haptics:checked};setSettings(settings);if(checked) void feedback(settings);}} aria-label={t('haptics')}><Switch.Thumb className="switch-thumb" /></Switch.Root></div>
       <div className="setting-row language-row"><span className="setting-label"><Globe2 />{t('language')}</span>{languagePicker('language')}</div><div className="setting-row language-row"><span>{t('gameLanguage')}</span>{languagePicker('gameLanguage')}</div>{started && <p className="license-note">{t('lockedLanguage')}</p>}
       <div className="setting-detail"><span>{t('changes')}</span><span>{t('localTime')}</span></div>
       <Button variant="secondary" className="privacy-toggle" aria-expanded={privacyOpen} aria-controls="saved-ad-choices" onClick={() => setPrivacyOpen(open => !open)}><ShieldCheck /><span className="flex-1">{t('adPrivacy')}</span><ChevronRight className={privacyOpen ? 'rotate-90' : ''} /></Button>
