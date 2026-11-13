@@ -17,6 +17,8 @@ import { dailyAds, getAdConsentChoices, initializeAds, nativeAdsEnabled, needsAd
 import { readAdConsentChoices } from '@/lib/native/ad-consent';
 import { feedback } from '@/lib/native/feedback';
 
+const PRIVACY_POLICY_URL = 'https://mr-b-word-puzzle-legal-guide.lovable.app';
+
 export type Panel = 'rules' | 'stats' | 'settings' | null;
 export function OrdDialogs({ panel, close, save, round, setSettings, welcome, dismissWelcome, phoneLanguage, nextWord, dailyDone }: { panel: Panel; close: () => void | Promise<void>; save: Save; round: Round; setSettings: (settings: Settings) => void; welcome:boolean; dismissWelcome:()=>void; phoneLanguage:Language; nextWord:()=>void; dailyDone:boolean }) {
   const {t}=useTranslation();
