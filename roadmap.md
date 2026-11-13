@@ -1,4 +1,5 @@
 # Mr.B. Word Puzzle
+- [ ] Förbered GitHub/Xcode/App Store: angiven appidentitet och Apple-team, App Store-profil, reproducerbart iOS-flöde och verifiering utan ändrat spel.
 - [x] Skapa ikon och två headerbilder i referensbildernas format och Mr. B-stil; iPhone-ikon, lokal startbild och favicon inlagda.
 - [x] Förbättra samtidiga/upprepade tangenttryck och ordvinst före resultat/annons; tre ord och omstart kontrollerade på telefon/dator.
 - [x] Skydda bevarad statistik mot misslyckade återläsningar/äldre sparning; granska Xcode-krav mot Yatzy/Ludo/Sudoku i XCODE_READINESS.md.
