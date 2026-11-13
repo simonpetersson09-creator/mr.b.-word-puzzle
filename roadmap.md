@@ -1,4 +1,5 @@
 # Mr.B. Word Puzzle
+- [ ] Matcha avstånd vid Gissa/Radera, visa nya gissningar bokstav för bokstav med snurreffekt och kontrollera inmatning, återöppning, statistik samt telefonvyer utan ändrad spellogik.
 - [x] Gör om ikon och headerbilder med Ludo-referensens ursprungliga hattform och blanka 3D-kvalitet; tydlig monokel, inga gula rutor efter löst rad och transparent välkomstbild; uppdatera iOS-bilder och kontrollera telefonvyn.
 - [x] Förbered GitHub/Xcode/App Store: angiven appidentitet/team/profil, delat Release-schema, patch → lokalt paket → sync → verifiering → archive/export samt Mac/Apple/GitHub-instruktioner; 59 tester godkända, faktisk signering/publicering återstår på Mac.
 - [x] Skapa ikon och två headerbilder i referensbildernas format och Mr. B-stil; iPhone-ikon, lokal startbild och favicon inlagda.
