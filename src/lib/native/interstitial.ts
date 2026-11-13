@@ -33,10 +33,11 @@ export function createDailyAds(adapter: AdAdapter, clock = Date.now) {
 type AdModule = typeof import('@capacitor-community/admob');
 let module: AdModule | null = null;
 const testAds = import.meta.env.DEV;
-// Production must supply Ord's own IDs, never IDs copied from another Mr. B app.
-const unit = testAds ? 'ca-app-pub-3940256099942544/4411468910' : import.meta.env['VITE_ORD_IOS_INTERSTITIAL_ID'];
-// Explicit release gate remains closed until native UMP/ATT/presentation verification.
-export const nativeAdsEnabled = () => Capacitor.getPlatform() === 'ios' && Capacitor.isPluginAvailable('AdMob') && import.meta.env['VITE_ORD_ADS_VERIFIED'] === 'true' && Boolean(unit);
+// Word Puzzle's own AdMob IDs (app ID lives in Info.plist); Google test unit in development.
+export const ORD_IOS_APP_ID = 'ca-app-pub-7448540924654868~2156468939';
+export const ORD_IOS_INTERSTITIAL_ID = 'ca-app-pub-7448540924654868/9979118636';
+const unit = testAds ? 'ca-app-pub-3940256099942544/4411468910' : ORD_IOS_INTERSTITIAL_ID;
+export const nativeAdsEnabled = () => Capacitor.getPlatform() === 'ios' && Capacitor.isPluginAvailable('AdMob') && Boolean(unit);
 let privacyRequired = false;
 export const needsAdPrivacyOptions = () => privacyRequired;
 const adapter: AdAdapter = {
