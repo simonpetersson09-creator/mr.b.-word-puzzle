@@ -14,11 +14,14 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "native:web": "vite build --config vite.native.config.ts",
-    "native:sync:ios": "bun run native:web && cap sync ios",
+    "native:sync:ios": "bun run native:patch:ios && bun run native:web && cap sync ios && bun run native:verify:ios -- --synced",
     "native:sync:android": "bun run native:web && cap sync android",
     "native:open:ios": "cap open ios",
     "native:open:android": "cap open android",
-    "native:verify:ios": "node scripts/verify-ios.mjs"
+    "native:verify:ios": "node scripts/verify-ios.mjs",
+    "native:patch:ios": "node scripts/patch-admob-consent.mjs ios",
+    "native:archive:ios": "bash scripts/archive-ios.sh",
+    "native:export:ios": "bash scripts/archive-ios.sh --export"
   },
   "overrides": {
     "rolldown": "1.2.1"
