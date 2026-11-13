@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ChartNoAxesColumnIncreasing, CircleHelp, Settings2, Delete, ArrowRight } from 'lucide-react';
-import mrB from '@/assets/mr-b.png';
 import { Button } from '@/components/ui/button';
 import { OrdDialogs, type Panel } from '@/components/ord-dialogs';
 import { WordCelebration } from '@/components/word-celebration';
