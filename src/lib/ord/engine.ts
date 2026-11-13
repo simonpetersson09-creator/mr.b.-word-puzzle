@@ -3,7 +3,7 @@ import { answers } from './words/answers';
 import inflections from './words/inflections.json';
 import { acceptsWord, letters, localizedAnswer, uppercase, wordPacks } from './words/localized';
 import type { Language } from '@/lib/i18n/languages';
-import { answerPool } from './words/answer-policy';
+import { scheduledPool } from './words/answer-policy';
 
 export type Mark = 'correct' | 'present' | 'absent';
 export interface Round { date: string; answer: string; guesses: string[]; language?: Language; slot?: number }
@@ -26,8 +26,8 @@ export function dailyAnswer(date: string): string {
   const index = dayNumber(date) - dayNumber('2026-11-12');
   // The original dated schedule stays immutable. Subsequent cycles use a frozen
   // seeded shuffle: random order without changing the answer on restart/offline.
-  if (date <= '2026-11-12') return answers[((index % answers.length) + answers.length) % answers.length] ?? answers[0];
-  const candidates = answerPool(date, 'sv', answers);
+  const candidates = scheduledPool(date, 'sv');
+  if (date <= '2026-11-12') return candidates[((index % candidates.length) + candidates.length) % candidates.length] ?? '';
   if (!candidates.length) return '';
   const randomIndex = dayNumber(date) - dayNumber('2026-11-13');
   const cycle = Math.floor(randomIndex / candidates.length) + 1;
@@ -44,7 +44,7 @@ export const DAILY_WORDS = 3;
 export const roundKey = (date: string, slot = 0) => slot === 0 ? date : `${date}:${slot + 1}`;
 export function newRound(date: string, language: Language = 'sv', slot = 0, excluded: string[] = []): Round {
   const first = language === 'sv' ? dailyAnswer(date) : localizedAnswer(date,language) ?? '';
-  const pool: readonly string[] = answerPool(date,language,language === 'sv' ? answers : wordPacks[language]?.answers ?? []);
+  const pool = scheduledPool(date,language);
   const start = Math.max(0,pool.indexOf(first));
   const selected = [first];
   for (let offset=1; selected.length<=slot && offset<=pool.length; offset++) {

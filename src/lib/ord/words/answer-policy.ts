@@ -1,5 +1,12 @@
 import type {Language} from '@/lib/i18n/languages';
 import {approvedAnswers, APPROVED_ANSWERS_EPOCH} from './approved-answers';
+import schedule from './schedule-v1.json';
+
+// Immutable schedule data is independent of dictionaries and future editorial additions.
+export function scheduledPool(date: string, language: Language): readonly string[] {
+ const pools: Partial<Record<Language, readonly string[]>> = date < ANSWER_POLICY_EPOCH ? schedule.legacy : schedule.approved;
+ return pools[language] ?? [];
+}
 
 // Frozen v1 pools stay intact. Only new dates from this epoch use editorial screening.
 export const ANSWER_POLICY_EPOCH='2026-11-14';

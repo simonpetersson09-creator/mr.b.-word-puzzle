@@ -6,8 +6,26 @@ vi.mock('@capacitor/preferences', () => ({ Preferences: {
   set: async ({ key, value }: { key: string; value: string }) => { native.set(key, value); if (native.writeFailures.has(key)) throw new Error('write failed'); native.values.set(key, value); },
 } }));
 import { emptySave, newRound, submitGuess, statistics } from './engine';
-import { initializeSave, loadSave, persistSave, flushNativeSave, mergeRound, onSaveError, SAVE_KEY, BACKUP_KEY, RECOVERY_KEY } from './storage';
+import { initializeSave, loadSave, persistSave, flushNativeSave, retrySave, mergeRound, onSaveError, SAVE_KEY, BACKUP_KEY, RECOVERY_KEY } from './storage';
 describe('iPhone result durability', () => {
+  it('retains guesses in memory when both local writes fail and retries them later',async()=>{
+    native.enabled=false;
+    const save=mergeRound(emptySave(),{date:'2026-11-13',answer:'KANEL',guesses:['KANEL']});
+    const spy=vi.spyOn(Storage.prototype,'setItem').mockImplementation(()=>{throw new Error('full');});
+    expect(persistSave(save)).toBe(false);
+    expect(loadSave().rounds['2026-11-13']?.guesses).toEqual(['KANEL']);
+    spy.mockRestore();
+    await retrySave(save);
+    expect(JSON.parse(localStorage.getItem(SAVE_KEY) ?? '{}').rounds['2026-11-13'].answer).toBe('KANEL');
+    native.enabled=true;
+  });
+  it('retries a temporary native read failure without replacing guesses entered meanwhile',async()=>{
+    native.readFailures.add(SAVE_KEY); await initializeSave();
+    const save=mergeRound(emptySave(),{date:'2026-11-13',answer:'KANEL',guesses:['KANEL']});
+    expect(persistSave(save)).toBe(false);
+    native.readFailures.clear();await retrySave(save);
+    expect(JSON.parse(native.values.get(SAVE_KEY) ?? '{}').rounds['2026-11-13'].guesses).toEqual(['KANEL']);
+  });
   it('keeps a witnessed win over a conflicting completed loss in every mirror order',()=>{
     const won=emptySave(),lost=emptySave();
     won.rounds['2026-11-12']={date:'2026-11-12',answer:'KANEL',guesses:['KANEL']};

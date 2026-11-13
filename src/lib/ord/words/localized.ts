@@ -1,9 +1,10 @@
 import packs from './packs.json';
 import { type Language } from '@/lib/i18n/languages';
-import { answerPool } from './answer-policy';
+import { scheduledPool } from './answer-policy';
 export interface WordPack { guesses: string[]; answers: string[] }
 export const wordPacks: Partial<Record<Language, WordPack>> = packs;
-export const letters = (word: string) => Array.from(new Intl.Segmenter(undefined, {granularity:'grapheme'}).segment(word.normalize('NFC')), part => part.segment);
+const segmenter = new Intl.Segmenter(undefined, {granularity:'grapheme'});
+export const letters = (word: string) => Array.from(segmenter.segment(word.normalize('NFC')), part => part.segment);
 // Greek locale casing removes tonos from whole words; keep the frozen accented answers.
 export const uppercase = (word: string, language: Language) => language === 'el' ? word.normalize('NFC').toUpperCase() : word.normalize('NFC').toLocaleUpperCase(language === 'no' ? 'nb' : language);
 const sets = new Map<Language, Set<string>>();
@@ -13,8 +14,7 @@ export function acceptsWord(word: string, language: Language): boolean {
   return set.has(word.normalize('NFC'));
 }
 export function localizedAnswer(date: string, language: Language): string | null {
-  const frozen = wordPacks[language]?.answers;
-  const pool = frozen ? answerPool(date,language,frozen) : undefined;
+   const pool = scheduledPool(date,language);
   if (!pool?.length) return null;
   const day = Math.floor(Date.parse(date+'T00:00:00Z')/86400000);
   let seed = 2166136261;
@@ -38,11 +38,11 @@ export function keyboardRows(language: Language): string[][] | null {
     ru:['ЙЦУКЕНГШЩЗХ','ФЫВАПРОЛДЖЭ','ЯЧСМИТЬБЮЁЪ'], uk:['ЙЦУКЕНГШЩЗХ','ФІВАПРОЛДЖЄ','ЯЧСМИТЬБЮЇҐ'],
     el:['ΕΡΤΥΘΙΟΠ','ΑΣΔΦΓΗΞΚΛ','ΖΧΨΩΒΝΜΆΈΊΌΎΉΏ'],
   };
-  if (['ja','ko','th','hi','bn','gu','kn','ml','mr','or','pa','ta','te'].includes(language)) return null;
+  if (['vi','ja','ko','th','hi','bn','gu','kn','ml','mr','or','pa','ta','te'].includes(language)) return null;
   const base=layouts[language] ?? layouts.en ?? [];
   const used=new Set(base.flatMap(letters));
-  const answerLetters = new Set((wordPacks[language]?.answers ?? []).flatMap(letters));
-  const extra=[...new Set((wordPacks[language]?.guesses ?? []).flatMap(letters))].filter(c=>!used.has(c) && /\p{L}/u.test(c) && (answerLetters.has(c) || (language === 'ru' || language === 'uk' ? /\p{Script=Cyrillic}/u.test(c) : language === 'el' ? /\p{Script=Greek}/u.test(c) : /\p{Script=Latin}/u.test(c))));
+  const answerLetters = new Set(scheduledPool('2026-11-13',language).flatMap(letters));
+  const extra=[...new Set([...answerLetters,...(wordPacks[language]?.guesses ?? []).flatMap(letters)])].filter(c=>!used.has(c) && /\p{L}/u.test(c) && (answerLetters.has(c) || (language === 'ru' || language === 'uk' ? /\p{Script=Cyrillic}/u.test(c) : language === 'el' ? /\p{Script=Greek}/u.test(c) : /\p{Script=Latin}/u.test(c))));
   const rows=base.map(letters);
   for(let i=0;i<extra.length;i+=11) rows.push(extra.slice(i,i+11));
   return rows;

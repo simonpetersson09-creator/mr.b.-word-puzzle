@@ -7,7 +7,7 @@ import { WordCelebration } from '@/components/word-celebration';
 import { GuessTile } from '@/components/guess-tile';
 import { useGuessReveal } from '@/hooks/use-guess-reveal';
 import { emptySave, evaluate, hasWon, isFinished, keyboardMarks, newRound, gameDate, submitGuess, activeSlot, roundKey, DAILY_WORDS, type Save } from '@/lib/ord/engine';
-import { initializeSave, loadSave, mergeRound, persistSave, flushNativeSave, onSaveError, SAVE_KEY } from '@/lib/ord/storage';
+import { initializeSave, loadSave, mergeRound, persistSave, flushNativeSave, retrySave, onSaveError, SAVE_KEY } from '@/lib/ord/storage';
 import { installViewportSync } from '@/lib/native/viewport';
 import { feedback } from '@/lib/native/feedback';
 import { deviceLanguage, setAppLanguage, useTranslation } from '@/lib/i18n';
@@ -38,6 +38,7 @@ function Index() {
   const [slot,setSlot]=useState(0);
   const [ready,setReady] = useState(false);
   const [input,setInput] = useState('');
+  const composing = useRef(false);
   const [message,setMessage] = useState('');
   const [panel,setPanel] = useState<Panel>(null);
   const reveal = useGuessReveal();
@@ -52,6 +53,9 @@ function Index() {
     pressTimers.current.set(letter,setTimeout(()=>{setPressedKeys(keys=>{const next={...keys};delete next[letter];return next;});pressTimers.current.delete(letter);},220));
   }
   const saveRef = useRef(save);
+  const saveNeedsRetry = useRef(false);
+  const recovering = useRef(false);
+  const recoveryAt = useRef(0);
   const desiredLanguage=save.settings.gameLanguage && save.settings.gameLanguage !== 'auto' ? save.settings.gameLanguage : phoneLanguage;
   const key=roundKey(date,slot);
   const todayRounds=useMemo(()=>Object.values(save.rounds).filter(r=>r.date===date),[save.rounds,date]);
@@ -79,11 +83,11 @@ function Index() {
   const marks = useMemo(()=>keyboardMarks(reveal.row === null ? round : {...round,guesses:round.guesses.slice(0,reveal.row)}),[round,reveal.row]);
   function commit(next: Save) {
     saveRef.current = next; setSave(next);
-    if (!persistSave(next)) setMessage(t('storage'));
+    if (!persistSave(next)) { saveNeedsRetry.current=true; setMessage(t('storage')); }
   }
   useEffect(() => {
     let mounted = true;
-    const unsubscribeErrors = onSaveError(() => { if (mounted) setMessage(t('storage')); });
+    const unsubscribeErrors = onSaveError(() => { saveNeedsRetry.current=true; if (mounted) setMessage(t('storage')); });
     void Promise.all([initializeSave(),deviceLanguage()]).then(([loaded,lang]) => {
       if (!mounted) return;
       saveRef.current = loaded; setSave(loaded); setPhoneLanguage(lang); setAppLanguage(loaded.settings.language && loaded.settings.language!=='auto' ? loaded.settings.language : lang); setDate(gameDate()); setSlot(activeSlot(loaded,gameDate())); setReady(true);
@@ -92,21 +96,35 @@ function Index() {
         if (active && !isFinished(active)) dailyAds.preload(roundKey(active.date,active.slot), active.guesses.length);
       });
     });
+    function recover() {
+      if (!saveNeedsRetry.current || recovering.current || Date.now()<recoveryAt.current) return;
+      recovering.current=true; recoveryAt.current=Date.now()+15000;
+      void retrySave(saveRef.current).then(loaded => {
+        if (!mounted) return;
+        let merged=loaded;
+        for (const r of Object.values(saveRef.current.rounds)) merged=mergeRound(merged,r);
+        merged={...merged,settings:saveRef.current.settings};
+        saveRef.current=merged; setSave(merged);
+        saveNeedsRetry.current=!persistSave(merged);
+        if (!saveNeedsRetry.current) setMessage('');
+      }).catch(() => { if(mounted) setMessage(t('storage')); }).finally(() => {recovering.current=false;});
+    }
     const cleanup = installViewportSync();
     const cleanupOpening=installOpeningListener(openWelcome);
     const languageChanged=()=>openWelcome();
     window.addEventListener('languagechange',languageChanged);
     function refreshDay() {
+      if (!document.hidden) recover();
       const current = gameDate();
       if (dateRef.current !== current) { dateRef.current=current; reveal.cancel(); setCelebrating(false); setDate(current); setSlot(activeSlot(saveRef.current,current)); setInput(''); setMessage(''); setPanel(null); }
     }
     function reload(event: StorageEvent) { if (event.key === SAVE_KEY) { reveal.cancel(); let updated=loadSave(); for (const round of Object.values(saveRef.current.rounds)) updated=mergeRound(updated,round); saveRef.current=updated; setSave(updated); setSlot(activeSlot(updated,gameDate())); setInput(''); } }
     const timer=setInterval(refreshDay,1000);
-    window.addEventListener('focus',refreshDay); document.addEventListener('visibilitychange',refreshDay); window.addEventListener('storage',reload);
-    return () => { mounted = false; unsubscribeErrors(); cleanup(); cleanupOpening(); window.removeEventListener('languagechange',languageChanged); clearInterval(timer); pressTimers.current.forEach(clearTimeout); window.removeEventListener('focus',refreshDay); document.removeEventListener('visibilitychange',refreshDay); window.removeEventListener('storage',reload); };
+    window.addEventListener('online',recover); window.addEventListener('focus',refreshDay); document.addEventListener('visibilitychange',refreshDay); window.addEventListener('storage',reload);
+    return () => { mounted = false; unsubscribeErrors(); cleanup(); cleanupOpening(); window.removeEventListener('languagechange',languageChanged); clearInterval(timer); pressTimers.current.forEach(clearTimeout); window.removeEventListener('online',recover); window.removeEventListener('focus',refreshDay); document.removeEventListener('visibilitychange',refreshDay); window.removeEventListener('storage',reload); };
   },[]);
   function enter() {
-    if (!ready || done || welcome || panel || celebrating || reveal.busy.current || !available) return;
+    if (!ready || done || welcome || panel || celebrating || reveal.busy.current || !available || composing.current) return;
     const currentDate=gameDate();
     if (currentDate !== date) { setDate(currentDate); setSlot(activeSlot(saveRef.current,currentDate)); setInput(''); setMessage(t('newWord')); return; }
     const latest=loadSave(), active=latest.rounds[key] ?? saveRef.current.rounds[key] ?? round;
@@ -126,8 +144,7 @@ function Index() {
     const showAd = panel === 'stats' && done;
     if (!showAd) { setPanel(null); return Promise.resolve(); }
     // Do not unlock the next word until the native ad has been dismissed.
-    const exit = flushNativeSave().then(() => dailyAds.afterResult(key,true))
-      .catch(() => setMessage(t('storage')))
+    const exit = flushNativeSave().catch(() => {saveNeedsRetry.current=true;setMessage(t('storage'));}).then(() => dailyAds.afterResult(key,true))
       .finally(() => { setPanel(null); resultExit.current=null; });
     resultExit.current=exit;
     return exit;
@@ -143,7 +160,7 @@ function Index() {
   });
   const formatted = new Intl.DateTimeFormat(language === 'no' ? 'nb' : language,{day:'numeric',month:'long',timeZone:'UTC'}).format(new Date(date+'T12:00:00Z'));
   return (
-    <div className="app-screen">
+    <div className={`app-screen ${rows && rows.length > 4 ? 'many-key-rows' : ''}`}>
       <header className="app-header"><nav className="header-tools header-tools-left" aria-label={t('rules')}>
         <Button className="tool-button" variant="ghost" disabled={reveal.row!==null} aria-label={t('rules')} title={t('rules')} onClick={() => setPanel('rules')}><CircleHelp /></Button>
       </nav><div className="brand"><div className="brand-label"><h1>Mr.B. Word Puzzle</h1><small>{`${t('word')} ${slot+1}/${DAILY_WORDS} · ${formatted}`}</small></div></div><nav className="header-tools header-tools-right" aria-label={t('settings')}>
@@ -157,7 +174,7 @@ function Index() {
           return Array.from({length:5},(_,col) => <GuessTile key={`${row}-${col}`} letter={chars[col]} mark={colors[col]} active={active} revealing={reveal.row===row} column={col} label={t('cell',{row:row+1,col:col+1,letter:chars[col] ?? t('empty')})+(reveal.row===null && colors[col] ? ', '+t(colors[col]) : '')} />);
         })}</div></div>
         <div className={`game-message ${message ? 'error' : ''}`} aria-live="polite">{message || (done && reveal.row===null ? (hasWon(round) ? t('found',{word:round.answer,count:round.guesses.length}) : t('answer',{word:round.answer})) : '')}<span className="sr-only">{!done && !message && reveal.row===null ? t('attempt',{count:round.guesses.length+1}) : ''}</span></div>
-        {!available ? <p className="game-message">{t('unavailable')}</p> : rows ? <div className={`keyboard ${eraseColumns <= 3 ? 'narrow-actions' : ''}`} aria-label={t('keyboard')} style={{'--key-columns':keyColumns,'--erase-columns':eraseColumns} as React.CSSProperties}>{rows.map((row,i) => <div className="key-row" key={i} style={{'--row-columns':row.length} as React.CSSProperties}>{row.map(c => <Button key={c} variant="secondary" className={`key ${marks[c] ?? ''} ${pressedKeys[c] ? 'key-pressed' : ''}`} disabled={!ready || done || welcome || reveal.row!==null || marks[c]==='absent'} onPointerDown={event=>{if(event.button===0 && marks[c]!=='absent') {event.preventDefault();type(c);}}} onClick={event => {if(event.detail===0) type(c);}} aria-label={t('letter',{letter:c})}><span className="key-letter">{c}</span>{pressedKeys[c] && <span className="key-pulse" key={pressedKeys[c]} aria-hidden="true" />}</Button>)}{i===rows.length-1 && <Button variant="secondary" className={`key erase-key ${pressedKeys['erase'] ? 'key-pressed' : ''}`} disabled={done || !ready || welcome || reveal.row!==null} onPointerDown={event=>{if(event.button===0) {event.preventDefault();erase();}}} onClick={event=>{if(event.detail===0) erase();}} aria-label={t('erase')} title={t('erase')}><Delete />{pressedKeys['erase'] && <span className="key-pulse" key={pressedKeys['erase']} aria-hidden="true" />}</Button>}</div>)}<Button className="guess-button" disabled={!ready || !available || welcome || reveal.row!==null} onClick={done ? () => setPanel('stats') : enter}>{done ? <ChartNoAxesColumnIncreasing /> : <ArrowRight />}{done ? t('result') : t('guess')}</Button></div> : <input className="word-input" value={input} disabled={!ready || done || welcome || reveal.row!==null} aria-label={t('typeWord')} autoCapitalize="characters" autoCorrect="off" autoComplete="off" spellCheck={false} onChange={event=>setInput(letters(uppercase(event.target.value,wordLanguage)).slice(0,5).join(''))} onKeyDown={event=>{if (event.key==='Enter') enter();}} />}
+        {!available ? <p className="game-message">{t('unavailable')}</p> : rows ? <div className={`keyboard ${eraseColumns <= 3 ? 'narrow-actions' : ''}`} aria-label={t('keyboard')} style={{'--key-columns':keyColumns,'--erase-columns':eraseColumns} as React.CSSProperties}>{rows.map((row,i) => <div className="key-row" key={i} style={{'--row-columns':row.length} as React.CSSProperties}>{row.map(c => <Button key={c} variant="secondary" className={`key ${marks[c] ?? ''} ${pressedKeys[c] ? 'key-pressed' : ''}`} disabled={!ready || done || welcome || reveal.row!==null || marks[c]==='absent'} onPointerDown={event=>{if(event.button===0 && marks[c]!=='absent') {event.preventDefault();type(c);}}} onClick={event => {if(event.detail===0) type(c);}} aria-label={t('letter',{letter:c})}><span className="key-letter">{c}</span>{pressedKeys[c] && <span className="key-pulse" key={pressedKeys[c]} aria-hidden="true" />}</Button>)}{i===rows.length-1 && <Button variant="secondary" className={`key erase-key ${pressedKeys['erase'] ? 'key-pressed' : ''}`} disabled={done || !ready || welcome || reveal.row!==null} onPointerDown={event=>{if(event.button===0) {event.preventDefault();erase();}}} onClick={event=>{if(event.detail===0) erase();}} aria-label={t('erase')} title={t('erase')}><Delete />{pressedKeys['erase'] && <span className="key-pulse" key={pressedKeys['erase']} aria-hidden="true" />}</Button>}</div>)}<Button className="guess-button" disabled={!ready || !available || welcome || reveal.row!==null} onClick={done ? () => setPanel('stats') : enter}>{done ? <ChartNoAxesColumnIncreasing /> : <ArrowRight />}{done ? t('result') : t('guess')}</Button></div> : <input className="word-input" value={input} disabled={!ready || done || welcome || reveal.row!==null} aria-label={t('typeWord')} autoCapitalize="characters" autoCorrect="off" autoComplete="off" spellCheck={false} onCompositionStart={()=>{composing.current=true;}} onCompositionEnd={event=>{composing.current=false;setInput(letters(uppercase(event.currentTarget.value,wordLanguage)).slice(0,5).join(''));}} onChange={event=>{const value=event.target.value;setInput(composing.current ? value : letters(uppercase(value,wordLanguage)).slice(0,5).join(''));}} onKeyDown={event=>{if (event.key==='Enter' && !event.nativeEvent.isComposing) enter();}} />}
         {!rows && <Button className="guess-button" disabled={!ready || !available || welcome || reveal.row!==null} onClick={done ? () => setPanel('stats') : enter}>{done ? <ChartNoAxesColumnIncreasing /> : <ArrowRight />}{done ? t('result') : t('guess')}</Button>}
       </main>
       {celebrating && <WordCelebration answer={round.answer} onComplete={finishCelebration} />}

@@ -6,7 +6,7 @@ export function installOpeningListener(onOpen: () => void): () => void {
   void import('@capacitor/app').then(async ({App})=>{
    const handle=await App.addListener('appStateChange',({isActive})=>{if (isActive && !disposed) onOpen();});
    if (disposed) void handle.remove(); else cleanup=()=>{void handle.remove();};
-  });
+  }).catch(() => { /* A missing native listener must not reject app startup. */ });
  } else {
   let hidden=document.hidden;
   const change=()=>{if (!document.hidden && hidden) onOpen();hidden=document.hidden;};

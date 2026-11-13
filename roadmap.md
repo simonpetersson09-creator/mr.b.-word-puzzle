@@ -1,4 +1,11 @@
 # Mr.B. Word Puzzle
+- [x] Skydda tilldelade svar med separat fryst schema; behåll minneskopian och återförsök efter tillfälliga sparfel.
+- [x] Granska alla 29 beroendefynd; uppdaterade paket ger tom bun audit och inga kända produktionssårbarheter. Djupgranskningens obehöriga rankningsskrivningar åtgärdade.
+- [x] Använd native Share/Clipboard för iOS/Android; reservvägar och avbruten delning testade, kopiering från resultatsidan verifierad.
+- [x] Vietnamesiska använder telefonens teckeninmatning med kompositionsskydd; stora tangentbord får höjdbegränsning och osynlig scroll. Alla 32 spelspråk kvar.
+- [x] 99 tester godkända; offlinegissning, återöppning, delning och mobilvyer verifierade. Fysiska telefonkontroller återstår separat.
+- [ ] Verifiera native delning, kopiering, vietnamesiskt systemtangentbord, processavslut/återstart och uppgradering på iOS/Android: kräver riktiga telefoner och synkroniserade nativeprojekt; Android-projekt saknas ännu.
+- [ ] Manipulationssäkra landsresultat: en djupgranskningsvarning kvarstår för självrapporterade offlinepoäng; kräver separat serververifiering/enhetsattestering utan att förlora offlinefunktionen.
 - [x] Skärp svarsordskontrollen: strikt positivt urval för alla 32 spelspråk från 2026-11-14, ingen reserv till ogranskade ord; sparade svar bevaras och 370 dagars treordsurval testas. Modersmålsgranskning av nyanser återstår enligt separat punkt.
 - [x] Prioritet 1: native generationsrensning, presentationsdeadline, verklig annonsstängning och återförsök; adapter-/patchtester godkända. Fysisk iPhone-annonskontroll återstår separat.
 - [x] Prioritet 2: deterministisk konfliktåterställning bevarar vinster och skyddar gissningshistorik/språk; regressionstester för sparade kopior godkända.

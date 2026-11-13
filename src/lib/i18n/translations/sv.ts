@@ -1,4 +1,5 @@
 export const sv = {
+  shareFailed: 'Det gick inte att dela eller kopiera resultatet. Försök igen.',
   welcomeReady: 'Redo för dagens ord?', welcomeFresh: 'Tre hemliga ord väntar på dig. Hur många hittar du idag?', welcomeWarmResume: 'Kul att se dig igen! Ditt ord väntar precis där du lämnade det.', welcomeWarmNext: 'Ett ord avklarat. Nästa hemlighet väntar på dig!', welcomeWarmDone: 'Snyggt jobbat idag! Dina resultat är sparade. Vi ses med tre nya ord imorgon.', welcomeSaved: 'Dina framsteg är sparade', welcomeBegin: 'Nu kör vi!',
 
   welcomeNext: 'Ett ord är klart. Fortsätt med nästa av dagens tre ord.',
