@@ -1,4 +1,4 @@
-# Mr. B Ord
+# Mr.B. Word Puzzle
 - [ ] Byt appnamn i app, samtliga språk och metadata utan att ändra sparnycklar eller spelregler.
 - [ ] Lägg till språkflaggor och kontrollera listans skärmkanter och lager.
 - [ ] Verifiera statistik och jämför samtyckesinställningar med Yatzy/Ludo; redovisa licenskrav och luckor.

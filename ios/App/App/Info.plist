@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>sv</string>
 	<key>CFBundleDisplayName</key>
-        <string>Mr. B Ord</string>
+        <string>Mr.B. Word Puzzle</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

@@ -25,7 +25,7 @@ export function OrdDialogs({ panel, close, save, round, setSettings, welcome, di
     return <Select value={save.settings[kind] ?? 'auto'} disabled={kind==='gameLanguage' && started} onValueChange={value=>{if (value==='auto' || value in languages) setSettings({...save.settings,[kind]:value});}}><SelectTrigger className="language-select" aria-label={t(kind)}><SelectValue /></SelectTrigger><SelectContent><SelectItem value="auto">{t('automatic')} · {languages[phoneLanguage]}</SelectItem>{Object.entries(languages).map(([code,label])=><SelectItem key={code} value={code} disabled={kind==='gameLanguage' && code!=='sv' && !wordPacks[code as Language]}>{label}</SelectItem>)}</SelectContent></Select>;
   }
   async function share() {
-    const text = `Mr. B Ord · ${round.date} · ${(round.slot ?? 0)+1}/3\n${hasWon(round) ? round.guesses.length : 'X'}/6\n\n` + round.guesses.map(g => evaluate(g, round.answer).map(m => ({ correct:'🟩', present:'🟨', absent:'⬜' })[m]).join('')).join('\n');
+    const text = `Mr.B. Word Puzzle · ${round.date} · ${(round.slot ?? 0)+1}/3\n${hasWon(round) ? round.guesses.length : 'X'}/6\n\n` + round.guesses.map(g => evaluate(g, round.answer).map(m => ({ correct:'🟩', present:'🟨', absent:'⬜' })[m]).join('')).join('\n');
     try {
       if (navigator.share) await navigator.share({ text });
       else { await navigator.clipboard.writeText(text); setCopied(true); }
@@ -33,7 +33,7 @@ export function OrdDialogs({ panel, close, save, round, setSettings, welcome, di
   }
   return <>
     <GameDialog open={welcome} onClose={dismissWelcome} title={started ? t('welcomeBack') : t('welcome')} description={t('dailyMoment')}>
-      <div className="welcome-body"><img className="welcome-mrb" src={mrB} alt="Mr. B" /><span className="welcome-brand">MR. B ORD</span><h2>{started ? t('welcomeBack') : t('welcome')}</h2><p className="welcome-tagline">{t('dailyMoment')}</p><div className="welcome-example" aria-hidden="true">{['M','R','.','B','!'].map((letter,i)=><span className={`tile ${i===0 || i===4 ? 'correct' : i===3 ? 'present' : ''}`} key={i}>{letter}</span>)}</div><p className="modal-description">{t(welcomeCopy)}</p><div className="welcome-language"><Globe2 /><span>{t('gameLanguage')}</span>{languagePicker('gameLanguage')}</div><Button className="welcome-play" onClick={dismissWelcome}><ArrowRight />{t(done ? 'result' : started ? 'resume' : 'start')}</Button><p className="next-puzzle">{t('next')}</p></div>
+      <div className="welcome-body"><img className="welcome-mrb" src={mrB} alt="Mr. B" /><span className="welcome-brand">Mr.B. Word Puzzle</span><h2>{started ? t('welcomeBack') : t('welcome')}</h2><p className="welcome-tagline">{t('dailyMoment')}</p><div className="welcome-example" aria-hidden="true">{['M','R','.','B','!'].map((letter,i)=><span className={`tile ${i===0 || i===4 ? 'correct' : i===3 ? 'present' : ''}`} key={i}>{letter}</span>)}</div><p className="modal-description">{t(welcomeCopy)}</p><div className="welcome-language"><Globe2 /><span>{t('gameLanguage')}</span>{languagePicker('gameLanguage')}</div><Button className="welcome-play" onClick={dismissWelcome}><ArrowRight />{t(done ? 'result' : started ? 'resume' : 'start')}</Button><p className="next-puzzle">{t('next')}</p></div>
     </GameDialog>
     <GameDialog open={panel === 'rules'} onClose={close} title={t('rules')} description={t('rulesIntro')}>
       <h2>{t('rules')}</h2><p className="modal-description">{t('rulesIntro')}</p>
@@ -61,7 +61,7 @@ export function OrdDialogs({ panel, close, save, round, setSettings, welcome, di
       <div className="setting-detail"><span>{t('changes')}</span><span>{t('localTime')}</span></div>
       {needsAdPrivacyOptions() && <Button variant="secondary" onClick={() => { void showAdPrivacyOptions(); }}>{t('adPrivacy')}</Button>}
       <Button variant="secondary" onClick={() => setLicensesOpen(true)}><BookOpen />{t('dictionary')}</Button>
-      <p className="license-note">Mr. B Ord · 1.0<br />{nativeAdsEnabled() ? t('adsOn') : t('adsOff')}</p>
+      <p className="license-note">Mr.B. Word Puzzle · 1.0<br />{nativeAdsEnabled() ? t('adsOn') : t('adsOff')}</p>
     </GameDialog>
     <GameDialog open={panel === 'settings' && licensesOpen} onClose={() => setLicensesOpen(false)} title={t('dictionary')} description={t('dictionary')}><h2>{t('dictionary')}</h2><WordLicenses /></GameDialog>
   </>;
