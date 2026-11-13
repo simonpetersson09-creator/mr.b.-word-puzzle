@@ -11,11 +11,11 @@ Daily Swedish game, immutable dated answer schedule, duplicate-letter scoring, k
 No account, service, tracking, or online dictionary is needed. The web preview is playable for verification; the native bundle packages all words, fonts and graphics for offline play. Save data is per-device local storage as requested.
 
 ## Native workflow
-Uses the existing TanStack router and a separate Vite local bundle, following Ludo/Sudoku. Own iOS bundle/Android application identifier: `se.shiningdays.mrbord`. No other project was changed.
+Uses the existing TanStack router and a separate Vite local bundle, following Ludo/Sudoku. Capacitor and own iOS identity: `se.shiningdays.mrbwordpuzzle`, explicitly requested for publication (previously `se.shiningdays.mrbord`). Native data under the former ID cannot migrate automatically to the new app sandbox; save keys and game rules remain unchanged. No other project was changed.
 
 1. `bun run native:web` builds the local `dist-native` package.
-2. `bunx cap add ios` / `bunx cap add android` generates Ord's own platform projects, then `bun run native:sync:ios` / `bun run native:sync:android`.
-3. Open with `bun run native:open:ios` / `bun run native:open:android`; sign and install using Xcode / Android Studio.
+2. `bun install --frozen-lockfile` then `bun run native:sync:ios` patches, builds, syncs and verifies the existing own iOS project; do not run `cap add ios` again. Android is outside this release request.
+3. Run `bun run native:verify:ios -- --release` then `bun run native:open:ios`, or archive/export with the new Mac scripts. See XCODE_READINESS.md for the supplied Apple team/profile and store steps.
 
 Ord's own iOS platform project is generated, including a Preferences privacy manifest (UserDefaults CA92.1), ATT usage text and Google's test application identifier. Native sync could not complete in this sandbox because the native asset bundle is not generated; run the documented native sync command on the release Mac. Store signing, icons/splash and actual iOS binaries remain unverified. Do not use another Mr. B app's signing identity or production AdMob IDs. Run `bun run native:verify:ios` for source-package checks.
 
@@ -28,6 +28,6 @@ Automated tests cover 03.00 device-local day boundaries in winter, summer, both 
 Browser flow verifies incomplete/invalid words retaining their letters, valid first guess, reload/resume, win, saved result after reload, statistics and mobile layouts. Reference images mentioned in the brief were not uploaded; only the Markdown brief was available.
 
 ## Remaining physical-device checks
-The 2026-11-13 settings comparison adds expandable ad privacy, known saved purpose choices, change-consent busy/error states, and inventory invalidation. The native reader patch is applied on dependency installation and must be compiled/tested on iPhone before advertising is activated. App display names have changed in all locales and native metadata; bundle identifiers, storage keys and immutable answer schedules are intentionally unchanged to preserve upgrades and statistics.
+The 2026-11-13 settings comparison adds expandable ad privacy, known saved purpose choices, change-consent busy/error states, and inventory invalidation. The native reader patch is applied on dependency installation and must be compiled/tested on iPhone before advertising is activated. App display names have changed in all locales and native metadata; storage keys and immutable answer schedules are unchanged; the explicit publication request now changes the bundle ID as documented above.
 
 Cold offline launch and app updates, safe areas/notch/home indicator, force-close/reopen after final guess, native write durability under forced termination, storage persistence under OS eviction, background/resume across local 03.00, timezone/clock changes, sound/silent mode, haptic toggles, sharing sheet, accessibility text scaling, release packaging/signing, app icon/splash, full SDK ad consent/ATT accept/deny/revoke and interstitial presentation. Test on a small iPhone before store submission. No compiled/signed iPhone binary has been produced or verified here.

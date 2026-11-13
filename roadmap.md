@@ -1,4 +1,5 @@
 # Mr.B. Word Puzzle
+- [x] Förbered GitHub/Xcode/App Store: angiven appidentitet/team/profil, delat Release-schema, patch → lokalt paket → sync → verifiering → archive/export samt Mac/Apple/GitHub-instruktioner; 59 tester godkända, faktisk signering/publicering återstår på Mac.
 - [x] Skapa ikon och två headerbilder i referensbildernas format och Mr. B-stil; iPhone-ikon, lokal startbild och favicon inlagda.
 - [x] Förbättra samtidiga/upprepade tangenttryck och ordvinst före resultat/annons; tre ord och omstart kontrollerade på telefon/dator.
 - [x] Skydda bevarad statistik mot misslyckade återläsningar/äldre sparning; granska Xcode-krav mot Yatzy/Ludo/Sudoku i XCODE_READINESS.md.
