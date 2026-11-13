@@ -21,7 +21,8 @@ describe('dictionary-independent schedules',()=>{
   for(const lang of ['sv',...Object.keys(wordPacks)] as Language[]) {
    const rows=keyboardRows(lang);if(!rows)continue;
    const keys=new Set(rows.flat());
-   for(const word of scheduledPool('2026-11-14',lang))for(const c of letters(word))expect(keys.has(c),`${lang}:${c}`).toBe(true);
+   const needed=new Set(scheduledPool('2026-11-14',lang).flatMap(letters));
+   for(const c of needed)expect(keys.has(c),`${lang}:${c}`).toBe(true);
   }
  });
 });

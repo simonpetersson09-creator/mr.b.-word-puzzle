@@ -33,6 +33,11 @@ use the editor.
 - Keep daily-game logic and licensed dictionaries separate from presentation; pure tests protect scoring and calendar rules.
 - Store all daily rounds in one device-local versioned snapshot with a recovery copy and a serialized native Preferences mirror; derive statistics from completed rounds to keep results idempotent across restarts and WebView eviction.
 - Retain immutable dated answer schedules and saved answers; app updates must not change already assigned puzzles.
+- Freeze schedules apart from dictionaries; changes need a new epoch to preserve assignments.
+- Use tested native Share/Clipboard adapters; cancellation is harmless and answers stay private.
+- Use native Vietnamese composition and bounded large keyboards; normalize after composition ends.
+- Retain failed commits in memory; reconcile native copies before retrying writes.
+- Require device-held capabilities for ranking writes; legacy RPC is read-only and local scores lack anti-cheat verification.
 - Keep the normal TanStack Start bootstrap and package native apps through a separate client-only root; local assets and word lists allow offline mobile play.
 - Show interstitials only at result exit with Word Puzzle's own hard-coded AdMob IDs (Google test unit in development); gameplay must never depend on ads.
 - Compute game-day keys from the device timezone's wall-clock parts; this preserves the daily boundary across daylight-saving transitions.
