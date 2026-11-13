@@ -26,6 +26,7 @@ export function dailyAnswer(date: string): string {
   const index = dayNumber(date) - dayNumber('2026-11-12');
   // The original dated schedule stays immutable. Subsequent cycles use a frozen
   // seeded shuffle: random order without changing the answer on restart/offline.
+  if (date >= ROTATION_EPOCH) return rotationAnswer(date, 'sv', 0);
   const candidates = scheduledPool(date, 'sv');
   if (date <= '2026-11-12') return candidates[((index % candidates.length) + candidates.length) % candidates.length] ?? '';
   if (!candidates.length) return '';

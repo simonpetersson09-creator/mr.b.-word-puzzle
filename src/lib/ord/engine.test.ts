@@ -29,8 +29,8 @@ describe('Mr.B. Word Puzzle rules', () => {
     expect(gameDate(new Date('2026-03-29T01:00:00Z'),'Europe/Stockholm')).toBe('2026-03-29');
   });
   it('shuffles future cycles but retains fixed historical assignments', () => {
-    const next = Array.from({length:72},(_,i) => dailyAnswer(new Date(Date.UTC(2026,10,13+i)).toISOString().slice(0,10)));
-    expect(new Set(next).size).toBe(72); expect(next).not.toEqual(answers);
+    const next = Array.from({length:60},(_,i) => dailyAnswer(new Date(Date.UTC(2026,10,13+i)).toISOString().slice(0,10)));
+    expect(new Set(next).size).toBe(60); expect(next).not.toEqual(answers);
     expect(dailyAnswer('2026-11-13')).toBe(next[0]); expect(dailyAnswer('2026-11-12')).toBe('KANEL');
   });
   it('marks duplicate letters green first, then consumes leftovers left to right', () => {

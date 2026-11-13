@@ -114,10 +114,11 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .key-letter { position: relative; z-index: 1; }
 .key-pulse { position: absolute; inset: 2px; border: 2px solid var(--primary-foreground); border-radius: inherit; pointer-events: none; animation: key-pulse .22s ease-out; }
 @keyframes key-pulse { from { transform: scale(.55); opacity: 1; } to { transform: scale(1); opacity: 0; } }
-.word-celebration { position: fixed; inset: 0; z-index: 49; background: var(--overlay); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 30px; padding: 24px; }
+.word-celebration { position: fixed; inset: 0; z-index: 49; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 18px; padding: 24px 16px calc(24px + env(safe-area-inset-bottom)); background: linear-gradient(to top, var(--background) 0%, var(--background) 38%, transparent 62%); }
+.celebration-actions { position: relative; display: flex; flex-direction: column; align-items: stretch; gap: 6px; width: min(100%, 360px); }
 .word-celebration canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .word-celebration-copy { position: relative; text-align: center; font-family: var(--font-display); }
-.word-celebration-copy h2 { font-size: 28px; margin: 0 0 22px; color: var(--primary-light); animation: word-win-pop .6s ease-out; }
+.word-celebration-copy h2 { font-size: 28px; margin: 0 0 8px; color: var(--primary-light); animation: word-win-pop .6s ease-out; }
 .word-celebration-copy strong { display: block; font-size: 36px; color: var(--foreground); }
 .celebration-continue { position: relative; color: var(--primary-light); min-height: 44px; }
 @keyframes word-win-pop { from { opacity: 0; transform: scale(.65); } to { opacity: 1; transform: scale(1); } }

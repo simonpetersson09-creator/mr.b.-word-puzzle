@@ -141,11 +141,11 @@ function Index() {
   function erase() { if(!ready || done || welcome || panel || celebrating || reveal.busy.current) return; flashKey('erase'); setMessage(''); setInput(prior => letters(prior).slice(0,-1).join('')); }
   function closePanel() {
     if (resultExit.current) return resultExit.current;
-    const showAd = panel === 'stats' && done;
+    const showAd = (panel === 'stats' || celebrating) && done;
     if (!showAd) { setPanel(null); return Promise.resolve(); }
     // Do not unlock the next word until the native ad has been dismissed.
     const exit = flushNativeSave().catch(() => {saveNeedsRetry.current=true;setMessage(t('storage'));}).then(() => dailyAds.afterResult(key,true))
-      .finally(() => { setPanel(null); resultExit.current=null; });
+      .finally(() => { setPanel(null); setCelebrating(false); resultExit.current=null; });
     resultExit.current=exit;
     return exit;
   }
@@ -177,7 +177,7 @@ function Index() {
         {!available ? <p className="game-message">{t('unavailable')}</p> : rows ? <div className={`keyboard ${eraseColumns < 2 ? 'narrow-actions' : ''}`} aria-label={t('keyboard')} style={{'--key-columns':keyColumns,'--erase-columns':eraseColumns} as React.CSSProperties}>{rows.map((row,i) => <div className="key-row" key={i} style={{'--row-columns':row.length} as React.CSSProperties}>{row.map(c => <Button key={c} variant="secondary" className={`key ${marks[c] ?? ''} ${pressedKeys[c] ? 'key-pressed' : ''}`} disabled={!ready || done || welcome || reveal.row!==null || marks[c]==='absent'} onPointerDown={event=>{if(event.button===0 && marks[c]!=='absent') {event.preventDefault();type(c);}}} onClick={event => {if(event.detail===0) type(c);}} aria-label={t('letter',{letter:c})}><span className="key-letter">{c}</span>{pressedKeys[c] && <span className="key-pulse" key={pressedKeys[c]} aria-hidden="true" />}</Button>)}{i===rows.length-1 && <Button variant="secondary" className={`key erase-key ${pressedKeys['erase'] ? 'key-pressed' : ''}`} disabled={done || !ready || welcome || reveal.row!==null} onPointerDown={event=>{if(event.button===0) {event.preventDefault();erase();}}} onClick={event=>{if(event.detail===0) erase();}} aria-label={t('erase')} title={t('erase')}><Delete />{pressedKeys['erase'] && <span className="key-pulse" key={pressedKeys['erase']} aria-hidden="true" />}</Button>}</div>)}<Button className="guess-button" disabled={!ready || !available || welcome || reveal.row!==null} onClick={done ? () => setPanel('stats') : enter}>{done ? <ChartNoAxesColumnIncreasing /> : <ArrowRight />}{done ? t('result') : t('guess')}</Button></div> : <input className="word-input" value={input} disabled={!ready || done || welcome || reveal.row!==null} aria-label={t('typeWord')} autoCapitalize="characters" autoCorrect="off" autoComplete="off" spellCheck={false} onCompositionStart={()=>{composing.current=true;}} onCompositionEnd={event=>{composing.current=false;setInput(letters(uppercase(event.currentTarget.value,wordLanguage)).slice(0,5).join(''));}} onChange={event=>{const value=event.target.value;setInput(composing.current ? value : letters(uppercase(value,wordLanguage)).slice(0,5).join(''));}} onKeyDown={event=>{if (event.key==='Enter' && !event.nativeEvent.isComposing) enter();}} />}
         {!rows && <Button className="guess-button" disabled={!ready || !available || welcome || reveal.row!==null} onClick={done ? () => setPanel('stats') : enter}>{done ? <ChartNoAxesColumnIncreasing /> : <ArrowRight />}{done ? t('result') : t('guess')}</Button>}
       </main>
-      {celebrating && <WordCelebration answer={round.answer} onComplete={finishCelebration} />}
+      {celebrating && <WordCelebration answer={round.answer} dailyDone={dailyDone} onNext={()=>{void Promise.resolve(closePanel()).then(nextWord);}} onResult={finishCelebration} />}
       <OrdDialogs welcome={ready && welcome && !panel} dismissWelcome={()=>{setWelcome(false); if(done) setPanel('stats');}} nextWord={nextWord} dailyDone={dailyDone} phoneLanguage={phoneLanguage} panel={panel} close={closePanel} save={save} round={round} setSettings={settings => {commit({...saveRef.current,settings});setAppLanguage(settings.language && settings.language!=='auto' ? settings.language : phoneLanguage);setInput('');}} />
     </div>
   );
