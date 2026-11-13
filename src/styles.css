@@ -68,19 +68,20 @@ body { -webkit-tap-highlight-color: transparent; }
 button { touch-action: manipulation; }
 button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .app-screen { min-height: 540px; height: var(--app-dvh, 100dvh); display: flex; flex-direction: column; overflow: hidden; padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
-.app-header { width: 100%; max-width: 470px; margin: 0 auto; padding: 18px 15px 10px; display: grid; grid-template-columns: 87px minmax(0, 1fr) 87px; align-items: center; flex-shrink: 0; }
+.app-header { width: 100%; max-width: 470px; margin: 0 auto; padding: 18px 15px 12px; display: grid; grid-template-columns: 87px minmax(0, 1fr) 87px; align-items: center; flex-shrink: 0; border-bottom: 1px solid color-mix(in srgb, var(--primary) 14%, transparent); }
 .brand { display: flex; align-items: center; justify-content: center; gap: 9px; min-width: 0; }
 .brand img { width: 38px; height: 46px; object-fit: contain; flex-shrink: 0; }
-.brand-label { font-family: var(--font-display); font-size: 17px; font-weight: 700; white-space: nowrap; }
+.brand-label { font-family: var(--font-display); font-size: 17px; font-weight: 700; white-space: nowrap; color: var(--primary); letter-spacing: 0.4px; }
 .brand-label h1 { margin: 0; font: inherit; white-space: normal; line-height: 1.15; overflow-wrap: normal; }
 .brand-label { min-width: 0; }
 .brand-label { text-align: center; }
-.brand-label small { display: block; font-family: var(--font-sans); font-size: 9px; font-weight: 500; color: var(--muted-foreground); margin-top: 3px; text-transform: uppercase; }
-.header-tools { display: flex; gap: 7px; flex-shrink: 0; }
+.brand-label small { display: block; font-family: var(--font-sans); font-size: 9px; font-weight: 600; color: var(--muted-foreground); margin-top: 4px; text-transform: uppercase; letter-spacing: 1.6px; }
+.header-tools { display: flex; gap: 8px; flex-shrink: 0; }
 .header-tools-right { justify-content: flex-end; }
-.tool-button { width: 40px; height: 40px; color: var(--muted-foreground); border: 1px solid var(--border); border-radius: 6px; background: transparent; }
-.tool-button:hover { color: var(--primary); background: var(--secondary); }
-.tool-button svg { width: 18px; height: 18px; }
+.tool-button { width: 40px; height: 40px; color: var(--primary); border: 1px solid color-mix(in srgb, var(--primary) 28%, transparent); border-radius: 10px; background: color-mix(in srgb, var(--primary) 7%, transparent); box-shadow: 0 1px 3px hsl(195 60% 6% / 0.35); transition: background 140ms ease, border-color 140ms ease, transform 100ms ease; }
+.tool-button:hover { background: color-mix(in srgb, var(--primary) 16%, transparent); border-color: color-mix(in srgb, var(--primary) 45%, transparent); }
+.tool-button:active { transform: scale(0.93); }
+.tool-button svg { width: 19px; height: 19px; }
 .game { flex: 1; min-height: 0; width: min(100%, 470px); margin: 0 auto; padding: 0 15px 10px; display: flex; flex-direction: column; align-items: center; }
 .board-zone { display: flex; flex: 1; min-height: 0; width: 100%; align-items: center; justify-content: center; container-type: size; margin: 4px 0 0; }
 .board { --board-w: min(100cqw, calc((100cqh - var(--board-gap) / 5) * 5 / 6)); width: var(--board-w); --board-letter-size: calc((var(--board-w) - 4 * var(--board-gap)) * 0.08); display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); grid-template-rows: repeat(6, auto); gap: var(--board-gap); }
@@ -203,7 +204,7 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
   .board { --board-w: min(400px, 100cqw, calc((100cqh - var(--board-gap) / 5) * 5 / 6)); }
 }
 @media (max-width: 600px) {
-  .app-header { padding: 12px 15px 7px; grid-template-columns: 74px minmax(0, 1fr) 74px; } .brand { gap: 6px; } .brand img { width: 24px; height: 34px; } .brand-label { font-size: 16px; } .brand-label small { font-size: 8px; margin-top: 2px; } .tool-button { width: 34px; height: 34px; } .tool-button svg { width: 16px; height: 16px; } .header-tools { gap: 6px; }
+  .app-header { padding: 12px 15px 9px; grid-template-columns: 74px minmax(0, 1fr) 74px; } .brand { gap: 6px; } .brand img { width: 24px; height: 34px; } .brand-label { font-size: 16px; } .brand-label small { font-size: 8px; margin-top: 3px; letter-spacing: 1.2px; } .tool-button { width: 36px; height: 36px; border-radius: 9px; } .tool-button svg { width: 17px; height: 17px; } .header-tools { gap: 7px; }
   .game { padding: 0 15px 8px; } .board { --board-gap: 4px; } .key { height: 44px; font-size: 14px; } .keyboard { width: calc(100% + 14px); --key-gap: 4px; }
 }
 @media (max-height: 760px) {
