@@ -15,6 +15,13 @@
       "when": 1794567905562,
       "tag": "0001_protect_ranking_device_writes",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794572194809,
+      "tag": "0002_bound_ranking_score_growth",
+      "breakpoints": true
     }
   ]
 }
