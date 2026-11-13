@@ -54,7 +54,7 @@ export function OrdDialogs({ panel, close, save, round, setSettings, welcome, di
   const goalPct = Math.round((stats.current - prevGoal) / Math.max(1, goal - prevGoal) * 100);
   const done = isFinished(round), started=Object.values(save.rounds).some(r=>r.date===round.date && r.guesses.length>0);
   const openingState = welcomeState(save,round);
-  const welcomeCopy = openingState === 'complete' ? 'welcomeWarmDone' : openingState === 'next' ? 'welcomeWarmNext' : openingState === 'resume' ? 'welcomeWarmResume' : 'welcomeFresh';
+  const welcomeCopy = openingState === 'complete' ? 'welcomeWarmDone' : openingState === 'next' || (openingState === 'new' && started) ? 'welcomeWarmNext' : openingState === 'resume' ? 'welcomeWarmResume' : 'welcomeFresh';
   function languagePicker(kind:'language'|'gameLanguage') {
     return <Select value={save.settings[kind] ?? 'auto'} disabled={kind==='gameLanguage' && started} onValueChange={value=>{if (value==='auto' || value in languages) setSettings({...save.settings,[kind]:value});}}><SelectTrigger className="language-select" aria-label={t(kind)}><SelectValue /></SelectTrigger><SelectContent className="language-options"><SelectItem value="auto">{languageFlags[phoneLanguage]} {t('automatic')} · {languages[phoneLanguage]}</SelectItem>{Object.entries(languages).map(([code,label])=><SelectItem key={code} value={code} disabled={kind==='gameLanguage' && code!=='sv' && !wordPacks[code as Language]}>{languageFlags[code as Language]} {label}</SelectItem>)}</SelectContent></Select>;
   }
