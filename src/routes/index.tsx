@@ -138,7 +138,7 @@ function Index() {
     <div className="app-screen">
       <header className="app-header"><nav className="header-tools header-tools-left" aria-label={t('rules')}>
         <Button className="tool-button" variant="ghost" aria-label={t('rules')} title={t('rules')} onClick={() => setPanel('rules')}><CircleHelp /></Button>
-      </nav><div className="brand"><img src={mrB} alt="" /><div className="brand-label"><h1>Mr.B. Word Puzzle</h1><small>{`${t('word')} ${slot+1}/${DAILY_WORDS} · ${formatted}`}</small></div></div><nav className="header-tools header-tools-right" aria-label={t('settings')}>
+      </nav><div className="brand"><div className="brand-label"><h1>Mr.B. Word Puzzle</h1><small>{`${t('word')} ${slot+1}/${DAILY_WORDS} · ${formatted}`}</small></div></div><nav className="header-tools header-tools-right" aria-label={t('settings')}>
         <Button className="tool-button" variant="ghost" aria-label={t('stats')} title={t('stats')} onClick={() => setPanel('stats')}><ChartNoAxesColumnIncreasing /></Button>
         <Button className="tool-button" variant="ghost" aria-label={t('settings')} title={t('settings')} onClick={() => setPanel('settings')}><Settings2 /></Button>
       </nav></header>
