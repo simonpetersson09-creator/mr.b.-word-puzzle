@@ -1,8 +1,9 @@
 # Mr.B. Word Puzzle
-- [ ] Prioritet 1: robust resultatutgång, native annonsrensning vid samtyckesbyte, återförsök och skydd för överlappande helskärmsflöden; fysisk annonskontroll krävs separat.
-- [ ] Prioritet 2: deterministisk konfliktåterställning som bevarar vinster och skyddar redan lagda gissningar/språk; regressionstesta lokala och native kopior.
-- [ ] Prioritet 4: fungerande Gissa/Radera på ryska och mobilspel i liggande läge utan klippt tangentbord.
-- [ ] Prioritet 5: förbättra språktexter och ordurval inför släpp utan att ändra sparade svar; språkens lanseringsomfattning inväntar Simons val.
+- [x] Prioritet 1: native generationsrensning, presentationsdeadline, verklig annonsstängning och återförsök; adapter-/patchtester godkända. Fysisk iPhone-annonskontroll återstår separat.
+- [x] Prioritet 2: deterministisk konfliktåterställning bevarar vinster och skyddar gissningshistorik/språk; regressionstester för sparade kopior godkända.
+- [x] Prioritet 4: rysk Gissa/Radera har användbar bredd och lika breda bokstavstangenter; liggande mobilspel får synlig spelplan och tangentbord.
+- [x] Prioritet 5: alla 32 spelspråk kvar; saknade texter kompletterade för 38 lokaler, identifierade olämpliga svar filtreras först från 2026-11-14 och sparade/historiska ord bevaras.
+- [ ] Full modersmålsgranskning av översättningar och alla internationella ordlistor: kräver språkgranskare; den automatiska kompletteringen och konservativa svarsrensningen är inte en sådan certifiering.
 - [x] Dölj spelarantal, ta bort spelljud och ljudreglage, kontrollera vibrationer med adaptertester och förnya välkomsten utan headerbild eller ändrade spelregler; svenska/engelska och små skärmar verifierade. Fysisk vibrationskontroll återstår på iPhone.
 - [x] Matcha avstånd vid Gissa/Radera, visa nya gissningar bokstav för bokstav med snurreffekt; lås dubbelinmatning, minska upprepade ordlisteberäkningar och kontrollera vinst, återöppning, statistik samt telefon-/datorvyer utan ändrad spellogik.
 - [x] Gör om ikon och headerbilder med Ludo-referensens ursprungliga hattform och blanka 3D-kvalitet; tydlig monokel, inga gula rutor efter löst rad och transparent välkomstbild; uppdatera iOS-bilder och kontrollera telefonvyn.
@@ -31,7 +32,7 @@
 - [x] Förbered egen mobilidentitet och dokumentera annons- och enhetsverifiering som återstår.
 - [x] Säkerställ en runda per lokal speldag med byte klockan 03.00, giltiga ord och statistik/svit; automatiska tester och mobilflöde verifierade.
 - [x] Förbered mellanannonser och förladdning enligt Ludos placerings-, samtyckes- och cacheprinciper.
-- [ ] Aktivera/verifiera annonser: väntar på Ord-appens egna annons-ID:n från Simon och fysisk iPhone-testning av UMP/ATT/visning.
+- [ ] Verifiera annonser: egna Word Puzzle-ID:n är införda; kräver fysisk iPhone-testning av UMP/ATT/visning och AdMob-kontots aktivering.
 - [x] Förstora Radera utan att flytta andra knappar.
 - [x] Kontrollera och dokumentera underlagen och återstående krav för iPhone-släpp; eget iOS-projekt och integritetsmanifest skapade.
 - [x] Slutverifiera iPhone-paket: ikon/startbild finns; kräver Mac/Xcode, fullständig native sync, pluginlänkning, signering och fysisk enhetstestning.

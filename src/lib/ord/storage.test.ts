@@ -8,6 +8,24 @@ vi.mock('@capacitor/preferences', () => ({ Preferences: {
 import { emptySave, newRound, submitGuess, statistics } from './engine';
 import { initializeSave, loadSave, persistSave, flushNativeSave, mergeRound, onSaveError, SAVE_KEY, BACKUP_KEY, RECOVERY_KEY } from './storage';
 describe('iPhone result durability', () => {
+  it('keeps a witnessed win over a conflicting completed loss in every mirror order',()=>{
+    const won=emptySave(),lost=emptySave();
+    won.rounds['2026-11-12']={date:'2026-11-12',answer:'KANEL',guesses:['KANEL']};
+    lost.rounds['2026-11-12']={date:'2026-11-12',answer:'KANEL',guesses:Array(6).fill('TIGER')};
+    for(const [a,b] of [[won,lost],[lost,won]]) {
+      localStorage.setItem(SAVE_KEY,JSON.stringify(a));localStorage.setItem(BACKUP_KEY,JSON.stringify(b));
+      localStorage.setItem(RECOVERY_KEY,JSON.stringify(lost));
+      expect(statistics(loadSave().rounds,'2026-11-12')).toMatchObject({played:1,wins:1,current:1});
+    }
+  });
+  it('rejects rewritten attempts rather than replacing an existing guess with a first-guess win',()=>{
+    const save=emptySave();save.rounds['2026-11-12']={date:'2026-11-12',answer:'TIGER',guesses:['KANEL']};
+    expect(mergeRound(save,{date:'2026-11-12',answer:'TIGER',guesses:['TIGER']})).toBe(save);
+  });
+  it('locks the saved language even when both languages assign the same answer',()=>{
+    const save=emptySave();save.rounds['2026-11-12']={date:'2026-11-12',answer:'TIGER',guesses:['KANEL']};
+    expect(mergeRound(save,{date:'2026-11-12',answer:'TIGER',language:'en',guesses:['KANEL','TIGER']})).toBe(save);
+  });
   beforeEach(async () => { await flushNativeSave().catch(() => {}); localStorage.clear(); native.values.clear(); native.readFailures.clear(); native.writeFailures.clear(); await initializeSave();localStorage.clear();native.values.clear();native.set.mockClear(); });
   it('never replaces native history when all reads fail and later writes would succeed',async()=>{
     const save=mergeRound(emptySave(),submitGuess(newRound('2026-11-12'),'KANEL').round);

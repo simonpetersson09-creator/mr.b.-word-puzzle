@@ -1,6 +1,20 @@
 import { describe, expect, it, vi } from 'vitest';
 import { AD_TTL, createDailyAds } from './interstitial';
 describe('daily interstitial policy', () => {
+  it('retries initialization after a temporary consent error without requiring a restart',async()=>{
+    const adapter={consent:vi.fn().mockRejectedValueOnce(new Error('offline')).mockResolvedValue(true),prepare:vi.fn().mockResolvedValue(undefined),show:vi.fn().mockResolvedValue(undefined)};
+    const ads=createDailyAds(adapter);expect(await ads.initialize()).toBe(false);expect(await ads.initialize()).toBe(true);
+    ads.preload('2026-11-13',1);await ads.settled();await ads.afterResult('2026-11-13',true);expect(adapter.show).toHaveBeenCalledTimes(1);
+  });
+  it('renews the same rounds expired inventory after 45 minutes',async()=>{
+    let now=1000;const adapter={consent:async()=>true,prepare:vi.fn().mockResolvedValue(undefined),show:vi.fn().mockResolvedValue(undefined)};
+    const ads=createDailyAds(adapter,()=>now);await ads.initialize();ads.preload('2026-11-13',1);await ads.settled();now+=AD_TTL;
+    ads.preload('2026-11-13',2);await ads.settled();expect(adapter.prepare).toHaveBeenCalledTimes(2);
+  });
+  it('never gives one rounds prepared inventory to a different round',async()=>{
+    const adapter={consent:async()=>true,prepare:async()=>{},show:vi.fn()};const ads=createDailyAds(adapter);await ads.initialize();ads.preload('2026-11-13',1);await ads.settled();
+    await ads.afterResult('2026-11-13:2',true);expect(adapter.show).not.toHaveBeenCalled();
+  });
   it('rejects stale preload inventory after consent changes and permits fresh preload', async () => {
     let finish: () => void = () => {};
     const adapter = {consent:vi.fn().mockResolvedValue(true),prepare:vi.fn().mockImplementationOnce(()=>new Promise<void>(resolve=>{finish=resolve;})).mockResolvedValue(undefined),show:vi.fn().mockResolvedValue(undefined)};
