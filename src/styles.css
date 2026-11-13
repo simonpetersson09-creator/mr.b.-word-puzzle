@@ -106,6 +106,8 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .keyboard { width: 100%; display: flex; flex-direction: column; gap: var(--key-gap); flex-shrink: 0; --key-gap: 5px; --key-w: calc((100% - (var(--key-columns,11) - 1) * var(--key-gap)) / var(--key-columns,11)); }
 .key-row { display: grid; grid-template-columns: repeat(var(--row-columns,11), var(--key-w)); gap: var(--key-gap); width: 100%; justify-content: center; }
 .key-row:last-of-type { margin-inline: 0; grid-template-columns: repeat(var(--row-columns,7), var(--key-w)) minmax(0,1fr); justify-content: stretch; }
+.keyboard.narrow-actions .key-row:last-of-type { grid-template-columns: repeat(var(--row-columns), var(--key-w)); }
+.keyboard.narrow-actions .erase-key { grid-column: 1 / -1; justify-self: end; width: 110px; }
 .key { padding: 0; min-width: 0; height: 46px; font-family: var(--font-display); font-size: 13px; font-weight: 700; border-radius: 5px; background: var(--key); color: var(--key-ink); border: 1px solid var(--key-border); box-shadow: var(--key-shadow); }
 .key:hover { filter: brightness(1.08); }
 .key { position: relative; overflow: hidden; }
