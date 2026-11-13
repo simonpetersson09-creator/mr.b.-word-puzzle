@@ -1,4 +1,5 @@
 import type {Language} from '@/lib/i18n/languages';
+import {approvedAnswers, APPROVED_ANSWERS_EPOCH} from './approved-answers';
 
 // Frozen v1 pools stay intact. Only new dates from this epoch use editorial screening.
 export const ANSWER_POLICY_EPOCH='2026-11-14';
@@ -25,6 +26,9 @@ export const excludedAnswers:Partial<Record<Language,readonly string[]>>={
 };
 export function answerPool(date:string,language:Language,frozen:readonly string[]):readonly string[]{
  if(date<ANSWER_POLICY_EPOCH)return frozen;
- const excluded=new Set(excludedAnswers[language] ?? []);
- return frozen.filter(word=>!excluded.has(word));
+ const normalize=(word:string)=>word.normalize('NFC').toLocaleUpperCase(language === 'no' ? 'nb' : language === 'el' ? 'und' : language);
+ const excluded=new Set((excludedAnswers[language] ?? []).map(normalize));
+ const approved=new Set((approvedAnswers[language] ?? []).map(normalize));
+ // Fail closed: unreviewed words and languages cannot supply new daily answers.
+ return frozen.filter(word=>!excluded.has(normalize(word)) && (date<APPROVED_ANSWERS_EPOCH || approved.has(normalize(word))));
 }
