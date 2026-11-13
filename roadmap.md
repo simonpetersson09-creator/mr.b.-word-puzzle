@@ -1,4 +1,5 @@
 # Mr.B. Word Puzzle
+- [ ] Anpassa iPad stående/liggande och mindre fönster utan ändrade spelregler; verifiera spelning och dialoger, leverera tre svenska/engelska iPad-bilder samt befintliga iPhone-bilder.
 - [x] Färdigställt iOS-underlag: UMP-reservstatus, 40 registrerade ATT-resurser, positivt urval för osparade legacyord, full native sync med sju plugins, 108 godkända tester och release-källkontroll OK; lokalt iOS-innehåll spelat och återladdat utan runtimefel. Fysisk iPhone/Xcode återstår separat.
 - [x] Samlad kontroll 2026-11-13: 102 tester, 27 telefon/språkkombinationer, tre vinstord och reload, iPhone 15-bilder, simulerade skyddszoner samt jämförelse med Yatzy/Ludo. Produktionsaudit utan fynd; release-verifiering stoppas av osynkat nativepaket. Inga speländringar under granskningen.
 - [x] Rättat UMP-reserven: native returnerar verklig privacyOptionsRequirementStatus; UNKNOWN raderar inte REQUIRED.
