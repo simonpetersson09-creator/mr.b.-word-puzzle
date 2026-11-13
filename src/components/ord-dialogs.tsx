@@ -2,6 +2,7 @@ import * as Switch from '@radix-ui/react-switch';
 import { Share2, Volume2, Vibrate, Check, ArrowRight, Globe2, ShieldCheck, ChevronRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import mrB from '@/assets/mr-b.png';
+import wordHeader from '@/assets/word-puzzle-header-wide.png';
 import { Button } from './ui/button';
 import { GameDialog } from './ui/game-dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
@@ -57,7 +58,7 @@ export function OrdDialogs({ panel, close, save, round, setSettings, welcome, di
   }
   return <>
     <GameDialog open={welcome} onClose={dismissWelcome} title={started ? t('welcomeBack') : t('welcome')} description={t('dailyMoment')}>
-      <div className="welcome-body"><img className="welcome-mrb" src={mrB} alt="Mr. B" /><span className="welcome-brand">Mr.B. Word Puzzle</span><h2>{started ? t('welcomeBack') : t('welcome')}</h2><p className="welcome-tagline">{t('dailyMoment')}</p><div className="welcome-example" aria-hidden="true">{['M','R','.','B','!'].map((letter,i)=><span className={`tile ${i===0 || i===4 ? 'correct' : i===3 ? 'present' : ''}`} key={i}>{letter}</span>)}</div><p className="modal-description">{t(welcomeCopy)}</p><div className="welcome-language"><Globe2 /><span>{t('gameLanguage')}</span>{languagePicker('gameLanguage')}</div><Button className="welcome-play" onClick={dismissWelcome}><ArrowRight />{t(done ? 'result' : started ? 'resume' : 'start')}</Button><p className="next-puzzle">{t('next')}</p></div>
+      <div className="welcome-body"><img className="welcome-word-header" src={wordHeader} alt="Mr.B. Word Puzzle" /><h2>{started ? t('welcomeBack') : t('welcome')}</h2><p className="welcome-tagline">{t('dailyMoment')}</p><div className="welcome-example" aria-hidden="true">{['M','R','.','B','!'].map((letter,i)=><span className={`tile ${i===0 || i===4 ? 'correct' : i===3 ? 'present' : ''}`} key={i}>{letter}</span>)}</div><p className="modal-description">{t(welcomeCopy)}</p><div className="welcome-language"><Globe2 /><span>{t('gameLanguage')}</span>{languagePicker('gameLanguage')}</div><Button className="welcome-play" onClick={dismissWelcome}><ArrowRight />{t(done ? 'result' : started ? 'resume' : 'start')}</Button><p className="next-puzzle">{t('next')}</p></div>
     </GameDialog>
     <GameDialog open={panel === 'rules'} onClose={close} title={t('rules')} description={t('rulesIntro')}>
       <h2>{t('rules')}</h2><p className="modal-description">{t('rulesIntro')}</p>

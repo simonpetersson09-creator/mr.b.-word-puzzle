@@ -97,6 +97,17 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .key-row:last-of-type { width: min(100%, calc(100% * var(--row-columns,8) / var(--key-columns,11))); margin-inline: auto; }
 .key { padding: 0; min-width: 0; height: 46px; font-family: var(--font-display); font-size: 13px; font-weight: 700; border-radius: 5px; background: var(--key); color: var(--key-ink); border: 1px solid var(--key-border); box-shadow: var(--key-shadow); }
 .key:hover { filter: brightness(1.08); }
+.key { position: relative; overflow: hidden; }
+.key-letter { position: relative; z-index: 1; }
+.key-pulse { position: absolute; inset: 2px; border: 2px solid var(--primary-foreground); border-radius: inherit; pointer-events: none; animation: key-pulse .22s ease-out; }
+@keyframes key-pulse { from { transform: scale(.55); opacity: 1; } to { transform: scale(1); opacity: 0; } }
+.word-celebration { position: fixed; inset: 0; z-index: 49; background: var(--overlay); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 30px; padding: 24px; }
+.word-celebration canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.word-celebration-copy { position: relative; text-align: center; font-family: var(--font-display); }
+.word-celebration-copy h2 { font-size: 28px; margin: 0 0 22px; color: var(--primary-light); animation: word-win-pop .6s ease-out; }
+.word-celebration-copy strong { display: block; font-size: 36px; color: var(--foreground); }
+.celebration-continue { position: relative; color: var(--primary-light); min-height: 44px; }
+@keyframes word-win-pop { from { opacity: 0; transform: scale(.65); } to { opacity: 1; transform: scale(1); } }
 .key:active, .key.key-pressed { transform: translateY(2px); }
 .key:disabled { opacity: .65; }
 .key svg { width: 19px; height: 19px; }
@@ -106,6 +117,7 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .key:active, .key.key-pressed { background: var(--key-pressed-fill); color: var(--key-pressed-ink); border-color: var(--primary); box-shadow: var(--key-pressed-ring); filter: none; }
 .word-input { width: 100%; height: 48px; background: var(--secondary); color: var(--foreground); border: 1px solid var(--primary); border-radius: 6px; text-align: center; font: 22px var(--font-display); }
 .welcome-body { text-align: center; }
+.welcome-word-header { display: block; width: 100%; aspect-ratio: 3840 / 1646; object-fit: contain; margin: 0 auto 18px; }
 .welcome-mrb { width: 64px; height: 84px; object-fit: contain; margin: 0 auto 10px; }
 .welcome-brand { display: block; font-family: var(--font-display); color: var(--primary); font-size: 12px; margin-bottom: 18px; }
 .welcome-body h2 { font-size: 22px; line-height: 1.35; overflow-wrap: anywhere; }
