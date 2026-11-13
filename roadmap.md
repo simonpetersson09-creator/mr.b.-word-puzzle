@@ -1,5 +1,5 @@
 # Mr.B. Word Puzzle
-- [ ] Skärp svarsordskontrollen på samtliga spelspråk utan att ändra redan tilldelade ord; testa säkert urval och dagliga rundor.
+- [x] Skärp svarsordskontrollen: strikt positivt urval för alla 32 spelspråk från 2026-11-14, ingen reserv till ogranskade ord; sparade svar bevaras och 370 dagars treordsurval testas. Modersmålsgranskning av nyanser återstår enligt separat punkt.
 - [x] Prioritet 1: native generationsrensning, presentationsdeadline, verklig annonsstängning och återförsök; adapter-/patchtester godkända. Fysisk iPhone-annonskontroll återstår separat.
 - [x] Prioritet 2: deterministisk konfliktåterställning bevarar vinster och skyddar gissningshistorik/språk; regressionstester för sparade kopior godkända.
 - [x] Prioritet 4: rysk Gissa/Radera har användbar bredd och lika breda bokstavstangenter; liggande mobilspel får synlig spelplan och tangentbord.

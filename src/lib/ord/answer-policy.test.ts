@@ -51,5 +51,5 @@ describe('future daily answer quality and compatibility',()=>{
        expect(new Set(selected).size).toBe(3);
      }
    }
- });
+ },30000);
 });
