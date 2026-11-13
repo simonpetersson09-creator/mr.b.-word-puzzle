@@ -17,7 +17,7 @@ export function WordCelebration({ answer, onComplete }: { answer: string; onComp
     const colors = ['--primary','--primary-light','--correct','--foreground'].map(key => css.getPropertyValue(key).trim());
     const parts = Array.from({length:160}, (_,i) => {
       const left = i%2===0, angle = (left ? -1.05 : -2.09)+(Math.random()-.5)*.8, speed = 9+Math.random()*10;
-      return {x:left ? 0 : W,y:H*.75,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,rot:Math.random()*6,color:colors[i%colors.length] ?? colors[0],w:4+Math.random()*5};
+      return {x:left ? 0 : W,y:H*.75,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,rot:Math.random()*6,color:colors[i%colors.length] ?? css.getPropertyValue('--primary').trim(),w:4+Math.random()*5};
     });
     let raf = 0, last = performance.now();
     const loop = (now:number) => {
