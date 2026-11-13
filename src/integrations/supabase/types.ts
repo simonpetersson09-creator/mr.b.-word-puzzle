@@ -14,13 +14,44 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      player_scores: {
+        Row: {
+          country: string
+          device_id: string
+          played: number
+          updated_at: string
+          wins: number
+        }
+        Insert: {
+          country: string
+          device_id: string
+          played?: number
+          updated_at?: string
+          wins?: number
+        }
+        Update: {
+          country?: string
+          device_id?: string
+          played?: number
+          updated_at?: string
+          wins?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      submit_score: {
+        Args: {
+          p_country: string
+          p_device: string
+          p_played: number
+          p_wins: number
+        }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never
