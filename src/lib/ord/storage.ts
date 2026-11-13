@@ -1,5 +1,5 @@
 import { Capacitor } from '@capacitor/core';
-import { emptySave, isFinished, roundKey, DAILY_WORDS, type Save, type Round } from './engine';
+import { emptySave, hasWon, isFinished, roundKey, DAILY_WORDS, type Save, type Round } from './engine';
 import { languages, type Language } from '@/lib/i18n/languages';
 import { letters } from './words/localized';
 // Adapted from Ludo: SSR-safe local storage, separate namespace, guarded reads.
@@ -36,6 +36,21 @@ function decode(text: string | null): Save | null {
     return { version: 1, rounds, settings: { sound: value.settings?.sound !== false, haptics: value.settings?.haptics !== false, ...(language ? {language} : {}), ...(gameLanguage ? {gameLanguage} : {}) } };
   } catch { return null; }
 }
+const samePuzzle = (a: Round, b: Round) => a.answer === b.answer && (a.language ?? 'sv') === (b.language ?? 'sv');
+const extendsHistory = (earlier: Round, later: Round) => samePuzzle(earlier,later) && earlier.guesses.every((guess,index)=>later.guesses[index] === guess);
+function recoverRound(primary: Round, backup: Round): Round {
+  // A witnessed win is never downgraded by a conflicting completed mirror.
+  if (hasWon(primary) !== hasWon(backup)) { reportError(); return hasWon(primary) ? primary : backup; }
+  if (extendsHistory(backup,primary)) return primary;
+  if (extendsHistory(primary,backup)) return backup;
+  // Divergent histories cannot be concatenated. Preserve a finished ledger entry,
+  // then use a stable tie-break so mirror order cannot change statistics.
+  reportError();
+  if (isFinished(primary) !== isFinished(backup)) return isFinished(primary) ? primary : backup;
+  if (primary.guesses.length !== backup.guesses.length) return primary.guesses.length > backup.guesses.length ? primary : backup;
+  const identity = (r: Round) => JSON.stringify([r.answer,r.language ?? 'sv',r.guesses]);
+  return identity(primary) <= identity(backup) ? primary : backup;
+}
 function combine(primary: Save | null, backup: Save | null): Save {
   let result = backup ?? emptySave();
   if (!primary) return result;
@@ -43,7 +58,7 @@ function combine(primary: Save | null, backup: Save | null): Save {
   const rounds = {...result.rounds};
   for (const [key,round] of Object.entries(primary.rounds)) {
     const existing=rounds[key];
-    if (!existing || (!isFinished(existing) && existing.answer===round.answer && existing.guesses.length<=round.guesses.length)) rounds[key]=round;
+    rounds[key] = existing ? recoverRound(round,existing) : round;
   }
   result={...result,rounds};
   return { ...result, settings: primary.settings };
@@ -121,6 +136,6 @@ export function mergeRound(save: Save, round: Round): Save {
   // Additional words unlock in order, not by changing the language or key.
   for(let prior=0;prior<slot;prior++) { const r=save.rounds[roundKey(round.date,prior)]; if (!r || !isFinished(r)) return save; }
   const key=roundKey(round.date,slot), existing = save.rounds[key];
-  if (existing && (isFinished(existing) || existing.answer !== round.answer || existing.guesses.length > round.guesses.length)) return save;
+  if (existing && (isFinished(existing) || !extendsHistory(existing,round))) return save;
   return { ...save, rounds: { ...save.rounds, [key]: round } };
 }
