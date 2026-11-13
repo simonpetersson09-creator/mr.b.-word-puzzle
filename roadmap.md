@@ -1,4 +1,8 @@
 # Mr.B. Word Puzzle
+- [ ] Prioritet 1: robust resultatutgång, native annonsrensning vid samtyckesbyte, återförsök och skydd för överlappande helskärmsflöden; fysisk annonskontroll krävs separat.
+- [ ] Prioritet 2: deterministisk konfliktåterställning som bevarar vinster och skyddar redan lagda gissningar/språk; regressionstesta lokala och native kopior.
+- [ ] Prioritet 4: fungerande Gissa/Radera på ryska och mobilspel i liggande läge utan klippt tangentbord.
+- [ ] Prioritet 5: förbättra språktexter och ordurval inför släpp utan att ändra sparade svar; språkens lanseringsomfattning inväntar Simons val.
 - [x] Dölj spelarantal, ta bort spelljud och ljudreglage, kontrollera vibrationer med adaptertester och förnya välkomsten utan headerbild eller ändrade spelregler; svenska/engelska och små skärmar verifierade. Fysisk vibrationskontroll återstår på iPhone.
 - [x] Matcha avstånd vid Gissa/Radera, visa nya gissningar bokstav för bokstav med snurreffekt; lås dubbelinmatning, minska upprepade ordlisteberäkningar och kontrollera vinst, återöppning, statistik samt telefon-/datorvyer utan ändrad spellogik.
 - [x] Gör om ikon och headerbilder med Ludo-referensens ursprungliga hattform och blanka 3D-kvalitet; tydlig monokel, inga gula rutor efter löst rad och transparent välkomstbild; uppdatera iOS-bilder och kontrollera telefonvyn.
