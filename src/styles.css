@@ -67,7 +67,7 @@ html, body { margin: 0; background: var(--background); color: var(--foreground);
 body { -webkit-tap-highlight-color: transparent; }
 button { touch-action: manipulation; }
 button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
-.app-screen { min-height: 540px; height: var(--app-dvh, 100dvh); display: flex; flex-direction: column; overflow: hidden; padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
+.app-screen { min-height: 0; height: var(--app-dvh, 100dvh); display: flex; flex-direction: column; overflow: hidden; padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
 .app-header { width: 100%; max-width: 470px; margin: 0 auto; padding: 18px 15px 12px; display: grid; grid-template-columns: 87px minmax(0, 1fr) 87px; align-items: center; flex-shrink: 0; border-bottom: 1px solid color-mix(in srgb, var(--primary) 14%, transparent); }
 .brand { display: flex; align-items: center; justify-content: center; gap: 9px; min-width: 0; }
 .brand img { width: 38px; height: 46px; object-fit: contain; flex-shrink: 0; }
@@ -171,7 +171,7 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .privacy-content dd { margin: 0; max-width: 40%; text-align: right; color: var(--primary); }
 .privacy-error { color: var(--destructive); }
 .stat-metrics span { overflow-wrap: anywhere; }
-.guess-button { width: calc(var(--erase-columns) * var(--key-w) + (var(--erase-columns) - 1) * var(--key-gap)); max-width: 100%; align-self: flex-end; height: 42px; flex-shrink: 0; background: var(--gold-fill); color: var(--primary-foreground); margin: 0; font-family: var(--font-display); font-weight: 700; border-radius: 5px; box-shadow: var(--shadow); }
+.guess-button { width: max(110px, calc(var(--erase-columns) * var(--key-w) + (var(--erase-columns) - 1) * var(--key-gap))); max-width: 100%; align-self: flex-end; height: 42px; flex-shrink: 0; background: var(--gold-fill); color: var(--primary-foreground); margin: 0; font-family: var(--font-display); font-weight: 700; border-radius: 5px; box-shadow: var(--shadow); }
 .guess-button:hover { filter: brightness(1.05); }
 .modal-overlay { position: fixed; inset: 0; z-index: 50; background: var(--overlay); backdrop-filter: blur(5px); }
 .modal { position: fixed; z-index: 51; top: 50%; left: 50%; transform: translate(-50%,-50%); width: min(420px, calc(100% - 28px)); max-height: calc(100dvh - 44px); overflow-y: auto; scrollbar-width: none; border: 1px solid var(--border); background: var(--card); padding: 26px 25px 22px; border-radius: 8px; box-shadow: var(--shadow); }
@@ -243,6 +243,20 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 }
 @media (max-width: 600px) {
   .game { padding-bottom: 24px; }
+}
+@media (orientation: landscape) and (max-height: 600px) {
+  .app-header { max-width: none; padding: 4px max(12px, env(safe-area-inset-right)) 4px max(12px, env(safe-area-inset-left)); }
+  .game { width: 100%; max-height: none; margin: 0; padding: 4px max(12px, env(safe-area-inset-right)) 8px max(12px, env(safe-area-inset-left)); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; gap: 4px 18px; }
+  .board-zone { grid-column: 1; grid-row: 1 / 3; height: 100%; margin: 0; }
+  .keyboard, .word-input { grid-column: 2; grid-row: 1; align-self: center; width: 100%; }
+  .game-message { grid-column: 2; grid-row: 2; overflow-wrap: anywhere; }
+  .word-input + .guess-button { grid-column: 2; grid-row: 2; justify-self: end; }
+  .game:has(.word-input) .game-message { grid-row: 3; }
+  .board { --board-w: min(100cqw, calc((100cqh - var(--board-gap)) * 5 / 6)); }
+  .key { height: 32px; font-size: 12px; }
+  .guess-button { height: 34px; }
+  .keyboard { max-height: 100%; overflow-y: auto; scrollbar-width: none; }
+  .keyboard::-webkit-scrollbar { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 
