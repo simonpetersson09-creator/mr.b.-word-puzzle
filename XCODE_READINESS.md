@@ -7,6 +7,9 @@
 - New 1024×1024 opaque app icon, two family headers at 3840×1646 and 3840×2560, branded local splash and favicon. Header exports are enlarged from generated artwork, not native 3840-detail renders.
 - Word-win confetti before the result screen. Advertisement attempts remain on result exit, never while playing.
 - Result ledger with native primary/backup and an older recovery generation; inconclusive native reads and unsupported payloads block overwrite.
+- Verified 2026-11-13: current local bundle copied to iOS, configuration regenerated and all seven plugins linked by Capacitor SPM. Release source/sync checks pass; this is not a signed Xcode build.
+- ATT explanations for all 40 app locales are registered as InfoPlist.strings variant resources (Norwegian uses Apple's nb identifier). The system dialog follows iOS's preferred app language, not the in-game selector. Native-speaker wording review remains advised.
+- UMP's persisted-eligibility reader returns REQUIRED/NOT_REQUIRED/UNKNOWN explicitly; unknown refresh status retains required privacy access.
 
 ## Required on the release Mac
 1. Install with `bun install --frozen-lockfile` using Bun and Node.js 22+ (applies the consent-reader patch). Use an App Store-accepted Xcode/iOS SDK.
@@ -28,11 +31,14 @@
 
 ## Not verified / not supplied here
 - No Xcode/Mac toolchain, simulator, signed archive or physical-device test is available in this sandbox.
-- Current source checkout has not been native-synced: iOS public/index.html, capacitor.config.json and plugin links still need generation.
-- Real AdMob app/unit IDs, final UMP message and complete ad-network list. Ads remain disabled by the verification gate.
-- ATT uses UMP → ATT → initialization, but lacks Yatzy/Ludo's full native active-presenter lifecycle/cache patch suite. The shared consent-reader patch is not full parity; do not activate ads before adapting and device-testing those protections against the installed plugin version.
-- Validate ATT after UMP, accept/deny/revoke, background/foreground and result-exit ads for all three words. Match final privacy manifests/App Store declarations to actual SDK behavior and localize permission text.
+- Word Puzzle's production AdMob IDs are configured and consent/interstitial patches installed; live AdMob/UMP configuration, actual fill and network eligibility remain unverified.
+- ATT follows UMP → ATT → initialization, with native consent presenter binding and inventory generations/deadlines. The installed Swift code still needs compilation and physical UIKit/SDK verification.
+- Validate ATT after UMP, accept/deny/revoke, offline saved consent, unknown status, background/foreground and result-exit ads for all three words. No-fill and stalled non-visible presentation must not block navigation; a visible ad must be dismissed before advancing.
+- Verify all localized native ATT dialogs and resource packaging on Xcode/iPhone; structural tests do not establish Apple's actual language selection or linguistic review.
 - Own published privacy/support details, App Store screenshots/descriptions/age rating, reviewed locale word pools and the eight missing dictionaries.
 
 ## Statistics limitations
 No automatic or annual reset is implemented (unlike Ludo's annual display). Restart, older snapshots, later-slot recovery and temporary native read failures are regression-tested. Absolute permanence cannot be promised: uninstall, user-cleared app data, device loss or simultaneous loss of all copies cannot be recovered without external backup. Storage failure is reported instead of silently overwriting known results; a blocked recovery must be retried after reopening. Save keys and frozen schedules are unchanged. IMPORTANT: the requested new ID is a separate native sandbox from the former `se.shiningdays.mrbord`; old native installations cannot automatically transfer local statistics to the new app ID. Updates after first release must retain the new ID.
+
+## Answer safety
+Unsaved legacy rounds are now restricted to frozen positive approvals as well. Saved answers (including excluded historical ones) stay untouched and winnable; historical guesses and statistics are not rewritten. All 32 playable languages remain available. The old dictionaries are retained for guess validation/licensing, never promoted automatically to new answers.
