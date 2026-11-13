@@ -68,7 +68,7 @@ const adapter: AdAdapter = {
       listeners.push(await mod.AdMob.addListener(mod.InterstitialAdPluginEvents.Dismissed, finish));
       listeners.push(await mod.AdMob.addListener(mod.InterstitialAdPluginEvents.FailedToShow, finish));
       await mod.AdMob.showInterstitial();
-      await dismissed;
+      await Promise.race([dismissed, new Promise<void>(r => setTimeout(r, 120000))]);
     } finally { await Promise.all(listeners.map(l => l.remove().catch(() => {}))); }
   },
 };
