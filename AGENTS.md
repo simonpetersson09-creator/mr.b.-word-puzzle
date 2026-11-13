@@ -63,4 +63,5 @@ use the editor.
 - Keep the legacy sound field in saved snapshots for compatibility, but never initialize audio; route vibration through the guarded native haptics adapter so unavailable device feedback cannot block play.
 - Reconcile save mirrors by compatible guess prefixes, preserving witnessed wins on conflict and using deterministic ties with an error notification; normal commits must retain the saved answer, language and guess prefix.
 - Patch the installed iOS interstitial executor reproducibly with native inventory generations and presentation deadlines; never treat a timeout as dismissal of a visible ad, and suppress foreground welcome during fullscreen ad/consent transitions.
-- Keep future answer pools behind a frozen positive approval list and exclusion check, with an explicit epoch and saved-round compatibility; never fall back to unreviewed dictionary entries, and require editorial review for additions. Native-speaker review remains necessary for nuance.
+- Screen unsaved legacy answers through frozen approvals; preserve saved answers and schedules. New approvals require editorial/native-speaker review.
+- Generate ATT variant resources from the 40-language registry; preserve UMP REQUIRED on unknown refresh status and return native privacy eligibility.

@@ -6,6 +6,23 @@ import type {Language} from '@/lib/i18n/languages';
 import {approvedAnswers} from './words/approved-answers';
 import {answers} from './words/answers';
 describe('future daily answer quality and compatibility',()=>{
+ it('screens every unsaved legacy round in all 32 languages without modifying a saved historical answer',()=>{
+   for(const language of ['sv',...Object.keys(wordPacks)] as Language[]) {
+     for(const date of ['2026-11-12','2026-11-13']) {
+       const selected:string[]=[];
+       for(let slot=0;slot<3;slot++) {
+         const round=newRound(date,language,slot,selected);
+         expect(approvedAnswers[language]?.includes(round.answer),`${language}:${date}:${slot}`).toBe(true);
+         expect(excludedAnswers[language]?.includes(round.answer)).not.toBe(true);
+         selected.push(round.answer);
+       }
+       expect(new Set(selected).size).toBe(3);
+     }
+   }
+   const saved={date:'2026-11-13',answer:'ПУТІН',language:'uk' as const,guesses:[]};
+   expect(submitGuess(saved,'ПУТІН').round.answer).toBe('ПУТІН');
+   expect(submitGuess(saved,'ПУТІН').round.guesses).toEqual(['ПУТІН']);
+ });
  it('rejects unapproved answers, even when they are absent from the exclusion list',()=>{
    expect(answerPool('2026-11-14','en',['WATER','SHITS','BITCH','TRUMP','UNREVIEWED'])).toEqual(['WATER']);
    expect(answerPool('2026-11-14','sv',['KANEL','KUKEN','HOROR'])).toEqual(['KANEL']);

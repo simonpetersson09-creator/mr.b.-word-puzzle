@@ -1,6 +1,22 @@
 import { describe, expect, it, vi } from 'vitest';
 import { AD_TTL, createDailyAds } from './interstitial';
 describe('daily interstitial policy', () => {
+  it('exits every completed word when loading never completes, without waiting for an unavailable ad',async()=>{
+    const adapter={consent:async()=>true,prepare:()=>new Promise<void>(()=>{}),show:vi.fn()};
+    const ads=createDailyAds(adapter);await ads.initialize();
+    ads.preload('2026-11-13',1);
+    await ads.afterResult('2026-11-13',true);
+    expect(adapter.show).not.toHaveBeenCalled();
+    ads.invalidate();
+  });
+  it('keeps result exit nonblocking after presentation rejection for each of three words',async()=>{
+    const adapter={consent:async()=>true,prepare:async()=>{},show:vi.fn().mockRejectedValue(new Error('no fill'))};
+    const ads=createDailyAds(adapter);await ads.initialize();
+    for(const id of ['2026-11-13','2026-11-13:2','2026-11-13:3']) {
+      ads.preload(id,1);await ads.settled();await expect(ads.afterResult(id,true)).resolves.toBeUndefined();
+    }
+    expect(adapter.show).toHaveBeenCalledTimes(3);
+  });
   it('retries initialization after a temporary consent error without requiring a restart',async()=>{
     const adapter={consent:vi.fn().mockRejectedValueOnce(new Error('offline')).mockResolvedValue(true),prepare:vi.fn().mockResolvedValue(undefined),show:vi.fn().mockResolvedValue(undefined)};
     const ads=createDailyAds(adapter);expect(await ads.initialize()).toBe(false);expect(await ads.initialize()).toBe(true);

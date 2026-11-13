@@ -7,6 +7,16 @@ export function scheduledPool(date: string, language: Language): readonly string
  const pools: Partial<Record<Language, readonly string[]>> = date < ANSWER_POLICY_EPOCH ? schedule.legacy : schedule.approved;
  return pools[language] ?? [];
 }
+// Only unsaved legacy rounds are screened. The immutable schedules and persisted
+// answers remain intact; use the frozen approved pool, not a mutable dictionary.
+export function unsavedAnswerPool(date: string, language: Language): readonly string[] {
+ const frozen = scheduledPool(date, language);
+ if (date >= ANSWER_POLICY_EPOCH) return frozen;
+ const allowed = new Set<string>((schedule.approved as Partial<Record<Language, string[]>>)[language] ?? []);
+ const blocked = new Set(excludedAnswers[language] ?? []);
+ const safe = frozen.filter(word => allowed.has(word) && !blocked.has(word));
+ return safe.length >= 3 ? safe : ((schedule.approved as Partial<Record<Language, string[]>>)[language] ?? []).filter(word => !blocked.has(word));
+}
 
 // Frozen v1 pools stay intact. Only new dates from this epoch use editorial screening.
 export const ANSWER_POLICY_EPOCH='2026-11-14';

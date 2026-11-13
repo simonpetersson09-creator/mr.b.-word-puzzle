@@ -19,7 +19,7 @@
     "native:open:ios": "cap open ios",
     "native:open:android": "cap open android",
     "native:verify:ios": "node scripts/verify-ios.mjs",
-    "native:patch:ios": "node scripts/patch-admob-consent.mjs ios",
+    "native:patch:ios": "node scripts/prepare-att-locales.mjs && node scripts/patch-admob-consent.mjs ios",
     "native:archive:ios": "bash scripts/archive-ios.sh",
     "native:export:ios": "bash scripts/archive-ios.sh --export"
   },
