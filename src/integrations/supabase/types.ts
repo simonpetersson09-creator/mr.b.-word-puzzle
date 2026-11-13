@@ -21,6 +21,7 @@ export type Database = {
           played: number
           updated_at: string
           wins: number
+          write_token_hash: string | null
         }
         Insert: {
           country: string
@@ -28,6 +29,7 @@ export type Database = {
           played?: number
           updated_at?: string
           wins?: number
+          write_token_hash?: string | null
         }
         Update: {
           country?: string
@@ -35,6 +37,7 @@ export type Database = {
           played?: number
           updated_at?: string
           wins?: number
+          write_token_hash?: string | null
         }
         Relationships: []
       }
@@ -43,15 +46,26 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      submit_score: {
-        Args: {
-          p_country: string
-          p_device: string
-          p_played: number
-          p_wins: number
-        }
-        Returns: Json
-      }
+      submit_score:
+        | {
+            Args: {
+              p_country: string
+              p_device: string
+              p_played: number
+              p_wins: number
+            }
+            Returns: Json
+          }
+        | {
+            Args: {
+              p_country: string
+              p_device: string
+              p_played: number
+              p_token: string
+              p_wins: number
+            }
+            Returns: Json
+          }
     }
     Enums: {
       [_ in never]: never
