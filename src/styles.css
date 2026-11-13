@@ -117,6 +117,7 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .key:active, .key.key-pressed { background: var(--key-pressed-fill); color: var(--key-pressed-ink); border-color: var(--primary); box-shadow: var(--key-pressed-ring); filter: none; }
 .word-input { width: 100%; height: 48px; background: var(--secondary); color: var(--foreground); border: 1px solid var(--primary); border-radius: 6px; text-align: center; font: 22px var(--font-display); }
 .welcome-body { text-align: center; }
+.welcome-word-header { display: block; width: 100%; aspect-ratio: 3840 / 1646; object-fit: contain; margin: 0 auto 18px; }
 .welcome-mrb { width: 64px; height: 84px; object-fit: contain; margin: 0 auto 10px; }
 .welcome-brand { display: block; font-family: var(--font-display); color: var(--primary); font-size: 12px; margin-bottom: 18px; }
 .welcome-body h2 { font-size: 22px; line-height: 1.35; overflow-wrap: anywhere; }

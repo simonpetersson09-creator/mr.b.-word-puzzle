@@ -14,3 +14,10 @@ const checks = [
 ];
 for (const [label, passed] of checks) { console.log(`${passed ? 'OK' : 'FAIL'}: ${label}`); if (!passed) process.exitCode = 1; }
 console.log('UNVERIFIED: Xcode archive/signing, device tests, full ad-network list, store privacy declarations, icons/splash and Ord production ad IDs. Ads remain gated off.');
+const packagePath='ios/App/CapApp-SPM/Package.swift';
+const spm=existsSync(packagePath) ? read(packagePath) : '';
+for (const [label,passed] of [
+  ['synced offline web bundle',existsSync('ios/App/App/public/index.html')],
+  ['synced Capacitor config',existsSync('ios/App/App/capacitor.config.json')],
+  ['native plugins linked', ['CapacitorPreferences','CapacitorApp','CapacitorDevice','CapacitorHaptics','CapacitorCommunityAdmob'].every(name=>spm.includes(name))],
+]) {console.log(`${passed ? 'OK' : 'PENDING'}: ${label}`);if (!passed && process.argv.includes('--release')) process.exitCode=1;}

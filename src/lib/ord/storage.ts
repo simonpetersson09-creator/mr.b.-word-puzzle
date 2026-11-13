@@ -94,8 +94,10 @@ export function persistSave(save: Save): boolean {
     nativeWrites = nativeWrites.catch(() => {}).then(async () => {
       const { Preferences } = await import('@capacitor/preferences');
       // Preserve the prior generation separately; never rotate from an unreadable store.
-      const old=await Preferences.get({key:SAVE_KEY});
-      if (old.value && decode(old.value)) await Preferences.set({key:RECOVERY_KEY,value:old.value});
+      try {
+        const old=await Preferences.get({key:SAVE_KEY});
+        if (old.value && decode(old.value)) await Preferences.set({key:RECOVERY_KEY,value:old.value});
+      } catch {reportError();}
       // Attempt both copies even if one fails; keep failures observable to flush callers.
       const writes = await Promise.allSettled([Preferences.set({ key: SAVE_KEY, value: snapshot }), Preferences.set({ key: BACKUP_KEY, value: snapshot })]);
       const failure = writes.find(result => result.status === 'rejected');
