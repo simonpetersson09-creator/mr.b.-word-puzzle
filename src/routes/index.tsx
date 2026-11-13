@@ -14,7 +14,7 @@ import { deviceLanguage, setAppLanguage, useTranslation } from '@/lib/i18n';
 import { type Language } from '@/lib/i18n/languages';
 import { keyboardRows, letters, uppercase, wordPacks } from '@/lib/ord/words/localized';
 import { installOpeningListener } from '@/lib/native/opening';
-import { dailyAds, initializeAds } from '@/lib/native/interstitial';
+import { dailyAds, initializeAds, isAdFlowBusy } from '@/lib/native/interstitial';
 
 export const Route = createFileRoute("/")({
   head: () => ({ meta: [
@@ -65,6 +65,7 @@ function Index() {
   const keyColumns=rows ? Math.max(...rows.map(row=>row.length)) : 0;
   const eraseColumns=rows ? keyColumns-(rows[rows.length-1]?.length ?? 0) : 0;
   function openWelcome() {
+    if (isAdFlowBusy() || resultExit.current) return;
     reveal.cancel();
     const current = gameDate();
     setCelebrating(false);
@@ -72,6 +73,7 @@ function Index() {
     dateRef.current = current;
     setDate(current); setSlot(activeSlot(saveRef.current,current)); setPanel(null); setMessage(''); setWelcome(true);
     void deviceLanguage().then(lang=>{setPhoneLanguage(lang); const choice=saveRef.current.settings.language; setAppLanguage(choice && choice!=='auto' ? choice : lang);});
+    void initializeAds().then(()=>{const active=saveRef.current.rounds[roundKey(current,activeSlot(saveRef.current,current))];if(active && !isFinished(active))dailyAds.preload(roundKey(active.date,active.slot),active.guesses.length);});
   }
   const done = isFinished(round);
   const marks = useMemo(()=>keyboardMarks(reveal.row === null ? round : {...round,guesses:round.guesses.slice(0,reveal.row)}),[round,reveal.row]);
