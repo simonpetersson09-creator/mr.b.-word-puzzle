@@ -53,3 +53,4 @@ use the editor.
 - Keep per-key press pulses independent and submit pointer input on press-down; concurrent touch events must not overwrite each other's visible feedback or duplicate click input.
 - Show a reduced-motion-aware word-win celebration before result exit; it must never run on restored results or move advertisement presentation into gameplay.
 - Prepare iOS via the patched local-bundle → Capacitor sync → verified shared Release scheme → archive/export pipeline; Debug uses automatic development signing and Release uses the explicitly supplied distribution profile, with source checks guarding identity/team/profile to prevent accidental cross-app signing. Never change save keys when configuring a new store identity.
+- Country percentile uses an anonymous random device id and the phone locale's region via a security-definer RPC; the table is not readable by clients and offline play hides the card.
