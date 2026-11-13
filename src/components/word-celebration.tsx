@@ -1,16 +1,17 @@
 import { useEffect, useRef } from 'react';
 import { Button } from './ui/button';
+import { ArrowRight } from 'lucide-react';
 import { useTranslation } from '@/lib/i18n';
 
 /** Sudoku-family confetti cannons, adapted to a word result without changing play. */
-export function WordCelebration({ answer, onComplete }: { answer: string; onComplete: () => void }) {
+export function WordCelebration({ answer, dailyDone, onNext, onResult }: { answer: string; dailyDone: boolean; onNext: () => void; onResult: () => void }) {
+  const busy = useRef(false);
   const canvas = useRef<HTMLCanvasElement>(null);
   const { t } = useTranslation();
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const timer = setTimeout(onComplete, reduced ? 900 : 2800);
     const cv = canvas.current, g = cv?.getContext('2d');
-    if (!cv || !g || reduced) return () => clearTimeout(timer);
+    if (!cv || !g || reduced) return;
     const W = window.innerWidth, H = window.innerHeight, dpr = Math.min(2, window.devicePixelRatio || 1);
     cv.width = W*dpr; cv.height = H*dpr; g.scale(dpr,dpr);
     const css = getComputedStyle(document.documentElement);
@@ -29,7 +30,10 @@ export function WordCelebration({ answer, onComplete }: { answer: string; onComp
       raf=requestAnimationFrame(loop);
     };
     raf=requestAnimationFrame(loop);
-    return () => {clearTimeout(timer);cancelAnimationFrame(raf);};
-  }, [onComplete]);
-  return <div className="word-celebration"><canvas ref={canvas} aria-hidden="true" /><div className="word-celebration-copy" role="status"><h2>{t('won')}</h2><strong>{answer}</strong></div><Button variant="ghost" className="celebration-continue" onClick={onComplete}>{t('result')}</Button></div>;
+    const stop = setTimeout(() => {cancelAnimationFrame(raf); g.clearRect(0,0,W,H);}, 4000);
+    return () => {clearTimeout(stop);cancelAnimationFrame(raf);};
+  }, []);
+  return <div className="word-celebration"><canvas ref={canvas} aria-hidden="true" /><div className="word-celebration-copy" role="status"><h2>{t('won')}</h2><strong>{answer}</strong></div><div className="celebration-actions">{dailyDone
+    ? <Button className="welcome-play" onClick={onResult}>{t('result')}</Button>
+    : <><Button className="welcome-play" onClick={()=>{if(busy.current)return;busy.current=true;onNext();}}><ArrowRight />{t('nextWord')}</Button><Button variant="ghost" className="celebration-continue" onClick={onResult}>{t('result')}</Button></>}</div></div>;
 }
