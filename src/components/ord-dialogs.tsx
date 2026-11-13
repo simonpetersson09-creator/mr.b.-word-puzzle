@@ -2,7 +2,7 @@ import * as Switch from '@radix-ui/react-switch';
 import { Share2, Volume2, Vibrate, Check, ArrowRight, Globe2, ShieldCheck, ChevronRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import mrB from '@/assets/mr-b.png';
-import wordHeader from '@/assets/word-puzzle-header-wide.png';
+import wordHeader from '@/assets/word-puzzle-header-transparent.png';
 import { Button } from './ui/button';
 import { GameDialog } from './ui/game-dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
