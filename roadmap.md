@@ -1,4 +1,7 @@
 # Mr.B. Word Puzzle
+- [ ] Skapa ikon och två headerbilder i referensbildernas format och Mr. B-stil; lägg in iPhone-ikon och favicon.
+- [ ] Förbättra samtidiga/upprepade tangenttryck och ordvinst före resultat/annons utan ändrade spelregler.
+- [ ] Säkerställ bevarad statistik med regressioner och granska kvarvarande Xcode-krav mot Yatzy/Ludo/Sudoku.
 - [x] Byt appnamn i app, samtliga språk och metadata utan att ändra sparnycklar eller spelregler.
 - [x] Lägg till språkflaggor och kontrollera listans skärmkanter och lager på telefon och dator.
 - [x] Verifiera statistik och inför samtyckessammanfattning enligt Yatzy/Ludo; 50 tester godkända, licenskrav och luckor redovisade.
