@@ -1,4 +1,5 @@
 import { Capacitor } from '@capacitor/core';
+import { readAdConsentChoices, type AdConsentChoices } from './ad-consent';
 
 // Same post-result policy as Ludo: prepared inventory only, 45-minute TTL,
 // UMP before ATT/initialization, no waiting for inventory at result exit.
@@ -7,13 +8,15 @@ export interface AdAdapter { consent(): Promise<boolean>; prepare(): Promise<voi
 export function createDailyAds(adapter: AdAdapter, clock = Date.now) {
   let eligible = false, preparedAt: number | null = null, pending: Promise<void> | null = null;
   const started = new Set<string>(), consumed = new Set<string>();
+  let generation = 0;
   return {
     async initialize() { try { eligible = await adapter.consent(); } catch { eligible = false; } },
     preload(roundId: string, guesses: number) {
       // Resume an unfinished word too; inventory is lost when the app restarts.
       if (!eligible || guesses < 1 || started.has(roundId) || consumed.has(roundId)) return;
       started.add(roundId);
-      pending = adapter.prepare().then(() => { preparedAt = clock(); }).catch(() => { preparedAt = null; });
+      const owner = generation;
+      pending = adapter.prepare().then(() => { if (owner === generation) preparedAt = clock(); }).catch(() => { if (owner === generation) { preparedAt = null; started.delete(roundId); } });
     },
     async afterResult(roundId: string, finished: boolean) {
       if (!finished || consumed.has(roundId)) return;
@@ -23,7 +26,7 @@ export function createDailyAds(adapter: AdAdapter, clock = Date.now) {
       try { await adapter.show(); } catch { /* The saved result remains available. */ }
     },
     settled: () => pending ?? Promise.resolve(),
-    invalidate() { eligible = false; preparedAt = null; },
+    invalidate() { generation++; eligible = false; preparedAt = null; started.clear(); },
   };
 }
 
@@ -71,8 +74,23 @@ const adapter: AdAdapter = {
 export const dailyAds = createDailyAds(adapter);
 let initialization: Promise<void> | null = null;
 export function initializeAds() { initialization ??= dailyAds.initialize(); return initialization; }
+export async function getAdConsentChoices(): Promise<AdConsentChoices> {
+  if (!module || !nativeAdsEnabled()) return readAdConsentChoices(undefined,undefined);
+  try {
+    const reader = module.AdMob as typeof module.AdMob & { getStoredConsentChoices(): Promise<{status:string;purposeConsents:string}> };
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    try {
+      const saved = await Promise.race([reader.getStoredConsentChoices(), new Promise<never>((_,reject)=>{ timer=setTimeout(()=>reject(new Error('unavailable')),5000); })]);
+      return readAdConsentChoices(saved.status,saved.purposeConsents);
+    } finally { if (timer) clearTimeout(timer); }
+  } catch { return readAdConsentChoices(undefined,undefined); }
+}
+let privacyChanging = false;
 export async function showAdPrivacyOptions() {
-  if (!module || !privacyRequired) return;
+  if (!module || !privacyRequired || privacyChanging) return false;
+  privacyChanging = true;
   dailyAds.invalidate();
-  try { await module.AdMob.showPrivacyOptionsForm(); } finally { initialization = null; await initializeAds(); }
+  try { await module.AdMob.showPrivacyOptionsForm(); initialization = null; await initializeAds(); return true; }
+  catch { return false; }
+  finally { privacyChanging = false; }
 }

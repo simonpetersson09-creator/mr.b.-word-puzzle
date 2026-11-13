@@ -69,7 +69,8 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .brand { display: flex; align-items: center; justify-content: center; gap: 9px; min-width: 0; }
 .brand img { width: 38px; height: 46px; object-fit: contain; flex-shrink: 0; }
 .brand-label { font-family: var(--font-display); font-size: 17px; font-weight: 700; white-space: nowrap; }
-.brand-label h1 { margin: 0; font: inherit; }
+.brand-label h1 { margin: 0; font: inherit; white-space: normal; line-height: 1.15; overflow-wrap: normal; }
+.brand-label { min-width: 0; }
 .brand-label { text-align: center; }
 .brand-label small { display: block; font-family: var(--font-sans); font-size: 9px; font-weight: 500; color: var(--muted-foreground); margin-top: 3px; text-transform: uppercase; }
 .header-tools { display: flex; gap: 7px; flex-shrink: 0; }
@@ -118,6 +119,14 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .language-row { gap: 10px; flex-wrap: wrap; }
 .language-select { min-width: 0; max-width: 210px; color: var(--foreground); background: var(--secondary); font-size: 12px; }
 .language-select > span { overflow: hidden; text-overflow: ellipsis; }
+.language-options { max-width: calc(100vw - 24px); max-height: min(360px, var(--radix-select-content-available-height)); overscroll-behavior: contain; }
+.language-options [role=option] { min-height: 36px; white-space: normal; overflow-wrap: anywhere; }
+.privacy-toggle { width: 100%; justify-content: flex-start; min-height: 44px; height: auto; white-space: normal; text-align: left; margin-bottom: 12px; }
+.privacy-content { font-size: 12px; line-height: 1.7; margin-bottom: 18px; }
+.privacy-content dl > div { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin: 12px 0; }
+.privacy-content dt { min-width: 0; flex: 1; }
+.privacy-content dd { margin: 0; max-width: 40%; text-align: right; color: var(--primary); }
+.privacy-error { color: var(--destructive); }
 .stat-metrics span { overflow-wrap: anywhere; }
 .guess-button { width: 145px; max-width: 50%; align-self: flex-end; height: 42px; flex-shrink: 0; background: var(--gold-fill); color: var(--primary-foreground); margin: 7px -7px 0 0; font-family: var(--font-display); font-weight: 700; border-radius: 5px; box-shadow: var(--shadow); }
 .guess-button:hover { filter: brightness(1.05); }
