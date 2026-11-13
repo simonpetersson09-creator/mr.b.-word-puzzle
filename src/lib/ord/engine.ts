@@ -40,9 +40,44 @@ export function dailyAnswer(date: string): string {
   }
   return pool[randomIndex % candidates.length] ?? '';
 }
-export const DAILY_WORDS = 3;
 export const roundKey = (date: string, slot = 0) => slot === 0 ? date : `${date}:${slot + 1}`;
+export const DAILY_WORDS = 3;
+export const ROTATION_EPOCH = '2026-11-14';
+function shuffledCycle(pool: readonly string[], language: string, cycle: number, attempt = 0): string[] {
+  let seed = 2166136261 ^ attempt;
+  for (const c of `${language}:${cycle}`) seed = Math.imul(seed ^ c.charCodeAt(0), 16777619) >>> 0;
+  const out = [...pool];
+  for (let i = out.length - 1; i > 0; i--) {
+    seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+    const j = seed % (i + 1), a = out[i], b = out[j];
+    if (a !== undefined && b !== undefined) { out[i] = b; out[j] = a; }
+  }
+  return out;
+}
+const cycleCache = new Map<string, string[]>();
+// Each cycle uses every approved word exactly once; consecutive cycles never
+// repeat a word within the minimum gap, so recent words cannot come back soon.
+function cycleOrder(pool: readonly string[], language: string, cycle: number): string[] {
+  const key = `${language}|${cycle}|${pool.length}`;
+  const hit = cycleCache.get(key); if (hit) return hit;
+  let order = shuffledCycle(pool, language, cycle);
+  if (cycle > 0) {
+    const gap = Math.floor(pool.length / 2);
+    const tail = new Set(cycleOrder(pool, language, cycle - 1).slice(-gap));
+    for (let attempt = 1; attempt < 500 && order.slice(0, gap).some(w => tail.has(w)); attempt++) order = shuffledCycle(pool, language, cycle, attempt);
+    if (order.slice(0, gap).some(w => tail.has(w))) order = [...order.filter(w => !tail.has(w)), ...order.filter(w => tail.has(w))];
+  }
+  cycleCache.set(key, order);
+  return order;
+}
+export function rotationAnswer(date: string, language: Language, slot: number): string {
+  const pool = unsavedAnswerPool(date, language);
+  if (!pool.length) return '';
+  const index = (dayNumber(date) - dayNumber(ROTATION_EPOCH)) * DAILY_WORDS + slot;
+  return cycleOrder(pool, language, Math.floor(index / pool.length))[index % pool.length] ?? '';
+}
 export function newRound(date: string, language: Language = 'sv', slot = 0, excluded: string[] = []): Round {
+  if (date >= ROTATION_EPOCH) return {date,answer:rotationAnswer(date,language,slot),guesses:[],...(language !== 'sv' ? {language} : {}),...(slot ? {slot} : {})};
   const assigned = language === 'sv' ? dailyAnswer(date) : localizedAnswer(date,language) ?? '';
   const pool = unsavedAnswerPool(date,language);
   const first = pool.includes(assigned) ? assigned : pool[((dayNumber(date) % pool.length) + pool.length) % pool.length] ?? '';
