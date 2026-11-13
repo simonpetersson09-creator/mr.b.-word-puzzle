@@ -97,7 +97,7 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .game-message.error { color: var(--destructive); }
 .keyboard { width: 100%; display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
 .key-row { display: grid; grid-template-columns: repeat(var(--row-columns,11), minmax(0,1fr)); gap: 5px; width: 100%; }
-.key-row:last-of-type { width: min(100%, calc(100% * var(--row-columns,8) / var(--key-columns,11))); margin-inline: auto; }
+.key-row:last-of-type { width: 100%; margin-inline: 0; grid-template-columns: repeat(calc(var(--row-columns,8) - 1), minmax(0,1fr)) minmax(0,1.6fr); }
 .key { padding: 0; min-width: 0; height: 46px; font-family: var(--font-display); font-size: 13px; font-weight: 700; border-radius: 5px; background: var(--key); color: var(--key-ink); border: 1px solid var(--key-border); box-shadow: var(--key-shadow); }
 .key:hover { filter: brightness(1.08); }
 .key { position: relative; overflow: hidden; }
@@ -114,7 +114,7 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .key:active, .key.key-pressed { transform: translateY(2px); }
 .key:disabled { opacity: .65; }
 .key svg { width: 19px; height: 19px; }
-.key.erase-key { width: calc(100% + 10px); max-width: none; }
+.key.erase-key { width: 100%; max-width: none; }
 .key.erase-key svg { width: 23px; height: 23px; }
 .key.erase-key { color: var(--primary); background: var(--secondary); border-color: var(--border); }
 .key:active, .key.key-pressed { background: var(--key-pressed-fill); color: var(--key-pressed-ink); border-color: var(--primary); box-shadow: var(--key-pressed-ring); filter: none; }
