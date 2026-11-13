@@ -1,4 +1,9 @@
 # Mr.B. Word Puzzle
+- [ ] Skydda tilldelade svar mot ordlisteuppdateringar och återställ minneskopian efter tillfälliga sparfel.
+- [ ] Granska tidigare 29 beroendefynd, åtgärda relevanta paket och kör nya säkerhetskontroller.
+- [ ] Använd native resultatdelning på iOS/Android med verifierade reservvägar.
+- [ ] Förbättra vietnamesisk inmatning och tangentbord med många rader utan att ta bort spelspråk.
+- [ ] Testa offline, omstart och felåterhämtning; redovisa kvarvarande telefonkontroller.
 - [x] Skärp svarsordskontrollen: strikt positivt urval för alla 32 spelspråk från 2026-11-14, ingen reserv till ogranskade ord; sparade svar bevaras och 370 dagars treordsurval testas. Modersmålsgranskning av nyanser återstår enligt separat punkt.
 - [x] Prioritet 1: native generationsrensning, presentationsdeadline, verklig annonsstängning och återförsök; adapter-/patchtester godkända. Fysisk iPhone-annonskontroll återstår separat.
 - [x] Prioritet 2: deterministisk konfliktåterställning bevarar vinster och skyddar gissningshistorik/språk; regressionstester för sparade kopior godkända.
