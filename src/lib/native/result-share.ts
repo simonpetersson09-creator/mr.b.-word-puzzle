@@ -6,7 +6,7 @@ export function resultText(round: Round): string {
 }
 export type ShareOutcome = 'shared' | 'copied' | 'cancelled' | 'failed';
 export interface ShareAdapter {
-  share?: (text: string) => Promise<void>;
+  share?: ((text: string) => Promise<void>) | undefined;
   copy: (text: string) => Promise<void>;
 }
 export async function deliverResult(text: string, adapter: ShareAdapter): Promise<ShareOutcome> {

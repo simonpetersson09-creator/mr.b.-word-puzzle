@@ -13,7 +13,7 @@ describe('dictionary-independent schedules',()=>{
  it('keeps approved schedules independent of future approval edits',async()=>{
   const {approvedAnswers}=await import('./words/approved-answers');
   const before=[...scheduledPool('2026-11-14','en')];
-  const old=approvedAnswers.en;approvedAnswers.en=['OTHER'];
+  const old=approvedAnswers.en;if(!old) throw new Error('missing approvals');approvedAnswers.en=['OTHER'];
   try {expect(scheduledPool('2026-11-14','en')).toEqual(before);}finally{approvedAnswers.en=old;}
  });
  it('keeps 32 playable languages, using native Vietnamese composition and covering every other scheduled alphabet',()=>{
