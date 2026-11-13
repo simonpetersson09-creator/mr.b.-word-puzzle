@@ -20,7 +20,7 @@ export function createDailyAds(adapter: AdAdapter, clock = Date.now) {
         if(owner!==generation || consumed.has(roundId))return;
         await withDeadline(adapter.prepare(),AD_LOAD_TIMEOUT);
         if(owner===generation && pendingRound===roundId && !consumed.has(roundId))prepared={roundId,at:clock()};
-      })().catch(async()=>{if(owner===generation){prepared=null;await adapter.discard?.().catch(()=>{});}}).finally(()=>{if(owner===generation && pendingRound===roundId)pendingRound=null;});
+      })().catch(async()=>{if(owner===generation && pendingRound===roundId){prepared=null;if(adapter.discard)await withDeadline(adapter.discard(),AD_REQUEST_TIMEOUT).catch(()=>{});}}).finally(()=>{if(owner===generation && pendingRound===roundId)pendingRound=null;});
       pending=work;
     },
     async afterResult(roundId:string,finished:boolean) {

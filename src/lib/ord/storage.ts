@@ -39,10 +39,10 @@ function decode(text: string | null): Save | null {
 const samePuzzle = (a: Round, b: Round) => a.answer === b.answer && (a.language ?? 'sv') === (b.language ?? 'sv');
 const extendsHistory = (earlier: Round, later: Round) => samePuzzle(earlier,later) && earlier.guesses.every((guess,index)=>later.guesses[index] === guess);
 function recoverRound(primary: Round, backup: Round): Round {
-  // A witnessed win is never downgraded by a conflicting completed mirror.
-  if (hasWon(primary) !== hasWon(backup)) { reportError(); return hasWon(primary) ? primary : backup; }
   if (extendsHistory(backup,primary)) return primary;
   if (extendsHistory(primary,backup)) return backup;
+  // A witnessed win is never downgraded by a conflicting completed mirror.
+  if (hasWon(primary) !== hasWon(backup)) { reportError(); return hasWon(primary) ? primary : backup; }
   // Divergent histories cannot be concatenated. Preserve a finished ledger entry,
   // then use a stable tie-break so mirror order cannot change statistics.
   reportError();
