@@ -17,7 +17,8 @@
     "adPrivacyAllowed": "Samtycke lämnat",
     "adPrivacyDenied": "Samtycke inte lämnat",
     "adPrivacyChange": "Visa eller ändra alla val",
-    "adPrivacyWeb": "Dina annonsval visas och ändras i iPhone- eller Android-appen. Googles samtyckesruta är inte tillgänglig här i webbförhandsvisningen."
+    "adPrivacyWeb": "Dina annonsval visas och ändras i iPhone- eller Android-appen. Googles samtyckesruta är inte tillgänglig här i webbförhandsvisningen.",
+    "privacyPolicy": "Integritetspolicy"
   },
   "en": {
     "settings": "Settings",
@@ -114,7 +115,8 @@
     "lockedLanguage": "Today’s word language is locked once the round starts.",
     "typeWord": "Enter your word",
     "adPrivacyFailed": "Could not open your consent choices. Try again.",
-    "adPrivacyUnknown": "Saved consent choices are not available."
+    "adPrivacyUnknown": "Saved consent choices are not available.",
+    "privacyPolicy": "Privacy policy"
   },
   "no": {
     "settings": "Innstillinger",
@@ -211,7 +213,8 @@
     "lockedLanguage": "Dagens ordspråk låses når runden starter.",
     "typeWord": "Skriv inn ordet ditt",
     "adPrivacyFailed": "Kunne ikke åpne samtykkevalgene dine. Prøv igjen.",
-    "adPrivacyUnknown": "Lagrede samtykkevalg er ikke tilgjengelige."
+    "adPrivacyUnknown": "Lagrede samtykkevalg er ikke tilgjengelige.",
+    "privacyPolicy": "Personvernerklæring"
   },
   "da": {
     "settings": "Indstillinger",
@@ -308,7 +311,8 @@
     "lockedLanguage": "Dagens sprogvalg låses, når runden starter.",
     "typeWord": "Indtast dit ord",
     "adPrivacyFailed": "Kunne ikke åbne dine samtykkevalg. Prøv igen.",
-    "adPrivacyUnknown": "Gemte samtykkevalg er ikke tilgængelige."
+    "adPrivacyUnknown": "Gemte samtykkevalg er ikke tilgængelige.",
+    "privacyPolicy": "Privatlivspolitik"
   },
   "fi": {
     "settings": "Asetukset",
@@ -405,7 +409,8 @@
     "lockedLanguage": "Päivän sanojen kieli lukitaan kierroksen alkaessa.",
     "typeWord": "Syötä sana",
     "adPrivacyFailed": "Suostumusvalintoja ei voitu avata. Yritä uudelleen.",
-    "adPrivacyUnknown": "Tallennetut suostumusvalinnat eivät ole saatavilla."
+    "adPrivacyUnknown": "Tallennetut suostumusvalinnat eivät ole saatavilla.",
+    "privacyPolicy": "Tietosuojakäytäntö"
   },
   "es": {
     "settings": "Ajustes",
@@ -502,7 +507,8 @@
     "lockedLanguage": "El idioma de las palabras de hoy no se puede cambiar una vez iniciada la ronda.",
     "typeWord": "Introduce tu palabra",
     "adPrivacyFailed": "No se han podido abrir tus opciones de consentimiento. Inténtalo de nuevo.",
-    "adPrivacyUnknown": "Las opciones de consentimiento guardadas no están disponibles."
+    "adPrivacyUnknown": "Las opciones de consentimiento guardadas no están disponibles.",
+    "privacyPolicy": "Política de privacidad"
   },
   "fr": {
     "settings": "Paramètres",
@@ -599,7 +605,8 @@
     "lockedLanguage": "La langue des mots du jour ne peut plus être modifiée une fois la partie commencée.",
     "typeWord": "Saisissez votre mot",
     "adPrivacyFailed": "Impossible d’ouvrir vos choix de consentement. Réessayez.",
-    "adPrivacyUnknown": "Les choix de consentement enregistrés ne sont pas disponibles."
+    "adPrivacyUnknown": "Les choix de consentement enregistrés ne sont pas disponibles.",
+    "privacyPolicy": "Politique de confidentialité"
   },
   "it": {
     "settings": "Impostazioni",
@@ -696,7 +703,8 @@
     "lockedLanguage": "Una volta iniziata la sessione, la lingua delle parole di oggi non può più essere cambiata.",
     "typeWord": "Inserisci la tua parola",
     "adPrivacyFailed": "Impossibile aprire le preferenze di consenso. Riprova.",
-    "adPrivacyUnknown": "Le preferenze di consenso salvate non sono disponibili."
+    "adPrivacyUnknown": "Le preferenze di consenso salvate non sono disponibili.",
+    "privacyPolicy": "Informativa sulla privacy"
   },
   "de": {
     "settings": "Einstellungen",
@@ -793,7 +801,8 @@
     "lockedLanguage": "Sobald du anfängst, steht die Wortsprache für heute fest.",
     "typeWord": "Gib dein Wort ein",
     "adPrivacyFailed": "Deine Einwilligungseinstellungen konnten nicht geöffnet werden. Versuche es erneut.",
-    "adPrivacyUnknown": "Gespeicherte Einwilligungseinstellungen sind nicht verfügbar."
+    "adPrivacyUnknown": "Gespeicherte Einwilligungseinstellungen sind nicht verfügbar.",
+    "privacyPolicy": "Datenschutzerklärung"
   },
   "nl": {
     "settings": "Instellingen",
@@ -890,7 +899,8 @@
     "lockedLanguage": "Zodra de ronde begint, staat de woordtaal voor vandaag vast.",
     "typeWord": "Voer je woord in",
     "adPrivacyFailed": "Je toestemmingskeuzes konden niet worden geopend. Probeer het opnieuw.",
-    "adPrivacyUnknown": "Opgeslagen toestemmingskeuzes zijn niet beschikbaar."
+    "adPrivacyUnknown": "Opgeslagen toestemmingskeuzes zijn niet beschikbaar.",
+    "privacyPolicy": "Privacybeleid"
   },
   "ca": {
     "settings": "Configuració",
@@ -987,7 +997,8 @@
     "lockedLanguage": "L’idioma de les paraules d’avui no es pot canviar un cop comença la ronda.",
     "typeWord": "Introdueix la teva paraula",
     "adPrivacyFailed": "No s’han pogut obrir les opcions de consentiment. Torna-ho a provar.",
-    "adPrivacyUnknown": "Les opcions de consentiment desades no estan disponibles."
+    "adPrivacyUnknown": "Les opcions de consentiment desades no estan disponibles.",
+    "privacyPolicy": "Política de privadesa"
   },
   "ro": {
     "settings": "Setări",
@@ -1084,7 +1095,8 @@
     "lockedLanguage": "Limba cuvintelor de azi nu mai poate fi schimbată după începerea jocului.",
     "typeWord": "Introdu cuvântul tău",
     "adPrivacyFailed": "Nu s-au putut deschide opțiunile de consimțământ. Încearcă din nou.",
-    "adPrivacyUnknown": "Opțiunile de consimțământ salvate nu sunt disponibile."
+    "adPrivacyUnknown": "Opțiunile de consimțământ salvate nu sunt disponibile.",
+    "privacyPolicy": "Politica de confidențialitate"
   },
   "tr": {
     "settings": "Ayarlar",
@@ -1181,7 +1193,8 @@
     "lockedLanguage": "Oyun başladıktan sonra bugünün kelime dili değiştirilemez.",
     "typeWord": "Kelimeni gir",
     "adPrivacyFailed": "İzin tercihlerin açılamadı. Tekrar dene.",
-    "adPrivacyUnknown": "Kayıtlı izin tercihlerine ulaşılamıyor."
+    "adPrivacyUnknown": "Kayıtlı izin tercihlerine ulaşılamıyor.",
+    "privacyPolicy": "Gizlilik politikası"
   },
   "pl": {
     "settings": "Ustawienia",
@@ -1278,7 +1291,8 @@
     "lockedLanguage": "Po rozpoczęciu rundy nie można zmienić języka dzisiejszych słów.",
     "typeWord": "Wpisz słowo",
     "adPrivacyFailed": "Nie udało się otworzyć ustawień zgód. Spróbuj ponownie.",
-    "adPrivacyUnknown": "Zapisane ustawienia zgód są niedostępne."
+    "adPrivacyUnknown": "Zapisane ustawienia zgód są niedostępne.",
+    "privacyPolicy": "Polityka prywatności"
   },
   "cs": {
     "settings": "Nastavení",
@@ -1375,7 +1389,8 @@
     "lockedLanguage": "Po zahájení hry už dnes nelze změnit jazyk slov.",
     "typeWord": "Zadejte slovo",
     "adPrivacyFailed": "Nastavení souhlasu se nepodařilo otevřít. Zkuste to znovu.",
-    "adPrivacyUnknown": "Uložené nastavení souhlasu není k dispozici."
+    "adPrivacyUnknown": "Uložené nastavení souhlasu není k dispozici.",
+    "privacyPolicy": "Zásady ochrany osobních údajů"
   },
   "sk": {
     "settings": "Nastavenia",
@@ -1472,7 +1487,8 @@
     "lockedLanguage": "Po začatí kola sa jazyk dnešných slov už nedá zmeniť.",
     "typeWord": "Zadaj slovo",
     "adPrivacyFailed": "Nastavenia súhlasu sa nepodarilo otvoriť. Skús to znova.",
-    "adPrivacyUnknown": "Uložené nastavenia súhlasu nie sú dostupné."
+    "adPrivacyUnknown": "Uložené nastavenia súhlasu nie sú dostupné.",
+    "privacyPolicy": "Zásady ochrany súkromia"
   },
   "sl": {
     "settings": "Nastavitve",
@@ -1569,7 +1585,8 @@
     "lockedLanguage": "Ko začnete igro, današnjega jezika besed ni več mogoče spremeniti.",
     "typeWord": "Vnesite besedo",
     "adPrivacyFailed": "Nastavitev soglasja ni bilo mogoče odpreti. Poskusite znova.",
-    "adPrivacyUnknown": "Shranjene nastavitve soglasja niso na voljo."
+    "adPrivacyUnknown": "Shranjene nastavitve soglasja niso na voljo.",
+    "privacyPolicy": "Pravilnik o zasebnosti"
   },
   "hr": {
     "settings": "Postavke",
@@ -1666,7 +1683,8 @@
     "lockedLanguage": "Jezik današnjih riječi ne može se promijeniti nakon početka igre.",
     "typeWord": "Unesite riječ",
     "adPrivacyFailed": "Nije moguće otvoriti vaše postavke privole. Pokušajte ponovno.",
-    "adPrivacyUnknown": "Spremljene postavke privole nisu dostupne."
+    "adPrivacyUnknown": "Spremljene postavke privole nisu dostupne.",
+    "privacyPolicy": "Pravila o privatnosti"
   },
   "hu": {
     "settings": "Beállítások",
@@ -1763,7 +1781,8 @@
     "lockedLanguage": "A játék megkezdése után a mai szavak nyelve már nem módosítható.",
     "typeWord": "Írd be a tipped",
     "adPrivacyFailed": "Nem sikerült megnyitni a hozzájárulási beállításokat. Próbáld újra.",
-    "adPrivacyUnknown": "A mentett hozzájárulási beállítások nem érhetők el."
+    "adPrivacyUnknown": "A mentett hozzájárulási beállítások nem érhetők el.",
+    "privacyPolicy": "Adatvédelmi irányelvek"
   },
   "pt": {
     "settings": "Definições",
@@ -1860,7 +1879,8 @@
     "lockedLanguage": "O idioma das palavras de hoje fica bloqueado assim que começares o desafio.",
     "typeWord": "Introduz a tua palavra",
     "adPrivacyFailed": "Não foi possível abrir as tuas opções de consentimento. Tenta novamente.",
-    "adPrivacyUnknown": "As opções de consentimento guardadas não estão disponíveis."
+    "adPrivacyUnknown": "As opções de consentimento guardadas não estão disponíveis.",
+    "privacyPolicy": "Política de privacidade"
   },
   "pt-BR": {
     "settings": "Ajustes",
@@ -1957,7 +1977,8 @@
     "adPrivacyChange": "Ver ou alterar todas as escolhas",
     "adPrivacyWeb": "Veja e altere suas escolhas de anúncios no app para iPhone ou Android. O formulário de consentimento do Google não está disponível nesta prévia na web.",
     "adPrivacyFailed": "Não foi possível abrir suas escolhas de consentimento. Tente novamente.",
-    "adPrivacyUnknown": "As escolhas de consentimento salvas não estão disponíveis."
+    "adPrivacyUnknown": "As escolhas de consentimento salvas não estão disponíveis.",
+    "privacyPolicy": "Política de privacidade"
   },
   "id": {
     "settings": "Pengaturan",
@@ -2054,7 +2075,8 @@
     "lockedLanguage": "Bahasa kata hari ini tidak bisa diubah setelah permainan dimulai.",
     "typeWord": "Masukkan katamu",
     "adPrivacyFailed": "Tidak dapat membuka pilihan persetujuanmu. Coba lagi.",
-    "adPrivacyUnknown": "Pilihan persetujuan yang tersimpan tidak tersedia."
+    "adPrivacyUnknown": "Pilihan persetujuan yang tersimpan tidak tersedia.",
+    "privacyPolicy": "Kebijakan privasi"
   },
   "ms": {
     "settings": "Tetapan",
@@ -2151,7 +2173,8 @@
     "lockedLanguage": "Bahasa perkataan hari ini tidak boleh ditukar setelah pusingan bermula.",
     "typeWord": "Masukkan perkataan anda",
     "adPrivacyFailed": "Tidak dapat membuka pilihan persetujuan anda. Cuba lagi.",
-    "adPrivacyUnknown": "Pilihan persetujuan yang disimpan tidak tersedia."
+    "adPrivacyUnknown": "Pilihan persetujuan yang disimpan tidak tersedia.",
+    "privacyPolicy": "Dasar privasi"
   },
   "vi": {
     "settings": "Cài đặt",
@@ -2248,7 +2271,8 @@
     "lockedLanguage": "Ngôn ngữ của từ hôm nay sẽ bị khóa khi bắt đầu chơi.",
     "typeWord": "Nhập từ bạn đoán",
     "adPrivacyFailed": "Không thể mở các lựa chọn về sự đồng ý của bạn. Hãy thử lại.",
-    "adPrivacyUnknown": "Không có sẵn các lựa chọn về sự đồng ý đã lưu."
+    "adPrivacyUnknown": "Không có sẵn các lựa chọn về sự đồng ý đã lưu.",
+    "privacyPolicy": "Chính sách quyền riêng tư"
   },
   "el": {
     "settings": "Ρυθμίσεις",
@@ -2345,7 +2369,8 @@
     "lockedLanguage": "Η γλώσσα των σημερινών λέξεων κλειδώνει μόλις ξεκινήσει το παιχνίδι.",
     "typeWord": "Γράψε τη λέξη σου",
     "adPrivacyFailed": "Δεν ήταν δυνατό το άνοιγμα των επιλογών συγκατάθεσης. Δοκίμασε ξανά.",
-    "adPrivacyUnknown": "Οι αποθηκευμένες επιλογές συγκατάθεσης δεν είναι διαθέσιμες."
+    "adPrivacyUnknown": "Οι αποθηκευμένες επιλογές συγκατάθεσης δεν είναι διαθέσιμες.",
+    "privacyPolicy": "Πολιτική απορρήτου"
   },
   "ru": {
     "settings": "Настройки",
@@ -2442,7 +2467,8 @@
     "lockedLanguage": "После начала игры язык сегодняшних слов изменить нельзя.",
     "typeWord": "Введите слово",
     "adPrivacyFailed": "Не удалось открыть настройки согласия. Попробуйте ещё раз.",
-    "adPrivacyUnknown": "Сохранённые настройки согласия недоступны."
+    "adPrivacyUnknown": "Сохранённые настройки согласия недоступны.",
+    "privacyPolicy": "Политика конфиденциальности"
   },
   "uk": {
     "settings": "Налаштування",
@@ -2539,7 +2565,8 @@
     "lockedLanguage": "Після початку гри мову сьогоднішніх слів змінити не можна.",
     "typeWord": "Введіть слово",
     "adPrivacyFailed": "Не вдалося відкрити налаштування згоди. Спробуйте ще раз.",
-    "adPrivacyUnknown": "Збережені налаштування згоди недоступні."
+    "adPrivacyUnknown": "Збережені налаштування згоди недоступні.",
+    "privacyPolicy": "Політика конфіденційності"
   },
   "ja": {
     "settings": "設定",
@@ -2636,7 +2663,8 @@
     "lockedLanguage": "今日の単語の言語は、挑戦を始めると変更できません。",
     "typeWord": "単語を入力",
     "adPrivacyFailed": "同意設定を開けませんでした。もう一度お試しください。",
-    "adPrivacyUnknown": "保存された同意設定を利用できません。"
+    "adPrivacyUnknown": "保存された同意設定を利用できません。",
+    "privacyPolicy": "プライバシーポリシー"
   },
   "ko": {
     "settings": "설정",
@@ -2733,7 +2761,8 @@
     "lockedLanguage": "퍼즐을 시작하면 오늘의 단어 언어를 바꿀 수 없어요.",
     "typeWord": "단어를 입력하세요",
     "adPrivacyFailed": "동의 설정을 열지 못했어요. 다시 시도하세요.",
-    "adPrivacyUnknown": "저장된 동의 설정을 확인할 수 없어요."
+    "adPrivacyUnknown": "저장된 동의 설정을 확인할 수 없어요.",
+    "privacyPolicy": "개인정보 처리방침"
   },
   "th": {
     "settings": "ตั้งค่า",
@@ -2830,7 +2859,8 @@
     "lockedLanguage": "เมื่อเริ่มเล่นแล้ว จะเปลี่ยนภาษาของคำสำหรับวันนี้ไม่ได้",
     "typeWord": "กรอกคำที่ต้องการทาย",
     "adPrivacyFailed": "เปิดตัวเลือกความยินยอมไม่ได้ โปรดลองอีกครั้ง",
-    "adPrivacyUnknown": "ไม่พบตัวเลือกความยินยอมที่บันทึกไว้"
+    "adPrivacyUnknown": "ไม่พบตัวเลือกความยินยอมที่บันทึกไว้",
+    "privacyPolicy": "นโยบายความเป็นส่วนตัว"
   },
   "hi": {
     "settings": "सेटिंग्स",
@@ -2927,7 +2957,8 @@
     "lockedLanguage": "खेल शुरू होने के बाद आज के शब्दों की भाषा बदली नहीं जा सकती।",
     "typeWord": "अपना शब्द लिखें",
     "adPrivacyFailed": "सहमति के विकल्प खोले नहीं जा सके। फिर कोशिश करें।",
-    "adPrivacyUnknown": "सहेजे गए सहमति के विकल्प उपलब्ध नहीं हैं।"
+    "adPrivacyUnknown": "सहेजे गए सहमति के विकल्प उपलब्ध नहीं हैं।",
+    "privacyPolicy": "गोपनीयता नीति"
   },
   "bn": {
     "settings": "সেটিংস",
@@ -3024,7 +3055,8 @@
     "lockedLanguage": "খেলা শুরু হলে আজকের শব্দের ভাষা আর বদলানো যাবে না।",
     "typeWord": "আপনার শব্দ লিখুন",
     "adPrivacyFailed": "আপনার সম্মতির বিকল্পগুলো খোলা যায়নি। আবার চেষ্টা করুন।",
-    "adPrivacyUnknown": "সেভ করা সম্মতির পছন্দগুলো পাওয়া যাচ্ছে না।"
+    "adPrivacyUnknown": "সেভ করা সম্মতির পছন্দগুলো পাওয়া যাচ্ছে না।",
+    "privacyPolicy": "গোপনীয়তা নীতি"
   },
   "gu": {
     "settings": "સેટિંગ્સ",

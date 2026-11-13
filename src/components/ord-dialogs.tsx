@@ -124,6 +124,7 @@ export function OrdDialogs({ panel, close, save, round, setSettings, welcome, di
         </>}
       </div>}
       <p className="license-note">Mr.B. Word Puzzle · 1.0<br />{nativeAdsEnabled() ? t('adsOn') : t('adsOff')}</p>
+      <a className="license-link privacy-link" href={PRIVACY_POLICY_URL} target="_blank" rel="noopener noreferrer">{t('privacyPolicy')}</a>
       <Button variant="link" className="license-link" onClick={() => setLicensesOpen(true)}>{t('dictionary')}</Button>
     </GameDialog>
     <GameDialog open={panel === 'settings' && licensesOpen} onClose={() => setLicensesOpen(false)} title={t('dictionary')} description={t('dictionary')}><h2>{t('dictionary')}</h2><WordLicenses /></GameDialog>
