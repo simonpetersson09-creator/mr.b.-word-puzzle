@@ -25,6 +25,14 @@
 - Egna publicerade support-/integritetssidor, kontaktuppgifter, App Store-skärmbilder, beskrivningar, åldersklassning och slutliga integritetsdeklarationer.
 
 ## Rekommenderad ordning
+### Jämförelse med Yatzy och Ludo 2026-11-13
+- Appnamnet är ändrat i app, delning, samtliga språk och iPhone-metadata. Sparnycklar och paketidentitet behålls för att skydda historik vid uppdatering.
+- Språkval visar samma representativa landsflaggor som Ludo; listorna ligger framför dialoger och inom skärmkanterna.
+- Samtyckesinställningar har utfällbar sammanfattning, verkliga kända ändamålsval från UMP, möjlighet att ändra dem där Google kräver det, samt laddnings-/felhantering. Inga val fabriceras när data saknas. Annonser är fortsatt avstängda; iPhone-kompilering och verklig samtyckesruta är overifierade.
+- Saknas jämfört med referensapparna: egna publicerade integritets-/supportuppgifter och fullt verifierad native samtyckesintegration. Notiser, profil, kontodata-radering och köp är referensapparnas funktioner och har inte lagts till eftersom detta är ett lokalt ordspel.
+- 50 tester godkända, inklusive blandade vinst-/förlustresultat, 67 % vinstandel, försöksfördelning, återläsning och samtyckesbyte. Tre ord spelade genom gränssnittet och statistik 3/100 %/1/1 bevarad efter omstart på 320×568, 394×852 och 1280×1800.
+- Ordlistorna behövs för offline-ordkontroll. Nuvarande licensvillkor kräver attribution, licenstexter och tillgänglig redistribuerbar orddata; det kan hållas under inställningar. Enklare licenskrav skulle kräva andra, kompatibelt licensierade eller egna data och juridisk kontroll, inte att licenserna tas bort.
+
 1. De tekniska rättningarna ovan är genomförda; verifiera native felvarningar och återöppning på fysisk iPhone.
 2. Redigera svarspoolerna språkligt, välj ett granskat releasespråkurval och leverera licensunderlaget i appen.
 3. Slutför iPhone-paket och butiksmaterial; prova hela flödet på fysisk iPhone.

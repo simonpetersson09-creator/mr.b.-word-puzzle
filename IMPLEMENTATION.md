@@ -3,7 +3,7 @@
 ## Actually reused
 - **Ludo:** original `mr-b-die.png` graphic; exact `installViewportSync` helper; SSR-safe storage pattern and isolated key namespace; Capacitor vibration patterns and native/web fallback adapted to Ord settings; local Capacitor packaging configuration and root-substitution pattern.
 - **Sudoku:** Button source; Radix modal structure adapted to semantic styling and Swedish labels; Inter, Space Grotesk and Bodoni Moda font families; deep teal and gold visual roles adapted to oklch tokens. Its statistics page was not copied: Sudoku statistics differ from daily-word statistics.
-- **Yatzy:** inspected advertising implementation against Ludo (UMP consent, privacy state, preload and App Open). No Yatzy advertisement code is installed or active. The shared Mr. B graphic and vibration lineage comes through Ludo. No Yatzy online/account code was imported.
+- **Yatzy:** inspected advertising implementation against Ludo (UMP consent, privacy state, preload and App Open). Its consent-purpose parser, localized summary labels and reproducible native consent-reader patch are reused for settings; advertisements remain disabled. The shared Mr. B graphic and vibration lineage comes through Ludo. No Yatzy online/account code was imported.
 
 ## Newly built
 Daily Swedish game, immutable dated answer schedule, duplicate-letter scoring, keyboard priority, licensed separate lists, saved daily rounds, derived idempotent statistics, rules/result/settings dialogs, Swedish translation dictionary following the existing directory convention, shareable spoiler-free result, and optional synthesized sound.
@@ -28,4 +28,6 @@ Automated tests cover 03.00 device-local day boundaries in winter, summer, both 
 Browser flow verifies incomplete/invalid words retaining their letters, valid first guess, reload/resume, win, saved result after reload, statistics and mobile layouts. Reference images mentioned in the brief were not uploaded; only the Markdown brief was available.
 
 ## Remaining physical-device checks
+The 2026-11-13 settings comparison adds expandable ad privacy, known saved purpose choices, change-consent busy/error states, and inventory invalidation. The native reader patch is applied on dependency installation and must be compiled/tested on iPhone before advertising is activated. App display names have changed in all locales and native metadata; bundle identifiers, storage keys and immutable answer schedules are intentionally unchanged to preserve upgrades and statistics.
+
 Cold offline launch and app updates, safe areas/notch/home indicator, force-close/reopen after final guess, native write durability under forced termination, storage persistence under OS eviction, background/resume across local 03.00, timezone/clock changes, sound/silent mode, haptic toggles, sharing sheet, accessibility text scaling, release packaging/signing, app icon/splash, full SDK ad consent/ATT accept/deny/revoke and interstitial presentation. Test on a small iPhone before store submission. No compiled/signed iPhone binary has been produced or verified here.
