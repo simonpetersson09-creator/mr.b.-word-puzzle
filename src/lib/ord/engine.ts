@@ -3,7 +3,7 @@ import { answers } from './words/answers';
 import inflections from './words/inflections.json';
 import { acceptsWord, letters, localizedAnswer, uppercase, wordPacks } from './words/localized';
 import type { Language } from '@/lib/i18n/languages';
-import { scheduledPool } from './words/answer-policy';
+import { scheduledPool, unsavedAnswerPool } from './words/answer-policy';
 
 export type Mark = 'correct' | 'present' | 'absent';
 export interface Round { date: string; answer: string; guesses: string[]; language?: Language; slot?: number }
@@ -43,8 +43,9 @@ export function dailyAnswer(date: string): string {
 export const DAILY_WORDS = 3;
 export const roundKey = (date: string, slot = 0) => slot === 0 ? date : `${date}:${slot + 1}`;
 export function newRound(date: string, language: Language = 'sv', slot = 0, excluded: string[] = []): Round {
-  const first = language === 'sv' ? dailyAnswer(date) : localizedAnswer(date,language) ?? '';
-  const pool = scheduledPool(date,language);
+  const assigned = language === 'sv' ? dailyAnswer(date) : localizedAnswer(date,language) ?? '';
+  const pool = unsavedAnswerPool(date,language);
+  const first = pool.includes(assigned) ? assigned : pool[((dayNumber(date) % pool.length) + pool.length) % pool.length] ?? '';
   const start = Math.max(0,pool.indexOf(first));
   const selected = [first];
   for (let offset=1; selected.length<=slot && offset<=pool.length; offset++) {

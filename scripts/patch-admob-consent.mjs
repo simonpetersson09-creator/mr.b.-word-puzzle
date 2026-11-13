@@ -2,6 +2,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { patchInterstitialSafety, patchPluginSafety } from './admob-safety.mjs';
+import { patchConsentEligibility } from './consent-eligibility.mjs';
 const root = resolve('node_modules/@capacitor-community/admob');
 const platform = process.argv[2];
 const marker = 'MRB_READ_CONSENT';
@@ -67,7 +68,7 @@ if (!platform || platform === 'ios') {
           source = source.replace(callAnchor, binding);
         }
       }
-      return patchPluginSafety(source);
+      return patchPluginSafety(patchConsentEligibility(source));
     });
   const executorPath=resolve(root,'ios/Sources/AdMobPlugin/Interstitial/AdInterstitialExecutor.swift');
   await writeFile(executorPath,patchInterstitialSafety(await readFile(executorPath,'utf8')));

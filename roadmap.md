@@ -1,4 +1,5 @@
 # Mr.B. Word Puzzle
+- [ ] Färdigställ iOS: UMP-reservväg, 40 ATT-lokaler, säker kontroll av osparade äldre ord, full native sync och test-/releaseverifiering; behåll design och sparade resultat.
 - [x] Samlad kontroll 2026-11-13: 102 tester, 27 telefon/språkkombinationer, tre vinstord och reload, iPhone 15-bilder, simulerade skyddszoner samt jämförelse med Yatzy/Ludo. Produktionsaudit utan fynd; release-verifiering stoppas av osynkat nativepaket. Inga speländringar under granskningen.
 - [ ] Rätta sparad UMP-reservväg: native getConsentEligibility saknar privacyOptionsRequirementStatus, vilket kan dölja nödvändiga integritetsval efter refreshfel.
 - [ ] Lokalisera iOS ATT-text och rätta saknad navigator.languages-reserv; aktiv UI-text finns på alla 40 språk, oanvänd shareFailed saknas i 38.

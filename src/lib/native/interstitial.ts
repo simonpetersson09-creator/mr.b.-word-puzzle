@@ -1,6 +1,7 @@
 import { Capacitor } from '@capacitor/core';
 import { readAdConsentChoices, type AdConsentChoices } from './ad-consent';
 import { AD_LOAD_TIMEOUT, AD_REQUEST_TIMEOUT, presentPreparedAd, withDeadline } from './ad-presentation';
+import { privacyOptionsRequired } from './privacy-status';
 
 export const AD_TTL = 45 * 60 * 1000;
 export interface AdAdapter { consent(): Promise<boolean>; prepare(): Promise<void>; show(): Promise<void>; discard?(): Promise<void> }
@@ -64,11 +65,11 @@ const adapter:AdAdapter={
     try {
       let info=await withDeadline(mod.AdMob.requestConsentInfo(),AD_REQUEST_TIMEOUT);
       if(info.isConsentFormAvailable && info.status===mod.AdmobConsentStatus.REQUIRED)info=await nativeDialog(()=>mod.AdMob.showConsentForm());
-      privacyRequired=info.privacyOptionsRequirementStatus==='REQUIRED';canRequest=info.canRequestAds;
+      privacyRequired=privacyOptionsRequired(info.privacyOptionsRequirementStatus,privacyRequired);canRequest=info.canRequestAds;
     } catch {
       // Read persisted UMP eligibility; never infer consent from a failed refresh.
       const info=await withDeadline(safety()?.getConsentEligibility() ?? Promise.reject(new Error('reader_missing')),AD_REQUEST_TIMEOUT);
-      privacyRequired=info.privacyOptionsRequirementStatus==='REQUIRED';canRequest=info.canRequestAds;
+      privacyRequired=privacyOptionsRequired(info.privacyOptionsRequirementStatus,privacyRequired);canRequest=info.canRequestAds;
     }
     if(!canRequest)return false;
     const tracking=await withDeadline(mod.AdMob.trackingAuthorizationStatus(),AD_REQUEST_TIMEOUT);
