@@ -82,6 +82,13 @@ export function persistSave(save: Save): boolean {
   if (recoveryBlocked) {reportError();return false;}
   // Keep an older valid generation and union the ledger before replacing either mirror.
   const primary=readLocal(SAVE_KEY),backup=readLocal(BACKUP_KEY);
+  // Preserve unknown local schemas before any write, including in the browser.
+  if ((primary!==null && !decode(primary)) || (backup!==null && !decode(backup))) {
+    try {
+      if (primary!==null && !decode(primary)) localStorage.setItem(`${SAVE_KEY}:quarantine`,primary);
+      if (backup!==null && !decode(backup)) localStorage.setItem(`${BACKUP_KEY}:quarantine`,backup);
+    } catch {reportError();return false;}
+  }
   const previous=combine(decode(primary),decode(backup));
   const retained=combine(save,previous);
   save={...retained,settings:save.settings};

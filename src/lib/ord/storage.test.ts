@@ -23,6 +23,12 @@ describe('iPhone result durability', () => {
     const save=emptySave();save.rounds['2026-11-12:3']={date:'2026-11-12',slot:2,answer:'KANEL',guesses:['KANEL']};
     localStorage.setItem(SAVE_KEY,JSON.stringify(save));expect(statistics(loadSave().rounds,'2026-11-12').wins).toBe(1);
   });
+  it('retains unsupported local payloads in quarantine before writing a recovered save',()=>{
+    native.enabled=false;
+    const raw=JSON.stringify({version:2,rounds:{important:'future schema'}});localStorage.setItem(SAVE_KEY,raw);
+    persistSave(emptySave());expect(localStorage.getItem(`${SAVE_KEY}:quarantine`)).toBe(raw);
+    native.enabled=true;
+  });
   it('retains prior completed results when a stale empty snapshot is saved',async()=>{
     const save=mergeRound(emptySave(),submitGuess(newRound('2026-11-12'),'KANEL').round);persistSave(save);await flushNativeSave();persistSave(emptySave());await flushNativeSave();
     expect(statistics(loadSave().rounds,'2026-11-12')).toMatchObject({played:1,wins:1});expect(native.values.has(RECOVERY_KEY)).toBe(true);

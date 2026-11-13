@@ -1,7 +1,7 @@
 # Mr.B. Word Puzzle
-- [ ] Skapa ikon och två headerbilder i referensbildernas format och Mr. B-stil; lägg in iPhone-ikon och favicon.
-- [ ] Förbättra samtidiga/upprepade tangenttryck och ordvinst före resultat/annons utan ändrade spelregler.
-- [ ] Säkerställ bevarad statistik med regressioner och granska kvarvarande Xcode-krav mot Yatzy/Ludo/Sudoku.
+- [x] Skapa ikon och två headerbilder i referensbildernas format och Mr. B-stil; iPhone-ikon, lokal startbild och favicon inlagda.
+- [x] Förbättra samtidiga/upprepade tangenttryck och ordvinst före resultat/annons; tre ord och omstart kontrollerade på telefon/dator.
+- [x] Skydda bevarad statistik mot misslyckade återläsningar/äldre sparning; granska Xcode-krav mot Yatzy/Ludo/Sudoku i XCODE_READINESS.md.
 - [x] Byt appnamn i app, samtliga språk och metadata utan att ändra sparnycklar eller spelregler.
 - [x] Lägg till språkflaggor och kontrollera listans skärmkanter och lager på telefon och dator.
 - [x] Verifiera statistik och inför samtyckessammanfattning enligt Yatzy/Ludo; 50 tester godkända, licenskrav och luckor redovisade.
@@ -26,6 +26,6 @@
 - [ ] Aktivera/verifiera annonser: väntar på Ord-appens egna annons-ID:n från Simon och fysisk iPhone-testning av UMP/ATT/visning.
 - [x] Förstora Radera utan att flytta andra knappar.
 - [x] Kontrollera och dokumentera underlagen och återstående krav för iPhone-släpp; eget iOS-projekt och integritetsmanifest skapade.
-- [ ] Slutverifiera iPhone-paket: kräver Mac/Xcode, fullständig native sync, egen ikon/startbild, signering och fysisk enhetstestning.
+- [ ] Slutverifiera iPhone-paket: ikon/startbild finns; kräver Mac/Xcode, fullständig native sync, pluginlänkning, signering och fysisk enhetstestning.
 - [ ] Ord-specifika support- och integritetssidor samt App Store-material och integritetsdeklarationer: kräver rätt kontaktuppgifter, slutliga annonsval och App Store Connect-verifiering.
 - [ ] Lokalisera iPhones systemtexter för tillstånd och verifiera att mobilens språk, native sparning och återöppning fungerar efter fullständig native sync på Mac/Xcode.
