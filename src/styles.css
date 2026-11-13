@@ -233,3 +233,5 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .streak-hero ~ .stat-metrics { grid-template-columns: repeat(2,1fr); margin: 18px 0; }
 .key.absent { background: var(--key-wrong); border-color: var(--key-wrong); color: var(--key-wrong-ink); box-shadow: none; }
 .key.absent:disabled { opacity: 1; cursor: default; }
+.country-rank { display:flex; align-items:center; gap:12px; margin-top:12px; padding:12px 14px; border-radius:14px; background:var(--card); border:1px solid color-mix(in oklab, var(--primary) 25%, transparent); }
+.country-flag { font-size:32px; line-height:1; } .country-rank strong { display:block; color:var(--primary); font-size:17px; } .country-rank span:not(.country-flag) { font-size:12px; color:var(--muted-foreground); }

@@ -7,6 +7,8 @@ import { GameDialog } from './ui/game-dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { evaluate, hasWon, isFinished, statistics, welcomeState, roundKey, DAILY_WORDS, type Round, type Save, type Settings } from '@/lib/ord/engine';
 import { WordLicenses } from './word-licenses';
+import { fetchCountryRank, type CountryRank } from '@/lib/ranking/ranking';
+import { flagFor } from '@/lib/ranking/country';
 import { useTranslation } from '@/lib/i18n';
 import { languages, languageFlags, type Language } from '@/lib/i18n/languages';
 import { wordPacks } from '@/lib/ord/words/localized';
@@ -42,6 +44,9 @@ export function OrdDialogs({ panel, close, save, round, setSettings, welcome, di
     } catch { setPrivacyError(true); } finally { setPrivacyBusy(false); }
   }
   const stats = statistics(save.rounds, round.date);
+  const winsTotal = stats.distribution.reduce((a, b) => a + b, 0);
+  const [rank, setRank] = useState<CountryRank | null>(null);
+  useEffect(() => { if (panel !== 'stats') return; let live = true; fetchCountryRank(winsTotal, stats.played).then(r => { if (live) setRank(r); }); return () => { live = false; }; }, [panel, winsTotal, stats.played]);
   const today = Array.from({length: DAILY_WORDS}, (_, i) => save.rounds[roundKey(round.date, i)]);
   const goal = [3,7,14,30,50,100,200,365].find(m => m > stats.current) ?? stats.current + 100;
   const prevGoal = [0,3,7,14,30,50,100,200,365].filter(m => m <= stats.current).pop() ?? 0;
@@ -81,6 +86,7 @@ export function OrdDialogs({ panel, close, save, round, setSettings, welcome, di
       <div className="streak-hero"><div className={`streak-flame ${stats.current ? 'lit' : ''}`}><Flame /></div><div className="streak-text"><strong>{stats.current}</strong><span>{t('streakDays')}</span></div><div className="streak-best"><Trophy /><span>{stats.longest}</span></div></div>
       <div className="streak-goal"><div className="streak-goal-label"><span>{stats.current ? t('nextGoal',{count: goal - stats.current, goal}) : t('startStreak')}</span><b>{goal}</b></div><div className="streak-goal-track"><div style={{width: `${Math.max(4, goalPct)}%`}} /></div></div>
       <div className="today-words"><span>{t('todayWords')}</span><div>{today.map((r,i)=><i key={i} className={!r || !isFinished(r) ? '' : hasWon(r) ? 'won' : 'lost'}>{r && isFinished(r) ? (hasWon(r) ? r.guesses.length : '×') : ''}</i>)}</div></div>
+      {rank && <div className="country-rank"><span className="country-flag" aria-hidden="true">{flagFor(rank.country)}</span><div><strong>{t('betterThan',{pct: rank.betterThan})}</strong><span>{t('inCountry',{country: new Intl.DisplayNames([document.documentElement.lang || 'en'],{type:'region'}).of(rank.country) ?? rank.country, count: rank.players})}</span></div></div>}
       <div className="stat-metrics">{([['played',stats.played],['wins',stats.percentage+'%']] as const).map(([key,value])=><div key={key}><strong>{value}</strong><span>{t(key)}</span></div>)}</div>
       <div className="distribution"><h3>{t('distribution')}</h3>{stats.distribution.map((count, i) => <div className="distribution-row" key={i}><span>{i+1}</span><div className="bar-track"><div className={`bar ${count ? 'nonzero' : ''}`} style={{width: `${Math.max(9, count / Math.max(1,...stats.distribution) * 100)}%`}}>{count}</div></div></div>)}</div>
       {done && <>{!dailyDone && <Button className="welcome-play" onClick={()=>{void Promise.resolve(close()).then(nextWord);}}><ArrowRight />{t('nextWord')}</Button>}<Button className="guess-button" onClick={() => { void share(); }}>{copied ? <Check /> : <Share2 />}{copied ? t('copied') : t('share')}</Button><p className="next-puzzle">{t('next')}</p></>}
