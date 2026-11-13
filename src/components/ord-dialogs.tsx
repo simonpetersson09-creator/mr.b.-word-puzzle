@@ -1,5 +1,5 @@
 import * as Switch from '@radix-ui/react-switch';
-import { Vibrate, Check, ArrowRight, Globe2, ShieldCheck, ChevronRight, Flame, Trophy, Sparkles } from 'lucide-react';
+import { Vibrate, Check, ArrowRight, Globe2, ShieldCheck, ChevronRight, Flame, Trophy, Sparkles, LockKeyhole, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import mrB from '@/assets/mr-b.png';
 import { Button } from './ui/button';
@@ -64,8 +64,8 @@ export function OrdDialogs({ panel, close, save, round, setSettings, welcome, di
         <div className="welcome-symbol" aria-hidden="true"><Sparkles /></div>
         <h2>{started ? t('welcomeBack') : t('welcomeReady')}</h2>
         <p className="welcome-intro">{t(welcomeCopy)}</p>
-        <div className="welcome-progress" aria-label={t('todayWords')}>
-          {today.map((r,i)=><div key={i} className={`welcome-word ${r && isFinished(r) ? hasWon(r) ? 'won' : 'lost' : i===(round.slot ?? 0) ? 'current' : ''}`}><span>{r && isFinished(r) ? hasWon(r) ? <Check /> : '×' : <span className="welcome-mystery">?</span>}</span><small>{t('word')} {i+1}</small></div>)}
+        <div className="welcome-progress" role="list" aria-label={t('todayWords')}>
+          {today.map((r,i)=><div role="listitem" key={i} className={`welcome-word ${r && isFinished(r) ? hasWon(r) ? 'won' : 'lost' : i===(round.slot ?? 0) ? 'current' : ''}`}><span className="welcome-word-marker">{r && isFinished(r) ? hasWon(r) ? <Check /> : <X /> : i===(round.slot ?? 0) ? <Sparkles /> : <LockKeyhole />}</span><small>{t('word')} {i+1}</small><span className="welcome-word-line" aria-hidden="true" /></div>)}
         </div>
         {started && <p className="welcome-saved"><ShieldCheck />{t('welcomeSaved')}</p>}
         <div className="welcome-language"><Globe2 /><span>{t('gameLanguage')}</span>{languagePicker('gameLanguage')}</div>
@@ -86,12 +86,12 @@ export function OrdDialogs({ panel, close, save, round, setSettings, welcome, di
          <Button className="guess-button rules-continue" onClick={close}><ArrowRight />{t('resume')}</Button>
        </div>
     </GameDialog>
-    <GameDialog open={panel === 'stats'} onClose={close} title={t('stats')} description={t('stats')}>
+    <GameDialog open={panel === 'stats'} onClose={close} title={t('stats')} description={t('stats')} className="stats-modal">
       {done ? <div className="result-banner"><img src={mrB} alt="Mr. B" /><div><h2>{hasWon(round) ? t('won') : t('lost')}</h2><p>{hasWon(round) ? t('found',{word:round.answer,count:round.guesses.length}) : t('answer',{word:round.answer})}</p></div></div> : <h2>{t('stats')}</h2>}
       <div className="streak-hero"><div className={`streak-flame ${stats.current ? 'lit' : ''}`}><Flame /></div><div className="streak-text"><strong>{stats.current}</strong><span>{t('streakDays')}</span></div><div className="streak-best"><Trophy /><span>{stats.longest}</span></div></div>
       <div className="streak-goal"><div className="streak-goal-label"><span>{stats.current ? t('nextGoal',{count: goal - stats.current, goal}) : t('startStreak')}</span><b>{goal}</b></div><div className="streak-goal-track"><div style={{width: `${Math.max(4, goalPct)}%`}} /></div></div>
       <div className="today-words"><span>{t('todayWords')}</span><div>{today.map((r,i)=><i key={i} className={!r || !isFinished(r) ? '' : hasWon(r) ? 'won' : 'lost'}>{r && isFinished(r) ? (hasWon(r) ? r.guesses.length : '×') : ''}</i>)}</div></div>
-      {rank && <div className="country-rank"><span className="country-flag" aria-hidden="true">{flagFor(rank.country)}</span><div><strong>{t('betterThan',{pct: rank.betterThan})}</strong><span>{t('inCountry',{country: new Intl.DisplayNames([document.documentElement.lang || 'en'],{type:'region'}).of(rank.country) ?? rank.country})}</span></div></div>}
+      {stats.played > 0 && <div className="country-rank-slot">{rank && <div className="country-rank"><span className="country-flag" aria-hidden="true">{flagFor(rank.country)}</span><div><strong>{t('betterThan',{pct: rank.betterThan})}</strong><span>{t('inCountry',{country: new Intl.DisplayNames([document.documentElement.lang || 'en'],{type:'region'}).of(rank.country) ?? rank.country})}</span></div></div>}</div>}
       <div className="stat-metrics">{([['played',stats.played],['wins',stats.percentage+'%']] as const).map(([key,value])=><div key={key}><strong>{value}</strong><span>{t(key)}</span></div>)}</div>
       <div className="distribution"><h3>{t('distribution')}</h3>{stats.distribution.map((count, i) => <div className="distribution-row" key={i}><span>{i+1}</span><div className="bar-track"><div className={`bar ${count ? 'nonzero' : ''}`} style={{width: `${Math.max(9, count / Math.max(1,...stats.distribution) * 100)}%`}}>{count}</div></div></div>)}</div>
       {done && <>{!dailyDone && <Button className="welcome-play" onClick={()=>{void Promise.resolve(close()).then(nextWord);}}><ArrowRight />{t('nextWord')}</Button>}<p className="next-puzzle">{t('next')}</p></>}

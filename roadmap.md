@@ -1,4 +1,5 @@
 # Mr.B. Word Puzzle
+- [ ] Stabiliserar statistikdialogen när landsplaceringen laddas och förnyar välkomstsidans tre ord; kontrollera små och stora telefonvyer.
 - [x] Skydda tilldelade svar med separat fryst schema; behåll minneskopian och återförsök efter tillfälliga sparfel.
 - [x] Granska alla 29 beroendefynd; uppdaterade paket ger tom bun audit och inga kända produktionssårbarheter. Djupgranskningens obehöriga rankningsskrivningar åtgärdade.
 - [x] Använd native Share/Clipboard för iOS/Android; reservvägar och avbruten delning testade, kopiering från resultatsidan verifierad.
