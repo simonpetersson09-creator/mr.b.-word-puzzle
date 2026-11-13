@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { evaluate, hasWon, isFinished, statistics, welcomeState, roundKey, DAILY_WORDS, type Round, type Save, type Settings } from '@/lib/ord/engine';
 import { WordLicenses } from './word-licenses';
 import { fetchCountryRank, type CountryRank } from '@/lib/ranking/ranking';
+import { cacheRank, readCachedRank, restoreCachedRank } from '@/lib/ranking/rank-cache';
 import { flagFor } from '@/lib/ranking/country';
 import { useTranslation } from '@/lib/i18n';
 import { languages, languageFlags, type Language } from '@/lib/i18n/languages';
@@ -46,7 +47,20 @@ export function OrdDialogs({ panel, close, save, round, setSettings, welcome, di
   const stats = statistics(save.rounds, round.date);
   const winsTotal = stats.distribution.reduce((a, b) => a + b, 0);
   const [rank, setRank] = useState<CountryRank | null>(null);
-  useEffect(() => { if (panel !== 'stats') return; let live = true; fetchCountryRank(winsTotal, stats.played).then(r => { if (live) setRank(r); }); return () => { live = false; }; }, [panel, winsTotal, stats.played]);
+  useEffect(() => {
+    let live = true;
+    setRank(readCachedRank());
+    void restoreCachedRank().then(r => { if (live && r) setRank(previous => previous ?? r); });
+    return () => { live = false; };
+  }, []);
+  useEffect(() => {
+    if (panel !== 'stats') return;
+    let live = true;
+    void fetchCountryRank(winsTotal, stats.played).then(r => {
+      if (live && r) { setRank(r); void cacheRank(r); }
+    });
+    return () => { live = false; };
+  }, [panel, winsTotal, stats.played]);
   const today = Array.from({length: DAILY_WORDS}, (_, i) => save.rounds[roundKey(round.date, i)]);
   const goal = [3,7,14,30,50,100,200,365].find(m => m > stats.current) ?? stats.current + 100;
   const prevGoal = [0,3,7,14,30,50,100,200,365].filter(m => m <= stats.current).pop() ?? 0;
