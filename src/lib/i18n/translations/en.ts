@@ -1,5 +1,6 @@
 import type { TranslationKey } from './sv';
 export const en: Record<TranslationKey,string> = {
+  rulesGreen:'Green – right letter in the right place.', rulesYellow:'Yellow – right letter in the wrong place.', rulesGrey:'Grey – no matching occurrence of this letter remains.', rulesGoodToKnow:'Good to know', rulesValid:'Only valid words in the selected language are accepted. Invalid words do not use an attempt.', rulesDuplicates:'A letter can appear more than once, but each occurrence counts only once.', rulesDaily:'Play three new words every day. New words become available at 03:00 in your phone’s local time.', rulesExampleAnswer:'Example: the secret word is {word}.',
  welcomeNext:'A word is complete. Continue with the next of today’s three words.',
  nextWord:'Next word',
  short:'Enter five letters first',unknown:'This word is not in the dictionary',finished:'Today’s round is finished',guess:'Guess',rules:'How to play',stats:'Your statistics',settings:'Settings',sound:'Sound',haptics:'Vibration',won:'Well played!',lost:'New word, new chances',share:'Share result',copied:'Result copied',storage:'Could not save on this device.',

@@ -1,4 +1,5 @@
 # Mr. B Ord
+- [ ] Förtydliga endast ”Så spelar du”: korrekta färgexempel, Bra att veta och översättningar för alla befintliga språk; kontrollera små skärmar och stängning.
 - [x] Rätta grekisk inmatning och tangenttecken utan att ändra sparade svar, oberoende sparnings-/backupvägar med felvarning, delklar välkomst och återöppning över 03.00; licenser och orddata bundlade i appen, regressioner och telefonflöden verifierade.
 - [x] Säkerställ separata annonsförsök efter vart och ett av tre ord, inklusive Nästa ord; tre visningar testade med adapter, verkliga annonser kräver fortsatt aktivering/enhetstest.
 - [x] Gör tangenttryck tydligare utan att flytta spelplan eller tangentbord; gul markering och tryckeffekt verifierade.

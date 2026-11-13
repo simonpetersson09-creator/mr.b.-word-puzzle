@@ -37,7 +37,16 @@ export function OrdDialogs({ panel, close, save, round, setSettings, welcome, di
     </GameDialog>
     <GameDialog open={panel === 'rules'} onClose={close} title={t('rules')} description={t('rulesIntro')}>
       <h2>{t('rules')}</h2><p className="modal-description">{t('rulesIntro')}</p>
-      <div className="rules-body"><p>{t('rulesBody')}</p><div className="example">{'KANAL'.split('').map((c,i) => <span className={`tile ${evaluate('KANAL','KANEL')[i]}`} key={i}>{c}</span>)}</div>{(['correct','present','absent'] as const).map(mark=><div className="rule-label" key={mark}><i className={mark} />{t(mark)}</div>)}<p>{t('rulesDetail')}</p></div><Button className="guess-button" onClick={close}><ArrowRight />{t('resume')}</Button>
+       <div className="rules-body">
+         <p>{t('rulesBody')}</p>
+         <figure className="rules-example">
+           <figcaption>{t('rulesExampleAnswer',{word:'KANEL'})}</figcaption>
+           <div className="example" aria-label="KALAS">{'KALAS'.split('').map((c,i) => <span className={`tile ${evaluate('KALAS','KANEL')[i]}`} key={i}>{c}</span>)}</div>
+         </figure>
+         {([['correct','rulesGreen'],['present','rulesYellow'],['absent','rulesGrey']] as const).map(([mark,label])=><div className="rule-label" key={mark}><i className={mark} aria-hidden="true" /><span>{t(label)}</span></div>)}
+         <section className="rules-notes"><h3>{t('rulesGoodToKnow')}</h3><ul><li>{t('rulesValid')}</li><li>{t('rulesDuplicates')}</li><li>{t('rulesDaily')}</li></ul></section>
+         <Button className="guess-button rules-continue" onClick={close}><ArrowRight />{t('resume')}</Button>
+       </div>
     </GameDialog>
     <GameDialog open={panel === 'stats'} onClose={close} title={t('stats')} description={t('statsIntro')}>
       {done ? <div className="result-banner"><img src={mrB} alt="Mr. B" /><div><h2>{hasWon(round) ? t('won') : t('lost')}</h2><p>{hasWon(round) ? t('found',{word:round.answer,count:round.guesses.length}) : t('answer',{word:round.answer})}</p></div></div> : <><h2>{t('stats')}</h2><p className="modal-description">{t('statsIntro')}</p></>}
