@@ -3,7 +3,7 @@ import { iosSourceChecks } from './ios-source-checks.mjs';
 const read = path => readFileSync(path, 'utf8');
 const checks = iosSourceChecks();
 for (const [label, passed] of checks) { console.log(`${passed ? 'OK' : 'FAIL'}: ${label}`); if (!passed) process.exitCode = 1; }
-console.log('UNVERIFIED: installed signing certificate/profile, Xcode archive, physical-device tests and App Store Connect. Ads remain gated off pending own IDs and UMP/ATT tests.');
+console.log('UNVERIFIED: installed signing certificate/profile, Xcode archive, physical-device tests and App Store Connect. AdMob uses Word Puzzle IDs; UMP/ATT and ad display must be tested on a physical iPhone.');
 const packagePath='ios/App/CapApp-SPM/Package.swift';
 const spm=existsSync(packagePath) ? read(packagePath) : '';
 const configPath = 'ios/App/App/capacitor.config.json';
