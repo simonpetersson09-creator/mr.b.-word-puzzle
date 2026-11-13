@@ -25,6 +25,7 @@
   },
   "overrides": {
     "rolldown": "1.2.1",
+    "esbuild": "0.25.12",
     "source-map-js": "1.2.2",
     "js-yaml": "4.3.2",
     "seroval": "1.8.1",
