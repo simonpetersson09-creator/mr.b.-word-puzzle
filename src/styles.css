@@ -92,11 +92,18 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .tile.correct, .key.correct { background: var(--correct); border-color: var(--correct); color: var(--foreground); }
 .tile.present, .key.present { background: var(--present); border-color: var(--present); color: var(--primary-foreground); }
 .tile.absent, .key.absent { background: var(--absent); border-color: var(--absent); color: var(--foreground); }
-.tile.reveal { animation: reveal .35s ease-out; }
-@keyframes reveal { from { transform: rotateX(70deg); } to { transform: rotateX(0); } }
+.board .tile-flipping { position: relative; overflow: visible; perspective: 700px; border-color: var(--primary); }
+.tile-rotor { position: absolute; inset: -1px; transform-style: preserve-3d; animation: tile-turn var(--flip-duration) cubic-bezier(.45,0,.25,1) var(--flip-delay) both; }
+.tile-face { position: absolute; inset: 0; display: grid; place-items: center; border: 1.5px solid var(--primary); border-radius: 5px; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.tile-front { background: var(--card); color: var(--foreground); }
+.tile-back { transform: rotateX(180deg); }
+.tile-back.correct { background: var(--correct); border-color: var(--correct); color: var(--foreground); }
+.tile-back.present { background: var(--present); border-color: var(--present); color: var(--primary-foreground); }
+.tile-back.absent { background: var(--absent); border-color: var(--absent); color: var(--foreground); }
+@keyframes tile-turn { from { transform: rotateX(0); } to { transform: rotateX(180deg); } }
 .game-message { min-height: 24px; max-width: 100%; text-align: center; color: var(--muted-foreground); font-size: 11px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; gap: 6px; }
 .game-message.error { color: var(--destructive); }
-.keyboard { width: 100%; display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; --key-gap: 5px; --key-w: calc((100% - (var(--key-columns,11) - 1) * var(--key-gap)) / var(--key-columns,11)); }
+.keyboard { width: 100%; display: flex; flex-direction: column; gap: var(--key-gap); flex-shrink: 0; --key-gap: 5px; --key-w: calc((100% - (var(--key-columns,11) - 1) * var(--key-gap)) / var(--key-columns,11)); }
 .key-row { display: grid; grid-template-columns: repeat(var(--row-columns,11), var(--key-w)); gap: var(--key-gap); width: 100%; justify-content: center; }
 .key-row:last-of-type { margin-inline: 0; grid-template-columns: repeat(var(--row-columns,7), var(--key-w)) minmax(0,1fr); justify-content: stretch; }
 .key { padding: 0; min-width: 0; height: 46px; font-family: var(--font-display); font-size: 13px; font-weight: 700; border-radius: 5px; background: var(--key); color: var(--key-ink); border: 1px solid var(--key-border); box-shadow: var(--key-shadow); }
@@ -144,7 +151,7 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .privacy-content dd { margin: 0; max-width: 40%; text-align: right; color: var(--primary); }
 .privacy-error { color: var(--destructive); }
 .stat-metrics span { overflow-wrap: anywhere; }
-.guess-button { width: calc(var(--erase-columns) * var(--key-w) + (var(--erase-columns) - 1) * var(--key-gap)); max-width: 100%; align-self: flex-end; height: 42px; flex-shrink: 0; background: var(--gold-fill); color: var(--primary-foreground); margin: 7px 0 0; font-family: var(--font-display); font-weight: 700; border-radius: 5px; box-shadow: var(--shadow); }
+.guess-button { width: calc(var(--erase-columns) * var(--key-w) + (var(--erase-columns) - 1) * var(--key-gap)); max-width: 100%; align-self: flex-end; height: 42px; flex-shrink: 0; background: var(--gold-fill); color: var(--primary-foreground); margin: 0; font-family: var(--font-display); font-weight: 700; border-radius: 5px; box-shadow: var(--shadow); }
 .guess-button:hover { filter: brightness(1.05); }
 .modal-overlay { position: fixed; inset: 0; z-index: 50; background: var(--overlay); backdrop-filter: blur(5px); }
 .modal { position: fixed; z-index: 51; top: 50%; left: 50%; transform: translate(-50%,-50%); width: min(420px, calc(100% - 28px)); max-height: calc(100dvh - 44px); overflow-y: auto; scrollbar-width: none; border: 1px solid var(--border); background: var(--card); padding: 26px 25px 22px; border-radius: 8px; box-shadow: var(--shadow); }
@@ -209,10 +216,10 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
   .game { padding: 0 15px 8px; } .board { --board-gap: 4px; } .key { height: 44px; font-size: 14px; } .keyboard { width: calc(100% + 14px); --key-gap: 4px; }
 }
 @media (max-height: 760px) {
-  .app-header { padding-top: 9px; padding-bottom: 4px; } .board { --board-gap: 4px; } .board-zone { margin-top: 2px; } .game-message { min-height: 20px; } .keyboard { gap: 5px; } .key { height: 43px; } .guess-button { height: 39px; margin-top: 5px; } .game { padding-bottom: 6px; }
+  .app-header { padding-top: 9px; padding-bottom: 4px; } .board { --board-gap: 4px; } .board-zone { margin-top: 2px; } .game-message { min-height: 20px; } .key { height: 43px; } .guess-button { height: 39px; } .game { padding-bottom: 6px; }
 }
 @media (max-height: 600px) {
-  .app-header { padding-top: 6px; padding-bottom: 2px; } .board { --board-gap: 3px; } .game-message { min-height: 18px; } .keyboard { gap: 4px; } .key { height: 38px; } .guess-button { height: 34px; margin-top: 4px; }
+  .app-header { padding-top: 6px; padding-bottom: 2px; } .board { --board-gap: 3px; } .game-message { min-height: 18px; } .key { height: 38px; } .guess-button { height: 34px; }
 }
 @media (max-width: 600px) {
   .game { padding-bottom: 24px; }
