@@ -23,7 +23,7 @@ export function WordLicenses() {
     const blob = new Blob([JSON.stringify({ documents, guesses, inflections, answers, packs })], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
-    link.href = url; link.download = 'mr-b-ord-wordlists-licenses.json'; link.click();
+    link.href = url; link.download = 'mr-b-word-puzzle-wordlists-licenses.json'; link.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
   return <section className="mt-5 space-y-4">
