@@ -7,7 +7,7 @@ import { WordCelebration } from '@/components/word-celebration';
 import { GuessTile } from '@/components/guess-tile';
 import { useGuessReveal } from '@/hooks/use-guess-reveal';
 import { emptySave, evaluate, hasWon, isFinished, keyboardMarks, newRound, gameDate, submitGuess, activeSlot, roundKey, DAILY_WORDS, type Save } from '@/lib/ord/engine';
-import { initializeSave, loadSave, mergeRound, persistSave, flushNativeSave, onSaveError, SAVE_KEY } from '@/lib/ord/storage';
+import { initializeSave, loadSave, mergeRound, persistSave, flushNativeSave, retrySave, onSaveError, SAVE_KEY } from '@/lib/ord/storage';
 import { installViewportSync } from '@/lib/native/viewport';
 import { feedback } from '@/lib/native/feedback';
 import { deviceLanguage, setAppLanguage, useTranslation } from '@/lib/i18n';
@@ -52,6 +52,9 @@ function Index() {
     pressTimers.current.set(letter,setTimeout(()=>{setPressedKeys(keys=>{const next={...keys};delete next[letter];return next;});pressTimers.current.delete(letter);},220));
   }
   const saveRef = useRef(save);
+  const saveNeedsRetry = useRef(false);
+  const recovering = useRef(false);
+  const recoveryAt = useRef(0);
   const desiredLanguage=save.settings.gameLanguage && save.settings.gameLanguage !== 'auto' ? save.settings.gameLanguage : phoneLanguage;
   const key=roundKey(date,slot);
   const todayRounds=useMemo(()=>Object.values(save.rounds).filter(r=>r.date===date),[save.rounds,date]);
@@ -79,11 +82,11 @@ function Index() {
   const marks = useMemo(()=>keyboardMarks(reveal.row === null ? round : {...round,guesses:round.guesses.slice(0,reveal.row)}),[round,reveal.row]);
   function commit(next: Save) {
     saveRef.current = next; setSave(next);
-    if (!persistSave(next)) setMessage(t('storage'));
+    if (!persistSave(next)) { saveNeedsRetry.current=true; setMessage(t('storage')); }
   }
   useEffect(() => {
     let mounted = true;
-    const unsubscribeErrors = onSaveError(() => { if (mounted) setMessage(t('storage')); });
+    const unsubscribeErrors = onSaveError(() => { saveNeedsRetry.current=true; if (mounted) setMessage(t('storage')); });
     void Promise.all([initializeSave(),deviceLanguage()]).then(([loaded,lang]) => {
       if (!mounted) return;
       saveRef.current = loaded; setSave(loaded); setPhoneLanguage(lang); setAppLanguage(loaded.settings.language && loaded.settings.language!=='auto' ? loaded.settings.language : lang); setDate(gameDate()); setSlot(activeSlot(loaded,gameDate())); setReady(true);
@@ -92,18 +95,32 @@ function Index() {
         if (active && !isFinished(active)) dailyAds.preload(roundKey(active.date,active.slot), active.guesses.length);
       });
     });
+    function recover() {
+      if (!saveNeedsRetry.current || recovering.current || Date.now()<recoveryAt.current) return;
+      recovering.current=true; recoveryAt.current=Date.now()+15000;
+      void retrySave(saveRef.current).then(loaded => {
+        if (!mounted) return;
+        let merged=loaded;
+        for (const r of Object.values(saveRef.current.rounds)) merged=mergeRound(merged,r);
+        merged={...merged,settings:saveRef.current.settings};
+        saveRef.current=merged; setSave(merged);
+        saveNeedsRetry.current=!persistSave(merged);
+        if (!saveNeedsRetry.current) setMessage('');
+      }).catch(() => { if(mounted) setMessage(t('storage')); }).finally(() => {recovering.current=false;});
+    }
     const cleanup = installViewportSync();
     const cleanupOpening=installOpeningListener(openWelcome);
     const languageChanged=()=>openWelcome();
     window.addEventListener('languagechange',languageChanged);
     function refreshDay() {
+      if (!document.hidden) recover();
       const current = gameDate();
       if (dateRef.current !== current) { dateRef.current=current; reveal.cancel(); setCelebrating(false); setDate(current); setSlot(activeSlot(saveRef.current,current)); setInput(''); setMessage(''); setPanel(null); }
     }
     function reload(event: StorageEvent) { if (event.key === SAVE_KEY) { reveal.cancel(); let updated=loadSave(); for (const round of Object.values(saveRef.current.rounds)) updated=mergeRound(updated,round); saveRef.current=updated; setSave(updated); setSlot(activeSlot(updated,gameDate())); setInput(''); } }
     const timer=setInterval(refreshDay,1000);
-    window.addEventListener('focus',refreshDay); document.addEventListener('visibilitychange',refreshDay); window.addEventListener('storage',reload);
-    return () => { mounted = false; unsubscribeErrors(); cleanup(); cleanupOpening(); window.removeEventListener('languagechange',languageChanged); clearInterval(timer); pressTimers.current.forEach(clearTimeout); window.removeEventListener('focus',refreshDay); document.removeEventListener('visibilitychange',refreshDay); window.removeEventListener('storage',reload); };
+    window.addEventListener('online',recover); window.addEventListener('focus',refreshDay); document.addEventListener('visibilitychange',refreshDay); window.addEventListener('storage',reload);
+    return () => { mounted = false; unsubscribeErrors(); cleanup(); cleanupOpening(); window.removeEventListener('languagechange',languageChanged); clearInterval(timer); pressTimers.current.forEach(clearTimeout); window.removeEventListener('online',recover); window.removeEventListener('focus',refreshDay); document.removeEventListener('visibilitychange',refreshDay); window.removeEventListener('storage',reload); };
   },[]);
   function enter() {
     if (!ready || done || welcome || panel || celebrating || reveal.busy.current || !available) return;
@@ -126,8 +143,7 @@ function Index() {
     const showAd = panel === 'stats' && done;
     if (!showAd) { setPanel(null); return Promise.resolve(); }
     // Do not unlock the next word until the native ad has been dismissed.
-    const exit = flushNativeSave().then(() => dailyAds.afterResult(key,true))
-      .catch(() => setMessage(t('storage')))
+    const exit = flushNativeSave().catch(() => {saveNeedsRetry.current=true;setMessage(t('storage'));}).then(() => dailyAds.afterResult(key,true))
       .finally(() => { setPanel(null); resultExit.current=null; });
     resultExit.current=exit;
     return exit;
@@ -143,7 +159,7 @@ function Index() {
   });
   const formatted = new Intl.DateTimeFormat(language === 'no' ? 'nb' : language,{day:'numeric',month:'long',timeZone:'UTC'}).format(new Date(date+'T12:00:00Z'));
   return (
-    <div className="app-screen">
+    <div className={`app-screen ${rows && rows.length > 4 ? 'many-key-rows' : ''}`}>
       <header className="app-header"><nav className="header-tools header-tools-left" aria-label={t('rules')}>
         <Button className="tool-button" variant="ghost" disabled={reveal.row!==null} aria-label={t('rules')} title={t('rules')} onClick={() => setPanel('rules')}><CircleHelp /></Button>
       </nav><div className="brand"><div className="brand-label"><h1>Mr.B. Word Puzzle</h1><small>{`${t('word')} ${slot+1}/${DAILY_WORDS} · ${formatted}`}</small></div></div><nav className="header-tools header-tools-right" aria-label={t('settings')}>

@@ -129,6 +129,11 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .key.erase-key { color: var(--primary); background: var(--secondary); border-color: var(--border); }
 .key:active, .key.key-pressed { background: var(--key-pressed-fill); color: var(--key-pressed-ink); border-color: var(--primary); box-shadow: var(--key-pressed-ring); filter: none; }
 .word-input { width: 100%; height: 48px; background: var(--secondary); color: var(--foreground); border: 1px solid var(--primary); border-radius: 6px; text-align: center; font: 22px var(--font-display); }
+.many-key-rows .keyboard { flex-shrink: 1; min-height: 0; max-height: 50%; overflow-y: auto; scrollbar-width: none; overscroll-behavior: contain; }
+.many-key-rows .keyboard::-webkit-scrollbar { display: none; }
+.many-key-rows .key-row { flex-shrink: 0; }
+.many-key-rows .board-zone { flex: 1 0 36%; }
+.many-key-rows .keyboard > .guess-button { position: sticky; bottom: 0; z-index: 2; }
 .welcome-body { text-align: center; }
 .welcome-refreshed { padding-top: 5px; }
 .welcome-refreshed .welcome-brand { margin-bottom: 18px; }

@@ -8,6 +8,8 @@ export const BACKUP_KEY = `${SAVE_KEY}:backup`;
 export const RECOVERY_KEY = `${SAVE_KEY}:recovery`;
 let nativeWrites = Promise.resolve();
 let recoveryBlocked = false;
+let pendingSave: Save | null = null;
+let recoveryAttempt: Promise<Save> | null = null;
 const errorListeners = new Set<() => void>();
 export function onSaveError(listener: () => void) { errorListeners.add(listener); return () => { errorListeners.delete(listener); }; }
 function reportError() { errorListeners.forEach(listener => listener()); }
@@ -64,7 +66,8 @@ function combine(primary: Save | null, backup: Save | null): Save {
   return { ...result, settings: primary.settings };
 }
 export function loadSave(): Save {
-  return combine(combine(decode(readLocal(SAVE_KEY)), decode(readLocal(BACKUP_KEY))),decode(readLocal(RECOVERY_KEY)));
+  const disk = combine(combine(decode(readLocal(SAVE_KEY)), decode(readLocal(BACKUP_KEY))),decode(readLocal(RECOVERY_KEY)));
+  return pendingSave ? combine(pendingSave, disk) : disk;
 }
 export async function initializeSave(): Promise<Save> {
   recoveryBlocked=false;
@@ -92,8 +95,20 @@ export async function initializeSave(): Promise<Save> {
   } catch { recoveryBlocked=true;reportError(); return recovered; }
 }
 export const flushNativeSave = () => nativeWrites;
+export function retrySave(save: Save): Promise<Save> {
+  if (recoveryAttempt) return recoveryAttempt;
+  recoveryAttempt = (async () => {
+    const recovered = await initializeSave();
+    const retained = combine(save, recovered);
+    if (!persistSave(retained)) throw new Error('Save recovery failed');
+    await flushNativeSave();
+    return retained;
+  })().finally(() => { recoveryAttempt = null; });
+  return recoveryAttempt;
+}
 // One atomic snapshot: rounds themselves are the result ledger; no double-counted counters.
 export function persistSave(save: Save): boolean {
+  pendingSave = combine(save, pendingSave);
   if (recoveryBlocked) {reportError();return false;}
   // Keep an older valid generation and union the ledger before replacing either mirror.
   const primary=readLocal(SAVE_KEY),backup=readLocal(BACKUP_KEY);
@@ -105,13 +120,14 @@ export function persistSave(save: Save): boolean {
     } catch {reportError();return false;}
   }
   const previous=combine(decode(primary),decode(backup));
-  const retained=combine(save,previous);
+  const retained=combine(pendingSave,combine(previous,decode(readLocal(RECOVERY_KEY))));
   save={...retained,settings:save.settings};
   const snapshot = JSON.stringify(save);
   let saved = false;
   if (Object.keys(previous.rounds).length) {try {localStorage.setItem(RECOVERY_KEY,JSON.stringify(previous));} catch {reportError();}}
   try { localStorage.setItem(SAVE_KEY, snapshot); saved = true; } catch { reportError(); }
   try { localStorage.setItem(BACKUP_KEY, snapshot); saved = true; } catch { reportError(); }
+  if (saved) pendingSave = null;
   if (Capacitor.isNativePlatform()) {
     nativeWrites = nativeWrites.catch(() => {}).then(async () => {
       const { Preferences } = await import('@capacitor/preferences');
@@ -119,7 +135,7 @@ export function persistSave(save: Save): boolean {
       try {
         const old=await Preferences.get({key:SAVE_KEY});
         if (old.value && decode(old.value)) await Preferences.set({key:RECOVERY_KEY,value:old.value});
-      } catch {reportError();}
+      } catch {recoveryBlocked=true;reportError();throw new Error('Native recovery read failed');}
       // Attempt both copies even if one fails; keep failures observable to flush callers.
       const writes = await Promise.allSettled([Preferences.set({ key: SAVE_KEY, value: snapshot }), Preferences.set({ key: BACKUP_KEY, value: snapshot })]);
       const failure = writes.find(result => result.status === 'rejected');
