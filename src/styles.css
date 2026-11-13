@@ -95,9 +95,9 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 @keyframes reveal { from { transform: rotateX(70deg); } to { transform: rotateX(0); } }
 .game-message { min-height: 24px; max-width: 100%; text-align: center; color: var(--muted-foreground); font-size: 11px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; gap: 6px; }
 .game-message.error { color: var(--destructive); }
-.keyboard { width: 100%; display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
-.key-row { display: grid; grid-template-columns: repeat(var(--row-columns,11), minmax(0,1fr)); gap: 5px; width: 100%; }
-.key-row:last-of-type { width: 100%; margin-inline: 0; grid-template-columns: repeat(calc(var(--row-columns,8) - 1), minmax(0,1fr)) minmax(0,1.6fr); }
+.keyboard { width: 100%; display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; --key-gap: 5px; --key-w: calc((100% - (var(--key-columns,11) - 1) * var(--key-gap)) / var(--key-columns,11)); }
+.key-row { display: grid; grid-template-columns: repeat(var(--row-columns,11), var(--key-w)); gap: var(--key-gap); width: 100%; justify-content: center; }
+.key-row:last-of-type { margin-inline: 0; grid-template-columns: repeat(var(--row-columns,7), var(--key-w)) minmax(0,1fr); justify-content: stretch; }
 .key { padding: 0; min-width: 0; height: 46px; font-family: var(--font-display); font-size: 13px; font-weight: 700; border-radius: 5px; background: var(--key); color: var(--key-ink); border: 1px solid var(--key-border); box-shadow: var(--key-shadow); }
 .key:hover { filter: brightness(1.08); }
 .key { position: relative; overflow: hidden; }
@@ -204,7 +204,7 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 }
 @media (max-width: 600px) {
   .app-header { padding: 12px 15px 7px; grid-template-columns: 74px minmax(0, 1fr) 74px; } .brand { gap: 6px; } .brand img { width: 24px; height: 34px; } .brand-label { font-size: 16px; } .brand-label small { font-size: 8px; margin-top: 2px; } .tool-button { width: 34px; height: 34px; } .tool-button svg { width: 16px; height: 16px; } .header-tools { gap: 6px; }
-  .game { padding: 0 15px 8px; } .board { --board-gap: 4px; } .key { height: 44px; font-size: 14px; } .key-row { gap: 4px; } .keyboard { width: calc(100% + 14px); }
+  .game { padding: 0 15px 8px; } .board { --board-gap: 4px; } .key { height: 44px; font-size: 14px; } .keyboard { width: calc(100% + 14px); --key-gap: 4px; }
 }
 @media (max-height: 760px) {
   .app-header { padding-top: 9px; padding-bottom: 4px; } .board { --board-gap: 4px; } .board-zone { margin-top: 2px; } .game-message { min-height: 20px; } .keyboard { gap: 5px; } .key { height: 43px; } .guess-button { height: 39px; margin-top: 5px; } .game { padding-bottom: 6px; }
