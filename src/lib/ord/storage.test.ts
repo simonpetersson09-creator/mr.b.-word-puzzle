@@ -6,9 +6,27 @@ vi.mock('@capacitor/preferences', () => ({ Preferences: {
   set: async ({ key, value }: { key: string; value: string }) => { native.set(key, value); if (native.writeFailures.has(key)) throw new Error('write failed'); native.values.set(key, value); },
 } }));
 import { emptySave, newRound, submitGuess, statistics } from './engine';
-import { initializeSave, loadSave, persistSave, flushNativeSave, mergeRound, onSaveError, SAVE_KEY, BACKUP_KEY } from './storage';
+import { initializeSave, loadSave, persistSave, flushNativeSave, mergeRound, onSaveError, SAVE_KEY, BACKUP_KEY, RECOVERY_KEY } from './storage';
 describe('iPhone result durability', () => {
-  beforeEach(async () => { await flushNativeSave().catch(() => {}); localStorage.clear(); native.values.clear(); native.set.mockClear(); native.readFailures.clear(); native.writeFailures.clear(); });
+  beforeEach(async () => { await flushNativeSave().catch(() => {}); localStorage.clear(); native.values.clear(); native.readFailures.clear(); native.writeFailures.clear(); await initializeSave();localStorage.clear();native.values.clear();native.set.mockClear(); });
+  it('never replaces native history when all reads fail and later writes would succeed',async()=>{
+    const save=mergeRound(emptySave(),submitGuess(newRound('2026-11-12'),'KANEL').round);
+    for(const key of [SAVE_KEY,BACKUP_KEY,RECOVERY_KEY]) {native.values.set(key,JSON.stringify(save));native.readFailures.add(key);}
+    await initializeSave();expect(persistSave(emptySave())).toBe(false);await flushNativeSave();
+    expect(native.set).not.toHaveBeenCalled();expect(JSON.parse(native.values.get(SAVE_KEY) ?? '{}')).toEqual(save);
+  });
+  it('preserves an unsupported native schema instead of overwriting it with defaults',async()=>{
+    const raw=JSON.stringify({version:2,rounds:{important:'future migration'}});native.values.set(SAVE_KEY,raw);
+    await initializeSave();expect(persistSave(emptySave())).toBe(false);expect(native.values.get(SAVE_KEY)).toBe(raw);expect(native.set).not.toHaveBeenCalled();
+  });
+  it('recovers valid later slots without applying gameplay unlock checks',()=>{
+    const save=emptySave();save.rounds['2026-11-12:3']={date:'2026-11-12',slot:2,answer:'KANEL',guesses:['KANEL']};
+    localStorage.setItem(SAVE_KEY,JSON.stringify(save));expect(statistics(loadSave().rounds,'2026-11-12').wins).toBe(1);
+  });
+  it('retains prior completed results when a stale empty snapshot is saved',async()=>{
+    const save=mergeRound(emptySave(),submitGuess(newRound('2026-11-12'),'KANEL').round);persistSave(save);await flushNativeSave();persistSave(emptySave());await flushNativeSave();
+    expect(statistics(loadSave().rounds,'2026-11-12')).toMatchObject({played:1,wins:1});expect(native.values.has(RECOVERY_KEY)).toBe(true);
+  });
   it('reads local backup even if the primary storage read throws', () => {
     const save = mergeRound(emptySave(), submitGuess(newRound('2026-11-12'), 'KANEL').round);
     localStorage.setItem(BACKUP_KEY, JSON.stringify(save));
@@ -63,6 +81,6 @@ describe('iPhone result durability', () => {
     persistSave(first); persistSave(won); await flushNativeSave();
     const saved = JSON.parse(native.values.get(SAVE_KEY) ?? '{}');
     expect(saved.rounds['2026-11-12'].guesses).toEqual(['TIGER','KANEL']);
-    expect(native.set).toHaveBeenCalledTimes(4);
+    expect(native.set).toHaveBeenCalledTimes(5);
   });
 });

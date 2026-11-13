@@ -49,3 +49,6 @@ use the editor.
 - Read and write recovery copies independently and notify subscribed UI on persistence errors; a broken primary must not prevent backup recovery or hide a native write failure.
 - Bundle attribution, license texts and redistributable word data into the shared client UI; legal notices must remain readable offline in the native shell.
 - Read saved ad choices from native UMP purpose bits using the reference apps' reproducible install patch; display only known purposes, never infer acceptance, and invalidate prepared inventory when consent changes.
+- Block recovery writes on failed native reads or unsupported payloads and retain an older valid generation; ledger recovery unions valid slots independently from gameplay unlock rules to avoid erasing statistics.
+- Keep per-key press pulses independent and submit pointer input on press-down; concurrent touch events must not overwrite each other's visible feedback or duplicate click input.
+- Show a reduced-motion-aware word-win celebration before result exit; it must never run on restored results or move advertisement presentation into gameplay.

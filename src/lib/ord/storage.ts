@@ -5,7 +5,9 @@ import { letters } from './words/localized';
 // Adapted from Ludo: SSR-safe local storage, separate namespace, guarded reads.
 export const SAVE_KEY = 'mrb-ord:v1:save';
 export const BACKUP_KEY = `${SAVE_KEY}:backup`;
+export const RECOVERY_KEY = `${SAVE_KEY}:recovery`;
 let nativeWrites = Promise.resolve();
+let recoveryBlocked = false;
 const errorListeners = new Set<() => void>();
 export function onSaveError(listener: () => void) { errorListeners.add(listener); return () => { errorListeners.delete(listener); }; }
 function reportError() { errorListeners.forEach(listener => listener()); }
@@ -37,41 +39,63 @@ function decode(text: string | null): Save | null {
 function combine(primary: Save | null, backup: Save | null): Save {
   let result = backup ?? emptySave();
   if (!primary) return result;
-  for (const round of Object.values(primary.rounds)) result = mergeRound(result, round);
+  // Recovery is not gameplay: valid later slots must survive a damaged earlier slot.
+  const rounds = {...result.rounds};
+  for (const [key,round] of Object.entries(primary.rounds)) {
+    const existing=rounds[key];
+    if (!existing || (!isFinished(existing) && existing.answer===round.answer && existing.guesses.length<=round.guesses.length)) rounds[key]=round;
+  }
+  result={...result,rounds};
   return { ...result, settings: primary.settings };
 }
 export function loadSave(): Save {
-  return combine(decode(readLocal(SAVE_KEY)), decode(readLocal(BACKUP_KEY)));
+  return combine(combine(decode(readLocal(SAVE_KEY)), decode(readLocal(BACKUP_KEY))),decode(readLocal(RECOVERY_KEY)));
 }
 export async function initializeSave(): Promise<Save> {
+  recoveryBlocked=false;
   const local = loadSave();
   if (!Capacitor.isNativePlatform()) return local;
   let recovered = local;
   try {
     const { Preferences } = await import('@capacitor/preferences');
+    let failed=false;
     const read = async (key: string) => {
-      try { return (await Preferences.get({ key })).value; } catch { reportError(); return null; }
+      try { return (await Preferences.get({ key })).value; } catch { failed=true; reportError(); return null; }
     };
-    const [primary, backup] = await Promise.all([read(SAVE_KEY), read(BACKUP_KEY)]);
-    const native = combine(decode(primary), decode(backup));
+    const [primary, backup, recovery] = await Promise.all([read(SAVE_KEY), read(BACKUP_KEY),read(RECOVERY_KEY)]);
+    const primarySave=decode(primary),backupSave=decode(backup),recoverySave=decode(recovery);
+    const native = combine(combine(primarySave,backupSave),recoverySave);
     recovered = combine(local, native);
     // Native settings remain authoritative after WebView storage eviction.
     if (!readLocal(SAVE_KEY) && (primary || backup)) recovered.settings = native.settings;
+    // Inconclusive reads must never replace unreadable or newer-version native data.
+    const invalid=(primary!==null && !primarySave) || (backup!==null && !backupSave) || (recovery!==null && !recoverySave);
+    if (failed || invalid) {recoveryBlocked=true;reportError();return recovered;}
     persistSave(recovered);
     await flushNativeSave();
     return recovered;
-  } catch { reportError(); return recovered; }
+  } catch { recoveryBlocked=true;reportError(); return recovered; }
 }
 export const flushNativeSave = () => nativeWrites;
 // One atomic snapshot: rounds themselves are the result ledger; no double-counted counters.
 export function persistSave(save: Save): boolean {
+  if (recoveryBlocked) {reportError();return false;}
+  // Keep an older valid generation and union the ledger before replacing either mirror.
+  const primary=readLocal(SAVE_KEY),backup=readLocal(BACKUP_KEY);
+  const previous=combine(decode(primary),decode(backup));
+  const retained=combine(save,previous);
+  save={...retained,settings:save.settings};
   const snapshot = JSON.stringify(save);
   let saved = false;
+  if (Object.keys(previous.rounds).length) {try {localStorage.setItem(RECOVERY_KEY,JSON.stringify(previous));} catch {reportError();}}
   try { localStorage.setItem(SAVE_KEY, snapshot); saved = true; } catch { reportError(); }
   try { localStorage.setItem(BACKUP_KEY, snapshot); saved = true; } catch { reportError(); }
   if (Capacitor.isNativePlatform()) {
     nativeWrites = nativeWrites.catch(() => {}).then(async () => {
       const { Preferences } = await import('@capacitor/preferences');
+      // Preserve the prior generation separately; never rotate from an unreadable store.
+      const old=await Preferences.get({key:SAVE_KEY});
+      if (old.value && decode(old.value)) await Preferences.set({key:RECOVERY_KEY,value:old.value});
       // Attempt both copies even if one fails; keep failures observable to flush callers.
       const writes = await Promise.allSettled([Preferences.set({ key: SAVE_KEY, value: snapshot }), Preferences.set({ key: BACKUP_KEY, value: snapshot })]);
       const failure = writes.find(result => result.status === 'rejected');
