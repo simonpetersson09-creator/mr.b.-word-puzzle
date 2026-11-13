@@ -1,5 +1,5 @@
 import * as Switch from '@radix-ui/react-switch';
-import { Share2, Volume2, Vibrate, Check, ArrowRight, Globe2, BookOpen, ShieldCheck, ChevronRight } from 'lucide-react';
+import { Share2, Volume2, Vibrate, Check, ArrowRight, Globe2, ShieldCheck, ChevronRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import mrB from '@/assets/mr-b.png';
 import { Button } from './ui/button';
@@ -91,8 +91,8 @@ export function OrdDialogs({ panel, close, save, round, setSettings, welcome, di
           {privacyError && <p className="privacy-error" role="alert">{t('adPrivacyFailed')}</p>}
         </>}
       </div>}
-      <Button variant="secondary" onClick={() => setLicensesOpen(true)}><BookOpen />{t('dictionary')}</Button>
       <p className="license-note">Mr.B. Word Puzzle · 1.0<br />{nativeAdsEnabled() ? t('adsOn') : t('adsOff')}</p>
+      <Button variant="link" className="license-link" onClick={() => setLicensesOpen(true)}>{t('dictionary')}</Button>
     </GameDialog>
     <GameDialog open={panel === 'settings' && licensesOpen} onClose={() => setLicensesOpen(false)} title={t('dictionary')} description={t('dictionary')}><h2>{t('dictionary')}</h2><WordLicenses /></GameDialog>
   </>;
