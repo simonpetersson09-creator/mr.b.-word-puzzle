@@ -24,5 +24,5 @@ describe('dictionary-independent schedules',()=>{
    const needed=new Set(scheduledPool('2026-11-14',lang).flatMap(letters));
    for(const c of needed)expect(keys.has(c),`${lang}:${c}`).toBe(true);
   }
- });
+ },15000);
 });

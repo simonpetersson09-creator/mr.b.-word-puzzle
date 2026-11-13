@@ -3,7 +3,8 @@ import { type Language } from '@/lib/i18n/languages';
 import { scheduledPool } from './answer-policy';
 export interface WordPack { guesses: string[]; answers: string[] }
 export const wordPacks: Partial<Record<Language, WordPack>> = packs;
-export const letters = (word: string) => Array.from(new Intl.Segmenter(undefined, {granularity:'grapheme'}).segment(word.normalize('NFC')), part => part.segment);
+const segmenter = new Intl.Segmenter(undefined, {granularity:'grapheme'});
+export const letters = (word: string) => Array.from(segmenter.segment(word.normalize('NFC')), part => part.segment);
 // Greek locale casing removes tonos from whole words; keep the frozen accented answers.
 export const uppercase = (word: string, language: Language) => language === 'el' ? word.normalize('NFC').toUpperCase() : word.normalize('NFC').toLocaleUpperCase(language === 'no' ? 'nb' : language);
 const sets = new Map<Language, Set<string>>();
