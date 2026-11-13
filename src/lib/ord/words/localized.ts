@@ -42,7 +42,10 @@ export function keyboardRows(language: Language): string[][] | null {
   const base=layouts[language] ?? layouts.en ?? [];
   const used=new Set(base.flatMap(letters));
   const answerLetters = new Set(scheduledPool('2026-11-13',language).flatMap(letters));
-  const extra=[...new Set([...answerLetters,...(wordPacks[language]?.guesses ?? []).flatMap(letters)])].filter(c=>!used.has(c) && /\p{L}/u.test(c) && (answerLetters.has(c) || (language === 'ru' || language === 'uk' ? /\p{Script=Cyrillic}/u.test(c) : language === 'el' ? /\p{Script=Greek}/u.test(c) : /\p{Script=Latin}/u.test(c))));
+  // Languages with a full native layout only add letters that scheduled answers need;
+  // rare loanword accents in the guess list must not clutter the keyboard.
+  const guessLetters = layouts[language] ? [] : (wordPacks[language]?.guesses ?? []).flatMap(letters);
+  const extra=[...new Set([...answerLetters,...guessLetters])].filter(c=>!used.has(c) && /\p{L}/u.test(c) && (answerLetters.has(c) || (language === 'ru' || language === 'uk' ? /\p{Script=Cyrillic}/u.test(c) : language === 'el' ? /\p{Script=Greek}/u.test(c) : /\p{Script=Latin}/u.test(c))));
   const rows=base.map(letters);
   for(let i=0;i<extra.length;i+=11) rows.push(extra.slice(i,i+11));
   return rows;
