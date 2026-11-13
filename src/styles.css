@@ -180,6 +180,8 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .switch[data-state=checked] .switch-thumb { transform: translateX(18px); background: var(--primary-foreground); }
 .setting-detail { display: flex; justify-content: space-between; padding: 18px 0; font-size: 12px; color: var(--muted-foreground); }
 .license-note { color: var(--muted-foreground); font-size: 10px; line-height: 1.7; margin-top: 24px; }
+.license-link { display: flex; width: fit-content; max-width: 100%; min-height: 32px; height: auto; margin: 8px auto 0; padding: 6px 4px; font-size: 11px; font-weight: 400; line-height: 1.5; color: var(--muted-foreground); white-space: normal; text-align: center; }
+.license-link:hover, .license-link:focus-visible { color: var(--foreground); }
 @media (min-width: 700px) {
   .app-header { padding: 22px 15px; } .brand img { width: 30px; height: 38px; } .brand-label { font-size: 17px; } .brand-label small { font-size: 9px; }
   .game { max-height: 850px; margin-block: auto; padding-bottom: 25px; }
