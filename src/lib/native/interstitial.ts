@@ -16,7 +16,7 @@ export function createDailyAds(adapter: AdAdapter, clock = Date.now) {
       const owner=generation;
       pendingRound=roundId;prepared=null;
       const work=(async()=>{
-        await adapter.discard?.();
+        if(adapter.discard) await withDeadline(adapter.discard(),AD_REQUEST_TIMEOUT);
         if(owner!==generation || consumed.has(roundId))return;
         await withDeadline(adapter.prepare(),AD_LOAD_TIMEOUT);
         if(owner===generation && pendingRound===roundId && !consumed.has(roundId))prepared={roundId,at:clock()};
@@ -81,7 +81,11 @@ const adapter:AdAdapter={
   async show(){
     const mod=module,native=safety();if(!mod || !native || privacyChanging)return;
     await nativeDialog(()=>presentPreparedAd({
-      listen:(event,cb)=>mod.AdMob.addListener(event==='shown'?mod.InterstitialAdPluginEvents.Showed:event==='dismissed'?mod.InterstitialAdPluginEvents.Dismissed:mod.InterstitialAdPluginEvents.FailedToShow,cb),
+      listen:(event,cb)=>{
+        if(event==='shown')return mod.AdMob.addListener(mod.InterstitialAdPluginEvents.Showed,cb);
+        if(event==='dismissed')return mod.AdMob.addListener(mod.InterstitialAdPluginEvents.Dismissed,cb);
+        return mod.AdMob.addListener(mod.InterstitialAdPluginEvents.FailedToShow,cb);
+      },
       show:deadline=>native.showInterstitial({deadline}),
       isShowing:async()=>(await native.getWordPuzzleInterstitialState()).showing,
       discard:discardInventory,
