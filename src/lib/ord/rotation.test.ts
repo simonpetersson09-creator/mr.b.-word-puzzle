@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { rotationAnswer, dayNumber, DAILY_WORDS } from './engine';
 import { unsavedAnswerPool } from './words/answer-policy';
-import { LANGUAGES } from '@/lib/i18n/languages';
+import { languages, type Language } from '@/lib/i18n/languages';
 
 const dateAt = (offset: number) => new Date((dayNumber('2026-11-14') + offset) * 86400000).toISOString().slice(0, 10);
 describe('daily word rotation', () => {
   it('never repeats a word sooner than half the approved list, for every language over two years', () => {
-    const langs = [...new Set(LANGUAGES.map(l => l.code))].filter(l => unsavedAnswerPool('2026-11-14', l).length);
+    const langs = (Object.keys(languages) as Language[]).filter(l => unsavedAnswerPool('2026-11-14', l).length);
     for (const lang of langs) {
       const n = unsavedAnswerPool('2026-11-14', lang).length, minGap = Math.floor(n / 2);
       const last = new Map<string, number>();
