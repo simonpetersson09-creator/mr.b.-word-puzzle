@@ -52,3 +52,4 @@ use the editor.
 - Block recovery writes on failed native reads or unsupported payloads and retain an older valid generation; ledger recovery unions valid slots independently from gameplay unlock rules to avoid erasing statistics.
 - Keep per-key press pulses independent and submit pointer input on press-down; concurrent touch events must not overwrite each other's visible feedback or duplicate click input.
 - Show a reduced-motion-aware word-win celebration before result exit; it must never run on restored results or move advertisement presentation into gameplay.
+- Prepare iOS via the patched local-bundle → Capacitor sync → verified shared Release scheme → archive/export pipeline; Debug uses automatic development signing and Release uses the explicitly supplied distribution profile, with source checks guarding identity/team/profile to prevent accidental cross-app signing. Never change save keys when configuring a new store identity.
