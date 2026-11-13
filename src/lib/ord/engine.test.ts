@@ -3,7 +3,7 @@ import { answers } from './words/answers';
 import { dailyAnswer, dictionarySet, emptySave, evaluate, isFinished, hasWon, keyboardMarks, newRound, statistics, gameDate, submitGuess, type Round } from './engine';
 import { loadSave, mergeRound, persistSave, SAVE_KEY, BACKUP_KEY } from './storage';
 
-describe('Mr. B Ord rules', () => {
+describe('Mr.B. Word Puzzle rules', () => {
   beforeEach(() => localStorage.clear());
   it('allocates the same five-letter answer for a Stockholm date', () => {
     expect(dailyAnswer('2026-11-12')).toBe('KANEL');

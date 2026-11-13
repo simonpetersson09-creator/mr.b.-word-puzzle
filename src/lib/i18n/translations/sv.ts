@@ -10,5 +10,16 @@ export const sv = {
   rulesBody: 'Skriv ett ord med fem bokstäver och tryck på Gissa. Efter varje försök visar färgerna hur nära du är.', correct: 'Rätt bokstav, rätt plats', present: 'Rätt bokstav, annan plats', absent: 'Ingen återstående träff', rulesDetail: 'Endast ord i det valda språkets ordlista godkänns. Ogiltiga ord kostar inga försök. Tre ord per dag, med nya ord klockan 03.00 i telefonens lokala tid. Varje bokstav i svaret kan bara ge en träff.',
   rulesGreen: 'Grön – rätt bokstav på rätt plats.', rulesYellow: 'Gul – rätt bokstav på fel plats.', rulesGrey: 'Grå – bokstaven finns inte kvar att hitta.', rulesGoodToKnow: 'Bra att veta', rulesValid: 'Endast giltiga ord i det valda språket godkänns. Ogiltiga ord förbrukar inga försök.', rulesDuplicates: 'En bokstav kan förekomma flera gånger, men varje förekomst räknas bara en gång.', rulesDaily: 'Spela tre nya ord varje dag. Nya ord blir tillgängliga kl. 03.00 enligt telefonens lokala tid.', rulesExampleAnswer: 'Exempel: det hemliga ordet är {word}.',
   played: 'Spelade', wins: 'Vinster', streak: 'Segersvit', longest: 'Längsta svit', distribution: 'Vinster per försök', statsIntro: 'Varje dag är en ny chans.', found: 'Du hittade {word} på {count} försök.', answer: 'Dagens ord var {word}.', attempt: 'Försök {count} av 6', letter: 'Bokstav {letter}', erase: 'Radera', board: 'Spelplan, sex rader med fem bokstäver', cell: 'Rad {row}, plats {col}: {letter}', empty: 'tom', keyboard: 'Tangentbord', newWord: 'Ett nytt ord är här', word: 'Ord', adPrivacy: 'Annonsintegritet', adsOn: 'Mellanannonser kan visas efter avslutat spel.', adsOff: 'Inga annonser eller spårning är aktiverade.', dictionary: 'Ordlistor och licenser', unavailable: 'Ordlistan för det här språket är inte klar ännu. Välj ett annat spelspråk.', lockedLanguage: 'Dagens spelspråk är låst när rundan har börjat.', typeWord: 'Skriv ditt ord',
+  adPrivacySaved: "Dina sparade samtycken",
+  adPrivacySource: "Dina val gjordes i Googles annonsruta och följer Googles annonsinställningar.",
+  adPrivacyStorage: "Lagra och läsa information på enheten",
+  adPrivacyProfile: "Skapa en profil för anpassade annonser",
+  adPrivacyUseProfile: "Använda profilen för anpassade annonser",
+  adPrivacyAllowed: "Samtycke lämnat",
+  adPrivacyDenied: "Samtycke inte lämnat",
+  adPrivacyChange: "Visa eller ändra alla val",
+  adPrivacyWeb: "Dina annonsval visas och ändras i iPhone- eller Android-appen. Googles samtyckesruta är inte tillgänglig här i webbförhandsvisningen.",
+  adPrivacyFailed: "Det gick inte att öppna samtyckesvalen. Försök igen.",
+  adPrivacyUnknown: "Sparade samtyckesval är inte tillgängliga.",
 } as const;
 export type TranslationKey = keyof typeof sv;

@@ -8,7 +8,16 @@
     "played": "Spelade",
     "wins": "Vinster",
     "streak": "Svit",
-    "adPrivacy": "Annonsinställningar"
+    "adPrivacy": "Annonsinställningar",
+    "adPrivacySaved": "Dina sparade samtycken",
+    "adPrivacySource": "Dina val gjordes i Googles annonsruta och följer Googles annonsinställningar.",
+    "adPrivacyStorage": "Lagra och läsa information på enheten",
+    "adPrivacyProfile": "Skapa en profil för anpassade annonser",
+    "adPrivacyUseProfile": "Använda profilen för anpassade annonser",
+    "adPrivacyAllowed": "Samtycke lämnat",
+    "adPrivacyDenied": "Samtycke inte lämnat",
+    "adPrivacyChange": "Visa eller ändra alla val",
+    "adPrivacyWeb": "Dina annonsval visas och ändras i iPhone- eller Android-appen. Googles samtyckesruta är inte tillgänglig här i webbförhandsvisningen."
   },
   "en": {
     "settings": "Settings",
@@ -34,7 +43,16 @@
     "rulesValid": "Only valid words in the selected language are accepted. Invalid words do not use an attempt.",
     "rulesDuplicates": "A letter can appear more than once, but each occurrence counts only once.",
     "rulesDaily": "Play three new words every day. New words become available at 03:00 in your phone’s local time.",
-    "rulesExampleAnswer": "Example: the secret word is {word}."
+    "rulesExampleAnswer": "Example: the secret word is {word}.",
+    "adPrivacySaved": "Your saved consents",
+    "adPrivacySource": "Your choices were made in Google's consent form and follow Google's ad settings.",
+    "adPrivacyStorage": "Store and access information on your device",
+    "adPrivacyProfile": "Create a profile for personalised ads",
+    "adPrivacyUseProfile": "Use the profile for personalised ads",
+    "adPrivacyAllowed": "Consent given",
+    "adPrivacyDenied": "Consent not given",
+    "adPrivacyChange": "View or change all choices",
+    "adPrivacyWeb": "View and change your ad choices in the iPhone or Android app. Google’s consent form is not available in this web preview."
   },
   "no": {
     "settings": "Innstillinger",
@@ -60,7 +78,16 @@
     "rulesValid": "Bare gyldige ord på det valgte språket godtas. Ugyldige ord bruker ingen forsøk.",
     "rulesDuplicates": "En bokstav kan forekomme flere ganger, men hver forekomst telles bare én gang.",
     "rulesDaily": "Spill tre nye ord hver dag. Nye ord blir tilgjengelige kl. 03.00 etter telefonens lokale tid.",
-    "rulesExampleAnswer": "Eksempel: det hemmelige ordet er {word}."
+    "rulesExampleAnswer": "Eksempel: det hemmelige ordet er {word}.",
+    "adPrivacySaved": "Dine lagrede samtykker",
+    "adPrivacySource": "Valgene dine ble gjort i Googles annonseskjema og følger Googles annonseinnstillinger.",
+    "adPrivacyStorage": "Lagre og lese informasjon på enheten",
+    "adPrivacyProfile": "Opprette en profil for tilpassede annonser",
+    "adPrivacyUseProfile": "Bruke profilen til tilpassede annonser",
+    "adPrivacyAllowed": "Samtykke gitt",
+    "adPrivacyDenied": "Samtykke ikke gitt",
+    "adPrivacyChange": "Se eller endre alle valg",
+    "adPrivacyWeb": "Du kan se og endre annonsevalgene dine i iPhone- eller Android-appen. Googles samtykkeskjema er ikke tilgjengelig i denne nettforhåndsvisningen."
   },
   "da": {
     "settings": "Indstillinger",
@@ -86,7 +113,16 @@
     "rulesValid": "Kun gyldige ord på det valgte sprog godkendes. Ugyldige ord bruger ingen forsøg.",
     "rulesDuplicates": "Et bogstav kan forekomme flere gange, men hver forekomst tæller kun én gang.",
     "rulesDaily": "Spil tre nye ord hver dag. Nye ord bliver tilgængelige kl. 03.00 efter telefonens lokale tid.",
-    "rulesExampleAnswer": "Eksempel: det hemmelige ord er {word}."
+    "rulesExampleAnswer": "Eksempel: det hemmelige ord er {word}.",
+    "adPrivacySaved": "Dine gemte samtykker",
+    "adPrivacySource": "Dine valg blev foretaget i Googles annonceformular og følger Googles annonceindstillinger.",
+    "adPrivacyStorage": "Gemme og tilgå oplysninger på din enhed",
+    "adPrivacyProfile": "Oprette en profil til personligt tilpassede reklamer",
+    "adPrivacyUseProfile": "Bruge profilen til personligt tilpassede reklamer",
+    "adPrivacyAllowed": "Samtykke givet",
+    "adPrivacyDenied": "Samtykke ikke givet",
+    "adPrivacyChange": "Se eller ændr alle valg",
+    "adPrivacyWeb": "Se og ændr dine annoncevalg i iPhone- eller Android-appen. Googles samtykkeformular er ikke tilgængelig i denne webforhåndsvisning."
   },
   "fi": {
     "settings": "Asetukset",
@@ -112,7 +148,16 @@
     "rulesValid": "Vain valitun kielen hyväksytyt sanat kelpaavat. Virheelliset sanat eivät kuluta yrityksiä.",
     "rulesDuplicates": "Sama kirjain voi esiintyä useasti, mutta jokainen esiintymä lasketaan vain kerran.",
     "rulesDaily": "Pelaa kolme uutta sanaa joka päivä. Uudet sanat tulevat saataville klo 03.00 puhelimen paikallista aikaa.",
-    "rulesExampleAnswer": "Esimerkki: salainen sana on {word}."
+    "rulesExampleAnswer": "Esimerkki: salainen sana on {word}.",
+    "adPrivacySaved": "Tallennetut suostumuksesi",
+    "adPrivacySource": "Valintasi on tehty Googlen mainoslomakkeella, ja ne noudattavat Googlen mainosasetuksia.",
+    "adPrivacyStorage": "Tietojen tallentaminen laitteelle ja lukeminen laitteelta",
+    "adPrivacyProfile": "Profiilin luominen personoituja mainoksia varten",
+    "adPrivacyUseProfile": "Profiilin käyttäminen personoituihin mainoksiin",
+    "adPrivacyAllowed": "Suostumus annettu",
+    "adPrivacyDenied": "Suostumusta ei annettu",
+    "adPrivacyChange": "Tarkastele tai muuta kaikkia valintoja",
+    "adPrivacyWeb": "Voit tarkastella ja muuttaa mainosvalintojasi iPhone- tai Android-sovelluksessa. Googlen suostumuslomake ei ole käytettävissä tässä verkkoversiossa."
   },
   "es": {
     "settings": "Ajustes",
@@ -138,7 +183,16 @@
     "rulesValid": "Solo se aceptan palabras válidas del idioma seleccionado. Las palabras no válidas no consumen intentos.",
     "rulesDuplicates": "Una letra puede aparecer varias veces, pero cada aparición cuenta solo una vez.",
     "rulesDaily": "Juega tres palabras nuevas cada día. Estarán disponibles a las 03:00, según la hora local del teléfono.",
-    "rulesExampleAnswer": "Ejemplo: la palabra secreta es {word}."
+    "rulesExampleAnswer": "Ejemplo: la palabra secreta es {word}.",
+    "adPrivacySaved": "Tus consentimientos guardados",
+    "adPrivacySource": "Tus preferencias se eligieron en el formulario de anuncios de Google y siguen la configuración de anuncios de Google.",
+    "adPrivacyStorage": "Almacenar y consultar información en el dispositivo",
+    "adPrivacyProfile": "Crear un perfil para anuncios personalizados",
+    "adPrivacyUseProfile": "Usar el perfil para anuncios personalizados",
+    "adPrivacyAllowed": "Consentimiento otorgado",
+    "adPrivacyDenied": "Consentimiento no otorgado",
+    "adPrivacyChange": "Ver o cambiar todas las preferencias",
+    "adPrivacyWeb": "Consulta y cambia tus preferencias de anuncios en la app para iPhone o Android. El formulario de consentimiento de Google no está disponible en esta vista previa web."
   },
   "fr": {
     "settings": "Paramètres",
@@ -164,7 +218,16 @@
     "rulesValid": "Seuls les mots valides de la langue choisie sont acceptés. Les mots non valides ne coûtent aucun essai.",
     "rulesDuplicates": "Une lettre peut apparaître plusieurs fois, mais chaque occurrence ne compte qu’une fois.",
     "rulesDaily": "Jouez trois nouveaux mots chaque jour. Ils sont disponibles à 03 h 00, selon l’heure locale du téléphone.",
-    "rulesExampleAnswer": "Exemple : le mot secret est {word}."
+    "rulesExampleAnswer": "Exemple : le mot secret est {word}.",
+    "adPrivacySaved": "Vos consentements enregistrés",
+    "adPrivacySource": "Vos choix ont été effectués dans le formulaire publicitaire de Google et suivent les paramètres publicitaires de Google.",
+    "adPrivacyStorage": "Stocker des informations sur votre appareil et y accéder",
+    "adPrivacyProfile": "Créer un profil pour des publicités personnalisées",
+    "adPrivacyUseProfile": "Utiliser le profil pour des publicités personnalisées",
+    "adPrivacyAllowed": "Consentement donné",
+    "adPrivacyDenied": "Consentement non donné",
+    "adPrivacyChange": "Consulter ou modifier tous les choix",
+    "adPrivacyWeb": "Consultez et modifiez vos choix publicitaires dans l’application iPhone ou Android. Le formulaire de consentement de Google n’est pas disponible dans cet aperçu web."
   },
   "it": {
     "settings": "Impostazioni",
@@ -190,7 +253,16 @@
     "rulesValid": "Sono accettate solo parole valide nella lingua scelta. Le parole non valide non consumano tentativi.",
     "rulesDuplicates": "Una lettera può comparire più volte, ma ogni occorrenza conta una sola volta.",
     "rulesDaily": "Gioca tre nuove parole ogni giorno. Sono disponibili alle 03:00, secondo l’ora locale del telefono.",
-    "rulesExampleAnswer": "Esempio: la parola segreta è {word}."
+    "rulesExampleAnswer": "Esempio: la parola segreta è {word}.",
+    "adPrivacySaved": "I tuoi consensi salvati",
+    "adPrivacySource": "Le tue scelte sono state effettuate nel modulo per gli annunci di Google e seguono le impostazioni annunci di Google.",
+    "adPrivacyStorage": "Memorizzare e leggere informazioni sul dispositivo",
+    "adPrivacyProfile": "Creare un profilo per annunci personalizzati",
+    "adPrivacyUseProfile": "Utilizzare il profilo per annunci personalizzati",
+    "adPrivacyAllowed": "Consenso fornito",
+    "adPrivacyDenied": "Consenso non fornito",
+    "adPrivacyChange": "Visualizza o modifica tutte le scelte",
+    "adPrivacyWeb": "Puoi visualizzare e modificare le tue scelte sugli annunci nell’app per iPhone o Android. Il modulo di consenso di Google non è disponibile in questa anteprima web."
   },
   "de": {
     "settings": "Einstellungen",
@@ -216,7 +288,16 @@
     "rulesValid": "Nur gültige Wörter in der gewählten Sprache werden akzeptiert. Ungültige Wörter verbrauchen keine Versuche.",
     "rulesDuplicates": "Ein Buchstabe kann mehrmals vorkommen, aber jedes Vorkommen zählt nur einmal.",
     "rulesDaily": "Spiele jeden Tag drei neue Wörter. Sie werden um 03:00 Uhr nach der Ortszeit deines Telefons verfügbar.",
-    "rulesExampleAnswer": "Beispiel: Das geheime Wort lautet {word}."
+    "rulesExampleAnswer": "Beispiel: Das geheime Wort lautet {word}.",
+    "adPrivacySaved": "Deine gespeicherten Einwilligungen",
+    "adPrivacySource": "Deine Auswahl wurde in Googles Werbeformular getroffen und richtet sich nach Googles Werbeeinstellungen.",
+    "adPrivacyStorage": "Informationen auf deinem Gerät speichern und abrufen",
+    "adPrivacyProfile": "Ein Profil für personalisierte Werbung erstellen",
+    "adPrivacyUseProfile": "Das Profil für personalisierte Werbung verwenden",
+    "adPrivacyAllowed": "Einwilligung erteilt",
+    "adPrivacyDenied": "Einwilligung nicht erteilt",
+    "adPrivacyChange": "Alle Einstellungen ansehen oder ändern",
+    "adPrivacyWeb": "In der iPhone- oder Android-App kannst du deine Einstellungen zur Werbung ansehen und ändern. Googles Einwilligungsformular ist in dieser Webvorschau nicht verfügbar."
   },
   "nl": {
     "settings": "Instellingen",
@@ -242,7 +323,16 @@
     "rulesValid": "Alleen geldige woorden in de gekozen taal worden geaccepteerd. Ongeldige woorden kosten geen pogingen.",
     "rulesDuplicates": "Een letter kan vaker voorkomen, maar elke keer dat die voorkomt telt maar één keer.",
     "rulesDaily": "Speel elke dag drie nieuwe woorden. Ze zijn beschikbaar om 03:00 uur volgens de lokale tijd van je telefoon.",
-    "rulesExampleAnswer": "Voorbeeld: het geheime woord is {word}."
+    "rulesExampleAnswer": "Voorbeeld: het geheime woord is {word}.",
+    "adPrivacySaved": "Je opgeslagen toestemmingen",
+    "adPrivacySource": "Je keuzes zijn gemaakt in het advertentieformulier van Google en volgen de advertentie-instellingen van Google.",
+    "adPrivacyStorage": "Informatie op je apparaat opslaan en uitlezen",
+    "adPrivacyProfile": "Een profiel maken voor gepersonaliseerde advertenties",
+    "adPrivacyUseProfile": "Het profiel gebruiken voor gepersonaliseerde advertenties",
+    "adPrivacyAllowed": "Toestemming gegeven",
+    "adPrivacyDenied": "Geen toestemming gegeven",
+    "adPrivacyChange": "Alle keuzes bekijken of wijzigen",
+    "adPrivacyWeb": "Bekijk en wijzig je advertentiekeuzes in de iPhone- of Android-app. Het toestemmingsformulier van Google is niet beschikbaar in deze webpreview."
   },
   "ca": {
     "settings": "Configuració",
@@ -268,7 +358,16 @@
     "rulesValid": "Només s’accepten paraules vàlides de l’idioma triat. Les paraules no vàlides no consumeixen intents.",
     "rulesDuplicates": "Una lletra pot aparèixer diverses vegades, però cada aparició compta només una vegada.",
     "rulesDaily": "Juga tres paraules noves cada dia. Estaran disponibles a les 03:00, segons l’hora local del telèfon.",
-    "rulesExampleAnswer": "Exemple: la paraula secreta és {word}."
+    "rulesExampleAnswer": "Exemple: la paraula secreta és {word}.",
+    "adPrivacySaved": "Els teus consentiments desats",
+    "adPrivacySource": "Les teves opcions es van triar al formulari d’anuncis de Google i segueixen la configuració d’anuncis de Google.",
+    "adPrivacyStorage": "Emmagatzemar i consultar informació al dispositiu",
+    "adPrivacyProfile": "Crear un perfil per a anuncis personalitzats",
+    "adPrivacyUseProfile": "Utilitzar el perfil per a anuncis personalitzats",
+    "adPrivacyAllowed": "Consentiment atorgat",
+    "adPrivacyDenied": "Consentiment no atorgat",
+    "adPrivacyChange": "Consulta o canvia totes les opcions",
+    "adPrivacyWeb": "Consulta i canvia les teves opcions d’anuncis a l’app per a iPhone o Android. El formulari de consentiment de Google no està disponible en aquesta previsualització web."
   },
   "ro": {
     "settings": "Setări",
@@ -294,7 +393,16 @@
     "rulesValid": "Sunt acceptate doar cuvinte valide în limba aleasă. Cuvintele nevalide nu consumă încercări.",
     "rulesDuplicates": "O literă poate apărea de mai multe ori, dar fiecare apariție se numără o singură dată.",
     "rulesDaily": "Joacă trei cuvinte noi în fiecare zi. Sunt disponibile la ora 03:00, după ora locală a telefonului.",
-    "rulesExampleAnswer": "Exemplu: cuvântul secret este {word}."
+    "rulesExampleAnswer": "Exemplu: cuvântul secret este {word}.",
+    "adPrivacySaved": "Consimțămintele tale salvate",
+    "adPrivacySource": "Opțiunile tale au fost selectate în formularul Google pentru reclame și respectă setările Google pentru reclame.",
+    "adPrivacyStorage": "Stocarea și accesarea informațiilor pe dispozitiv",
+    "adPrivacyProfile": "Crearea unui profil pentru reclame personalizate",
+    "adPrivacyUseProfile": "Utilizarea profilului pentru reclame personalizate",
+    "adPrivacyAllowed": "Consimțământ acordat",
+    "adPrivacyDenied": "Consimțământ neacordat",
+    "adPrivacyChange": "Vezi sau modifică toate opțiunile",
+    "adPrivacyWeb": "Poți vedea și modifica opțiunile pentru reclame în aplicația pentru iPhone sau Android. Formularul de consimțământ Google nu este disponibil în această previzualizare web."
   },
   "tr": {
     "settings": "Ayarlar",
@@ -320,7 +428,16 @@
     "rulesValid": "Yalnızca seçilen dildeki geçerli kelimeler kabul edilir. Geçersiz kelimeler deneme hakkını azaltmaz.",
     "rulesDuplicates": "Bir harf birden fazla kez geçebilir, ancak her tekrar yalnızca bir kez sayılır.",
     "rulesDaily": "Her gün üç yeni kelime oyna. Yeni kelimeler telefonunun yerel saatine göre 03.00’te açılır.",
-    "rulesExampleAnswer": "Örnek: gizli kelime {word}."
+    "rulesExampleAnswer": "Örnek: gizli kelime {word}.",
+    "adPrivacySaved": "Kayıtlı izinlerin",
+    "adPrivacySource": "Tercihlerin Google'ın reklam formunda yapıldı ve Google'ın reklam ayarlarına tabidir.",
+    "adPrivacyStorage": "Cihazında bilgi saklama ve bilgilere erişme",
+    "adPrivacyProfile": "Kişiselleştirilmiş reklamlar için profil oluşturma",
+    "adPrivacyUseProfile": "Profili kişiselleştirilmiş reklamlar için kullanma",
+    "adPrivacyAllowed": "İzin verildi",
+    "adPrivacyDenied": "İzin verilmedi",
+    "adPrivacyChange": "Tüm tercihleri görüntüle veya değiştir",
+    "adPrivacyWeb": "Reklam tercihlerini iPhone veya Android uygulamasında görüntüleyebilir ve değiştirebilirsin. Google'ın izin formu bu web önizlemesinde kullanılamaz."
   },
   "pl": {
     "settings": "Ustawienia",
@@ -346,7 +463,16 @@
     "rulesValid": "Akceptowane są tylko poprawne słowa w wybranym języku. Niepoprawne słowa nie zużywają prób.",
     "rulesDuplicates": "Litera może występować kilka razy, ale każde wystąpienie liczy się tylko raz.",
     "rulesDaily": "Graj w trzy nowe słowa każdego dnia. Są dostępne od 03:00 według lokalnego czasu telefonu.",
-    "rulesExampleAnswer": "Przykład: ukryte słowo to {word}."
+    "rulesExampleAnswer": "Przykład: ukryte słowo to {word}.",
+    "adPrivacySaved": "Twoje zapisane zgody",
+    "adPrivacySource": "Twoje wybory zostały dokonane w formularzu reklamowym Google i są zgodne z ustawieniami reklam Google.",
+    "adPrivacyStorage": "Przechowywanie informacji na urządzeniu i uzyskiwanie do nich dostępu",
+    "adPrivacyProfile": "Tworzenie profilu na potrzeby spersonalizowanych reklam",
+    "adPrivacyUseProfile": "Używanie profilu do wyświetlania spersonalizowanych reklam",
+    "adPrivacyAllowed": "Zgoda udzielona",
+    "adPrivacyDenied": "Brak zgody",
+    "adPrivacyChange": "Wyświetl lub zmień wszystkie wybory",
+    "adPrivacyWeb": "Swoje wybory dotyczące reklam możesz sprawdzić i zmienić w aplikacji na iPhone’a lub Androida. Formularz zgody Google nie jest dostępny w tym podglądzie internetowym."
   },
   "cs": {
     "settings": "Nastavení",
@@ -372,7 +498,16 @@
     "rulesValid": "Přijímají se jen platná slova ve vybraném jazyce. Neplatná slova nespotřebují pokus.",
     "rulesDuplicates": "Písmeno se může opakovat, ale každý jeho výskyt se počítá jen jednou.",
     "rulesDaily": "Každý den hraj tři nová slova. Jsou dostupná od 03:00 podle místního času telefonu.",
-    "rulesExampleAnswer": "Příklad: tajné slovo je {word}."
+    "rulesExampleAnswer": "Příklad: tajné slovo je {word}.",
+    "adPrivacySaved": "Tvé uložené souhlasy",
+    "adPrivacySource": "Tvé volby byly provedeny v reklamním formuláři Googlu a řídí se jeho nastavením reklam.",
+    "adPrivacyStorage": "Ukládat informace do zařízení a přistupovat k nim",
+    "adPrivacyProfile": "Vytvořit profil pro personalizované reklamy",
+    "adPrivacyUseProfile": "Používat profil pro personalizované reklamy",
+    "adPrivacyAllowed": "Souhlas udělen",
+    "adPrivacyDenied": "Souhlas neudělen",
+    "adPrivacyChange": "Zobrazit nebo změnit všechny volby",
+    "adPrivacyWeb": "Své volby reklam si můžeš zobrazit a změnit v aplikaci pro iPhone nebo Android. Formulář souhlasu od Googlu není v tomto webovém náhledu dostupný."
   },
   "sk": {
     "settings": "Nastavenia",
@@ -398,7 +533,16 @@
     "rulesValid": "Prijímajú sa iba platné slová vo vybranom jazyku. Neplatné slová nespotrebujú pokus.",
     "rulesDuplicates": "Písmeno sa môže opakovať, ale každý jeho výskyt sa počíta iba raz.",
     "rulesDaily": "Každý deň hraj tri nové slová. Sú dostupné od 03:00 podľa miestneho času telefónu.",
-    "rulesExampleAnswer": "Príklad: tajné slovo je {word}."
+    "rulesExampleAnswer": "Príklad: tajné slovo je {word}.",
+    "adPrivacySaved": "Tvoje uložené súhlasy",
+    "adPrivacySource": "Tvoje voľby boli vykonané v reklamnom formulári Googlu a riadia sa nastaveniami reklám Googlu.",
+    "adPrivacyStorage": "Ukladať a čítať informácie v zariadení",
+    "adPrivacyProfile": "Vytvoriť profil pre prispôsobené reklamy",
+    "adPrivacyUseProfile": "Používať profil pre prispôsobené reklamy",
+    "adPrivacyAllowed": "Súhlas udelený",
+    "adPrivacyDenied": "Súhlas neudelený",
+    "adPrivacyChange": "Zobraziť alebo zmeniť všetky voľby",
+    "adPrivacyWeb": "Svoje voľby týkajúce sa reklám si môžeš pozrieť a zmeniť v aplikácii pre iPhone alebo Android. Formulár súhlasu od Googlu nie je v tomto webovom náhľade dostupný."
   },
   "sl": {
     "settings": "Nastavitve",
@@ -424,7 +568,16 @@
     "rulesValid": "Sprejete so le veljavne besede v izbranem jeziku. Neveljavne besede ne porabijo poskusa.",
     "rulesDuplicates": "Črka se lahko pojavi večkrat, vendar se vsaka pojavitev šteje le enkrat.",
     "rulesDaily": "Vsak dan igraj tri nove besede. Na voljo so ob 03.00 po lokalnem času telefona.",
-    "rulesExampleAnswer": "Primer: skrivna beseda je {word}."
+    "rulesExampleAnswer": "Primer: skrivna beseda je {word}.",
+    "adPrivacySaved": "Tvoja shranjena soglasja",
+    "adPrivacySource": "Tvoje izbire so bile podane v Googlovem obrazcu za oglase in upoštevajo Googlove nastavitve oglasov.",
+    "adPrivacyStorage": "Shranjevanje in branje podatkov v napravi",
+    "adPrivacyProfile": "Ustvarjanje profila za prilagojene oglase",
+    "adPrivacyUseProfile": "Uporaba profila za prilagojene oglase",
+    "adPrivacyAllowed": "Soglasje podano",
+    "adPrivacyDenied": "Soglasje ni podano",
+    "adPrivacyChange": "Ogled ali sprememba vseh izbir",
+    "adPrivacyWeb": "Svoje izbire glede oglasov si lahko ogledaš in jih spremeniš v aplikaciji za iPhone ali Android. Googlov obrazec za soglasje v tem spletnem predogledu ni na voljo."
   },
   "hr": {
     "settings": "Postavke",
@@ -450,7 +603,16 @@
     "rulesValid": "Prihvaćaju se samo valjane riječi na odabranom jeziku. Nevaljane riječi ne troše pokušaje.",
     "rulesDuplicates": "Slovo se može pojaviti više puta, ali svako pojavljivanje broji se samo jednom.",
     "rulesDaily": "Igraj tri nove riječi svaki dan. Dostupne su u 03:00 prema lokalnom vremenu telefona.",
-    "rulesExampleAnswer": "Primjer: tajna riječ je {word}."
+    "rulesExampleAnswer": "Primjer: tajna riječ je {word}.",
+    "adPrivacySaved": "Tvoje spremljene privole",
+    "adPrivacySource": "Tvoji su odabiri napravljeni u Googleovu obrascu za oglase i slijede Googleove postavke oglasa.",
+    "adPrivacyStorage": "Pohranjivanje i čitanje podataka na uređaju",
+    "adPrivacyProfile": "Izrada profila za prilagođene oglase",
+    "adPrivacyUseProfile": "Upotreba profila za prilagođene oglase",
+    "adPrivacyAllowed": "Privola dana",
+    "adPrivacyDenied": "Privola nije dana",
+    "adPrivacyChange": "Pregledaj ili promijeni sve odabire",
+    "adPrivacyWeb": "Svoje odabire za oglase možeš pregledati i promijeniti u aplikaciji za iPhone ili Android. Googleov obrazac za privolu nije dostupan u ovom web-pregledu."
   },
   "hu": {
     "settings": "Beállítások",
@@ -476,7 +638,16 @@
     "rulesValid": "Csak a kiválasztott nyelv érvényes szavai fogadhatók el. Az érvénytelen szavak nem fogyasztanak próbálkozást.",
     "rulesDuplicates": "Egy betű többször is előfordulhat, de minden előfordulás csak egyszer számít.",
     "rulesDaily": "Játssz minden nap három új szóval. Az új szavak a telefon helyi ideje szerint 03:00-kor válnak elérhetővé.",
-    "rulesExampleAnswer": "Példa: a titkos szó {word}."
+    "rulesExampleAnswer": "Példa: a titkos szó {word}.",
+    "adPrivacySaved": "Mentett hozzájárulásaid",
+    "adPrivacySource": "Választásaidat a Google rekláműrlapján adtad meg, és azok a Google reklámbeállításait követik.",
+    "adPrivacyStorage": "Adatok tárolása és olvasása az eszközön",
+    "adPrivacyProfile": "Profil létrehozása személyre szabott reklámokhoz",
+    "adPrivacyUseProfile": "A profil használata személyre szabott reklámokhoz",
+    "adPrivacyAllowed": "Hozzájárulás megadva",
+    "adPrivacyDenied": "Hozzájárulás nincs megadva",
+    "adPrivacyChange": "Összes választás megtekintése vagy módosítása",
+    "adPrivacyWeb": "Reklámbeállításaidat az iPhone- vagy Android-appban tekintheted meg és módosíthatod. A Google hozzájárulási űrlapja ebben a webes előnézetben nem érhető el."
   },
   "pt": {
     "settings": "Definições",
@@ -502,7 +673,16 @@
     "rulesValid": "Só são aceites palavras válidas no idioma escolhido. As palavras inválidas não gastam tentativas.",
     "rulesDuplicates": "Uma letra pode aparecer várias vezes, mas cada ocorrência conta apenas uma vez.",
     "rulesDaily": "Joga três novas palavras por dia. Ficam disponíveis às 03:00, segundo a hora local do telemóvel.",
-    "rulesExampleAnswer": "Exemplo: a palavra secreta é {word}."
+    "rulesExampleAnswer": "Exemplo: a palavra secreta é {word}.",
+    "adPrivacySaved": "Os teus consentimentos guardados",
+    "adPrivacySource": "As tuas escolhas foram feitas no formulário de anúncios da Google e seguem as definições de anúncios da Google.",
+    "adPrivacyStorage": "Guardar e aceder a informações no teu dispositivo",
+    "adPrivacyProfile": "Criar um perfil para anúncios personalizados",
+    "adPrivacyUseProfile": "Usar o perfil para anúncios personalizados",
+    "adPrivacyAllowed": "Consentimento dado",
+    "adPrivacyDenied": "Consentimento não dado",
+    "adPrivacyChange": "Consultar ou alterar todas as escolhas",
+    "adPrivacyWeb": "Consulta e altera as tuas escolhas de anúncios na app para iPhone ou Android. O formulário de consentimento da Google não está disponível nesta pré-visualização web."
   },
   "pt-BR": {
     "settings": "Ajustes",
@@ -554,7 +734,16 @@
     "rulesValid": "Hanya kata yang valid dalam bahasa pilihan yang diterima. Kata tidak valid tidak mengurangi kesempatan.",
     "rulesDuplicates": "Sebuah huruf bisa muncul beberapa kali, tetapi setiap kemunculan hanya dihitung sekali.",
     "rulesDaily": "Mainkan tiga kata baru setiap hari. Kata baru tersedia pukul 03.00 sesuai waktu lokal ponsel.",
-    "rulesExampleAnswer": "Contoh: kata rahasianya adalah {word}."
+    "rulesExampleAnswer": "Contoh: kata rahasianya adalah {word}.",
+    "adPrivacySaved": "Persetujuanmu yang tersimpan",
+    "adPrivacySource": "Pilihanmu dibuat melalui formulir iklan Google dan mengikuti setelan iklan Google.",
+    "adPrivacyStorage": "Menyimpan dan mengakses informasi di perangkatmu",
+    "adPrivacyProfile": "Membuat profil untuk iklan yang dipersonalisasi",
+    "adPrivacyUseProfile": "Menggunakan profil untuk iklan yang dipersonalisasi",
+    "adPrivacyAllowed": "Persetujuan diberikan",
+    "adPrivacyDenied": "Persetujuan tidak diberikan",
+    "adPrivacyChange": "Lihat atau ubah semua pilihan",
+    "adPrivacyWeb": "Lihat dan ubah pilihan iklanmu di aplikasi iPhone atau Android. Formulir persetujuan Google tidak tersedia di pratinjau web ini."
   },
   "ms": {
     "settings": "Tetapan",
@@ -580,7 +769,16 @@
     "rulesValid": "Hanya perkataan sah dalam bahasa yang dipilih diterima. Perkataan tidak sah tidak menggunakan percubaan.",
     "rulesDuplicates": "Satu huruf boleh muncul beberapa kali, tetapi setiap kemunculan dikira sekali sahaja.",
     "rulesDaily": "Main tiga perkataan baharu setiap hari. Perkataan baharu tersedia pada 03.00 mengikut waktu tempatan telefon.",
-    "rulesExampleAnswer": "Contoh: perkataan rahsia ialah {word}."
+    "rulesExampleAnswer": "Contoh: perkataan rahsia ialah {word}.",
+    "adPrivacySaved": "Persetujuan awak yang disimpan",
+    "adPrivacySource": "Pilihan awak dibuat dalam borang iklan Google dan mengikut tetapan iklan Google.",
+    "adPrivacyStorage": "Simpan dan akses maklumat pada peranti awak",
+    "adPrivacyProfile": "Cipta profil untuk iklan diperibadikan",
+    "adPrivacyUseProfile": "Gunakan profil untuk iklan diperibadikan",
+    "adPrivacyAllowed": "Persetujuan diberikan",
+    "adPrivacyDenied": "Persetujuan tidak diberikan",
+    "adPrivacyChange": "Lihat atau ubah semua pilihan",
+    "adPrivacyWeb": "Lihat dan ubah pilihan iklan awak dalam aplikasi iPhone atau Android. Borang persetujuan Google tidak tersedia dalam pratonton web ini."
   },
   "vi": {
     "settings": "Cài đặt",
@@ -606,7 +804,16 @@
     "rulesValid": "Chỉ chấp nhận từ hợp lệ trong ngôn ngữ đã chọn. Từ không hợp lệ không làm mất lượt.",
     "rulesDuplicates": "Một chữ cái có thể xuất hiện nhiều lần, nhưng mỗi lần xuất hiện chỉ được tính một lần.",
     "rulesDaily": "Chơi ba từ mới mỗi ngày. Từ mới có từ 03:00 theo giờ địa phương trên điện thoại.",
-    "rulesExampleAnswer": "Ví dụ: từ bí mật là {word}."
+    "rulesExampleAnswer": "Ví dụ: từ bí mật là {word}.",
+    "adPrivacySaved": "Các lựa chọn đồng ý đã lưu của bạn",
+    "adPrivacySource": "Các lựa chọn của bạn được thực hiện trong biểu mẫu quảng cáo của Google và tuân theo chế độ cài đặt quảng cáo của Google.",
+    "adPrivacyStorage": "Lưu trữ và truy cập thông tin trên thiết bị",
+    "adPrivacyProfile": "Tạo hồ sơ để cá nhân hóa quảng cáo",
+    "adPrivacyUseProfile": "Sử dụng hồ sơ để cá nhân hóa quảng cáo",
+    "adPrivacyAllowed": "Đã đồng ý",
+    "adPrivacyDenied": "Chưa đồng ý",
+    "adPrivacyChange": "Xem hoặc thay đổi tất cả lựa chọn",
+    "adPrivacyWeb": "Bạn có thể xem và thay đổi các lựa chọn về quảng cáo trong ứng dụng iPhone hoặc Android. Biểu mẫu đồng ý của Google không có trong bản xem trước trên web này."
   },
   "el": {
     "settings": "Ρυθμίσεις",
@@ -632,7 +839,16 @@
     "rulesValid": "Γίνονται δεκτές μόνο έγκυρες λέξεις στην επιλεγμένη γλώσσα. Οι μη έγκυρες λέξεις δεν καταναλώνουν προσπάθειες.",
     "rulesDuplicates": "Ένα γράμμα μπορεί να εμφανίζεται πολλές φορές, αλλά κάθε εμφάνιση μετράει μόνο μία φορά.",
     "rulesDaily": "Παίξε τρεις νέες λέξεις κάθε μέρα. Είναι διαθέσιμες στις 03:00, σύμφωνα με την τοπική ώρα του τηλεφώνου.",
-    "rulesExampleAnswer": "Παράδειγμα: η μυστική λέξη είναι {word}."
+    "rulesExampleAnswer": "Παράδειγμα: η μυστική λέξη είναι {word}.",
+    "adPrivacySaved": "Οι αποθηκευμένες συγκαταθέσεις σου",
+    "adPrivacySource": "Οι επιλογές σου έγιναν στη φόρμα διαφημίσεων της Google και ακολουθούν τις ρυθμίσεις διαφημίσεων της Google.",
+    "adPrivacyStorage": "Αποθήκευση και πρόσβαση σε πληροφορίες στη συσκευή σου",
+    "adPrivacyProfile": "Δημιουργία προφίλ για εξατομικευμένες διαφημίσεις",
+    "adPrivacyUseProfile": "Χρήση του προφίλ για εξατομικευμένες διαφημίσεις",
+    "adPrivacyAllowed": "Δόθηκε συγκατάθεση",
+    "adPrivacyDenied": "Δεν δόθηκε συγκατάθεση",
+    "adPrivacyChange": "Δες ή άλλαξε όλες τις επιλογές",
+    "adPrivacyWeb": "Δες και άλλαξε τις επιλογές σου για τις διαφημίσεις στην εφαρμογή για iPhone ή Android. Η φόρμα συγκατάθεσης της Google δεν είναι διαθέσιμη σε αυτή την προεπισκόπηση ιστού."
   },
   "ru": {
     "settings": "Настройки",
@@ -658,7 +874,16 @@
     "rulesValid": "Принимаются только допустимые слова на выбранном языке. Недопустимые слова не расходуют попытки.",
     "rulesDuplicates": "Буква может встречаться несколько раз, но каждое её вхождение учитывается только один раз.",
     "rulesDaily": "Играй в три новых слова каждый день. Они доступны с 03:00 по местному времени телефона.",
-    "rulesExampleAnswer": "Пример: секретное слово — {word}."
+    "rulesExampleAnswer": "Пример: секретное слово — {word}.",
+    "adPrivacySaved": "Твои сохранённые согласия",
+    "adPrivacySource": "Твой выбор сделан в рекламной форме Google и соответствует настройкам рекламы Google.",
+    "adPrivacyStorage": "Хранение информации на устройстве и доступ к ней",
+    "adPrivacyProfile": "Создание профиля для персонализированной рекламы",
+    "adPrivacyUseProfile": "Использование профиля для персонализированной рекламы",
+    "adPrivacyAllowed": "Согласие дано",
+    "adPrivacyDenied": "Согласие не дано",
+    "adPrivacyChange": "Просмотреть или изменить все варианты выбора",
+    "adPrivacyWeb": "Просмотреть и изменить свой выбор в отношении рекламы можно в приложении для iPhone или Android. Форма согласия Google недоступна в этой веб-версии для предварительного просмотра."
   },
   "uk": {
     "settings": "Налаштування",
@@ -684,7 +909,16 @@
     "rulesValid": "Приймаються лише допустимі слова вибраною мовою. Недопустимі слова не витрачають спроб.",
     "rulesDuplicates": "Літера може траплятися кілька разів, але кожне її входження враховується лише один раз.",
     "rulesDaily": "Грай у три нові слова щодня. Вони доступні з 03:00 за місцевим часом телефону.",
-    "rulesExampleAnswer": "Приклад: таємне слово — {word}."
+    "rulesExampleAnswer": "Приклад: таємне слово — {word}.",
+    "adPrivacySaved": "Твої збережені згоди",
+    "adPrivacySource": "Твій вибір зроблено у формі Google щодо реклами, і він відповідає рекламним налаштуванням Google.",
+    "adPrivacyStorage": "Зберігати та зчитувати інформацію на пристрої",
+    "adPrivacyProfile": "Створювати профіль для персоналізованої реклами",
+    "adPrivacyUseProfile": "Використовувати профіль для персоналізованої реклами",
+    "adPrivacyAllowed": "Згоду надано",
+    "adPrivacyDenied": "Згоди не надано",
+    "adPrivacyChange": "Переглянути або змінити всі налаштування",
+    "adPrivacyWeb": "Переглянути та змінити свої налаштування реклами можна в застосунку для iPhone або Android. Форма згоди Google недоступна в цій вебверсії для попереднього перегляду."
   },
   "ja": {
     "settings": "設定",
@@ -710,7 +944,16 @@
     "rulesValid": "選んだ言語で有効な単語だけ使えます。無効な単語では回答回数は減りません。",
     "rulesDuplicates": "同じ文字が複数回出ることもありますが、それぞれ1回だけ対応します。",
     "rulesDaily": "毎日3つの新しい単語で遊べます。新しい単語はスマートフォンの現地時刻で午前3時に公開されます。",
-    "rulesExampleAnswer": "例：秘密の単語は {word} です。"
+    "rulesExampleAnswer": "例：秘密の単語は {word} です。",
+    "adPrivacySaved": "保存済みの同意内容",
+    "adPrivacySource": "選択内容はGoogleの広告フォームで設定されたもので、Googleの広告設定に従います。",
+    "adPrivacyStorage": "端末上の情報の保存と読み取り",
+    "adPrivacyProfile": "パーソナライズ広告用のプロフィールの作成",
+    "adPrivacyUseProfile": "パーソナライズ広告へのプロフィールの利用",
+    "adPrivacyAllowed": "同意済み",
+    "adPrivacyDenied": "同意なし",
+    "adPrivacyChange": "すべての選択内容を確認・変更",
+    "adPrivacyWeb": "広告に関する選択内容は、iPhoneまたはAndroidアプリで確認・変更できます。このウェブプレビューでは、Googleの同意フォームは利用できません。"
   },
   "ko": {
     "settings": "설정",
@@ -736,7 +979,16 @@
     "rulesValid": "선택한 언어의 유효한 단어만 인정돼요. 유효하지 않은 단어는 기회를 소모하지 않아요.",
     "rulesDuplicates": "같은 글자가 여러 번 나올 수 있지만 각 글자는 한 번만 계산돼요.",
     "rulesDaily": "매일 새로운 단어 세 개를 즐기세요. 휴대전화의 현지 시각으로 새벽 3시에 새 단어가 열려요.",
-    "rulesExampleAnswer": "예: 비밀 단어는 {word}입니다."
+    "rulesExampleAnswer": "예: 비밀 단어는 {word}입니다.",
+    "adPrivacySaved": "저장된 동의 내역",
+    "adPrivacySource": "선택 사항은 Google 광고 양식에서 저장되었으며 Google의 광고 설정을 따릅니다.",
+    "adPrivacyStorage": "기기에 정보 저장 및 접근",
+    "adPrivacyProfile": "맞춤형 광고를 위한 프로필 생성",
+    "adPrivacyUseProfile": "맞춤형 광고에 프로필 사용",
+    "adPrivacyAllowed": "동의함",
+    "adPrivacyDenied": "동의하지 않음",
+    "adPrivacyChange": "모든 선택 사항 확인 또는 변경",
+    "adPrivacyWeb": "광고 선택 사항은 iPhone 또는 Android 앱에서 확인하고 변경할 수 있어. 이 웹 미리보기에서는 Google 동의 양식을 사용할 수 없어."
   },
   "th": {
     "settings": "ตั้งค่า",
@@ -762,7 +1014,16 @@
     "rulesValid": "รับเฉพาะคำที่ใช้ได้ในภาษาที่เลือก คำที่ใช้ไม่ได้จะไม่เสียโอกาสทาย",
     "rulesDuplicates": "ตัวอักษรหนึ่งตัวอาจปรากฏหลายครั้ง แต่แต่ละครั้งจะนับได้เพียงครั้งเดียว",
     "rulesDaily": "เล่นคำใหม่สามคำทุกวัน คำใหม่จะเปิดเวลา 03:00 น. ตามเวลาท้องถิ่นของโทรศัพท์",
-    "rulesExampleAnswer": "ตัวอย่าง: คำลับคือ {word}"
+    "rulesExampleAnswer": "ตัวอย่าง: คำลับคือ {word}",
+    "adPrivacySaved": "ความยินยอมที่คุณบันทึกไว้",
+    "adPrivacySource": "คุณได้เลือกตัวเลือกไว้ในแบบฟอร์มโฆษณาของ Google และตัวเลือกเหล่านี้เป็นไปตามการตั้งค่าโฆษณาของ Google",
+    "adPrivacyStorage": "จัดเก็บและเข้าถึงข้อมูลบนอุปกรณ์",
+    "adPrivacyProfile": "สร้างโปรไฟล์สำหรับโฆษณาที่ปรับให้เหมาะกับคุณ",
+    "adPrivacyUseProfile": "ใช้โปรไฟล์สำหรับโฆษณาที่ปรับให้เหมาะกับคุณ",
+    "adPrivacyAllowed": "ให้ความยินยอมแล้ว",
+    "adPrivacyDenied": "ไม่ได้ให้ความยินยอม",
+    "adPrivacyChange": "ดูหรือเปลี่ยนตัวเลือกทั้งหมด",
+    "adPrivacyWeb": "ดูและเปลี่ยนตัวเลือกโฆษณาของคุณได้ในแอปบน iPhone หรือ Android แบบฟอร์มขอความยินยอมของ Google ไม่พร้อมใช้งานในเวอร์ชันตัวอย่างบนเว็บนี้"
   },
   "hi": {
     "settings": "सेटिंग्स",
@@ -788,7 +1049,16 @@
     "rulesValid": "केवल चुनी गई भाषा के मान्य शब्द स्वीकार होते हैं। अमान्य शब्दों से कोशिशें कम नहीं होतीं।",
     "rulesDuplicates": "एक अक्षर कई बार आ सकता है, लेकिन हर बार आए अक्षर को केवल एक बार गिना जाता है।",
     "rulesDaily": "हर दिन तीन नए शब्द खेलें। नए शब्द फ़ोन के स्थानीय समय के अनुसार सुबह 03:00 बजे उपलब्ध होते हैं।",
-    "rulesExampleAnswer": "उदाहरण: गुप्त शब्द {word} है।"
+    "rulesExampleAnswer": "उदाहरण: गुप्त शब्द {word} है।",
+    "adPrivacySaved": "तुम्हारी सहेजी गई सहमतियाँ",
+    "adPrivacySource": "तुम्हारे विकल्प Google के विज्ञापन फ़ॉर्म में चुने गए थे और वे Google की विज्ञापन सेटिंग के अनुसार लागू होते हैं।",
+    "adPrivacyStorage": "डिवाइस पर जानकारी सेव करना और पढ़ना",
+    "adPrivacyProfile": "मनपसंद विज्ञापनों के लिए प्रोफ़ाइल बनाना",
+    "adPrivacyUseProfile": "मनपसंद विज्ञापनों के लिए प्रोफ़ाइल का इस्तेमाल करना",
+    "adPrivacyAllowed": "सहमति दी गई",
+    "adPrivacyDenied": "सहमति नहीं दी गई",
+    "adPrivacyChange": "सभी विकल्प देखो या बदलो",
+    "adPrivacyWeb": "विज्ञापनों से जुड़े अपने विकल्प iPhone या Android ऐप में देखो और बदलो। Google का सहमति फ़ॉर्म इस वेब प्रीव्यू में उपलब्ध नहीं है।"
   },
   "bn": {
     "settings": "সেটিংস",
@@ -814,7 +1084,16 @@
     "rulesValid": "শুধু বেছে নেওয়া ভাষার বৈধ শব্দ গ্রহণ করা হয়। অবৈধ শব্দে কোনো চেষ্টা খরচ হয় না।",
     "rulesDuplicates": "একই অক্ষর একাধিকবার থাকতে পারে, তবে প্রতিটি উপস্থিতি শুধু একবার গণনা করা হয়।",
     "rulesDaily": "প্রতিদিন তিনটি নতুন শব্দ খেলুন। ফোনের স্থানীয় সময় অনুযায়ী ভোর ০৩:০০টায় নতুন শব্দ পাওয়া যায়।",
-    "rulesExampleAnswer": "উদাহরণ: গোপন শব্দটি হলো {word}।"
+    "rulesExampleAnswer": "উদাহরণ: গোপন শব্দটি হলো {word}।",
+    "adPrivacySaved": "তোমার সংরক্ষিত সম্মতিগুলো",
+    "adPrivacySource": "তোমার পছন্দগুলো Google-এর বিজ্ঞাপন ফর্মে নির্ধারণ করা হয়েছে এবং সেগুলো Google-এর বিজ্ঞাপন সেটিংস অনুসরণ করে।",
+    "adPrivacyStorage": "ডিভাইসে তথ্য সংরক্ষণ ও পড়া",
+    "adPrivacyProfile": "ব্যক্তিগত পছন্দ অনুযায়ী বিজ্ঞাপন দেখাতে প্রোফাইল তৈরি করা",
+    "adPrivacyUseProfile": "ব্যক্তিগত পছন্দ অনুযায়ী বিজ্ঞাপন দেখাতে প্রোফাইল ব্যবহার করা",
+    "adPrivacyAllowed": "সম্মতি দেওয়া হয়েছে",
+    "adPrivacyDenied": "সম্মতি দেওয়া হয়নি",
+    "adPrivacyChange": "সব পছন্দ দেখো বা বদলাও",
+    "adPrivacyWeb": "iPhone বা Android অ্যাপে তোমার বিজ্ঞাপন-সংক্রান্ত পছন্দগুলো দেখো ও বদলাও। এই ওয়েব প্রিভিউতে Google-এর সম্মতি ফর্ম পাওয়া যায় না।"
   },
   "gu": {
     "settings": "સેટિંગ્સ",
@@ -840,7 +1119,16 @@
     "rulesValid": "પસંદ કરેલી ભાષાના માન્ય શબ્દો જ સ્વીકારાય છે. અમાન્ય શબ્દોથી પ્રયાસો ઓછા થતા નથી.",
     "rulesDuplicates": "એક અક્ષર ઘણી વખત આવી શકે છે, પરંતુ દરેક વખત માત્ર એક વાર ગણાય છે.",
     "rulesDaily": "દરરોજ ત્રણ નવા શબ્દો રમો. ફોનના સ્થાનિક સમય મુજબ સવારે ૦૩:૦૦ વાગ્યે નવા શબ્દો ઉપલબ્ધ થાય છે.",
-    "rulesExampleAnswer": "ઉદાહરણ: ગુપ્ત શબ્દ {word} છે."
+    "rulesExampleAnswer": "ઉદાહરણ: ગુપ્ત શબ્દ {word} છે.",
+    "adPrivacySaved": "તમારી સાચવેલી સંમતિઓ",
+    "adPrivacySource": "તમારી પસંદગીઓ Googleના જાહેરાત ફોર્મમાં કરવામાં આવી હતી અને તે Googleના જાહેરાત સેટિંગ્સને અનુસરે છે.",
+    "adPrivacyStorage": "તમારા ઉપકરણ પર માહિતી સંગ્રહવી અને વાંચવી",
+    "adPrivacyProfile": "તમારી રુચિ મુજબની જાહેરાતો માટે પ્રોફાઇલ બનાવવી",
+    "adPrivacyUseProfile": "તમારી રુચિ મુજબની જાહેરાતો માટે પ્રોફાઇલનો ઉપયોગ કરવો",
+    "adPrivacyAllowed": "સંમતિ આપેલી છે",
+    "adPrivacyDenied": "સંમતિ આપેલી નથી",
+    "adPrivacyChange": "બધી પસંદગીઓ જુઓ અથવા બદલો",
+    "adPrivacyWeb": "જાહેરાતો વિશેની તમારી પસંદગીઓ iPhone અથવા Android ઍપમાં જુઓ અને બદલો. આ વેબ પૂર્વાવલોકનમાં Googleનું સંમતિ ફોર્મ ઉપલબ્ધ નથી."
   },
   "kn": {
     "settings": "ಸೆಟ್ಟಿಂಗ್‌ಗಳು",
@@ -866,7 +1154,16 @@
     "rulesValid": "ಆಯ್ಕೆ ಮಾಡಿದ ಭಾಷೆಯ ಮಾನ್ಯ ಪದಗಳನ್ನು ಮಾತ್ರ ಸ್ವೀಕರಿಸಲಾಗುತ್ತದೆ. ಅಮಾನ್ಯ ಪದಗಳು ಪ್ರಯತ್ನಗಳನ್ನು ಬಳಸುವುದಿಲ್ಲ.",
     "rulesDuplicates": "ಒಂದು ಅಕ್ಷರ ಹಲವು ಬಾರಿ ಬರಬಹುದು, ಆದರೆ ಪ್ರತಿ ಬಾರಿ ಬಂದದ್ದನ್ನು ಒಮ್ಮೆ ಮಾತ್ರ ಎಣಿಸಲಾಗುತ್ತದೆ.",
     "rulesDaily": "ಪ್ರತಿದಿನ ಮೂರು ಹೊಸ ಪದಗಳನ್ನು ಆಡಿ. ಫೋನ್‌ನ ಸ್ಥಳೀಯ ಸಮಯದ ಪ್ರಕಾರ ಬೆಳಿಗ್ಗೆ 03:00ಕ್ಕೆ ಹೊಸ ಪದಗಳು ಲಭ್ಯವಾಗುತ್ತವೆ.",
-    "rulesExampleAnswer": "ಉದಾಹರಣೆ: ಗುಪ್ತ ಪದ {word}."
+    "rulesExampleAnswer": "ಉದಾಹರಣೆ: ಗುಪ್ತ ಪದ {word}.",
+    "adPrivacySaved": "ನೀವು ಉಳಿಸಿದ ಸಮ್ಮತಿಗಳು",
+    "adPrivacySource": "ನಿಮ್ಮ ಆಯ್ಕೆಗಳನ್ನು Google ಜಾಹೀರಾತು ಫಾರ್ಮ್‌ನಲ್ಲಿ ಮಾಡಲಾಗಿದೆ ಮತ್ತು ಅವು Google ಜಾಹೀರಾತು ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಅನುಸರಿಸುತ್ತವೆ.",
+    "adPrivacyStorage": "ಸಾಧನದಲ್ಲಿ ಮಾಹಿತಿಯನ್ನು ಸಂಗ್ರಹಿಸುವುದು ಮತ್ತು ಓದುವುದು",
+    "adPrivacyProfile": "ವೈಯಕ್ತೀಕರಿಸಿದ ಜಾಹೀರಾತುಗಳಿಗಾಗಿ ಪ್ರೊಫೈಲ್ ರಚಿಸುವುದು",
+    "adPrivacyUseProfile": "ವೈಯಕ್ತೀಕರಿಸಿದ ಜಾಹೀರಾತುಗಳಿಗಾಗಿ ಪ್ರೊಫೈಲ್ ಬಳಸುವುದು",
+    "adPrivacyAllowed": "ಸಮ್ಮತಿ ನೀಡಲಾಗಿದೆ",
+    "adPrivacyDenied": "ಸಮ್ಮತಿ ನೀಡಲಾಗಿಲ್ಲ",
+    "adPrivacyChange": "ಎಲ್ಲಾ ಆಯ್ಕೆಗಳನ್ನು ನೋಡಿ ಅಥವಾ ಬದಲಾಯಿಸಿ",
+    "adPrivacyWeb": "ನಿಮ್ಮ ಜಾಹೀರಾತು ಆಯ್ಕೆಗಳನ್ನು iPhone ಅಥವಾ Android ಆ್ಯಪ್‌ನಲ್ಲಿ ನೋಡಿ ಮತ್ತು ಬದಲಾಯಿಸಿ. ಈ ವೆಬ್ ಪೂರ್ವವೀಕ್ಷಣೆಯಲ್ಲಿ Google ಸಮ್ಮತಿ ಫಾರ್ಮ್ ಲಭ್ಯವಿಲ್ಲ."
   },
   "ml": {
     "settings": "ക്രമീകരണങ്ങൾ",
@@ -892,7 +1189,16 @@
     "rulesValid": "തിരഞ്ഞെടുത്ത ഭാഷയിലെ സാധുവായ വാക്കുകൾ മാത്രമേ സ്വീകരിക്കൂ. അസാധുവായ വാക്കുകൾ ശ്രമങ്ങൾ കുറയ്ക്കില്ല.",
     "rulesDuplicates": "ഒരു അക്ഷരം പല തവണ വരാം, എന്നാൽ ഓരോ തവണയും ഒരിക്കൽ മാത്രമേ എണ്ണൂ.",
     "rulesDaily": "ദിവസവും മൂന്ന് പുതിയ വാക്കുകൾ കളിക്കുക. ഫോണിന്റെ പ്രാദേശിക സമയം രാവിലെ 03:00ന് പുതിയ വാക്കുകൾ ലഭ്യമാകും.",
-    "rulesExampleAnswer": "ഉദാഹരണം: രഹസ്യവാക്ക് {word} ആണ്."
+    "rulesExampleAnswer": "ഉദാഹരണം: രഹസ്യവാക്ക് {word} ആണ്.",
+    "adPrivacySaved": "നിങ്ങളുടെ സംരക്ഷിച്ച സമ്മതങ്ങൾ",
+    "adPrivacySource": "നിങ്ങളുടെ തിരഞ്ഞെടുപ്പുകൾ Google-ന്റെ പരസ്യ ഫോമിലാണ് നടത്തിയത്, അവ Google-ന്റെ പരസ്യ ക്രമീകരണങ്ങൾ പാലിക്കുന്നു.",
+    "adPrivacyStorage": "ഉപകരണത്തിൽ വിവരങ്ങൾ സൂക്ഷിക്കുകയും വായിക്കുകയും ചെയ്യുക",
+    "adPrivacyProfile": "വ്യക്തിഗതമാക്കിയ പരസ്യങ്ങൾക്കായി ഒരു പ്രൊഫൈൽ സൃഷ്ടിക്കുക",
+    "adPrivacyUseProfile": "വ്യക്തിഗതമാക്കിയ പരസ്യങ്ങൾക്കായി പ്രൊഫൈൽ ഉപയോഗിക്കുക",
+    "adPrivacyAllowed": "സമ്മതം നൽകി",
+    "adPrivacyDenied": "സമ്മതം നൽകിയിട്ടില്ല",
+    "adPrivacyChange": "എല്ലാ തിരഞ്ഞെടുപ്പുകളും കാണുക അല്ലെങ്കിൽ മാറ്റുക",
+    "adPrivacyWeb": "നിങ്ങളുടെ പരസ്യ തിരഞ്ഞെടുപ്പുകൾ iPhone അല്ലെങ്കിൽ Android ആപ്പിൽ കാണാനും മാറ്റാനും കഴിയും. ഈ വെബ് പ്രിവ്യൂവിൽ Google-ന്റെ സമ്മതപത്രം ലഭ്യമല്ല."
   },
   "mr": {
     "settings": "सेटिंग्ज",
@@ -918,7 +1224,16 @@
     "rulesValid": "निवडलेल्या भाषेतील वैध शब्दच स्वीकारले जातात. अवैध शब्दांमुळे प्रयत्न कमी होत नाहीत.",
     "rulesDuplicates": "एक अक्षर अनेकदा येऊ शकते, पण प्रत्येक वेळी आलेले अक्षर एकदाच मोजले जाते.",
     "rulesDaily": "दररोज तीन नवीन शब्द खेळा. फोनच्या स्थानिक वेळेनुसार पहाटे 03:00 वाजता नवीन शब्द उपलब्ध होतात.",
-    "rulesExampleAnswer": "उदाहरण: गुप्त शब्द {word} आहे."
+    "rulesExampleAnswer": "उदाहरण: गुप्त शब्द {word} आहे.",
+    "adPrivacySaved": "तुझ्या जतन केलेल्या संमती",
+    "adPrivacySource": "तुझे पर्याय Google च्या जाहिरात फॉर्ममध्ये निवडले गेले आहेत आणि ते Google च्या जाहिरात सेटिंग्जनुसार लागू होतात.",
+    "adPrivacyStorage": "डिव्हाइसवर माहिती साठवणे आणि वाचणे",
+    "adPrivacyProfile": "वैयक्तिकृत जाहिरातींसाठी प्रोफाइल तयार करणे",
+    "adPrivacyUseProfile": "वैयक्तिकृत जाहिरातींसाठी प्रोफाइल वापरणे",
+    "adPrivacyAllowed": "संमती दिली आहे",
+    "adPrivacyDenied": "संमती दिलेली नाही",
+    "adPrivacyChange": "सर्व पर्याय पाहा किंवा बदल",
+    "adPrivacyWeb": "जाहिरातींबाबत तुझे पर्याय iPhone किंवा Android ॲपमध्ये पाहा आणि बदल. या वेब पूर्वावलोकनात Google चा संमती फॉर्म उपलब्ध नाही."
   },
   "or": {
     "settings": "ସେଟିଂସ୍",
@@ -944,7 +1259,16 @@
     "rulesValid": "କେବଳ ବାଛିଥିବା ଭାଷାର ବୈଧ ଶବ୍ଦ ଗ୍ରହଣ କରାଯାଏ। ଅବୈଧ ଶବ୍ଦ ପାଇଁ ଚେଷ୍ଟା କମେ ନାହିଁ।",
     "rulesDuplicates": "ଏକ ଅକ୍ଷର ଅନେକ ଥର ଆସିପାରେ, କିନ୍ତୁ ପ୍ରତ୍ୟେକ ଥର ମାତ୍ର ଥରେ ଗଣାଯାଏ।",
     "rulesDaily": "ପ୍ରତିଦିନ ତିନୋଟି ନୂଆ ଶବ୍ଦ ଖେଳନ୍ତୁ। ଫୋନ୍‌ର ସ୍ଥାନୀୟ ସମୟ ଅନୁସାରେ ଭୋର 03:00ରେ ନୂଆ ଶବ୍ଦ ମିଳେ।",
-    "rulesExampleAnswer": "ଉଦାହରଣ: ଗୁପ୍ତ ଶବ୍ଦଟି ହେଉଛି {word}।"
+    "rulesExampleAnswer": "ଉଦାହରଣ: ଗୁପ୍ତ ଶବ୍ଦଟି ହେଉଛି {word}।",
+    "adPrivacySaved": "ଆପଣଙ୍କ ସଞ୍ଚିତ ସମ୍ମତି",
+    "adPrivacySource": "ଆପଣଙ୍କ ପସନ୍ଦଗୁଡ଼ିକ Googleର ବିଜ୍ଞାପନ ଫର୍ମରେ କରାଯାଇଥିଲା ଏବଂ ସେଗୁଡ଼ିକ Googleର ବିଜ୍ଞାପନ ସେଟିଂସ୍ ଅନୁସରଣ କରେ।",
+    "adPrivacyStorage": "ଆପଣଙ୍କ ଡିଭାଇସ୍‌ରେ ତଥ୍ୟ ସଞ୍ଚୟ କରିବା ଓ ପଢ଼ିବା",
+    "adPrivacyProfile": "ବ୍ୟକ୍ତିଗତ ପସନ୍ଦ ଅନୁସାରେ ବିଜ୍ଞାପନ ପାଇଁ ପ୍ରୋଫାଇଲ୍ ତିଆରି କରିବା",
+    "adPrivacyUseProfile": "ବ୍ୟକ୍ତିଗତ ପସନ୍ଦ ଅନୁସାରେ ବିଜ୍ଞାପନ ପାଇଁ ପ୍ରୋଫାଇଲ୍ ବ୍ୟବହାର କରିବା",
+    "adPrivacyAllowed": "ସମ୍ମତି ଦିଆଯାଇଛି",
+    "adPrivacyDenied": "ସମ୍ମତି ଦିଆଯାଇନାହିଁ",
+    "adPrivacyChange": "ସମସ୍ତ ପସନ୍ଦ ଦେଖନ୍ତୁ କିମ୍ବା ବଦଳାନ୍ତୁ",
+    "adPrivacyWeb": "iPhone କିମ୍ବା Android ଆପ୍‌ରେ ଆପଣଙ୍କ ବିଜ୍ଞାପନ ସମ୍ବନ୍ଧୀୟ ପସନ୍ଦ ଦେଖନ୍ତୁ ଓ ବଦଳାନ୍ତୁ। ଏହି ୱେବ୍ ପୂର୍ବାବଲୋକନରେ Googleର ସମ୍ମତି ଫର୍ମ ଉପଲବ୍ଧ ନାହିଁ।"
   },
   "pa": {
     "settings": "ਸੈਟਿੰਗਾਂ",
@@ -970,7 +1294,16 @@
     "rulesValid": "ਸਿਰਫ਼ ਚੁਣੀ ਹੋਈ ਭਾਸ਼ਾ ਦੇ ਮੰਨਣਯੋਗ ਸ਼ਬਦ ਹੀ ਸਵੀਕਾਰ ਕੀਤੇ ਜਾਂਦੇ ਹਨ। ਅਣਮੰਨਣਯੋਗ ਸ਼ਬਦ ਕੋਸ਼ਿਸ਼ਾਂ ਨਹੀਂ ਘਟਾਉਂਦੇ।",
     "rulesDuplicates": "ਇੱਕ ਅੱਖਰ ਕਈ ਵਾਰ ਆ ਸਕਦਾ ਹੈ, ਪਰ ਹਰ ਵਾਰ ਆਏ ਅੱਖਰ ਨੂੰ ਸਿਰਫ਼ ਇੱਕ ਵਾਰ ਗਿਣਿਆ ਜਾਂਦਾ ਹੈ।",
     "rulesDaily": "ਹਰ ਰੋਜ਼ ਤਿੰਨ ਨਵੇਂ ਸ਼ਬਦ ਖੇਡੋ। ਫ਼ੋਨ ਦੇ ਸਥਾਨਕ ਸਮੇਂ ਅਨੁਸਾਰ ਸਵੇਰੇ 03:00 ਵਜੇ ਨਵੇਂ ਸ਼ਬਦ ਮਿਲਦੇ ਹਨ।",
-    "rulesExampleAnswer": "ਉਦਾਹਰਨ: ਗੁਪਤ ਸ਼ਬਦ {word} ਹੈ।"
+    "rulesExampleAnswer": "ਉਦਾਹਰਨ: ਗੁਪਤ ਸ਼ਬਦ {word} ਹੈ।",
+    "adPrivacySaved": "ਤੁਹਾਡੀਆਂ ਸੰਭਾਲੀਆਂ ਸਹਿਮਤੀਆਂ",
+    "adPrivacySource": "ਤੁਹਾਡੀਆਂ ਚੋਣਾਂ Google ਦੇ ਇਸ਼ਤਿਹਾਰ ਫ਼ਾਰਮ ਵਿੱਚ ਕੀਤੀਆਂ ਗਈਆਂ ਸਨ ਅਤੇ Google ਦੀਆਂ ਇਸ਼ਤਿਹਾਰ ਸੈਟਿੰਗਾਂ ਅਨੁਸਾਰ ਲਾਗੂ ਹੁੰਦੀਆਂ ਹਨ।",
+    "adPrivacyStorage": "ਤੁਹਾਡੀ ਡਿਵਾਈਸ 'ਤੇ ਜਾਣਕਾਰੀ ਸੰਭਾਲਣਾ ਅਤੇ ਪੜ੍ਹਨਾ",
+    "adPrivacyProfile": "ਤੁਹਾਡੇ ਮੁਤਾਬਕ ਇਸ਼ਤਿਹਾਰਾਂ ਲਈ ਪ੍ਰੋਫ਼ਾਈਲ ਬਣਾਉਣਾ",
+    "adPrivacyUseProfile": "ਤੁਹਾਡੇ ਮੁਤਾਬਕ ਇਸ਼ਤਿਹਾਰਾਂ ਲਈ ਪ੍ਰੋਫ਼ਾਈਲ ਵਰਤਣਾ",
+    "adPrivacyAllowed": "ਸਹਿਮਤੀ ਦਿੱਤੀ ਗਈ",
+    "adPrivacyDenied": "ਸਹਿਮਤੀ ਨਹੀਂ ਦਿੱਤੀ ਗਈ",
+    "adPrivacyChange": "ਸਾਰੀਆਂ ਚੋਣਾਂ ਦੇਖੋ ਜਾਂ ਬਦਲੋ",
+    "adPrivacyWeb": "ਆਪਣੀਆਂ ਇਸ਼ਤਿਹਾਰ ਚੋਣਾਂ iPhone ਜਾਂ Android ਐਪ ਵਿੱਚ ਦੇਖੋ ਅਤੇ ਬਦਲੋ। Google ਦਾ ਸਹਿਮਤੀ ਫ਼ਾਰਮ ਇਸ ਵੈੱਬ ਝਲਕ ਵਿੱਚ ਉਪਲਬਧ ਨਹੀਂ ਹੈ।"
   },
   "ta": {
     "settings": "அமைப்புகள்",
@@ -996,7 +1329,16 @@
     "rulesValid": "தேர்ந்தெடுத்த மொழியில் செல்லுபடியாகும் சொற்கள் மட்டுமே ஏற்கப்படும். செல்லுபடியாகாத சொற்கள் முயற்சிகளைக் குறைக்காது.",
     "rulesDuplicates": "ஒரு எழுத்து பல முறை வரலாம்; ஆனால் ஒவ்வொரு முறையும் ஒருமுறை மட்டுமே கணக்கிடப்படும்.",
     "rulesDaily": "ஒவ்வொரு நாளும் மூன்று புதிய சொற்களை விளையாடுங்கள். தொலைபேசியின் உள்ளூர் நேரப்படி அதிகாலை 03:00 மணிக்கு புதிய சொற்கள் கிடைக்கும்.",
-    "rulesExampleAnswer": "எடுத்துக்காட்டு: ரகசியச் சொல் {word}."
+    "rulesExampleAnswer": "எடுத்துக்காட்டு: ரகசியச் சொல் {word}.",
+    "adPrivacySaved": "நீங்கள் சேமித்த ஒப்புதல்கள்",
+    "adPrivacySource": "உங்கள் தேர்வுகள் Google விளம்பரப் படிவத்தில் செய்யப்பட்டவை, அவை Google விளம்பர அமைப்புகளைப் பின்பற்றுகின்றன.",
+    "adPrivacyStorage": "உங்கள் சாதனத்தில் தகவல்களைச் சேமித்தல் மற்றும் அணுகுதல்",
+    "adPrivacyProfile": "தனிப்பயனாக்கப்பட்ட விளம்பரங்களுக்காகச் சுயவிவரத்தை உருவாக்குதல்",
+    "adPrivacyUseProfile": "தனிப்பயனாக்கப்பட்ட விளம்பரங்களுக்குச் சுயவிவரத்தைப் பயன்படுத்துதல்",
+    "adPrivacyAllowed": "ஒப்புதல் அளிக்கப்பட்டது",
+    "adPrivacyDenied": "ஒப்புதல் அளிக்கப்படவில்லை",
+    "adPrivacyChange": "அனைத்துத் தேர்வுகளையும் பார் அல்லது மாற்று",
+    "adPrivacyWeb": "உங்கள் விளம்பரத் தேர்வுகளை iPhone அல்லது Android செயலியில் பார்க்கலாம், மாற்றலாம். இந்த இணைய முன்னோட்டத்தில் Google ஒப்புதல் படிவம் கிடைக்காது."
   },
   "te": {
     "settings": "సెట్టింగ్‌లు",
@@ -1022,6 +1364,15 @@
     "rulesValid": "ఎంచుకున్న భాషలో చెల్లుబాటు అయ్యే పదాలు మాత్రమే అంగీకరించబడతాయి. చెల్లని పదాలు ప్రయత్నాలను తగ్గించవు.",
     "rulesDuplicates": "ఒక అక్షరం పలుమార్లు రావచ్చు, కానీ ప్రతి సారి వచ్చిన అక్షరాన్ని ఒక్కసారి మాత్రమే లెక్కిస్తారు.",
     "rulesDaily": "ప్రతిరోజూ మూడు కొత్త పదాలను ఆడండి. ఫోన్ స్థానిక సమయం ప్రకారం తెల్లవారుజామున 03:00 గంటలకు కొత్త పదాలు అందుబాటులో ఉంటాయి.",
-    "rulesExampleAnswer": "ఉదాహరణ: రహస్య పదం {word}."
+    "rulesExampleAnswer": "ఉదాహరణ: రహస్య పదం {word}.",
+    "adPrivacySaved": "భద్రపరిచిన మీ సమ్మతులు",
+    "adPrivacySource": "మీ ఎంపికలు Google ప్రకటన ఫారమ్‌లో చేయబడ్డాయి, అవి Google ప్రకటన సెట్టింగ్‌లను అనుసరిస్తాయి.",
+    "adPrivacyStorage": "పరికరంలో సమాచారాన్ని నిల్వ చేయడం, చదవడం",
+    "adPrivacyProfile": "వ్యక్తిగతీకరించిన ప్రకటనల కోసం ప్రొఫైల్‌ను సృష్టించడం",
+    "adPrivacyUseProfile": "వ్యక్తిగతీకరించిన ప్రకటనల కోసం ప్రొఫైల్‌ను ఉపయోగించడం",
+    "adPrivacyAllowed": "సమ్మతి ఇచ్చారు",
+    "adPrivacyDenied": "సమ్మతి ఇవ్వలేదు",
+    "adPrivacyChange": "అన్ని ఎంపికలను చూడండి లేదా మార్చండి",
+    "adPrivacyWeb": "మీ ప్రకటన ఎంపికలను iPhone లేదా Android యాప్‌లో చూడండి, మార్చండి. ఈ వెబ్ ప్రివ్యూలో Google సమ్మతి ఫారమ్ అందుబాటులో లేదు."
   }
 }
