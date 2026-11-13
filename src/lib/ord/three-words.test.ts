@@ -2,6 +2,15 @@ import {describe,it,expect,beforeEach} from 'vitest';
 import {activeSlot,DAILY_WORDS,emptySave,gameDate,newRound,roundKey,statistics,submitGuess,type Round} from './engine';
 import {loadSave,mergeRound,persistSave,SAVE_KEY} from './storage';
 describe('Three daily words',()=>{
+ it('preserves mixed results, percentage and attempt distribution through repeated restart',()=>{
+  let save=emptySave();
+  const first={date:'2026-11-12',answer:'KANEL',guesses:['TIGER','KANEL']};
+  const second={date:'2026-11-12',slot:1,answer:'TIGER',guesses:Array(6).fill('KANEL')};
+  const third={date:'2026-11-12',slot:2,answer:'ÄPPLE',guesses:['ÄPPLE']};
+  for(const round of [first,second,third]) save=mergeRound(save,round);
+  for(let restart=0;restart<3;restart++) {persistSave(save);save=loadSave();}
+  expect(statistics(save.rounds,'2026-11-12')).toEqual({played:3,wins:2,percentage:67,current:1,longest:1,distribution:[1,1,0,0,0,0]});
+ });
  beforeEach(()=>localStorage.clear());
  it('allows exactly three distinct words and persists all three wins',()=>{
   expect(DAILY_WORDS).toBe(3);

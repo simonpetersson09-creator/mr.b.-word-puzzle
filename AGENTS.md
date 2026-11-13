@@ -48,3 +48,4 @@ use the editor.
 - Preserve Greek tonos during input casing rather than altering frozen dictionaries or saved answers; accented scheduled words must remain winnable.
 - Read and write recovery copies independently and notify subscribed UI on persistence errors; a broken primary must not prevent backup recovery or hide a native write failure.
 - Bundle attribution, license texts and redistributable word data into the shared client UI; legal notices must remain readable offline in the native shell.
+- Read saved ad choices from native UMP purpose bits using the reference apps' reproducible install patch; display only known purposes, never infer acceptance, and invalidate prepared inventory when consent changes.

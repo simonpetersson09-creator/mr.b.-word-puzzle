@@ -1,6 +1,6 @@
 import * as Switch from '@radix-ui/react-switch';
-import { Share2, Volume2, Vibrate, Check, ArrowRight, Globe2, BookOpen } from 'lucide-react';
-import { useState } from 'react';
+import { Share2, Volume2, Vibrate, Check, ArrowRight, Globe2, BookOpen, ShieldCheck, ChevronRight } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import mrB from '@/assets/mr-b.png';
 import { Button } from './ui/button';
 import { GameDialog } from './ui/game-dialog';
@@ -8,21 +8,45 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { evaluate, hasWon, isFinished, statistics, welcomeState, type Round, type Save, type Settings } from '@/lib/ord/engine';
 import { WordLicenses } from './word-licenses';
 import { useTranslation } from '@/lib/i18n';
-import { languages, type Language } from '@/lib/i18n/languages';
+import { languages, languageFlags, type Language } from '@/lib/i18n/languages';
 import { wordPacks } from '@/lib/ord/words/localized';
-import { nativeAdsEnabled, needsAdPrivacyOptions, showAdPrivacyOptions } from '@/lib/native/interstitial';
+import { dailyAds, getAdConsentChoices, initializeAds, nativeAdsEnabled, needsAdPrivacyOptions, showAdPrivacyOptions } from '@/lib/native/interstitial';
+import { readAdConsentChoices } from '@/lib/native/ad-consent';
 
 export type Panel = 'rules' | 'stats' | 'settings' | null;
 export function OrdDialogs({ panel, close, save, round, setSettings, welcome, dismissWelcome, phoneLanguage, nextWord, dailyDone }: { panel: Panel; close: () => void | Promise<void>; save: Save; round: Round; setSettings: (settings: Settings) => void; welcome:boolean; dismissWelcome:()=>void; phoneLanguage:Language; nextWord:()=>void; dailyDone:boolean }) {
   const {t}=useTranslation();
   const [copied, setCopied] = useState(false);
   const [licensesOpen, setLicensesOpen] = useState(false);
+  const [privacyOpen, setPrivacyOpen] = useState(false);
+  const [privacyBusy, setPrivacyBusy] = useState(false);
+  const [privacyError, setPrivacyError] = useState(false);
+  const [privacyRequired, setPrivacyRequired] = useState(false);
+  const [choices, setChoices] = useState(() => readAdConsentChoices(undefined, undefined));
+  useEffect(() => {
+    if (panel !== 'settings') return;
+    let alive = true;
+    void initializeAds().then(async () => {
+      const saved = await getAdConsentChoices();
+      if (alive) { setPrivacyRequired(needsAdPrivacyOptions()); setChoices(saved); }
+    });
+    return () => { alive = false; };
+  }, [panel, privacyOpen]);
+  async function changePrivacy() {
+    if (privacyBusy) return;
+    setPrivacyBusy(true); setPrivacyError(false);
+    try {
+      const success = await showAdPrivacyOptions();
+      setPrivacyError(!success); setChoices(await getAdConsentChoices()); setPrivacyRequired(needsAdPrivacyOptions());
+      if (success && !isFinished(round)) dailyAds.preload(round.slot ? `${round.date}:${round.slot+1}` : round.date, round.guesses.length);
+    } catch { setPrivacyError(true); } finally { setPrivacyBusy(false); }
+  }
   const stats = statistics(save.rounds, round.date);
   const done = isFinished(round), started=Object.values(save.rounds).some(r=>r.date===round.date && r.guesses.length>0);
   const openingState = welcomeState(save,round);
   const welcomeCopy = openingState === 'complete' ? 'welcomeDone' : openingState === 'next' ? 'welcomeNext' : openingState === 'resume' ? 'welcomeResume' : 'welcomeNew';
   function languagePicker(kind:'language'|'gameLanguage') {
-    return <Select value={save.settings[kind] ?? 'auto'} disabled={kind==='gameLanguage' && started} onValueChange={value=>{if (value==='auto' || value in languages) setSettings({...save.settings,[kind]:value});}}><SelectTrigger className="language-select" aria-label={t(kind)}><SelectValue /></SelectTrigger><SelectContent><SelectItem value="auto">{t('automatic')} · {languages[phoneLanguage]}</SelectItem>{Object.entries(languages).map(([code,label])=><SelectItem key={code} value={code} disabled={kind==='gameLanguage' && code!=='sv' && !wordPacks[code as Language]}>{label}</SelectItem>)}</SelectContent></Select>;
+    return <Select value={save.settings[kind] ?? 'auto'} disabled={kind==='gameLanguage' && started} onValueChange={value=>{if (value==='auto' || value in languages) setSettings({...save.settings,[kind]:value});}}><SelectTrigger className="language-select" aria-label={t(kind)}><SelectValue /></SelectTrigger><SelectContent className="language-options"><SelectItem value="auto">{languageFlags[phoneLanguage]} {t('automatic')} · {languages[phoneLanguage]}</SelectItem>{Object.entries(languages).map(([code,label])=><SelectItem key={code} value={code} disabled={kind==='gameLanguage' && code!=='sv' && !wordPacks[code as Language]}>{languageFlags[code as Language]} {label}</SelectItem>)}</SelectContent></Select>;
   }
   async function share() {
     const text = `Mr.B. Word Puzzle · ${round.date} · ${(round.slot ?? 0)+1}/3\n${hasWon(round) ? round.guesses.length : 'X'}/6\n\n` + round.guesses.map(g => evaluate(g, round.answer).map(m => ({ correct:'🟩', present:'🟨', absent:'⬜' })[m]).join('')).join('\n');
@@ -59,7 +83,14 @@ export function OrdDialogs({ panel, close, save, round, setSettings, welcome, di
       {(['sound','haptics'] as const).map(key => <div className="setting-row" key={key}><span className="setting-label">{key === 'sound' ? <Volume2 /> : <Vibrate />}{t(key)}</span><Switch.Root className="switch" checked={save.settings[key]} onCheckedChange={checked => setSettings({...save.settings,[key]:checked})} aria-label={t(key)}><Switch.Thumb className="switch-thumb" /></Switch.Root></div>)}
       <div className="setting-row language-row"><span className="setting-label"><Globe2 />{t('language')}</span>{languagePicker('language')}</div><div className="setting-row language-row"><span>{t('gameLanguage')}</span>{languagePicker('gameLanguage')}</div>{started && <p className="license-note">{t('lockedLanguage')}</p>}
       <div className="setting-detail"><span>{t('changes')}</span><span>{t('localTime')}</span></div>
-      {needsAdPrivacyOptions() && <Button variant="secondary" onClick={() => { void showAdPrivacyOptions(); }}>{t('adPrivacy')}</Button>}
+      <Button variant="secondary" className="privacy-toggle" aria-expanded={privacyOpen} aria-controls="saved-ad-choices" onClick={() => setPrivacyOpen(open => !open)}><ShieldCheck /><span className="flex-1">{t('adPrivacy')}</span><ChevronRight className={privacyOpen ? 'rotate-90' : ''} /></Button>
+      {privacyOpen && <div className="privacy-content" id="saved-ad-choices">
+        {!nativeAdsEnabled() ? <p>{t('adsOff')}</p> : <>
+          {Object.values(choices).some(value => value !== 'unknown') ? <><strong>{t('adPrivacySaved')}</strong><p>{t('adPrivacySource')}</p><dl>{([['storage','adPrivacyStorage'],['adProfile','adPrivacyProfile'],['useAdProfile','adPrivacyUseProfile']] as const).filter(([key]) => choices[key] !== 'unknown').map(([key,label]) => <div key={key}><dt>{t(label)}</dt><dd>{t(choices[key] === 'allowed' ? 'adPrivacyAllowed' : 'adPrivacyDenied')}</dd></div>)}</dl></> : <p>{t('adPrivacyUnknown')}</p>}
+          {privacyRequired && <Button variant="secondary" className="privacy-toggle" disabled={privacyBusy} aria-busy={privacyBusy} onClick={() => { void changePrivacy(); }}><ShieldCheck />{t('adPrivacyChange')}</Button>}
+          {privacyError && <p className="privacy-error" role="alert">{t('adPrivacyFailed')}</p>}
+        </>}
+      </div>}
       <Button variant="secondary" onClick={() => setLicensesOpen(true)}><BookOpen />{t('dictionary')}</Button>
       <p className="license-note">Mr.B. Word Puzzle · 1.0<br />{nativeAdsEnabled() ? t('adsOn') : t('adsOff')}</p>
     </GameDialog>

@@ -1,6 +1,15 @@
 import { describe, expect, it, vi } from 'vitest';
 import { AD_TTL, createDailyAds } from './interstitial';
 describe('daily interstitial policy', () => {
+  it('rejects stale preload inventory after consent changes and permits fresh preload', async () => {
+    let finish: () => void = () => {};
+    const adapter = {consent:vi.fn().mockResolvedValue(true),prepare:vi.fn().mockImplementationOnce(()=>new Promise<void>(resolve=>{finish=resolve;})).mockResolvedValue(undefined),show:vi.fn().mockResolvedValue(undefined)};
+    const ads=createDailyAds(adapter); await ads.initialize(); ads.preload('2026-11-13',1);
+    ads.invalidate(); finish(); await ads.settled(); await ads.initialize();
+    await ads.afterResult('2026-11-13:2',true); expect(adapter.show).not.toHaveBeenCalled();
+    ads.preload('2026-11-13',1); await ads.settled(); await ads.afterResult('2026-11-13',true);
+    expect(adapter.prepare).toHaveBeenCalledTimes(2); expect(adapter.show).toHaveBeenCalledTimes(1);
+  });
   it('preloads and shows once for each of all three completed daily words', async () => {
     const adapter = { consent: vi.fn().mockResolvedValue(true), prepare: vi.fn().mockResolvedValue(undefined), show: vi.fn().mockResolvedValue(undefined) };
     const ads = createDailyAds(adapter);
