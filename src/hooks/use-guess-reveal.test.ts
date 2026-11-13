@@ -33,4 +33,12 @@ describe('guess presentation lifecycle', () => {
     unmount(); act(() => { vi.runAllTimers(); });
     expect(complete).not.toHaveBeenCalled();
   });
+  it('finishes without animation delay when reduced motion is requested', () => {
+    vi.useFakeTimers();
+    vi.stubGlobal('matchMedia', () => ({matches:true}));
+    const complete = vi.fn(); const {result} = renderHook(useGuessReveal);
+    act(() => { result.current.start(0, complete); vi.advanceTimersByTime(0); });
+    expect(complete).toHaveBeenCalledTimes(1);
+    expect(result.current.busy.current).toBe(false);
+  });
 });
