@@ -92,8 +92,8 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .tile.correct, .key.correct { background: var(--correct); border-color: var(--correct); color: var(--foreground); }
 .tile.present, .key.present { background: var(--present); border-color: var(--present); color: var(--primary-foreground); }
 .tile.absent, .key.absent { background: var(--absent); border-color: var(--absent); color: var(--foreground); }
-.board .tile-flipping { position: relative; overflow: visible; perspective: 700px; border-color: var(--primary); }
-.tile-rotor { position: absolute; inset: -1px; transform-style: preserve-3d; animation: tile-turn var(--flip-duration) cubic-bezier(.45,0,.25,1) var(--flip-delay) both; }
+.board .tile-flipping { position: relative; overflow: hidden; perspective: 700px; border-color: var(--primary); }
+.tile-rotor { position: absolute; inset: 0; transform-style: preserve-3d; animation: tile-turn var(--flip-duration) cubic-bezier(.45,0,.25,1) var(--flip-delay) both; }
 .tile-face { position: absolute; inset: 0; display: grid; place-items: center; border: 1.5px solid var(--primary); border-radius: 5px; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
 .tile-front { background: var(--card); color: var(--foreground); }
 .tile-back { transform: rotateX(180deg); }
