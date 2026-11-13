@@ -1,6 +1,6 @@
 export function patchConsentEligibility(source) {
   return source.replace(
-    'call.resolve(["canRequestAds": ConsentInformation.shared.canRequestAds])',
+    /call\.resolve\(\["canRequestAds": ConsentInformation\.shared\.canRequestAds\]\)|call\.resolve\(\[\s*"canRequestAds": ConsentInformation\.shared\.canRequestAds,\s*"privacyOptionsRequirementStatus": ConsentInformation\.shared\.privacyOptionsRequirementStatus == \.required \? "REQUIRED" : "NOT_REQUIRED"\s*\]\)/,
     `let information = ConsentInformation.shared
             let privacyStatus: String
             switch information.privacyOptionsRequirementStatus {

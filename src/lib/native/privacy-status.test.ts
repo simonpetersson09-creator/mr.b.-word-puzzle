@@ -1,4 +1,5 @@
 import { expect, it } from 'vitest';
+import { readFileSync } from 'node:fs';
 import { privacyOptionsRequired } from './privacy-status';
 // @ts-expect-error native install patch is JavaScript
 import { patchConsentEligibility } from '../../../scripts/consent-eligibility.mjs';
@@ -15,4 +16,6 @@ it('repairs the installed fallback to report the real UMP privacy requirement re
   expect(patched).toContain('case .required: privacyStatus = "REQUIRED"');
   expect(patched).toContain('"privacyOptionsRequirementStatus": privacyStatus');
   expect(patchConsentEligibility(patched)).toBe(patched);
+  const installed = readFileSync('node_modules/@capacitor-community/admob/ios/Sources/AdMobPlugin/AdMobPlugin.swift', 'utf8');
+  expect(patchConsentEligibility(installed)).toContain('default: privacyStatus = "UNKNOWN"');
 });
