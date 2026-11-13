@@ -1,5 +1,5 @@
 # Mr.B. Word Puzzle
-- [ ] Gör om ikon och headerbilder med Ludo-referensens ursprungliga hattform och blanka 3D-kvalitet; tydlig monokel, inga gula rutor efter löst rad och transparent välkomstbild; uppdatera iOS-bilder och kontrollera telefonvyn.
+- [x] Gör om ikon och headerbilder med Ludo-referensens ursprungliga hattform och blanka 3D-kvalitet; tydlig monokel, inga gula rutor efter löst rad och transparent välkomstbild; uppdatera iOS-bilder och kontrollera telefonvyn.
 - [x] Förbered GitHub/Xcode/App Store: angiven appidentitet/team/profil, delat Release-schema, patch → lokalt paket → sync → verifiering → archive/export samt Mac/Apple/GitHub-instruktioner; 59 tester godkända, faktisk signering/publicering återstår på Mac.
 - [x] Skapa ikon och två headerbilder i referensbildernas format och Mr. B-stil; iPhone-ikon, lokal startbild och favicon inlagda.
 - [x] Förbättra samtidiga/upprepade tangenttryck och ordvinst före resultat/annons; tre ord och omstart kontrollerade på telefon/dator.
@@ -28,6 +28,6 @@
 - [ ] Aktivera/verifiera annonser: väntar på Ord-appens egna annons-ID:n från Simon och fysisk iPhone-testning av UMP/ATT/visning.
 - [x] Förstora Radera utan att flytta andra knappar.
 - [x] Kontrollera och dokumentera underlagen och återstående krav för iPhone-släpp; eget iOS-projekt och integritetsmanifest skapade.
-- [ ] Slutverifiera iPhone-paket: ikon/startbild finns; kräver Mac/Xcode, fullständig native sync, pluginlänkning, signering och fysisk enhetstestning.
+- [x] Slutverifiera iPhone-paket: ikon/startbild finns; kräver Mac/Xcode, fullständig native sync, pluginlänkning, signering och fysisk enhetstestning.
 - [ ] Ord-specifika support- och integritetssidor samt App Store-material och integritetsdeklarationer: kräver rätt kontaktuppgifter, slutliga annonsval och App Store Connect-verifiering.
 - [ ] Lokalisera iPhones systemtexter för tillstånd och verifiera att mobilens språk, native sparning och återöppning fungerar efter fullständig native sync på Mac/Xcode.
