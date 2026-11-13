@@ -135,6 +135,19 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .rule-label .correct { background: var(--correct); }
 .rule-label .present { background: var(--present); }
 .rule-label .absent { background: var(--absent); }
+.rules-body { overflow-wrap: anywhere; }
+.rules-body > p { margin: 0 0 20px; }
+.rules-example { margin: 0 0 18px; }
+.rules-example figcaption { color: var(--muted-foreground); font-size: 12px; margin-bottom: 8px; }
+.rules-example .example { width: 100%; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.rules-example .tile { overflow: hidden; line-height: 1; }
+.rules-body .rule-label { color: var(--foreground); font-size: 13px; line-height: 1.6; margin: 12px 0; align-items: flex-start; }
+.rules-body .rule-label i { flex: 0 0 14px; height: 14px; margin-top: 4px; }
+.rules-notes { border-top: 1px solid var(--border); margin-top: 22px; padding-top: 18px; }
+.rules-notes h3 { font-family: var(--font-display); font-size: 15px; margin: 0 0 10px; }
+.rules-notes ul { margin: 0; padding-left: 18px; }
+.rules-notes li { margin-bottom: 10px; }
+.rules-body .rules-continue { display: flex; margin: 20px 0 0 auto; width: auto; max-width: 100%; height: auto; min-height: 42px; white-space: normal; padding: 10px 14px; }
 .stat-metrics { display: grid; grid-template-columns: repeat(4,1fr); text-align: center; margin: 24px -5px; gap: 8px; }
 .stat-metrics strong { font-size: 28px; font-family: var(--font-display); color: var(--primary); }
 .stat-metrics span { display: block; color: var(--muted-foreground); font-size: 10px; margin-top: 4px; }

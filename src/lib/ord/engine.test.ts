@@ -34,6 +34,7 @@ describe('Mr. B Ord rules', () => {
     expect(dailyAnswer('2026-11-13')).toBe(next[0]); expect(dailyAnswer('2026-11-12')).toBe('KANEL');
   });
   it('marks duplicate letters green first, then consumes leftovers left to right', () => {
+    expect(evaluate('KALAS','KANEL')).toEqual(['correct','correct','present','absent','absent']);
     expect(evaluate('KANAL','KANEL')).toEqual(['correct','correct','correct','absent','correct']);
     expect(evaluate('AAAAB','BANAN')).toEqual(['absent','correct','absent','correct','present']);
     expect(evaluate('AAABB','KANEL')).toEqual(['absent','correct','absent','absent','absent']);
