@@ -51,7 +51,9 @@ const testAds=import.meta.env.DEV;
 export const ORD_IOS_APP_ID='ca-app-pub-7448540924654868~2156468939';
 export const ORD_IOS_INTERSTITIAL_ID='ca-app-pub-7448540924654868/9979118636';
 const iosUnit=testAds?'ca-app-pub-3940256099942544/4411468910':ORD_IOS_INTERSTITIAL_ID;
-const androidUnit=androidAdUnit(testAds,import.meta.env['VITE_MRB_ANDROID_ADMOB_APP_ID'],import.meta.env['VITE_MRB_ANDROID_ADMOB_INTERSTITIAL_ID']);
+const androidTestAds=testAds || import.meta.env['VITE_MRB_ANDROID_ADS_RELEASE']!=='true';
+const androidUnit=androidAdUnit(androidTestAds,import.meta.env['VITE_MRB_ANDROID_ADMOB_APP_ID'],import.meta.env['VITE_MRB_ANDROID_ADMOB_INTERSTITIAL_ID']);
+const useTestAds=()=>Capacitor.getPlatform()==='android' ? androidTestAds : testAds;
 const adUnit=()=>Capacitor.getPlatform()==='android' ? androidUnit : iosUnit;
 export const nativeAdsEnabled=()=>['ios','android'].includes(Capacitor.getPlatform()) && Capacitor.isPluginAvailable('AdMob') && Boolean(adUnit());
 let privacyRequired=false;
@@ -79,10 +81,10 @@ const adapter:AdAdapter={
       const tracking=await withDeadline(mod.AdMob.trackingAuthorizationStatus(),AD_REQUEST_TIMEOUT);
       if(tracking.status==='notDetermined')await nativeDialog(()=>mod.AdMob.requestTrackingAuthorization());
     }
-    await withDeadline(mod.AdMob.initialize({initializeForTesting:testAds}),AD_REQUEST_TIMEOUT);
+    await withDeadline(mod.AdMob.initialize({initializeForTesting:useTestAds()}),AD_REQUEST_TIMEOUT);
     return true;
   },
-  async prepare(){const unit=adUnit();if(!module || !unit)throw new Error('unavailable');await module.AdMob.prepareInterstitial({adId:unit,isTesting:testAds});},
+  async prepare(){const unit=adUnit();if(!module || !unit)throw new Error('unavailable');await module.AdMob.prepareInterstitial({adId:unit,isTesting:useTestAds()});},
   discard:discardInventory,
   async show(){
     const mod=module,native=safety();if(!mod || !native || privacyChanging)return;

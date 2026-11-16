@@ -39,7 +39,7 @@ use the editor.
 - Retain failed commits in memory; reconcile native copies before retrying writes.
 - Require device-held capabilities for ranking writes; legacy RPC is read-only and local scores lack anti-cheat verification.
 - Keep the normal TanStack Start bootstrap and package native apps through a separate client-only root; local assets and word lists allow offline mobile play.
-- Show result-exit ads with iOS IDs or configured Android IDs; test IDs are development-only. Missing ads never block play.
+- Share Android IDs via JSON; explicit release uses production, otherwise tests. UMP gates requests; missing ads never block play.
 - Compute game-day keys from the device timezone's wall-clock parts; this preserves the daily boundary across daylight-saving transitions.
 - Use a frozen seeded answer shuffle from the new schedule epoch while retaining existing saved answers; offline restarts must not reroll puzzles.
 - Isolate interstitial policy behind an injectable adapter keyed by dated round slot; consent precedes per-round preload (including resumed words), and result exit awaits ready-ad dismissal before unlocking the next word to avoid cross-round inventory races; unavailable ads never block play.
