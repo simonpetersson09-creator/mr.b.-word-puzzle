@@ -1,6 +1,6 @@
 import {describe,it,expect,vi} from 'vitest';
 import {readFileSync} from 'node:fs';
-import {androidAdUnit,ANDROID_TEST_INTERSTITIAL} from './android-config';
+import {androidAdUnit,ANDROID_TEST_INTERSTITIAL,ANDROID_ADMOB} from './android-config';
 import {createAndroidBackHandler} from './android-back';
 // @ts-expect-error Build-time scripts are JavaScript.
 import {androidAdsConfig} from '../../../scripts/android-ads-config.mjs';
@@ -16,7 +16,9 @@ describe('Android release preparation',()=>{
       expect((await import('../../../capacitor.config')).default.appId).toBe('com.mrb.wordpuzzle');
     }finally{if(old===undefined)delete process.env['MRB_NATIVE_PLATFORM'];else process.env['MRB_NATIVE_PLATFORM']=old;vi.resetModules();}
   });
-  it('keeps production Android ads disabled without the owner’s values',()=>{expect(androidAdUnit(false)).toBeNull();expect(()=>androidAdsConfig({},true)).toThrow();});
+  it('uses the exact supplied Word Puzzle release IDs',()=>{expect(ANDROID_ADMOB).toEqual({packageName:'com.mrb.wordpuzzle',appId:'ca-app-pub-7448540924654868~4150161165',interstitialId:'ca-app-pub-7448540924654868/3980826116'});expect(androidAdUnit(false)).toBe('ca-app-pub-7448540924654868/3980826116');expect(androidAdsConfig({},true).appId).toBe('ca-app-pub-7448540924654868~4150161165');});
+  it('keeps production Android ads disabled for explicitly empty values',()=>{expect(androidAdUnit(false,'','')).toBeNull();expect(()=>androidAdsConfig({VITE_MRB_ANDROID_ADMOB_APP_ID:'',VITE_MRB_ANDROID_ADMOB_INTERSTITIAL_ID:''},true)).toThrow();});
+  it('uses sample IDs in non-release native builds even when real values are supplied',()=>{expect(androidAdsConfig({},false)).toMatchObject({appId:'ca-app-pub-3940256099942544~3347511713',interstitialId:'ca-app-pub-3940256099942544/1033173712',release:false});});
   it('uses only Google’s official Android sample in development',()=>{expect(androidAdUnit(true)).toBe('ca-app-pub-3940256099942544/1033173712');});
   it('rejects sample values for a production release',()=>{expect(androidAdUnit(false,'ca-app-pub-3940256099942544~3347511713',ANDROID_TEST_INTERSTITIAL)).toBeNull();expect(()=>androidAdsConfig({VITE_MRB_ANDROID_ADMOB_APP_ID:'ca-app-pub-3940256099942544~3347511713',VITE_MRB_ANDROID_ADMOB_INTERSTITIAL_ID:ANDROID_TEST_INTERSTITIAL},true)).toThrow();});
   it('targets SDK 36 with Java 21',()=>{const vars=readFileSync('android/variables.gradle','utf8');expect(vars).toMatch(/compileSdkVersion = 36/);expect(vars).toMatch(/targetSdkVersion = 36/);expect(readFileSync('android/app/build.gradle','utf8')).toContain('JavaVersion.VERSION_21');});

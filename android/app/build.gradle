@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+def wordPuzzleAds = new groovy.json.JsonSlurper().parse(file('../../src/lib/native/android-admob.json'))
 
 android {
     namespace = "com.mrb.wordpuzzle"
@@ -13,7 +14,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-        manifestPlaceholders = [admobAppId: providers.environmentVariable('VITE_MRB_ANDROID_ADMOB_APP_ID').getOrElse('ca-app-pub-3940256099942544~3347511713')]
+        manifestPlaceholders = [admobAppId: 'ca-app-pub-3940256099942544~3347511713']
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
@@ -22,7 +23,11 @@ android {
         }
     }
     buildTypes {
+        debug {
+            manifestPlaceholders = [admobAppId: 'ca-app-pub-3940256099942544~3347511713']
+        }
         release {
+            manifestPlaceholders = [admobAppId: providers.environmentVariable('VITE_MRB_ANDROID_ADMOB_APP_ID').getOrElse(wordPuzzleAds.appId)]
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -50,3 +55,14 @@ dependencies {
 apply from: 'capacitor.build.gradle'
 
 // Release signing is intentionally absent; supply the owner's upload key externally.
+// Prevent Android Studio/direct Gradle from accidentally shipping a stale or test bundle.
+tasks.configureEach { task ->
+    if (task.name == 'preReleaseBuild') {
+        task.doFirst {
+            exec {
+                workingDir rootProject.projectDir.parentFile
+                commandLine 'node', 'scripts/verify-android.mjs', '--synced', '--release'
+            }
+        }
+    }
+}

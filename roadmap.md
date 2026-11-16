@@ -1,4 +1,5 @@
 # Roadmap
+- [ ] Slutför Androids egna AdMob-ID:n, test/release-separering och verifiera UMP/annonsval samt tester; ingen publicering.
 - [x] Android-projekt com.mrb.wordpuzzle, befintliga bilder, Java 21/SDK 36 och byggkontroller utan signeringsnyckel.
 - [x] Android-samtycke och konfigurerbara annons-ID:n med skyddad resultatutgång; iOS-identitet och native-filer oförändrade.
 - [x] 149 tester, tillbaka-policy, sparad gissning efter omstart, tangentbord offline efter öppning och fem skärmstorlekar kontrollerade; Androids riktiga native-bygge/synk och enhetstest återstår på dator med SDK.
