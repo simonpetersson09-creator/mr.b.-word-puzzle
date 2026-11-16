@@ -20,7 +20,10 @@ export function monthlyRounds(save:Save,day:string) {
 export async function monthlyBoard(month:string,save:Save,day:string,action:'list'|'sync'|'join'|'leave'='sync',name=''):Promise<MonthlyBoard> {
   await restoreMonthlyCache(month);
   let country:string|null=null;
-  if(Capacitor.isNativePlatform()) {const {Device}=await import('@capacitor/device');country=countryFromLocale((await Device.getLanguageTag()).value);}
+  if(Capacitor.isNativePlatform()) {
+    try {const {Device}=await import('@capacitor/device');country=countryFromLocale((await Device.getLanguageTag()).value);}
+    catch { /* A missing device locale must not block the global board or result sync. */ }
+  }
   if(!country) for(const tag of navigator.languages??[navigator.language]) {country=countryFromLocale(tag);if(country)break;}
   if(!country) country='ZZ';
   const identity=await rankingIdentity();const {supabase}=await import('@/integrations/supabase/client');
