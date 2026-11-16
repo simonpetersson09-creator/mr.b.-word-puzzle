@@ -18,6 +18,7 @@ import { readAdConsentChoices } from '@/lib/native/ad-consent';
 import { feedback } from '@/lib/native/feedback';
 import { HandicapResult } from './handicap-result';
 import { MonthlyLeaderboard } from './monthly-leaderboard';
+import {monthlyCopy} from '@/lib/i18n/monthly-copy';
 
 const PRIVACY_POLICY_URL = 'https://mr-b-word-puzzle-legal-guide.lovable.app';
 
@@ -26,7 +27,7 @@ export function OrdDialogs({ panel, close, save, round, setSettings, welcome, di
   const {t,language}=useTranslation();
   const [monthlyOpen,setMonthlyOpen]=useState(false);
   useEffect(()=>{if(panel!=='stats')setMonthlyOpen(false);},[panel]);
-  const monthlyTitle=language==='sv'?'Månadens topp 20':'Monthly top 20';
+  const [worldTitle,monthlyTitle]=monthlyCopy[language];
   const [licensesOpen, setLicensesOpen] = useState(false);
   const [privacyOpen, setPrivacyOpen] = useState(false);
   const [privacyBusy, setPrivacyBusy] = useState(false);
@@ -104,7 +105,7 @@ export function OrdDialogs({ panel, close, save, round, setSettings, welcome, di
          <Button className="guess-button rules-continue" onClick={close}><ArrowRight />{t('resume')}</Button>
        </div>
     </GameDialog>
-    <GameDialog open={panel === 'stats'} onClose={monthlyOpen?()=>setMonthlyOpen(false):close} title={monthlyOpen?monthlyTitle:t('stats')} description={monthlyOpen?monthlyTitle:t('stats')} className="stats-modal" fullscreen headerAction={!monthlyOpen&&<Button variant="secondary" className="shrink-0 h-11 px-2 text-xs text-primary" title={monthlyTitle} onClick={()=>setMonthlyOpen(true)}>{language==='sv'?'Världstoppen':'World ranking'}</Button>}>
+    <GameDialog open={panel === 'stats'} onClose={monthlyOpen?()=>setMonthlyOpen(false):close} title={monthlyOpen?monthlyTitle:t('stats')} description={monthlyOpen?monthlyTitle:t('stats')} className="stats-modal" fullscreen headerAction={!monthlyOpen&&<Button variant="secondary" className="monthly-header-button" title={monthlyTitle} onClick={()=>setMonthlyOpen(true)}>{worldTitle}</Button>}>
       {monthlyOpen ? <MonthlyLeaderboard save={save} day={round.date} open /> : <>
       <div className="stats-hcp-hero"><HandicapResult round={round} rounds={save.rounds} showWindow={false} showTrend /></div>
       <div className="stat-metrics stats-summary">{([['played',stats.played],['wins',stats.percentage+'%'],['longest',stats.longest]] as const).map(([key,value])=><div key={key}><strong>{value}</strong><span>{t(key)}{key === 'wins' ? ' %' : ''}</span></div>)}</div>
