@@ -1,5 +1,6 @@
-import { Check, CheckCheck, Clock3, ShieldBan, Trash2, Trophy, X } from 'lucide-react';
+import { Check, CheckCheck, Clock3, ShieldBan, Trash2, Trophy, X, MoreHorizontal } from 'lucide-react';
 import { Button } from './ui/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
 import { friendToday, type Friend } from '@/lib/friends';
 
 export function FriendResults({person,day,language,busy,onRemove,onBlock,test=false}:{person:Friend;day:string;language:string;busy:boolean;onRemove:()=>void;onBlock?:()=>void;test?:boolean}) {
@@ -9,9 +10,9 @@ export function FriendResults({person,day,language,busy,onRemove,onBlock,test=fa
   return <article className="friend-player">
     <div className="friend-player-heading">
       <span className="friend-avatar" aria-hidden="true">{person.name.slice(0,1).toLocaleUpperCase()}</span>
-      <div className="friend-player-name"><strong>{person.name}</strong><span>{test?copy('Testvän','Test friend'):'HCP'}{!test && ` ${person.hcp===null?'—':number.format(person.hcp)}`}</span></div>
-      {test&&<div className="friend-hcp"><small>HCP</small><strong>{number.format(person.hcp ?? 0)}</strong></div>}
-      <div className="friend-player-tools"><Button variant="ghost" disabled={busy} aria-label={`${copy('Ta bort','Remove')} ${person.name}`} title={copy('Ta bort','Remove')} onClick={onRemove}><Trash2 /></Button>{onBlock&&<Button variant="ghost" disabled={busy} aria-label={`${copy('Blockera','Block')} ${person.name}`} title={copy('Blockera','Block')} onClick={onBlock}><ShieldBan /></Button>}</div>
+      <div className="friend-player-name"><strong>{person.name}</strong>{test&&<span>{copy('Testvän','Test friend')}</span>}</div>
+      <div className="friend-hcp"><small>HCP</small><strong>{person.hcp===null?'—':number.format(person.hcp)}</strong></div>
+      <div className="friend-player-tools"><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" disabled={busy} aria-label={`${copy('Hantera','Manage')} ${person.name}`} title={copy('Hantera vän','Manage friend')}><MoreHorizontal /></Button></DropdownMenuTrigger><DropdownMenuContent align="end" className="friend-action-menu"><DropdownMenuItem onSelect={onRemove}><Trash2 />{copy('Ta bort vän','Remove friend')}</DropdownMenuItem>{onBlock&&<DropdownMenuItem onSelect={onBlock}><ShieldBan />{copy('Blockera','Block')}</DropdownMenuItem>}</DropdownMenuContent></DropdownMenu></div>
     </div>
     <div className={`friend-day-status ${today.complete?'complete':''}`}>
       {today.complete?<CheckCheck />:<Clock3 />}<span>{today.complete?copy('Dagens spel är klara','Today’s games complete'):`${today.completed}/3 ${copy('klara idag','complete today')}`}</span>
