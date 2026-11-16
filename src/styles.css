@@ -65,6 +65,13 @@
   --tile-turn-highlight: hsl(38 30% 98% / 0.22);
   --tile-turn-sheen: linear-gradient(115deg, transparent 30%, hsl(38 30% 98% / 0.05) 42%, hsl(38 30% 98% / 0.25) 50%, hsl(38 30% 98% / 0.05) 58%, transparent 70%);
   --tile-turn-depth: inset 0 -3px 0 hsl(195 50% 6% / 0.16), inset 0 1px 0 hsl(38 30% 98% / 0.18);
+  --distribution-one: hsl(160 48% 59%);
+  --distribution-two: hsl(178 43% 59%);
+  --distribution-three: hsl(199 60% 67%);
+  --distribution-four: hsl(42 72% 65%);
+  --distribution-five: hsl(25 72% 68%);
+  --distribution-six: hsl(351 49% 70%);
+  --distribution-depth: inset 0 1px 0 hsl(38 30% 98% / 0.2), inset 0 -1px 0 hsl(195 50% 6% / 0.12);
 }
 * { box-sizing: border-box; border-color: var(--border); letter-spacing: 0; }
 html, body { margin: 0; background: var(--background); color: var(--foreground); font-family: var(--font-sans); overscroll-behavior: none; }
@@ -258,7 +265,14 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .distribution-row > span { width: 10px; }
 .bar-track { flex: 1; }
 .bar { min-width: 26px; background: var(--secondary); height: 23px; padding: 3px 8px; text-align: right; border-radius: 2px; font-weight: 700; }
-.bar.nonzero { background: var(--correct); }
+.distribution-row:nth-of-type(1) { --bar-color: var(--distribution-one); }
+.distribution-row:nth-of-type(2) { --bar-color: var(--distribution-two); }
+.distribution-row:nth-of-type(3) { --bar-color: var(--distribution-three); }
+.distribution-row:nth-of-type(4) { --bar-color: var(--distribution-four); }
+.distribution-row:nth-of-type(5) { --bar-color: var(--distribution-five); }
+.distribution-row:nth-of-type(6) { --bar-color: var(--distribution-six); }
+.distribution-row .bar { border-radius: 3px; background: color-mix(in oklch, var(--bar-color) 18%, var(--secondary)); color: var(--foreground); }
+.distribution-row .bar.nonzero { background: linear-gradient(100deg, var(--bar-color), color-mix(in oklch, var(--bar-color) 82%, var(--foreground))); color: var(--primary-foreground); box-shadow: var(--distribution-depth); }
 .result-banner { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
 .result-banner img { width: 44px; height: 58px; object-fit: contain; }
 .result-banner h2 { margin-bottom: 4px; }
