@@ -1,11 +1,35 @@
 import {describe,it,expect} from 'vitest';
-import {answerPool,ANSWER_POLICY_EPOCH,excludedAnswers} from './words/answer-policy';
+import {answerPool,ANSWER_POLICY_EPOCH,excludedAnswers,unsafeAnswerWords,isUnsafeAnswer,unsavedAnswerPool,scheduledPool} from './words/answer-policy';
 import {wordPacks} from './words/localized';
 import {newRound,submitGuess} from './engine';
 import type {Language} from '@/lib/i18n/languages';
 import {approvedAnswers} from './words/approved-answers';
 import {answers} from './words/answers';
 describe('future daily answer quality and compatibility',()=>{
+ it('contains no known unsafe answers in either frozen schedule for any of the 32 languages',()=>{
+   const languages=['sv',...Object.keys(wordPacks)] as Language[];
+   expect(Object.keys(unsafeAnswerWords).length).toBe(32);
+   for(const language of languages) for(const date of ['2026-11-14','2026-11-18']) {
+     for(const word of scheduledPool(date,language)) expect(isUnsafeAnswer(word,language),`${date}:${language}:${word}`).toBe(false);
+     expect(unsavedAnswerPool(date,language).length,language).toBeGreaterThanOrEqual(3);
+   }
+ });
+ it('blocks known unsafe words even if accidentally added to positive approvals and the active schedule',()=>{
+   const pool=scheduledPool('2026-11-18','en') as string[];
+   const approved=approvedAnswers.en as string[];
+   pool.push('BITCH');approved.push('BITCH');
+   try {
+     expect(unsavedAnswerPool('2026-11-18','en')).not.toContain('BITCH');
+     expect(answerPool('2026-11-18','en',['BITCH','WATER'])).toEqual(['WATER']);
+   } finally {pool.pop();approved.pop();}
+ });
+ it('matches normalized casing without blocking innocent words or another language',()=>{
+   expect(isUnsafeAnswer('ja\u0308vla','sv')).toBe(true);
+   expect(isUnsafeAnswer('sikiş','tr')).toBe(true);
+   expect(isUnsafeAnswer('CONNU','fr')).toBe(false);
+   expect(isUnsafeAnswer('HUREN','nl')).toBe(false);
+   expect(isUnsafeAnswer('FODER','sv')).toBe(false);
+ });
  it('screens every unsaved legacy round in all 32 languages without modifying a saved historical answer',()=>{
    for(const language of ['sv',...Object.keys(wordPacks)] as Language[]) {
      for(const date of ['2026-11-12','2026-11-13']) {

@@ -1,4 +1,6 @@
 # Roadmap
+- [x] Kontrollera båda svarsschemana på alla 32 språk och införa språkvis spärr med tester mot kända olämpliga ord; sparade svar lämnas orörda.
+- [ ] Oberoende modersmålsgranskning av svarsorden på samtliga språk; kräver granskare för respektive språk.
 - [x] Topplista: automatiskt deltagande med spelarnamn från inställningar (standard "Spelare 1234"); svep vänster→höger för att gå tillbaka.
 - [x] +200 granskade svarsord per språk via schema v2 från 2026-11-18 (vi 123, ja 177, ta 157, hi 56, bn 52, ko 5 begränsade av ordlistorna); 158 tester.
 - [x] Androids egna AdMob-ID:n inlagda, test/release-separering och UMP/annonsval verifierade med mockad native-brygga; 156 tester passerar. Riktig Android-kompilering, UMP-kontostatus och annonsleverans återstår; ingen publicering.

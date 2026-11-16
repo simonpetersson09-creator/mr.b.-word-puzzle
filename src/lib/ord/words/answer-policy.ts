@@ -15,7 +15,7 @@ export function scheduledPool(date: string, language: Language): readonly string
 // answers remain intact; use the frozen approved pool, not a mutable dictionary.
 export function unsavedAnswerPool(date: string, language: Language): readonly string[] {
  const frozen = scheduledPool(date, language);
- if (date >= ANSWER_POLICY_EPOCH) return frozen;
+ if (date >= ANSWER_POLICY_EPOCH) return frozen.filter(word=>!isUnsafeAnswer(word,language));
  const allowed = new Set<string>((schedule.approved as Partial<Record<Language, string[]>>)[language] ?? []);
  const blocked = new Set(excludedAnswers[language] ?? []);
  const safe = frozen.filter(word => allowed.has(word) && !blocked.has(word) && !isUnsafeAnswer(word, language));
