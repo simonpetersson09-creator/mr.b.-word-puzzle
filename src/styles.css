@@ -363,7 +363,7 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .stats-overview .stats-hcp-hero .hcp-current > strong { font-size: 60px; line-height: 1.1; }
 .stats-overview .hcp-trend { height: 36px; margin-top: 0; }
 .stats-overview .stats-hcp-hero .hcp-word > strong { font-size: 17px; }
-.stats-overview .stats-summary { padding: 8px 0; margin-bottom: 8px; }
+.stats-overview .stat-metrics.stats-summary { padding: 8px 0; margin-bottom: 8px; }
 .stats-overview .result-banner { margin-bottom: 6px; gap: 8px; }
 .stats-overview .result-banner img { height: 40px; width: 32px; }
 .stats-overview .result-banner h2 { font-size: 17px; margin-bottom: 2px; }
@@ -375,18 +375,19 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .stats-overview .distribution-row { margin: 3px 0; }
 .stats-overview .bar { height: 19px; padding: 1px 8px; }
 .stats-overview .next-puzzle { margin: 8px 0 0; }
-@media (max-height: 650px) {
+@media (max-height: 740px) {
   .stats-overview .fullscreen-panel-header { padding-top: calc(env(safe-area-inset-top, 0px) + 6px); padding-bottom: 6px; gap: 8px; }
   .stats-overview .fullscreen-panel-header h2 { font-size: 18px; }
-  .stats-overview .stats-hcp-hero .hcp-current > strong { font-size: 44px; }
-  .stats-overview .hcp-trend { height: 26px; }
+  .stats-overview .stats-hcp-hero .hcp-current > strong { font-size: 40px; }
+  .stats-overview .hcp-trend { height: 22px; }
   .stats-overview .stats-hcp-hero .hcp-result { gap: 3px; padding-bottom: 4px; }
-  .stats-overview .stats-summary { padding: 4px 0; margin-bottom: 5px; }
+  .stats-overview .stats-hcp-hero .hcp-word { display: flex; justify-content: center; align-items: baseline; gap: 8px; }
+  .stats-overview .stat-metrics.stats-summary { padding: 4px 0; margin-bottom: 5px; }
   .stats-overview .stats-summary strong { font-size: 19px; }
   .stats-overview .country-rank-slot { height: 52px; }
   .stats-overview .country-rank-slot .country-rank { height: 46px; }
-  .stats-overview .distribution-row { margin: 2px 0; }
-  .stats-overview .bar { height: 17px; font-size: 11px; }
+  .stats-overview .distribution-row { margin: 1px 0; font-size: 11px; }
+  .stats-overview .bar { height: 16px; font-size: 11px; }
 }
 .key.absent { background: var(--key-wrong); border-color: var(--key-wrong); color: var(--key-wrong-ink); box-shadow: none; }
 .key.absent:disabled { opacity: 1; cursor: default; }
