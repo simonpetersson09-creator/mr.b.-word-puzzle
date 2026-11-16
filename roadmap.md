@@ -1,7 +1,8 @@
 # Roadmap
-- [ ] Förladda och behåll senaste Världstoppen utan tom öppningsvy.
-- [ ] Verifiera riktiga väninbjudningar, acceptans och privata dagsresultat.
-- [ ] Kontrollera och rätta TestFlight-samtycke; fysisk iPhone och AdMob-kontots meddelanden kan inte verifieras här.
+- [x] Förladda Världstoppen, återställ månadsbunden cache från lokalt/native-minne och öppna efter första hämtningen; verklig öppning utan laddtext verifierad.
+- [x] Verifiera riktiga väninbjudningar, acceptans, borttagning och privata dagsresultat mellan två separata sessioner; registrera inställningarnas spelarnamn och rätta cache-race.
+- [x] Rätta första-start-reserv för misslyckade UMP-läsningar så annonsval inte döljs och ingen annons begärs; iOS-ordning och sparade beslut testade. Samtliga 172 tester passerar.
+- [ ] Verifiera samtyckesrutor i ny TestFlight-version och publicerade AdMob-meddelanden för iOS-appen; kräver fysisk iPhone, senaste iOS-synk/arkivering och åtkomst till AdMob-kontot.
 - [x] Kontrollera båda svarsschemana på alla 32 språk och införa språkvis spärr med tester mot kända olämpliga ord; sparade svar lämnas orörda.
 - [ ] Oberoende modersmålsgranskning av svarsorden på samtliga språk; kräver granskare för respektive språk.
 - [x] Topplista: automatiskt deltagande med spelarnamn från inställningar (standard "Spelare 1234"); svep vänster→höger för att gå tillbaka.
