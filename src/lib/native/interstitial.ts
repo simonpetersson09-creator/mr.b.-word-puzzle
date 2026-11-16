@@ -2,6 +2,7 @@ import { Capacitor } from '@capacitor/core';
 import { readAdConsentChoices, type AdConsentChoices } from './ad-consent';
 import { AD_LOAD_TIMEOUT, AD_REQUEST_TIMEOUT, presentPreparedAd, withDeadline } from './ad-presentation';
 import { privacyOptionsRequired } from './privacy-status';
+import { androidAdUnit } from './android-config';
 
 export const AD_TTL = 45 * 60 * 1000;
 export interface AdAdapter { consent(): Promise<boolean>; prepare(): Promise<void>; show(): Promise<void>; discard?(): Promise<void> }
@@ -49,8 +50,10 @@ export const isAdFlowBusy=()=>fullscreenBusy || privacyChanging;
 const testAds=import.meta.env.DEV;
 export const ORD_IOS_APP_ID='ca-app-pub-7448540924654868~2156468939';
 export const ORD_IOS_INTERSTITIAL_ID='ca-app-pub-7448540924654868/9979118636';
-const unit=testAds?'ca-app-pub-3940256099942544/4411468910':ORD_IOS_INTERSTITIAL_ID;
-export const nativeAdsEnabled=()=>Capacitor.getPlatform()==='ios' && Capacitor.isPluginAvailable('AdMob') && Boolean(unit);
+const iosUnit=testAds?'ca-app-pub-3940256099942544/4411468910':ORD_IOS_INTERSTITIAL_ID;
+const androidUnit=androidAdUnit(testAds,import.meta.env.VITE_MRB_ANDROID_ADMOB_APP_ID,import.meta.env.VITE_MRB_ANDROID_ADMOB_INTERSTITIAL_ID);
+const adUnit=()=>Capacitor.getPlatform()==='android' ? androidUnit : iosUnit;
+export const nativeAdsEnabled=()=>['ios','android'].includes(Capacitor.getPlatform()) && Capacitor.isPluginAvailable('AdMob') && Boolean(adUnit());
 let privacyRequired=false;
 export const needsAdPrivacyOptions=()=>privacyRequired;
 const safety=()=>module?.AdMob as (AdModule['AdMob'] & NativeSafety) | undefined;
@@ -72,12 +75,14 @@ const adapter:AdAdapter={
       privacyRequired=privacyOptionsRequired(info.privacyOptionsRequirementStatus,privacyRequired);canRequest=info.canRequestAds;
     }
     if(!canRequest)return false;
-    const tracking=await withDeadline(mod.AdMob.trackingAuthorizationStatus(),AD_REQUEST_TIMEOUT);
-    if(tracking.status==='notDetermined')await nativeDialog(()=>mod.AdMob.requestTrackingAuthorization());
+    if(Capacitor.getPlatform()==='ios') {
+      const tracking=await withDeadline(mod.AdMob.trackingAuthorizationStatus(),AD_REQUEST_TIMEOUT);
+      if(tracking.status==='notDetermined')await nativeDialog(()=>mod.AdMob.requestTrackingAuthorization());
+    }
     await withDeadline(mod.AdMob.initialize({initializeForTesting:testAds}),AD_REQUEST_TIMEOUT);
     return true;
   },
-  async prepare(){if(!module)throw new Error('unavailable');await module.AdMob.prepareInterstitial({adId:unit,isTesting:testAds});},
+  async prepare(){const unit=adUnit();if(!module || !unit)throw new Error('unavailable');await module.AdMob.prepareInterstitial({adId:unit,isTesting:testAds});},
   discard:discardInventory,
   async show(){
     const mod=module,native=safety();if(!mod || !native || privacyChanging)return;

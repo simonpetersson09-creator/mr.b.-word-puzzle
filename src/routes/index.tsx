@@ -18,6 +18,7 @@ import { installOpeningListener } from '@/lib/native/opening';
 import { dailyAds, initializeAds, isAdFlowBusy } from '@/lib/native/interstitial';
 import {syncSocialResults} from '@/lib/social-sync';
 import {friendCopy} from '@/lib/i18n/friends-copy';
+import {installAndroidBack} from '@/lib/native/android-back';
 
 export const Route = createFileRoute("/")({
   head: () => ({ meta: [
@@ -175,6 +176,20 @@ function Index() {
     resultExit.current=exit;
     return exit;
   }
+  const backActions=useRef({busy:()=>false,dismissOverlay:()=>false,save:()=>Promise.resolve()});
+  backActions.current={
+    busy:()=>isAdFlowBusy() || Boolean(resultExit.current) || reveal.busy.current,
+    dismissOverlay:()=>{
+      if(document.querySelector('[role="dialog"][data-state="open"], [role="listbox"][data-state="open"]')) {
+        document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',code:'Escape',bubbles:true}));
+        return true;
+      }
+      if(celebrating){finishCelebration();return true;}
+      return false;
+    },
+    save:()=>flushNativeSave(),
+  };
+  useEffect(()=>installAndroidBack({busy:()=>backActions.current.busy(),dismissOverlay:()=>backActions.current.dismissOverlay(),save:()=>backActions.current.save()}),[]);
   useEffect(() => {
     function keydown(event: KeyboardEvent) {
       if(panel || friendsOpen || welcome || celebrating || !rows || event.ctrlKey || event.metaKey || event.altKey || event.repeat) return;
