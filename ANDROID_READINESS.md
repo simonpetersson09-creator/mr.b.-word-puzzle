@@ -59,7 +59,7 @@ Sista kommandot försöker skapa en **osignerad** AAB i `android/app/build/outpu
 Ingen app har publicerats. Ingen APK/AAB-kompilering eller fysisk Android-verifiering är genomförd här. Befintliga lokala sparnycklar är oförändrade; Android har separat lagring och importerar inte iPhone-historik. Avinstallation/datarensning kan radera lokala resultat.
 
 ## Verifierat 2026-11-16
-- 149 automatiska tester godkända, inklusive Android-identitet/iOS-standard, SDK/Java-konfiguration, saknade/test-annons-ID:n, tillbaka-policy, befintliga sparningsregressioner och tre separata annonsutgångar.
+- 156 automatiska tester godkända, inklusive exakta Android-release-ID:n, test/release-separering, UMP före annonsbegäran, nekad behörighet, verkliga ändamålsval, ändrade annonsval, ingen ATT på Android, tre separata resultatutgångar, dubbeltryck och utebliven/misslyckad annons. Android-bryggan simulerades; faktisk SDK-körning på telefon är inte verifierad.
 - Android-källkontroll godkänd: wrapper, egna bilder, samtyckesläsare, presentationsdeadline och inventarieskydd. Release kräver korrekta ID:n och aktuellt release-synkpaket.
 - Förhandsvisningen kontrollerad på 320×568, 360×640, 412×915, 915×412 och 800×1280. Ingen horisontell överlapp; spelplan och tangentbord ryms. Gissningen KANEL återlästes efter omstart; tangenttryck fungerade efter att nätet kopplats bort. Inga sidfel observerades.
 - Topplista → statistik → spelplan kontrollerat med samma Escape-hantering som Android Back använder; faktisk OS-gest och minimering kräver Android.
