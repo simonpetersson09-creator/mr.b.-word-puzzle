@@ -408,6 +408,8 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .monthly-heading { display: flex; align-items: center; gap: 8px; }
 .monthly-heading > svg { width: 18px; color: var(--primary); }
 .monthly-heading h3 { flex: 1; margin: 0; font: 700 16px var(--font-display); }
+.monthly-heading h3 { min-width: 0; overflow-wrap: anywhere; }
+.monthly-header-button { flex-shrink: 0; max-width: 42%; min-height: 44px; height: auto; padding: 8px; font-size: 12px; white-space: normal; overflow-wrap: anywhere; color: var(--primary); }
 .monthly-heading button,.monthly-navigation button { width: 40px; height: 40px; padding: 0; flex-shrink: 0; }
 .monthly-navigation { display: flex; align-items: center; justify-content: space-between; margin-top: 6px; }
 .monthly-navigation strong { font-size: 12px; text-transform: capitalize; text-align: center; }
