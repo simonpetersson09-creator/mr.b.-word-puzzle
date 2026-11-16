@@ -103,8 +103,8 @@ export function OrdDialogs({ panel, close, save, round, setSettings, welcome, di
          <Button className="guess-button rules-continue" onClick={close}><ArrowRight />{t('resume')}</Button>
        </div>
     </GameDialog>
-    <GameDialog open={panel === 'stats'} onClose={close} title={t('stats')} description={t('stats')} className="stats-modal">
-      {done ? <div className="result-banner"><img src={mrB} alt="Mr. B" /><div><h2>{hasWon(round) ? t('won') : t('lost')}</h2><p>{hasWon(round) ? t('found',{word:round.answer,count:round.guesses.length}) : t('answer',{word:round.answer})}</p></div></div> : <h2>{t('stats')}</h2>}
+    <GameDialog open={panel === 'stats'} onClose={close} title={t('stats')} description={t('stats')} className="stats-modal" fullscreen>
+      {done && <div className="result-banner"><img src={mrB} alt="Mr. B" /><div><h2>{hasWon(round) ? t('won') : t('lost')}</h2><p>{hasWon(round) ? t('found',{word:round.answer,count:round.guesses.length}) : t('answer',{word:round.answer})}</p></div></div>}
       <HandicapResult round={round} rounds={save.rounds} />
       <div className="streak-hero"><div className={`streak-flame ${stats.current ? 'lit' : ''}`}><Flame /></div><div className="streak-text"><strong>{stats.current}</strong><span>{t('streakDays')}</span></div><div className="streak-best"><Trophy /><span>{stats.longest}</span></div></div>
       <div className="streak-goal"><div className="streak-goal-label"><span>{stats.current ? t('nextGoal',{count: goal - stats.current, goal}) : t('startStreak')}</span><b>{goal}</b></div><div className="streak-goal-track"><div style={{width: `${Math.max(4, goalPct)}%`}} /></div></div>
