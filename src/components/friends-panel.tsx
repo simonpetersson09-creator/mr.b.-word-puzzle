@@ -23,11 +23,26 @@ export function FriendsPanel({open,close,save,day}:{open:boolean;close:()=>void;
   useEffect(()=>{
     if(!open)return;
     let live=true;
+    let fresh=false;
     setBusy(true);setError(false);setNotice('');
-    void cachedFriends().then(cached=>{if(live&&cached){setState(cached);setName(cached.name);}});
-    void friendsAction('sync',{save,day}).then(value=>{if(live){setState(value);setName(value.name);}}).catch(()=>{if(live)setError(true);}).finally(()=>{if(live)setBusy(false);});
+    void cachedFriends().then(cached=>{if(live&&!fresh&&cached){setState(cached);setName(cached.name);}});
+    void friendsAction('sync',{save,day}).then(value=>{fresh=true;if(live){setState(value);setName(value.name);}}).catch(()=>{if(live)setError(true);}).finally(()=>{if(live)setBusy(false);});
     return()=>{live=false;};
   },[open,save,day]);
+  useEffect(()=>{
+    if(!open||busy)return;
+    let live=true,running=false;
+    async function refresh(){
+      if(running||document.visibilityState==='hidden'||navigator.onLine===false)return;
+      running=true;
+      try {const value=await friendsAction('sync',{save,day});if(live){setState(value);setError(false);}}
+      catch { /* Retain existing friends on temporary connection failure. */ }
+      finally {running=false;}
+    }
+    const timer=setInterval(()=>void refresh(),30000);
+    window.addEventListener('online',refresh);document.addEventListener('visibilitychange',refresh);
+    return()=>{live=false;clearInterval(timer);window.removeEventListener('online',refresh);document.removeEventListener('visibilitychange',refresh);};
+  },[open,busy,save,day]);
   async function act(action:FriendAction,target?:string) {
     if(busy)return;setBusy(true);setError(false);setNotice('');
     try {const value=await friendsAction(action,{name,code,target,save,day});setState(value);setName(value.name);if(action==='invite'){setCode('');setNotice(text.sent);}}
