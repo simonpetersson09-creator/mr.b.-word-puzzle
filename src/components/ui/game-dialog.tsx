@@ -1,6 +1,6 @@
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { ArrowLeft, X } from 'lucide-react';
-import type { ReactNode } from 'react';
+import { useRef, type ReactNode, type TouchEvent } from 'react';
 import { Button } from './button';
 import { useTranslation } from '@/lib/i18n';
 // Adapted from Sudoku's Radix dialog, with Ord's semantic classes and Swedish labels.
