@@ -29,13 +29,17 @@ bun run native:build:android
 Utdata: `android/app/build/outputs/apk/debug/app-debug.apk`. Detta är inte en Google Play-release.
 
 ## Android-annonsvärden
-Konfigurera följande publika värden i terminalens miljö, både vid synk och Gradle-bygge:
+Ägarens angivna Android-ID:n finns i `src/lib/native/android-admob.json`, gemensamt för klient och Gradle:
+- App ID: `ca-app-pub-7448540924654868~4150161165`
+- Interstitial ID: `ca-app-pub-7448540924654868/3980826116`
+
+Följande publika miljövärden kan fortfarande användas för en uttrycklig konfigurationsändring:
 - `VITE_MRB_ANDROID_ADMOB_APP_ID`: Word Puzzles egen Android-app i AdMob.
 - `VITE_MRB_ANDROID_ADMOB_INTERSTITIAL_ID`: Word Puzzles egen Android-mellanannonsenhet.
 
-Inga produktionsvärden har hittats på. Utan värden använder manifestet Googles officiella Android-test-App-ID så SDK:n inte kraschar; produktionswebbdelen håller annonser avstängda. Vite-utvecklingsläge använder Googles officiella Android-testenhet. En vanlig debug-APK byggd av produktionswebbdelen kör inte testannonser automatiskt.
+Vanlig synk, öppning och debug-APK använder Googles officiella Android-test-App-ID och testenhet, även när produktions-ID:n finns. Bara `--release` aktiverar produktions-ID:n för Android; Vite-utvecklingsläge använder alltid testannonser. iOS-ID:n och iOS-testbeteendet är oförändrade. Direkt Gradle/Android Studio Release blockeras om ett verifierat aktuellt releasepaket saknas.
 
-När riktiga värden finns, upprepa:
+Förbered ett releasepaket på datorn:
 ```sh
 bun run native:sync:android -- --release
 bun run native:verify:android -- --synced --release
@@ -44,7 +48,7 @@ bun run native:bundle:android
 Sista kommandot försöker skapa en **osignerad** AAB i `android/app/build/outputs/bundle/release/`. Det vägrar utan egna annonsvärden eller om källor/synkpaket har ändrats sedan synken. Ingen signeringsnyckel eller signeringskonfiguration har skapats.
 
 ## Återstår inför signerad AAB
-1. Tillhandahåll egna Android-AdMob-ID:n och konfigurera Googles UMP-meddelande för appen.
+1. Konfigurera och kontrollera Googles UMP-meddelande för Word Puzzles Android-app i AdMob. Egna ID:n är nu inlagda; AdMob-kontots meddelandestatus har inte verifierats här.
 2. Kompilera på dator med Android SDK och Java 21; det finns inga sådana verktyg i denna granskningsmiljö.
 3. Prova på fysisk Android: tillbaka/gestnavigering, skärmutskärningar, tangentbord inklusive vietnamesiska, språkbyte, små skärmar/tablet/rotation, haptik, delning, vänner/topplista, offline och tvångsavslut/uppdatering.
 4. Kontrollera UMP och riktiga annonser efter var och en av dagens tre rundor, utebliven annons och återgång från bakgrunden. Testad policy är inte bevis för faktisk AdMob-leverans.
@@ -56,7 +60,7 @@ Ingen app har publicerats. Ingen APK/AAB-kompilering eller fysisk Android-verifi
 
 ## Verifierat 2026-11-16
 - 149 automatiska tester godkända, inklusive Android-identitet/iOS-standard, SDK/Java-konfiguration, saknade/test-annons-ID:n, tillbaka-policy, befintliga sparningsregressioner och tre separata annonsutgångar.
-- Android-källkontroll godkänd: wrapper, egna bilder, samtyckesläsare, presentationsdeadline och inventarieskydd. Release-kommandot avvisar saknade produktions-ID:n.
+- Android-källkontroll godkänd: wrapper, egna bilder, samtyckesläsare, presentationsdeadline och inventarieskydd. Release kräver korrekta ID:n och aktuellt release-synkpaket.
 - Förhandsvisningen kontrollerad på 320×568, 360×640, 412×915, 915×412 och 800×1280. Ingen horisontell överlapp; spelplan och tangentbord ryms. Gissningen KANEL återlästes efter omstart; tangenttryck fungerade efter att nätet kopplats bort. Inga sidfel observerades.
 - Topplista → statistik → spelplan kontrollerat med samma Escape-hantering som Android Back använder; faktisk OS-gest och minimering kräver Android.
 - iOS-källkontroller och befintliga iOS-annons-ID-tester passerar. Senaste native-webbpaket behöver fortfarande byggas/synkas på datorn; de kopierade webbfilernas initiala mallpaket är inte en release av senaste ändringarna.
