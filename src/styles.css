@@ -281,6 +281,8 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .setting-row { display: flex; align-items: center; justify-content: space-between; padding: 18px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
 .setting-label { display: flex; align-items: center; gap: 10px; }
 .setting-label svg { width: 17px; color: var(--primary); }
+.player-name-row { gap: 12px; }
+.player-name-row input { max-width: 52%; text-align: right; }
 .switch { width: 42px; height: 24px; border-radius: 20px; background: var(--border); padding: 3px; }
 .switch[data-state=checked] { background: var(--primary); }
 .switch-thumb { display: block; width: 18px; height: 18px; background: var(--foreground); border-radius: 50%; transition: transform .15s; }
