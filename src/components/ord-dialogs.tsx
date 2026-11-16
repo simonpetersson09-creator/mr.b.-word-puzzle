@@ -1,5 +1,5 @@
 import * as Switch from '@radix-ui/react-switch';
-import { Vibrate, Check, ArrowRight, Globe2, ShieldCheck, ChevronRight, Flame, Trophy, Sparkles, LockKeyhole, X } from 'lucide-react';
+import { Vibrate, Check, ArrowRight, Globe2, ShieldCheck, ChevronRight, Flame, Sparkles, LockKeyhole, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import mrB from '@/assets/mr-b.png';
 import { Button } from './ui/button';
