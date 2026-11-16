@@ -7,6 +7,7 @@ import {useTranslation} from '@/lib/i18n';
 import {monthlyBoard,currentMonth,MONTHLY_MINIMUM,type MonthlyBoard} from '@/lib/ranking/monthly';
 import type {Save} from '@/lib/ord/engine';
 import {monthlyCopy} from '@/lib/i18n/monthly-copy';
+import {monthlyRuleCopy} from '@/lib/i18n/monthly-rule-copy';
 
 export function MonthlyLeaderboard({save,day,open}:{save:Save;day:string;open:boolean}) {
   const {language}=useTranslation();
@@ -23,6 +24,7 @@ export function MonthlyLeaderboard({save,day,open}:{save:Save;day:string;open:bo
   return <section className="monthly-leaderboard">
     <div className="monthly-heading"><Trophy /><h3>{title}</h3><Button variant="ghost" disabled={busy} aria-label={refresh} onClick={()=>void act(auto)}><RefreshCw className={busy?'friends-loading':''}/></Button></div>
     <div className="monthly-navigation"><strong>{label}</strong></div>
+    <p className="monthly-note">{monthlyRuleCopy[language].replace('{n}',String(MONTHLY_MINIMUM))}</p>
     {error&&<p role="alert" className="privacy-error">{failed}</p>}
     {!visible&&busy&&<p className="monthly-note" role="status">{loading}</p>}
     {!!visible?.leaders.length && <ol className="monthly-list">{visible.leaders.map((entry,i)=><li key={i} className={entry.self?'monthly-self':''}><span className="monthly-place">{entry.place&&entry.place<=3?['🥇','🥈','🥉'][entry.place-1]:entry.place}</span><div><strong>{entry.name}</strong><small>{entry.played} {played}</small></div><strong>{number.format(entry.average)}</strong></li>)}</ol>}
