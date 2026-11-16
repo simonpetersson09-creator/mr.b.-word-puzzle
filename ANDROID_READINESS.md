@@ -7,7 +7,7 @@
 - Android UMP-samtycke och verkliga lagrade ändamålsval. Okänd/misslyckad uppdatering får aldrig tolkas som samtycke. Ingen ATT-begäran på Android.
 - Samma annonsregel som iOS: förladdning efter första giltiga gissningen, annonsförsök vid resultatutgång, högst en per ord. Native generationsskydd och deadline hindrar sena/felrundade annonser; synlig annons måste stängas innan nästa ord.
 - Androids tillbaka-knapp stänger översta dialog/lista först, går från världstoppen tillbaka till statistiken och får inte gå förbi pågående annons/ordvändning. På spelplanen sparas väntande skrivningar före minimering.
-- `adjustResize`, Capacitors SystemBars-skydd för systemfält och befintlig visualViewport-anpassning används för tangentbord och skärmyta.
+- `adjustResize`, Capacitors SystemBars med native-marginaler för systemfält och befintlig visualViewport-anpassning används för tangentbord och skärmyta, utan att ändra iOS-layouten.
 
 ## På din dator
 Installera Node 22+, Bun, Java/JDK 21 och Android Studio med SDK Platform 36 och Build Tools. Välj Java 21 för Gradle och ange SDK-platsen i Android Studio eller `ANDROID_HOME`.

@@ -180,7 +180,7 @@ function Index() {
   backActions.current={
     busy:()=>isAdFlowBusy() || Boolean(resultExit.current) || reveal.busy.current,
     dismissOverlay:()=>{
-      if(document.querySelector('[role="dialog"][data-state="open"], [role="listbox"][data-state="open"]')) {
+      if(document.querySelector('[role="dialog"][data-state="open"], [role="listbox"][data-state="open"], [role="menu"][data-state="open"]')) {
         document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',code:'Escape',bubbles:true}));
         return true;
       }
