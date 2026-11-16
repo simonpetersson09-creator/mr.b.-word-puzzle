@@ -25,11 +25,11 @@ export async function cachedFriends() {
     return decode(localStorage.getItem(CACHE));
   } catch { return null; }
 }
-export async function friendsAction(action: FriendAction, data: { name?: string; code?: string; target?: string; save?: Save; day?: string } = {}): Promise<FriendsState> {
+export async function friendsAction(action: FriendAction, data: { name?: string; code?: string; target?: string | undefined; save?: Save; day?: string } = {}): Promise<FriendsState> {
   const identity = await rankingIdentity();
   const { supabase } = await import('@/integrations/supabase/client');
   const summary = data.save && data.day ? friendSummary(data.save, data.day) : null;
-  const {data:result,error} = await supabase.rpc('friends_action', {p_device:identity.id,p_token:identity.token,p_action:action,p_name:data.name ?? '',p_code:normalizeFriendCode(data.code ?? ''),p_target:data.target,p_hcp:summary?.hcp ?? undefined,p_day:summary?.day,p_completed:summary?.completed ?? 0});
+  const {data:result,error} = await supabase.rpc('friends_action', {p_device:identity.id,p_token:identity.token,p_action:action,p_name:data.name ?? '',p_code:normalizeFriendCode(data.code ?? ''),...(data.target ? {p_target:data.target} : {}),...(summary ? {p_day:summary.day,p_completed:summary.completed,...(summary.hcp !== null ? {p_hcp:summary.hcp} : {})} : {})});
   if (error) throw error;
   const state = decode(JSON.stringify(result));
   if (!state) throw new Error('Invalid friends response');
