@@ -330,6 +330,10 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .stats-hcp-hero .hcp-current > span { font: 700 14px var(--font-display); color: var(--foreground); }
 .stats-hcp-hero .hcp-current > strong { font-size: 76px; line-height: 1.25; color: var(--primary); }
 .stats-hcp-hero .hcp-current > small { font-size: 12px; }
+.hcp-trend { display: block; width: 100%; max-width: 300px; height: 64px; margin: 4px auto 0; overflow: hidden; }
+.hcp-trend polyline { fill: none; stroke: var(--primary); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.hcp-trend circle { fill: var(--primary-light); }
+.hcp-trend-baseline { fill: none; stroke: var(--border); stroke-width: 1; stroke-dasharray: 3 5; }
 .stats-hcp-hero .hcp-word { width: 100%; text-align: center; }
 .stats-hcp-hero .hcp-word > strong { font-size: 20px; }
 .stat-metrics.stats-summary { grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0 0 14px; padding: 12px 0; border-bottom: 1px solid var(--border); gap: 8px; }
