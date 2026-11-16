@@ -14,6 +14,75 @@ export type Database = {
   }
   public: {
     Tables: {
+      friend_devices: {
+        Row: {
+          code: string
+          completed: number
+          day: string | null
+          hcp: number | null
+          id: string
+          name: string
+          request_at: string | null
+          token_hash: string
+          updated_at: string
+        }
+        Insert: {
+          code?: string
+          completed?: number
+          day?: string | null
+          hcp?: number | null
+          id: string
+          name?: string
+          request_at?: string | null
+          token_hash: string
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          completed?: number
+          day?: string | null
+          hcp?: number | null
+          id?: string
+          name?: string
+          request_at?: string | null
+          token_hash?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      friend_links: {
+        Row: {
+          recipient: string
+          sender: string
+          status: string
+        }
+        Insert: {
+          recipient: string
+          sender: string
+          status?: string
+        }
+        Update: {
+          recipient?: string
+          sender?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "friend_links_recipient_fkey"
+            columns: ["recipient"]
+            isOneToOne: false
+            referencedRelation: "friend_devices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "friend_links_sender_fkey"
+            columns: ["sender"]
+            isOneToOne: false
+            referencedRelation: "friend_devices"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       player_scores: {
         Row: {
           country: string
@@ -46,6 +115,20 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      friends_action: {
+        Args: {
+          p_action: string
+          p_code?: string
+          p_completed?: number
+          p_day?: string
+          p_device: string
+          p_hcp?: number
+          p_name?: string
+          p_target?: string
+          p_token: string
+        }
+        Returns: Json
+      }
       submit_score:
         | {
             Args: {
