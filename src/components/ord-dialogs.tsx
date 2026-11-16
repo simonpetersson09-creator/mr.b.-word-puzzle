@@ -65,9 +65,6 @@ export function OrdDialogs({ panel, close, save, round, setSettings, welcome, di
     return () => { live = false; };
   }, [panel, winsTotal, stats.played]);
   const today = Array.from({length: DAILY_WORDS}, (_, i) => save.rounds[roundKey(round.date, i)]);
-  const goal = [3,7,14,30,50,100,200,365].find(m => m > stats.current) ?? stats.current + 100;
-  const prevGoal = [0,3,7,14,30,50,100,200,365].filter(m => m <= stats.current).pop() ?? 0;
-  const goalPct = Math.round((stats.current - prevGoal) / Math.max(1, goal - prevGoal) * 100);
   const done = isFinished(round), started=Object.values(save.rounds).some(r=>r.date===round.date && r.guesses.length>0);
   const openingState = welcomeState(save,round);
   const welcomeCopy = openingState === 'complete' ? 'welcomeWarmDone' : openingState === 'next' || (openingState === 'new' && started) ? 'welcomeWarmNext' : openingState === 'resume' ? 'welcomeWarmResume' : 'welcomeFresh';
@@ -107,7 +104,6 @@ export function OrdDialogs({ panel, close, save, round, setSettings, welcome, di
       <div className="stats-hcp-hero"><HandicapResult round={round} rounds={save.rounds} showWindow={false} /></div>
       <div className="stat-metrics stats-summary">{([['played',stats.played],['wins',stats.percentage+'%'],['longest',stats.longest]] as const).map(([key,value])=><div key={key}><strong>{value}</strong><span>{t(key)}{key === 'wins' ? ' %' : ''}</span></div>)}</div>
       {done && <div className="result-banner"><img src={mrB} alt="Mr. B" /><div><h2>{hasWon(round) ? t('won') : t('lost')}</h2><p>{hasWon(round) ? t('found',{word:round.answer,count:round.guesses.length}) : t('answer',{word:round.answer})}</p></div></div>}
-      <div className="streak-goal"><div className="streak-goal-label"><span>{stats.current ? t('nextGoal',{count: goal - stats.current, goal}) : t('startStreak')}</span><b>{goal}</b></div><div className="streak-goal-track"><div style={{width: `${Math.max(4, goalPct)}%`}} /></div></div>
       <div className="today-words"><span>{t('todayWords')}</span><div>{today.map((r,i)=><i key={i} className={!r || !isFinished(r) ? '' : hasWon(r) ? 'won' : 'lost'}>{r && isFinished(r) ? (hasWon(r) ? r.guesses.length : '×') : ''}</i>)}</div></div>
       {stats.played > 0 && <div className="country-rank-slot">{rank && <div className="country-rank"><span className="country-flag" aria-hidden="true">{flagFor(rank.country)}</span><div><strong>{t('betterThan',{pct: rank.betterThan})}</strong><span>{t('inCountry',{country: new Intl.DisplayNames([document.documentElement.lang || 'en'],{type:'region'}).of(rank.country) ?? rank.country})}</span></div></div>}</div>}
       <div className="distribution"><h3>{t('distribution')}</h3>{stats.distribution.map((count, i) => <div className="distribution-row" key={i}><span>{i+1}</span><div className="bar-track"><div className={`bar ${count ? 'nonzero' : ''}`} style={{width: `${Math.max(9, count / Math.max(1,...stats.distribution) * 100)}%`}}>{count}</div></div></div>)}</div>
