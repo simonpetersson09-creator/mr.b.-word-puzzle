@@ -1,4 +1,5 @@
 # Roadmap
+- [ ] Ny felkontroll av spel, sparning, sociala flöden, inställningar och mobilvyer; kör samtliga tester och rätta reproducerbara fel.
 - [x] Förladda Världstoppen, återställ månadsbunden cache från lokalt/native-minne och öppna efter första hämtningen; verklig öppning utan laddtext verifierad.
 - [x] Verifiera riktiga väninbjudningar, acceptans, borttagning och privata dagsresultat mellan två separata sessioner; registrera inställningarnas spelarnamn och rätta cache-race.
 - [x] Rätta första-start-reserv för misslyckade UMP-läsningar så annonsval inte döljs och ingen annons begärs; iOS-ordning och sparade beslut testade. Samtliga 172 tester passerar.
