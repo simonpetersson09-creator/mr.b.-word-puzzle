@@ -388,7 +388,7 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .stats-overview .country-rank-slot .country-rank { height: 50px; margin-top: 6px; padding: 6px 10px; border-radius: 8px; }
 .stats-overview .country-flag { font-size: 26px; }
 .stats-overview .distribution h3 { margin: 8px 0 5px; }
-.stats-overview .distribution-row { margin: 3px 0; }
+.stats-overview .distribution-row { margin: 7px 0; }
 .stats-overview .bar { height: 19px; padding: 1px 8px; }
 .stats-overview .welcome-play { margin-top: 12px; }
 .stats-overview .next-puzzle { margin: 8px 0 0; }
@@ -403,7 +403,7 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
   .stats-overview .stats-summary strong { font-size: 19px; }
   .stats-overview .country-rank-slot { height: 52px; }
   .stats-overview .country-rank-slot .country-rank { height: 46px; }
-  .stats-overview .distribution-row { margin: 1px 0; font-size: 11px; }
+  .stats-overview .distribution-row { margin: 3px 0; font-size: 11px; }
   .stats-overview .bar { height: 16px; font-size: 11px; }
 }
 @media (max-height: 600px) {
