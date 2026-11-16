@@ -13,13 +13,13 @@ const labels: Record<Language, readonly [string, string]> = {
   kn:['ಪದದ ಅಂಕ','ಇತ್ತೀಚಿನ ಪದಗಳು'], ml:['വാക്കിന്റെ സ്കോർ','സമീപകാല വാക്കുകൾ'], mr:['शब्दाचा स्कोअर','अलीकडील शब्द'], or:['ଶବ୍ଦର ସ୍କୋର','ସାମ୍ପ୍ରତିକ ଶବ୍ଦ'], pa:['ਸ਼ਬਦ ਦਾ ਸਕੋਰ','ਹਾਲ ਦੇ ਸ਼ਬਦ'], ta:['சொல்லின் மதிப்பெண்','சமீபத்திய சொற்கள்'], te:['పదం స్కోరు','ఇటీవలి పదాలు'],
 };
 
-export function HandicapResult({round, rounds}: {round: Round; rounds: Record<string, Round>}) {
+export function HandicapResult({round, rounds, showWindow = true}: {round: Round; rounds: Record<string, Round>; showWindow?: boolean}) {
   const {language} = useTranslation();
   const score = wordScore(round);
   const hcp = handicap(rounds, round.date);
   const format = (value: number, decimals = 0) => new Intl.NumberFormat(language === 'no' ? 'nb' : language, {minimumFractionDigits: decimals, maximumFractionDigits: decimals, signDisplay: 'exceptZero'}).format(value);
   return <div className="hcp-result" aria-live="polite">
     {score !== null && <div className="hcp-word"><span>{labels[language][0]}</span><strong>{format(score)} <small>{golfName(score)}</small></strong></div>}
-    <div className="hcp-current"><span>HCP</span><strong>{hcp.value === null ? '—' : format(hcp.value, 1)}</strong><small>{labels[language][1]} · {hcp.count}/30</small></div>
+    <div className="hcp-current"><span>HCP</span><strong>{hcp.value === null ? '—' : format(hcp.value, 1)}</strong>{showWindow && <small>{labels[language][1]} · {hcp.count}/30</small>}</div>
   </div>;
 }
