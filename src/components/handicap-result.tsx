@@ -1,6 +1,6 @@
 import { useTranslation } from '@/lib/i18n';
 import type { Language } from '@/lib/i18n/languages';
-import { golfName, handicap, wordScore } from '@/lib/ord/handicap';
+import { golfName, handicap, handicapHistory, wordScore } from '@/lib/ord/handicap';
 import type { Round } from '@/lib/ord/engine';
 
 const labels: Record<Language, readonly [string, string]> = {
@@ -13,13 +13,16 @@ const labels: Record<Language, readonly [string, string]> = {
   kn:['ಪದದ ಅಂಕ','ಇತ್ತೀಚಿನ ಪದಗಳು'], ml:['വാക്കിന്റെ സ്കോർ','സമീപകാല വാക്കുകൾ'], mr:['शब्दाचा स्कोअर','अलीकडील शब्द'], or:['ଶବ୍ଦର ସ୍କୋର','ସାମ୍ପ୍ରତିକ ଶବ୍ଦ'], pa:['ਸ਼ਬਦ ਦਾ ਸਕੋਰ','ਹਾਲ ਦੇ ਸ਼ਬਦ'], ta:['சொல்லின் மதிப்பெண்','சமீபத்திய சொற்கள்'], te:['పదం స్కోరు','ఇటీవలి పదాలు'],
 };
 
-export function HandicapResult({round, rounds, showWindow = true}: {round: Round; rounds: Record<string, Round>; showWindow?: boolean}) {
+export function HandicapResult({round, rounds, showWindow = true, showTrend = false}: {round: Round; rounds: Record<string, Round>; showWindow?: boolean; showTrend?: boolean}) {
   const {language} = useTranslation();
   const score = wordScore(round);
   const hcp = handicap(rounds, round.date);
+  const history = showTrend ? handicapHistory(rounds, round.date) : [];
+  const points = history.map((value, i) => ({x: history.length === 1 ? 150 : 8 + i * 284 / (history.length - 1), y: 8 + (3 - value) * 48 / 6}));
+  const lastPoint = points.at(-1);
   const format = (value: number, decimals = 0) => new Intl.NumberFormat(language === 'no' ? 'nb' : language, {minimumFractionDigits: decimals, maximumFractionDigits: decimals, signDisplay: 'exceptZero'}).format(value);
   return <div className="hcp-result" aria-live="polite">
     {score !== null && <div className="hcp-word"><span>{labels[language][0]}</span><strong>{format(score)} <small>{golfName(score)}</small></strong></div>}
-    <div className="hcp-current"><span>HCP</span><strong>{hcp.value === null ? '—' : format(hcp.value, 1)}</strong>{showWindow && <small>{labels[language][1]} · {hcp.count}/30</small>}</div>
+    <div className="hcp-current"><span>HCP</span><strong>{hcp.value === null ? '—' : format(hcp.value, 1)}</strong>{showTrend && <svg className="hcp-trend" viewBox="0 0 300 64" role="img" aria-label={`HCP · ${labels[language][1]}`}><path className="hcp-trend-baseline" d="M8 32 H292" />{points.length > 1 && <polyline points={points.map(p => `${p.x},${p.y}`).join(' ')} />}{lastPoint && <circle cx={lastPoint.x} cy={lastPoint.y} r="3.5" />}</svg>}{showWindow && <small>{labels[language][1]} · {hcp.count}/30</small>}</div>
   </div>;
 }

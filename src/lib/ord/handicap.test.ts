@@ -1,10 +1,22 @@
 import { describe, expect, it } from 'vitest';
-import { handicap, wordScore } from './handicap';
+import { handicap, handicapHistory, wordScore } from './handicap';
 import type { Round } from './engine';
 
 const win = (attempts: number): Round => ({ date: '2026-11-16', answer: 'KANEL', guesses: [...Array<string>(attempts - 1).fill('TIGER'), 'KANEL'] });
 
 describe('golf handicap', () => {
+  it('plots rolling handicap rather than individual word scores', () => {
+    expect(handicapHistory({a:win(3), b:win(4), c:win(5)}, '2026-11-16')).toEqual([-1, -0.5, 0]);
+  });
+  it('keeps 30 chart points and includes preceding words in each rolling average', () => {
+    const rounds: Record<string, Round> = {};
+    for (let i = 0; i < 33; i++) rounds[String(i)] = {...win(i < 3 ? 1 : 5), date: `2026-11-${String(1 + Math.floor(i / 3)).padStart(2,'0')}`, slot:i % 3};
+    const history = handicapHistory(rounds, '2026-11-16');
+    expect(history).toHaveLength(30);
+    expect(history[0]).toBe(-2);
+    expect(history[29]).toBe(1);
+    expect(handicapHistory({unfinished:{...win(4),guesses:[]},future:{...win(4),date:'2026-11-17'}}, '2026-11-16')).toEqual([]);
+  });
   it.each([[1,-3],[2,-2],[3,-1],[4,0],[5,1],[6,2]])('%i winning attempts score %i', (attempts, score) => {
     expect(wordScore(win(attempts))).toBe(score);
   });

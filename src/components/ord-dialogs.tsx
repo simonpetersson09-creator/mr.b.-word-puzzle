@@ -101,7 +101,7 @@ export function OrdDialogs({ panel, close, save, round, setSettings, welcome, di
        </div>
     </GameDialog>
     <GameDialog open={panel === 'stats'} onClose={close} title={t('stats')} description={t('stats')} className="stats-modal" fullscreen>
-      <div className="stats-hcp-hero"><HandicapResult round={round} rounds={save.rounds} showWindow={false} /></div>
+      <div className="stats-hcp-hero"><HandicapResult round={round} rounds={save.rounds} showWindow={false} showTrend /></div>
       <div className="stat-metrics stats-summary">{([['played',stats.played],['wins',stats.percentage+'%'],['longest',stats.longest]] as const).map(([key,value])=><div key={key}><strong>{value}</strong><span>{t(key)}{key === 'wins' ? ' %' : ''}</span></div>)}</div>
       {done && <div className="result-banner"><img src={mrB} alt="Mr. B" /><div><h2>{hasWon(round) ? t('won') : t('lost')}</h2><p>{hasWon(round) ? t('found',{word:round.answer,count:round.guesses.length}) : t('answer',{word:round.answer})}</p></div></div>}
       <div className="today-words"><span>{t('todayWords')}</span><div>{today.map((r,i)=><i key={i} className={!r || !isFinished(r) ? '' : hasWon(r) ? 'won' : 'lost'}>{r && isFinished(r) ? (hasWon(r) ? r.guesses.length : '×') : ''}</i>)}</div></div>
