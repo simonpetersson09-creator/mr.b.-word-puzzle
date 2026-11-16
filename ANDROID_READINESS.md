@@ -53,3 +53,11 @@ Sista kommandot försöker skapa en **osignerad** AAB i `android/app/build/outpu
 7. Google Play: butiksmaterial, integritetspolicy, datasäkerhet inklusive AdMob och delade vän-/rankningsdata, annonser, målgrupp/åldersklassning och erforderlig testperiod.
 
 Ingen app har publicerats. Ingen APK/AAB-kompilering eller fysisk Android-verifiering är genomförd här. Befintliga lokala sparnycklar är oförändrade; Android har separat lagring och importerar inte iPhone-historik. Avinstallation/datarensning kan radera lokala resultat.
+
+## Verifierat 2026-11-16
+- 149 automatiska tester godkända, inklusive Android-identitet/iOS-standard, SDK/Java-konfiguration, saknade/test-annons-ID:n, tillbaka-policy, befintliga sparningsregressioner och tre separata annonsutgångar.
+- Android-källkontroll godkänd: wrapper, egna bilder, samtyckesläsare, presentationsdeadline och inventarieskydd. Release-kommandot avvisar saknade produktions-ID:n.
+- Förhandsvisningen kontrollerad på 320×568, 360×640, 412×915, 915×412 och 800×1280. Ingen horisontell överlapp; spelplan och tangentbord ryms. Gissningen KANEL återlästes efter omstart; tangenttryck fungerade efter att nätet kopplats bort. Inga sidfel observerades.
+- Topplista → statistik → spelplan kontrollerat med samma Escape-hantering som Android Back använder; faktisk OS-gest och minimering kräver Android.
+- iOS-källkontroller och befintliga iOS-annons-ID-tester passerar. Senaste native-webbpaket behöver fortfarande byggas/synkas på datorn; de kopierade webbfilernas initiala mallpaket är inte en release av senaste ändringarna.
+- Kallstart utan nät har inte verifierats i Android. Webbförhandsvisningen kan inte laddas om utan nät; Android ska använda lokalt paketerade filer efter den dokumenterade synken.
