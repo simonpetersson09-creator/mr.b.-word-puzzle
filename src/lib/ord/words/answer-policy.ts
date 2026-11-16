@@ -15,12 +15,67 @@ export function scheduledPool(date: string, language: Language): readonly string
 // answers remain intact; use the frozen approved pool, not a mutable dictionary.
 export function unsavedAnswerPool(date: string, language: Language): readonly string[] {
  const frozen = scheduledPool(date, language);
- if (date >= ANSWER_POLICY_EPOCH) return frozen;
+ if (date >= ANSWER_POLICY_EPOCH) {
+   const hit=safePoolCache.get(frozen);
+   if(hit?.language===language && hit.length===frozen.length)return hit.pool;
+   const pool=frozen.filter(word=>!isUnsafeAnswer(word,language));
+   safePoolCache.set(frozen,{language,length:frozen.length,pool});
+   return pool;
+ }
  const allowed = new Set<string>((schedule.approved as Partial<Record<Language, string[]>>)[language] ?? []);
  const blocked = new Set(excludedAnswers[language] ?? []);
- const safe = frozen.filter(word => allowed.has(word) && !blocked.has(word));
- return safe.length >= 3 ? safe : ((schedule.approved as Partial<Record<Language, string[]>>)[language] ?? []).filter(word => !blocked.has(word));
+ const safe = frozen.filter(word => allowed.has(word) && !blocked.has(word) && !isUnsafeAnswer(word, language));
+ return safe.length >= 3 ? safe : ((schedule.approved as Partial<Record<Language, string[]>>)[language] ?? []).filter(word => !blocked.has(word) && !isUnsafeAnswer(word, language));
 }
+
+// Exact language-specific matches avoid censoring innocent substrings (CONNU,
+// HUREN). Defence in depth only: these lists do not certify editorial review.
+export const unsafeAnswerWords: Partial<Record<Language, readonly string[]>> = {
+ sv:['KUKEN','KUKAR','FITTA','FITTOR','HOROR','KNULA','KNULL','KNULLA','RUNKA','NEGER','PORNO','JÄVLA','JÄVEL','SKITA','SKITS','SEXIG','SPERM'],
+ en:['FUCKS','SHITS','SHITE','BITCH','CUNTS','WHORE','SLUTS','FAGOT','NIGGER','NIGGA','PENIS','VAGINA','PORNO','NUDES','NAKED','SEMEN','SPERM','HORNY','RAPED','RAPES','RAPIST'],
+ no:['FAEN','JÆVLA','JÆVEL','DRITT','FITTE','PIKK','HORER','PORNO'],
+ da:['FISSE','PIKKE','LUDER','KNEPP','SKIDE','PORNO'],
+ fi:['VITTU','VITUN','PASKA','PERSE','KYRPÄ','HUORA','PORNO'],
+ es:['PUTAS','PUTOS','COÑO','MIERDA','FOLLAR','POLLA','VERGA','PORNO'],
+ fr:['MERDE','PUTES','SALOPE','CONNE','PÉNIS','PENIS','SPERME','PORNO'],
+ it:['CAZZO','MERDA','TROIA','PUTTANA','SESSO','PORNO'],
+ de:['ARSCH','FOTZE','FICKT','FICKEN','HUREN','PENIS','PORNO'],
+ nl:['KUTTE','NEUKT','LULLEN','HOER','HOEREN','PORNO'],
+ ca:['MERDA','PUTES','PUTA','FOLLAR','PORNO'],
+ pt:['MERDA','FODER','PUTAS','PORRA','CARALHO','BUCETA','PORNO'],
+ 'pt-BR':['MERDA','FODER','PUTAS','PORRA','CARALHO','BUCETA','PORNO'],
+ pl:['KURWA','KURWY','GÓWNO','CHUJE','CHUJA','PIZDA','JEBAĆ','PORNO'],
+ cs:['KURVA','HOVNO','PÍČA','PÍČI','ČURÁK','MRDAT','PORNO'],
+ sk:['KURVA','HOVNO','PIČA','KOKOT','JEBAŤ','PORNO'],
+ hr:['KURVA','KURVE','PIČKA','PIZDA','JEBAT','PORNO'],
+ sl:['KURVA','KURBE','PIZDA','JEBAT','PORNO'],
+ ro:['PULA','PULĂ','CURVĂ','CURVE','FUTE','PORNO'],
+ hu:['KURVA','FASZ','BASZNI','PICSA','PORNO'],
+ tr:['SİKİŞ','SİKTİR','OROSPU','AMCIK','PORNO'],
+ id:['KONTOL','MEMEK','NGENTOT','BANGSAT','PEPEK','PORNO'],
+ ms:['PUKI','LANCAU','PANTAT','PORNO'],
+ vi:['ĐỊT','CẶC','LỒN','ĐỤ','HIẾP'],
+ el:['ΠΟΎΤΣΑ','ΜΟΥΝΊ','ΓΑΜΏ','ΣΚΑΤΆ','ΠΌΡΝΗ'],
+ ru:['ХУЙ','ХУЯ','ПИЗДА','БЛЯДЬ','ЕБАТЬ','СУКА','СУКИ','ПОРНО'],
+ uk:['ХУЙ','ХУЯ','ПИЗДА','БЛЯДЬ','ЇБАТИ','СУКА','СУКИ','ПОРНО'],
+ ja:['セックス','ちんこ','まんこ','ポルノ','レイプ','くそ','うんこ'],
+ ko:['씨발','시발','섹스','강간','자지','보지','포르노'],
+ hi:['चूत','चोद','लंड','रंडी'],bn:['চুদ','মাগী','বেশ্যা'],ta:['புண்டை','ஓத்த','வேசி'],
+};
+function safetyKey(word:string,language:Language):string {
+ return word.normalize('NFC').toLocaleUpperCase(language === 'no' ? 'nb' : language === 'el' ? 'und' : language);
+}
+export function isUnsafeAnswer(word:string,language:Language):boolean {
+ const key=safetyKey(word,language);
+ let blocked=unsafeKeyCache.get(language);
+ if(!blocked){
+   blocked=new Set((unsafeAnswerWords[language] ?? []).map(candidate=>safetyKey(candidate,language)));
+   unsafeKeyCache.set(language,blocked);
+ }
+ return blocked.has(key);
+}
+const unsafeKeyCache=new Map<Language,Set<string>>();
+const safePoolCache=new WeakMap<readonly string[],{language:Language;length:number;pool:readonly string[]}>();
 
 // Frozen v1 pools stay intact. Only new dates from this epoch use editorial screening.
 export const ANSWER_POLICY_EPOCH='2026-11-14';
@@ -51,5 +106,5 @@ export function answerPool(date:string,language:Language,frozen:readonly string[
  const excluded=new Set((excludedAnswers[language] ?? []).map(normalize));
  const approved=new Set((approvedAnswers[language] ?? []).map(normalize));
  // Fail closed: unreviewed words and languages cannot supply new daily answers.
- return frozen.filter(word=>!excluded.has(normalize(word)) && (date<APPROVED_ANSWERS_EPOCH || approved.has(normalize(word))));
+ return frozen.filter(word=>!isUnsafeAnswer(word,language) && !excluded.has(normalize(word)) && (date<APPROVED_ANSWERS_EPOCH || approved.has(normalize(word))));
 }
