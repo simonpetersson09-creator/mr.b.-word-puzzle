@@ -19,7 +19,7 @@ export async function restoreMonthlyCache(month: string): Promise<MonthlyBoard |
   try {
     const { Preferences } = await import('@capacitor/preferences');
     const restored = decode((await Preferences.get({key: KEY})).value);
-    if (!memory && restored) memory = restored;
+    if (restored?.month === month && memory?.month !== month) memory = restored;
     return readMonthlyCache(month);
   } catch { return null; }
 }

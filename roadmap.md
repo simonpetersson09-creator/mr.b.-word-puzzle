@@ -1,4 +1,6 @@
 # Roadmap
+- [x] Ny felkontroll: 174 tester godkända; rättat native-cache vid månadsbyte, namnuppdatering till sociala resultat och reservväg vid misslyckad native-språkavläsning. Mobilspel, sparat namn, vinst/HCP efter omstart och fyra skärmstorlekar verifierade utan aktuella körfel.
+- [ ] Senaste ändringar till iOS/Android behöver native-synk och fysisk enhetskontroll; kräver Mac/Xcode respektive Android SDK och telefoner.
 - [x] Förladda Världstoppen, återställ månadsbunden cache från lokalt/native-minne och öppna efter första hämtningen; verklig öppning utan laddtext verifierad.
 - [x] Verifiera riktiga väninbjudningar, acceptans, borttagning och privata dagsresultat mellan två separata sessioner; registrera inställningarnas spelarnamn och rätta cache-race.
 - [x] Rätta första-start-reserv för misslyckade UMP-läsningar så annonsval inte döljs och ingen annons begärs; iOS-ordning och sparade beslut testade. Samtliga 172 tester passerar.

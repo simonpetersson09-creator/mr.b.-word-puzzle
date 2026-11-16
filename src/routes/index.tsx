@@ -114,7 +114,7 @@ function Index() {
     const retry=setInterval(()=>{if(pending)void sync();},30000);
     window.addEventListener('online',sync);
     return()=>{stopped=true;clearInterval(retry);window.removeEventListener('online',sync);};
-  },[ready,save.rounds,date]);
+  },[ready,save.rounds,save.settings.playerName,save.settings.playerNumber,save.settings.language,date]);
   useEffect(() => {
     let mounted = true;
     const unsubscribeErrors = onSaveError(() => { saveNeedsRetry.current=true; if (mounted) setMessage(t('storage')); });
