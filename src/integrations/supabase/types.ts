@@ -23,6 +23,7 @@ export type Database = {
           id: string
           name: string
           request_at: string | null
+          short_code: string | null
           token_hash: string
           updated_at: string
         }
@@ -34,6 +35,7 @@ export type Database = {
           id: string
           name?: string
           request_at?: string | null
+          short_code?: string | null
           token_hash: string
           updated_at?: string
         }
@@ -45,6 +47,7 @@ export type Database = {
           id?: string
           name?: string
           request_at?: string | null
+          short_code?: string | null
           token_hash?: string
           updated_at?: string
         }
@@ -129,6 +132,7 @@ export type Database = {
         }
         Returns: Json
       }
+      new_friend_code: { Args: never; Returns: string }
       submit_score:
         | {
             Args: {
