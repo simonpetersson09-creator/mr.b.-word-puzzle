@@ -422,6 +422,13 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
   .stats-overview .country-rank-slot { height: auto; min-height: 46px; }
   .stats-overview .country-rank-slot .country-rank { height: auto; min-height: 40px; }
   .stats-overview .country-rank span:not(.country-flag) { display: block; line-height: 1.3; }
+  .stats-overview .fullscreen-panel-header h2 { font-size: 16px; line-height: 1.15; }
+  .stats-overview .stats-summary span { line-height: 1.2; }
+  .stats-overview .result-banner h2 { font-size: 15px; line-height: 1.2; }
+  .stats-overview .result-banner p { font-size: 11px; line-height: 1.3; }
+  .stats-overview .stats-hcp-hero .hcp-word > strong { font-size: 15px; line-height: 1.2; }
+  .stats-overview .next-puzzle { font-size: 10px; line-height: 1.2; }
+  .stats-overview .welcome-play { padding-block: 8px; }
 }
 .friends-topbar { flex-wrap: wrap; }
 .friends-topbar > div { min-width: 130px; }
