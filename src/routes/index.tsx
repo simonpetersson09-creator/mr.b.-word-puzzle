@@ -16,6 +16,8 @@ import { type Language } from '@/lib/i18n/languages';
 import { keyboardRows, letters, uppercase, wordPacks } from '@/lib/ord/words/localized';
 import { installOpeningListener } from '@/lib/native/opening';
 import { dailyAds, initializeAds, isAdFlowBusy } from '@/lib/native/interstitial';
+import {syncSocialResults} from '@/lib/social-sync';
+import {friendCopy} from '@/lib/i18n/friends-copy';
 
 export const Route = createFileRoute("/")({
   head: () => ({ meta: [
@@ -88,6 +90,27 @@ function Index() {
     saveRef.current = next; setSave(next);
     if (!persistSave(next)) { saveNeedsRetry.current=true; setMessage(t('storage')); }
   }
+  useEffect(()=>{
+    if(!ready)return;
+    let stopped=false;
+    let running=false;
+    let pending=true;
+    async function sync() {
+      pending=true;
+      if(running||stopped||navigator.onLine===false)return;
+      running=true;
+      while(pending&&!stopped) {
+        pending=false;
+        const success=await syncSocialResults(saveRef.current,dateRef.current);
+        if(!success) {pending=true;break;}
+      }
+      running=false;
+    }
+    void sync();
+    const retry=setInterval(()=>{if(pending)void sync();},30000);
+    window.addEventListener('online',sync);
+    return()=>{stopped=true;clearInterval(retry);window.removeEventListener('online',sync);};
+  },[ready,save.rounds,date]);
   useEffect(() => {
     let mounted = true;
     const unsubscribeErrors = onSaveError(() => { saveNeedsRetry.current=true; if (mounted) setMessage(t('storage')); });
@@ -166,7 +189,7 @@ function Index() {
     <div className={`app-screen ${rows && rows.length > 4 ? 'many-key-rows' : ''}`}>
       <header className="app-header"><nav className="header-tools header-tools-left" aria-label={t('rules')}>
         <Button className="tool-button" variant="ghost" disabled={reveal.row!==null} aria-label={t('rules')} title={t('rules')} onClick={() => setPanel('rules')}><CircleHelp /></Button>
-        <Button className="tool-button" variant="ghost" disabled={reveal.row!==null || !ready} aria-label={language==='sv'?'Vänner':'Friends'} title={language==='sv'?'Vänner':'Friends'} onClick={()=>setFriendsOpen(true)}><Users /></Button>
+        <Button className="tool-button" variant="ghost" disabled={reveal.row!==null || !ready} aria-label={friendCopy(language).friends} title={friendCopy(language).friends} onClick={()=>setFriendsOpen(true)}><Users /></Button>
       </nav><div className="brand"><div className="brand-label"><h1>Mr.B. Word Puzzle</h1><small>{`${t('word')} ${slot+1}/${DAILY_WORDS} · ${formatted}`}</small></div></div><nav className="header-tools header-tools-right" aria-label={t('settings')}>
         <Button className="tool-button" variant="ghost" disabled={reveal.row!==null} aria-label={t('stats')} title={t('stats')} onClick={() => setPanel('stats')}><ChartNoAxesColumnIncreasing /></Button>
         <Button className="tool-button" variant="ghost" disabled={reveal.row!==null} aria-label={t('settings')} title={t('settings')} onClick={() => setPanel('settings')}><Settings /></Button>
