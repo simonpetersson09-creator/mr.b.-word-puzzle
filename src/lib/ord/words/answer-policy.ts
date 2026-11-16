@@ -15,7 +15,13 @@ export function scheduledPool(date: string, language: Language): readonly string
 // answers remain intact; use the frozen approved pool, not a mutable dictionary.
 export function unsavedAnswerPool(date: string, language: Language): readonly string[] {
  const frozen = scheduledPool(date, language);
- if (date >= ANSWER_POLICY_EPOCH) return frozen.filter(word=>!isUnsafeAnswer(word,language));
+ if (date >= ANSWER_POLICY_EPOCH) {
+   const hit=safePoolCache.get(frozen);
+   if(hit?.language===language && hit.length===frozen.length)return hit.pool;
+   const pool=frozen.filter(word=>!isUnsafeAnswer(word,language));
+   safePoolCache.set(frozen,{language,length:frozen.length,pool});
+   return pool;
+ }
  const allowed = new Set<string>((schedule.approved as Partial<Record<Language, string[]>>)[language] ?? []);
  const blocked = new Set(excludedAnswers[language] ?? []);
  const safe = frozen.filter(word => allowed.has(word) && !blocked.has(word) && !isUnsafeAnswer(word, language));
@@ -61,8 +67,15 @@ function safetyKey(word:string,language:Language):string {
 }
 export function isUnsafeAnswer(word:string,language:Language):boolean {
  const key=safetyKey(word,language);
- return (unsafeAnswerWords[language] ?? []).some(candidate=>safetyKey(candidate,language)===key);
+ let blocked=unsafeKeyCache.get(language);
+ if(!blocked){
+   blocked=new Set((unsafeAnswerWords[language] ?? []).map(candidate=>safetyKey(candidate,language)));
+   unsafeKeyCache.set(language,blocked);
+ }
+ return blocked.has(key);
 }
+const unsafeKeyCache=new Map<Language,Set<string>>();
+const safePoolCache=new WeakMap<readonly string[],{language:Language;length:number;pool:readonly string[]}>();
 
 // Frozen v1 pools stay intact. Only new dates from this epoch use editorial screening.
 export const ANSWER_POLICY_EPOCH='2026-11-14';
