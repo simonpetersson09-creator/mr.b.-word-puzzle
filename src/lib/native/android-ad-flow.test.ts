@@ -3,6 +3,7 @@ import {afterEach,describe,expect,it,vi} from 'vitest';
 async function nativeHarness(release=false) {
   vi.resetModules();
   vi.stubEnv('VITE_MRB_ANDROID_ADS_RELEASE',release?'true':'false');
+  vi.stubEnv('DEV',!release);
   vi.doMock('@capacitor/core',()=>({Capacitor:{getPlatform:()=> 'android',isPluginAvailable:()=>true}}));
   const events:string[]=[];
   const listeners=new Map<string,()=>void>();
@@ -31,7 +32,8 @@ describe('Android native AdMob contract',()=>{
     await app.initializeAds();
     expect(events).toEqual(['consent','form','initialize']);
     for(const key of ['2026-11-16','2026-11-16:2','2026-11-16:3']) {
-      app.dailyAds.preload(key,0);expect(native.prepareInterstitial).toHaveBeenCalledTimes(events.filter(e=>e==='prepare').length);
+      const loaded=native.prepareInterstitial.mock.calls.length;
+      app.dailyAds.preload(key,0);expect(native.prepareInterstitial).toHaveBeenCalledTimes(loaded);
       app.dailyAds.preload(key,1);await app.dailyAds.settled();
       const prior=native.showInterstitial.mock.calls.length;
       await app.dailyAds.afterResult(key,false);expect(native.showInterstitial).toHaveBeenCalledTimes(prior);
@@ -40,6 +42,12 @@ describe('Android native AdMob contract',()=>{
     expect(native.prepareInterstitial).toHaveBeenCalledTimes(3);expect(native.showInterstitial).toHaveBeenCalledTimes(3);
     expect(native.prepareInterstitial).toHaveBeenCalledWith({adId:'ca-app-pub-3940256099942544/1033173712',isTesting:true});
     expect(native.trackingAuthorizationStatus).not.toHaveBeenCalled();expect(native.requestTrackingAuthorization).not.toHaveBeenCalled();
+  });
+  it('uses the supplied production unit only in an explicit non-development release',async()=>{
+    const {app,native}=await nativeHarness(true);await app.initializeAds();
+    app.dailyAds.preload('2026-11-16',1);await app.dailyAds.settled();
+    expect(native.prepareInterstitial).toHaveBeenCalledWith({adId:'ca-app-pub-7448540924654868/3980826116',isTesting:false});
+    expect(native.initialize).toHaveBeenCalledWith({initializeForTesting:false});
   });
   it('never requests an ad when UMP denies eligibility, retaining required privacy access',async()=>{
     const {app,native}=await nativeHarness();
