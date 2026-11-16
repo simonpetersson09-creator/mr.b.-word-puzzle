@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-export const FLIP_DURATION = 520;
-export const FLIP_STAGGER = 200;
+export const FLIP_DURATION = 650;
+export const FLIP_STAGGER = 260;
 export const REVEAL_DURATION = FLIP_DURATION + 4 * FLIP_STAGGER;
 
 // Saved guesses are authoritative; this transient state only controls their presentation.
