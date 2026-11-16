@@ -8,7 +8,7 @@ const config: CapacitorConfig = {
   android: { allowMixedContent: false },
 };
 // Only Android commands set this; iOS's identity and configuration stay unchanged.
-if (process.env.MRB_NATIVE_PLATFORM === 'android') {
+if (process.env['MRB_NATIVE_PLATFORM'] === 'android') {
   config.appId = 'com.mrb.wordpuzzle';
   config.plugins = { SystemBars: { insetsHandling: 'css', style: 'DARK' } };
 }
