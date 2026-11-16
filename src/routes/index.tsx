@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ChartNoAxesColumnIncreasing, CircleHelp, Settings2, Delete, ArrowRight } from 'lucide-react';
+import { ChartNoAxesColumnIncreasing, CircleHelp, Settings2, Delete, ArrowRight, Users } from 'lucide-react';
+import { FriendsPanel } from '@/components/friends-panel';
 import { Button } from '@/components/ui/button';
 import { OrdDialogs, type Panel } from '@/components/ord-dialogs';
 import { WordCelebration } from '@/components/word-celebration';
@@ -41,6 +42,7 @@ function Index() {
   const composing = useRef(false);
   const [message,setMessage] = useState('');
   const [panel,setPanel] = useState<Panel>(null);
+  const [friendsOpen,setFriendsOpen]=useState(false);
   const reveal = useGuessReveal();
   const pressTimers = useRef(new Map<string,ReturnType<typeof setTimeout>>());
   const resultExit = useRef<Promise<void> | null>(null);
@@ -74,6 +76,7 @@ function Index() {
     const current = gameDate();
     setCelebrating(false);
     if (dateRef.current !== current) { setInput(''); setPressedKeys({}); }
+    setFriendsOpen(false);
     dateRef.current = current;
     setDate(current); setSlot(activeSlot(saveRef.current,current)); setPanel(null); setMessage(''); setWelcome(true);
     void deviceLanguage().then(lang=>{setPhoneLanguage(lang); const choice=saveRef.current.settings.language; setAppLanguage(choice && choice!=='auto' ? choice : lang);});
@@ -124,7 +127,7 @@ function Index() {
     return () => { mounted = false; unsubscribeErrors(); cleanup(); cleanupOpening(); window.removeEventListener('languagechange',languageChanged); clearInterval(timer); pressTimers.current.forEach(clearTimeout); window.removeEventListener('online',recover); window.removeEventListener('focus',refreshDay); document.removeEventListener('visibilitychange',refreshDay); window.removeEventListener('storage',reload); };
   },[]);
   function enter() {
-    if (!ready || done || welcome || panel || celebrating || reveal.busy.current || !available || composing.current) return;
+    if (!ready || done || welcome || panel || friendsOpen || celebrating || reveal.busy.current || !available || composing.current) return;
     const currentDate=gameDate();
     if (currentDate !== date) { setDate(currentDate); setSlot(activeSlot(saveRef.current,currentDate)); setInput(''); setMessage(t('newWord')); return; }
     const latest=loadSave(), active=latest.rounds[key] ?? saveRef.current.rounds[key] ?? round;
@@ -137,8 +140,8 @@ function Index() {
     setMessage(''); setInput(''); commit(mergeRound({...latest,rounds:{...saveRef.current.rounds,...latest.rounds},settings:saveRef.current.settings},result.round));
     void initializeAds().then(() => dailyAds.preload(key,result.round.guesses.length));
   }
-  function type(letter: string) { if(!ready || done || welcome || panel || celebrating || reveal.busy.current || !available || marks[letter]==='absent') return; flashKey(letter); setMessage(''); setInput(prior => letters(prior).length < 5 ? prior+letter : prior); }
-  function erase() { if(!ready || done || welcome || panel || celebrating || reveal.busy.current) return; flashKey('erase'); setMessage(''); setInput(prior => letters(prior).slice(0,-1).join('')); }
+  function type(letter: string) { if(!ready || done || welcome || panel || friendsOpen || celebrating || reveal.busy.current || !available || marks[letter]==='absent') return; flashKey(letter); setMessage(''); setInput(prior => letters(prior).length < 5 ? prior+letter : prior); }
+  function erase() { if(!ready || done || welcome || panel || friendsOpen || celebrating || reveal.busy.current) return; flashKey('erase'); setMessage(''); setInput(prior => letters(prior).slice(0,-1).join('')); }
   function closePanel() {
     if (resultExit.current) return resultExit.current;
     const showAd = (panel === 'stats' || celebrating) && done;
@@ -151,7 +154,7 @@ function Index() {
   }
   useEffect(() => {
     function keydown(event: KeyboardEvent) {
-      if(panel || welcome || celebrating || !rows || event.ctrlKey || event.metaKey || event.altKey || event.repeat) return;
+      if(panel || friendsOpen || welcome || celebrating || !rows || event.ctrlKey || event.metaKey || event.altKey || event.repeat) return;
       if(event.key === 'Enter') { event.preventDefault(); enter(); }
       else if(event.key === 'Backspace') { event.preventDefault(); erase(); }
       else if(/^[\p{L}\p{M}]$/u.test(event.key)) { event.preventDefault(); type(uppercase(event.key,wordLanguage)); }
@@ -163,6 +166,7 @@ function Index() {
     <div className={`app-screen ${rows && rows.length > 4 ? 'many-key-rows' : ''}`}>
       <header className="app-header"><nav className="header-tools header-tools-left" aria-label={t('rules')}>
         <Button className="tool-button" variant="ghost" disabled={reveal.row!==null} aria-label={t('rules')} title={t('rules')} onClick={() => setPanel('rules')}><CircleHelp /></Button>
+        <Button className="tool-button" variant="ghost" disabled={reveal.row!==null || !ready} aria-label={language==='sv'?'Vänner':'Friends'} title={language==='sv'?'Vänner':'Friends'} onClick={()=>setFriendsOpen(true)}><Users /></Button>
       </nav><div className="brand"><div className="brand-label"><h1>Mr.B. Word Puzzle</h1><small>{`${t('word')} ${slot+1}/${DAILY_WORDS} · ${formatted}`}</small></div></div><nav className="header-tools header-tools-right" aria-label={t('settings')}>
         <Button className="tool-button" variant="ghost" disabled={reveal.row!==null} aria-label={t('stats')} title={t('stats')} onClick={() => setPanel('stats')}><ChartNoAxesColumnIncreasing /></Button>
         <Button className="tool-button" variant="ghost" disabled={reveal.row!==null} aria-label={t('settings')} title={t('settings')} onClick={() => setPanel('settings')}><Settings2 /></Button>
@@ -178,6 +182,7 @@ function Index() {
         {!rows && <Button className="guess-button" disabled={!ready || !available || welcome || reveal.row!==null} onClick={done ? () => setPanel('stats') : enter}>{done ? <ChartNoAxesColumnIncreasing /> : <ArrowRight />}{done ? t('result') : t('guess')}</Button>}
       </main>
       {celebrating && <WordCelebration round={round} rounds={save.rounds} dailyDone={dailyDone} onNext={()=>{void Promise.resolve(closePanel()).then(nextWord);}} onResult={finishCelebration} />}
+      <FriendsPanel open={friendsOpen} close={()=>setFriendsOpen(false)} save={save} day={date} />
       <OrdDialogs welcome={ready && welcome && !panel} dismissWelcome={()=>{setWelcome(false); if(done) setPanel('stats');}} nextWord={nextWord} dailyDone={dailyDone} phoneLanguage={phoneLanguage} panel={panel} close={closePanel} save={save} round={round} setSettings={settings => {commit({...saveRef.current,settings});setAppLanguage(settings.language && settings.language!=='auto' ? settings.language : phoneLanguage);setInput('');}} />
     </div>
   );
