@@ -364,5 +364,35 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .friend-row button { width: 40px; height: 44px; padding: 0; flex-shrink: 0; }
 .friends-note { font-size: 11px; line-height: 1.7; color: var(--muted-foreground); margin-top: 32px; }
 .friends-loading { animation: friends-spin 1s linear infinite; }
+.friend-player { padding: 16px; margin-top: 12px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; }
+.friend-player-heading { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.friend-avatar { width: 38px; height: 38px; flex-shrink: 0; display: grid; place-items: center; border-radius: 50%; background: var(--secondary); color: var(--primary); font: 700 19px var(--font-display); }
+.friend-player-name { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.friend-player-name strong { display: block; font: 700 16px var(--font-display); }
+.friend-player-name span, .friend-hcp small { display: block; color: var(--muted-foreground); font-size: 11px; margin-top: 3px; }
+.friend-hcp { text-align: right; }
+.friend-hcp strong { color: var(--primary); font: 700 18px var(--font-display); }
+.friend-player-tools { display: flex; flex-shrink: 0; }
+.friend-player-tools button { width: 32px; height: 44px; padding: 0; color: var(--muted-foreground); }
+.friend-player-tools svg { width: 16px; height: 16px; }
+.friend-day-status { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted-foreground); margin: 15px 0 12px; }
+.friend-day-status.complete { color: var(--correct); }
+.friend-day-status svg { width: 15px; height: 15px; }
+.friend-results-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 6px; }
+.friend-result { text-align: center; padding: 10px 2px; border-radius: 6px; background: var(--secondary); border: 1px solid var(--border); min-width: 0; }
+.friend-result.won { background: color-mix(in srgb,var(--correct) 10%,var(--card)); border-color: color-mix(in srgb,var(--correct) 35%,var(--border)); }
+.friend-result.lost { background: color-mix(in srgb,var(--destructive) 10%,var(--card)); border-color: color-mix(in srgb,var(--destructive) 35%,var(--border)); }
+.friend-result-label { font-size: 10px; color: var(--muted-foreground); }
+.friend-result-value { height: 32px; display: flex; align-items: center; justify-content: center; gap: 3px; }
+.friend-result-value strong { font: 700 19px var(--font-display); }
+.friend-result-value svg { width: 14px; height: 14px; }
+.friend-result.won .friend-result-value { color: var(--correct); }
+.friend-result.lost .friend-result-value { color: var(--key-wrong-ink); }
+.friend-result.waiting .friend-result-value { color: var(--muted-foreground); }
+.friend-result-score { display: block; font-size: 10px; color: var(--muted-foreground); overflow-wrap: anywhere; }
+.friend-day-total { display: flex; align-items: center; gap: 6px; margin-top: 12px; font-size: 11px; color: var(--muted-foreground); }
+.friend-day-total svg { width: 14px; height: 14px; color: var(--primary); }
+.friend-day-total strong { margin-left: auto; color: var(--primary); font: 700 17px var(--font-display); }
+.friend-last-update { margin: 12px 0 0; font-size: 10px; color: var(--muted-foreground); }
 @keyframes friends-spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .friends-loading { animation: none; } }
