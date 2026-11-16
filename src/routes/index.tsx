@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ChartNoAxesColumnIncreasing, CircleHelp, Settings2, Delete, ArrowRight, Users } from 'lucide-react';
+import { ChartNoAxesColumnIncreasing, CircleHelp, Settings, Delete, ArrowRight, Users } from 'lucide-react';
 import { FriendsPanel } from '@/components/friends-panel';
 import { Button } from '@/components/ui/button';
 import { OrdDialogs, type Panel } from '@/components/ord-dialogs';
@@ -169,7 +169,7 @@ function Index() {
         <Button className="tool-button" variant="ghost" disabled={reveal.row!==null || !ready} aria-label={language==='sv'?'Vänner':'Friends'} title={language==='sv'?'Vänner':'Friends'} onClick={()=>setFriendsOpen(true)}><Users /></Button>
       </nav><div className="brand"><div className="brand-label"><h1>Mr.B. Word Puzzle</h1><small>{`${t('word')} ${slot+1}/${DAILY_WORDS} · ${formatted}`}</small></div></div><nav className="header-tools header-tools-right" aria-label={t('settings')}>
         <Button className="tool-button" variant="ghost" disabled={reveal.row!==null} aria-label={t('stats')} title={t('stats')} onClick={() => setPanel('stats')}><ChartNoAxesColumnIncreasing /></Button>
-        <Button className="tool-button" variant="ghost" disabled={reveal.row!==null} aria-label={t('settings')} title={t('settings')} onClick={() => setPanel('settings')}><Settings2 /></Button>
+        <Button className="tool-button" variant="ghost" disabled={reveal.row!==null} aria-label={t('settings')} title={t('settings')} onClick={() => setPanel('settings')}><Settings /></Button>
       </nav></header>
       <main className="game">
         <div className="board-zone"><div className="board" role="grid" aria-label={t('board')}>{Array.from({length:6},(_,row) => {
