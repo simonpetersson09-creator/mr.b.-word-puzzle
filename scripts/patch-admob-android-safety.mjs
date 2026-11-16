@@ -20,7 +20,7 @@ export function patchAndroidPlugin(source) {
 ${anchor}`);
 }
 export function patchAndroidExecutor(source) {
-  if(source.includes('MRB_ANDROID_SAFETY'))return source;
+  if(source.includes('MRB_ANDROID_SAFETY'))return source.replaceAll('InterstitialAdPluginPluginEvent.Showed','InterstitialAdPluginPluginEvent.INSTANCE.getShowed()').replaceAll('InterstitialAdPluginPluginEvent.Dismissed','InterstitialAdPluginPluginEvent.INSTANCE.getDismissed()').replaceAll('InterstitialAdPluginPluginEvent.FailedToShow','InterstitialAdPluginPluginEvent.INSTANCE.getFailedToShow()');
   source=source.replace('    public static String lastPreparedAdId;',`    public static String lastPreparedAdId;
     // MRB_ANDROID_SAFETY: main-thread inventory ownership and presentation deadline.
     public static long inventoryGeneration = 0;
@@ -54,15 +54,15 @@ export function patchAndroidExecutor(source) {
                 showing = true;
                 ad.setFullScreenContentCallback(new com.google.android.gms.ads.FullScreenContentCallback() {
                     @Override public void onAdShowedFullScreenContent() {
-                        notifyListenersFunction.accept(InterstitialAdPluginPluginEvent.Showed, new JSObject());
+                        notifyListenersFunction.accept(InterstitialAdPluginPluginEvent.INSTANCE.getShowed(), new JSObject());
                     }
                     @Override public void onAdDismissedFullScreenContent() {
                         showing = false;
-                        notifyListenersFunction.accept(InterstitialAdPluginPluginEvent.Dismissed, new JSObject());
+                        notifyListenersFunction.accept(InterstitialAdPluginPluginEvent.INSTANCE.getDismissed(), new JSObject());
                     }
                     @Override public void onAdFailedToShowFullScreenContent(com.google.android.gms.ads.AdError error) {
                         showing = false;
-                        notifyListenersFunction.accept(InterstitialAdPluginPluginEvent.FailedToShow, new JSObject());
+                        notifyListenersFunction.accept(InterstitialAdPluginPluginEvent.INSTANCE.getFailedToShow(), new JSObject());
                     }
                 });
                 try { ad.show(activity); call.resolve(); }
