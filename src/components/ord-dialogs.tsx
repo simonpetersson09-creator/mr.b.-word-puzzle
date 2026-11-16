@@ -1,5 +1,5 @@
 import * as Switch from '@radix-ui/react-switch';
-import { Vibrate, Check, ArrowRight, Globe2, ShieldCheck, ChevronRight, Sparkles, LockKeyhole, X } from 'lucide-react';
+import { Vibrate, Check, ArrowRight, Globe2, ShieldCheck, ChevronRight, Sparkles, LockKeyhole, X, Trophy } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import mrB from '@/assets/mr-b.png';
 import { Button } from './ui/button';
@@ -23,7 +23,10 @@ const PRIVACY_POLICY_URL = 'https://mr-b-word-puzzle-legal-guide.lovable.app';
 
 export type Panel = 'rules' | 'stats' | 'settings' | null;
 export function OrdDialogs({ panel, close, save, round, setSettings, welcome, dismissWelcome, phoneLanguage, nextWord, dailyDone }: { panel: Panel; close: () => void | Promise<void>; save: Save; round: Round; setSettings: (settings: Settings) => void; welcome:boolean; dismissWelcome:()=>void; phoneLanguage:Language; nextWord:()=>void; dailyDone:boolean }) {
-  const {t}=useTranslation();
+  const {t,language}=useTranslation();
+  const [monthlyOpen,setMonthlyOpen]=useState(false);
+  useEffect(()=>{if(panel!=='stats')setMonthlyOpen(false);},[panel]);
+  const monthlyTitle=language==='sv'?'Månadens topp 20':'Monthly top 20';
   const [licensesOpen, setLicensesOpen] = useState(false);
   const [privacyOpen, setPrivacyOpen] = useState(false);
   const [privacyBusy, setPrivacyBusy] = useState(false);
@@ -101,15 +104,16 @@ export function OrdDialogs({ panel, close, save, round, setSettings, welcome, di
          <Button className="guess-button rules-continue" onClick={close}><ArrowRight />{t('resume')}</Button>
        </div>
     </GameDialog>
-    <GameDialog open={panel === 'stats'} onClose={close} title={t('stats')} description={t('stats')} className="stats-modal" fullscreen>
+    <GameDialog open={panel === 'stats'} onClose={monthlyOpen?()=>setMonthlyOpen(false):close} title={monthlyOpen?monthlyTitle:t('stats')} description={monthlyOpen?monthlyTitle:t('stats')} className="stats-modal" fullscreen headerAction={!monthlyOpen&&<Button variant="ghost" className="tool-button" aria-label={monthlyTitle} title={monthlyTitle} onClick={()=>setMonthlyOpen(true)}><Trophy /></Button>}>
+      {monthlyOpen ? <MonthlyLeaderboard save={save} day={round.date} open /> : <>
       <div className="stats-hcp-hero"><HandicapResult round={round} rounds={save.rounds} showWindow={false} showTrend /></div>
       <div className="stat-metrics stats-summary">{([['played',stats.played],['wins',stats.percentage+'%'],['longest',stats.longest]] as const).map(([key,value])=><div key={key}><strong>{value}</strong><span>{t(key)}{key === 'wins' ? ' %' : ''}</span></div>)}</div>
       {done && <div className="result-banner"><img src={mrB} alt="Mr. B" /><div><h2>{hasWon(round) ? t('won') : t('lost')}</h2><p>{hasWon(round) ? t('found',{word:round.answer,count:round.guesses.length}) : t('answer',{word:round.answer})}</p></div></div>}
       <div className="today-words"><span>{t('todayWords')}</span><div>{today.map((r,i)=><i key={i} className={!r || !isFinished(r) ? '' : hasWon(r) ? 'won' : 'lost'}>{r && isFinished(r) ? (hasWon(r) ? r.guesses.length : '×') : ''}</i>)}</div></div>
       {stats.played > 0 && <div className="country-rank-slot">{rank && <div className="country-rank"><span className="country-flag" aria-hidden="true">{flagFor(rank.country)}</span><div><strong>{t('betterThan',{pct: rank.betterThan})}</strong><span>{t('inCountry',{country: new Intl.DisplayNames([document.documentElement.lang || 'en'],{type:'region'}).of(rank.country) ?? rank.country})}</span></div></div>}</div>}
-      <MonthlyLeaderboard save={save} day={round.date} open={panel==='stats'} />
       <div className="distribution"><h3>{t('distribution')}</h3>{stats.distribution.map((count, i) => <div className="distribution-row" key={i}><span>{i+1}</span><div className="bar-track"><div className={`bar ${count ? 'nonzero' : ''}`} style={{width: `${Math.max(9, count / Math.max(1,...stats.distribution) * 100)}%`}}>{count}</div></div></div>)}</div>
       {done && <>{!dailyDone && <Button className="welcome-play" onClick={()=>{void Promise.resolve(close()).then(nextWord);}}><ArrowRight />{t('nextWord')}</Button>}<p className="next-puzzle">{t('next')}</p></>}
+      </>}
     </GameDialog>
     <GameDialog open={panel === 'settings' && !licensesOpen} onClose={close} title={t('settings')} description={t('settingsIntro')}>
       <h2>{t('settings')}</h2><p className="modal-description">{t('settingsIntro')}</p>
