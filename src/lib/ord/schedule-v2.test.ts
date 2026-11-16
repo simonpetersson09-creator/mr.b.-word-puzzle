@@ -1,7 +1,7 @@
 import {describe,expect,it} from 'vitest';
 import {newRound,submitGuess,DAILY_WORDS} from './engine';
 import {SCHEDULE_V2_EPOCH,scheduledPool} from './words/answer-policy';
-import {LANGUAGES} from '@/lib/i18n/languages';
+import schedule from './words/schedule-v2.json';
 const days=(from:string,n:number)=>Array.from({length:n},(_,i)=>new Date(Date.parse(from+'T00:00:00Z')+i*864e5).toISOString().slice(0,10));
 describe('schedule v2',()=>{
   it('starts on 2026-11-18 and extends Swedish by 200 words',()=>{
@@ -9,7 +9,7 @@ describe('schedule v2',()=>{
     expect(scheduledPool('2026-11-18','sv').length-scheduledPool('2026-11-17','sv').length).toBe(200);
   });
   it('does not repeat a word within the first v2 cycle and answers are playable',()=>{
-    for(const {code} of LANGUAGES as readonly {code:any}[]){
+    for(const code of Object.keys(schedule.approved) as any[]){
       const pool=scheduledPool(SCHEDULE_V2_EPOCH,code); if(pool.length<3) continue;
       const seen:string[]=[];
       for(const d of days(SCHEDULE_V2_EPOCH,Math.floor(pool.length/DAILY_WORDS))) for(let s=0;s<DAILY_WORDS;s++){
