@@ -78,9 +78,9 @@ function v2Cycle(pool: readonly string[], language: Language, cycle: number): st
   // The tail to avoid is the previous v2 cycle, or v1 words played before the v2 epoch.
   const recent = new Set<string>();
   if (cycle > 0) v2Cycle(pool, language, cycle - 1).slice(-gap).forEach(w => recent.add(w));
-  else for (let d = dayNumber(ROTATION_EPOCH); d < dayNumber(SCHEDULE_V2_EPOCH); d++) {
+  else for (let d = dayNumber('2026-11-12'); d < dayNumber(SCHEDULE_V2_EPOCH); d++) {
     const day = new Date(d * 86400000).toISOString().slice(0, 10);
-    for (let s = 0; s < DAILY_WORDS; s++) recent.add(rotationAnswer(day, language, s));
+    for (let s = 0; s < DAILY_WORDS; s++) recent.add(newRound(day, language, s).answer);
   }
   let order = shuffledCycle(pool, tag, cycle);
   for (let attempt = 1; attempt < 500 && order.slice(0, gap).some(w => recent.has(w)); attempt++) order = shuffledCycle(pool, tag, cycle, attempt);
