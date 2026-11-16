@@ -325,6 +325,18 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .today-words i { width:30px; height:30px; border-radius:8px; display:grid; place-items:center; font-style:normal; font-weight:700; border:1px dashed color-mix(in oklab, var(--muted-foreground) 50%, transparent); }
 .today-words i.won { background:var(--correct); border:0; color:var(--foreground); } .today-words i.lost { background:color-mix(in oklab, var(--muted-foreground) 35%, transparent); border:0; color:var(--foreground); }
 .streak-hero ~ .stat-metrics { grid-template-columns: repeat(2,1fr); margin: 12px 0; }
+.stats-hcp-hero .hcp-result { flex-direction: column; padding: 8px 0 22px; gap: 16px; border-top: 0; }
+.stats-hcp-hero .hcp-current { order: -1; width: 100%; text-align: center; }
+.stats-hcp-hero .hcp-current > span { font: 700 14px var(--font-display); color: var(--foreground); }
+.stats-hcp-hero .hcp-current > strong { font-size: 76px; line-height: 1.25; color: var(--primary); }
+.stats-hcp-hero .hcp-current > small { font-size: 12px; }
+.stats-hcp-hero .hcp-word { width: 100%; text-align: center; }
+.stats-hcp-hero .hcp-word > strong { font-size: 20px; }
+.stat-metrics.stats-summary { grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0 0 20px; padding: 18px 0; border-bottom: 1px solid var(--border); gap: 8px; }
+.stats-summary > div { min-width: 0; }
+.stats-summary > div + div { border-left: 1px solid var(--border); }
+.stats-summary strong { font-size: 28px; color: var(--foreground); }
+.stats-summary span { font-size: 11px; line-height: 1.5; }
 .key.absent { background: var(--key-wrong); border-color: var(--key-wrong); color: var(--key-wrong-ink); box-shadow: none; }
 .key.absent:disabled { opacity: 1; cursor: default; }
 .country-rank { display:flex; align-items:center; gap:12px; margin-top:10px; padding:10px 14px; border-radius:14px; background:var(--card); border:1px solid color-mix(in oklab, var(--primary) 25%, transparent); }
