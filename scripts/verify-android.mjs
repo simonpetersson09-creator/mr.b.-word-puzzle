@@ -1,5 +1,5 @@
 import {existsSync,readFileSync,readdirSync} from 'node:fs';
-import {resolve,join} from 'node:path';
+import {join} from 'node:path';
 import {createHash} from 'node:crypto';
 import {androidAdsConfig} from './android-ads-config.mjs';
 const release=process.argv.includes('--release'),synced=process.argv.includes('--synced');
@@ -29,7 +29,7 @@ try {
     const config=JSON.parse(read('android/app/src/main/assets/capacitor.config.json'));
     assert(config.appId==='com.mrb.wordpuzzle' && !config.server,'Android must load own offline bundle');
     const receipt=JSON.parse(read('android/sync-receipt.json'));
-    assert(receipt.appId===ads.appId && receipt.interstitialId===ads.interstitialId,'Ad configuration changed since last sync');
+    assert(receipt.appId===ads.appId && receipt.interstitialId===ads.interstitialId && receipt.adsEnabled===ads.configured,'Ad configuration changed since last sync');
     for(const [path,hash] of Object.entries(receipt.hashes))assert(sha(path)===hash,`Native package stale: ${path}; repeat native:sync:android`);
     assert(sha('dist-native/index.html')===sha('android/app/src/main/assets/public/index.html'),'Local Android package stale');
     const code=readdirSync('android/app/src/main/assets/public/assets').filter(f=>f.endsWith('.js')).map(f=>read('android/app/src/main/assets/public/assets/'+f)).join('\n');

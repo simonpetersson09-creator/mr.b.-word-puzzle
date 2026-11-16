@@ -18,7 +18,7 @@ import { installOpeningListener } from '@/lib/native/opening';
 import { dailyAds, initializeAds, isAdFlowBusy } from '@/lib/native/interstitial';
 import {syncSocialResults} from '@/lib/social-sync';
 import {friendCopy} from '@/lib/i18n/friends-copy';
-import {installAndroidBack} from '@/lib/native/android-back';
+import {installAndroidBack, type BackActions} from '@/lib/native/android-back';
 
 export const Route = createFileRoute("/")({
   head: () => ({ meta: [
@@ -176,7 +176,7 @@ function Index() {
     resultExit.current=exit;
     return exit;
   }
-  const backActions=useRef({busy:()=>false,dismissOverlay:()=>false,save:()=>Promise.resolve()});
+  const backActions=useRef<Omit<BackActions,'minimize'>>({busy:()=>false,dismissOverlay:()=>false,save:()=>Promise.resolve()});
   backActions.current={
     busy:()=>isAdFlowBusy() || Boolean(resultExit.current) || reveal.busy.current,
     dismissOverlay:()=>{

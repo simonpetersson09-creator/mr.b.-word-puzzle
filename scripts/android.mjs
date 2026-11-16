@@ -28,7 +28,7 @@ try {
   run('node',['scripts/set-android-resources.mjs']);
   const inputs=[...files('src'),...files('native-shell'),...files('scripts'),...files('resources/android'),...files('android/app/src/main/assets/public'),'android/app/src/main/assets/capacitor.config.json','android/app/build.gradle','android/variables.gradle','android/app/src/main/AndroidManifest.xml','capacitor.config.ts','vite.native.config.ts','package.json','bun.lock'];
   const hashes=Object.fromEntries(inputs.map(p=>[p,createHash('sha256').update(readFileSync(p)).digest('hex')]));
-  writeFileSync('android/sync-receipt.json',JSON.stringify({appId:ads.appId,interstitialId:ads.interstitialId,hashes},null,2));
+  writeFileSync('android/sync-receipt.json',JSON.stringify({appId:ads.appId,interstitialId:ads.interstitialId,adsEnabled:ads.configured,hashes},null,2));
   run('node',['scripts/verify-android.mjs','--synced',...(release?['--release']:[])]);
   if(action==='open')run('bunx',['cap','open','android']);
   if(action==='build')run(process.platform==='win32'?'gradlew.bat':'./gradlew',['assembleDebug'],'android');

@@ -51,7 +51,7 @@ const testAds=import.meta.env.DEV;
 export const ORD_IOS_APP_ID='ca-app-pub-7448540924654868~2156468939';
 export const ORD_IOS_INTERSTITIAL_ID='ca-app-pub-7448540924654868/9979118636';
 const iosUnit=testAds?'ca-app-pub-3940256099942544/4411468910':ORD_IOS_INTERSTITIAL_ID;
-const androidUnit=androidAdUnit(testAds,import.meta.env.VITE_MRB_ANDROID_ADMOB_APP_ID,import.meta.env.VITE_MRB_ANDROID_ADMOB_INTERSTITIAL_ID);
+const androidUnit=androidAdUnit(testAds,import.meta.env['VITE_MRB_ANDROID_ADMOB_APP_ID'],import.meta.env['VITE_MRB_ANDROID_ADMOB_INTERSTITIAL_ID']);
 const adUnit=()=>Capacitor.getPlatform()==='android' ? androidUnit : iosUnit;
 export const nativeAdsEnabled=()=>['ios','android'].includes(Capacitor.getPlatform()) && Capacitor.isPluginAvailable('AdMob') && Boolean(adUnit());
 let privacyRequired=false;
