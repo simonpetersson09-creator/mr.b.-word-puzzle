@@ -1,4 +1,7 @@
 # Roadmap
+- [x] Android-projekt com.mrb.wordpuzzle, befintliga bilder, Java 21/SDK 36 och byggkontroller utan signeringsnyckel.
+- [x] Android-samtycke och konfigurerbara annons-ID:n med skyddad resultatutgång; iOS-identitet och native-filer oförändrade.
+- [x] 149 tester, tillbaka-policy, sparad gissning efter omstart, tangentbord offline efter öppning och fem skärmstorlekar kontrollerade; Androids riktiga native-bygge/synk och enhetstest återstår på dator med SDK.
 - [x] Översatta väntexter på 40 språk, kompakt statistik kontrollerad på alla språk och automatisk social uppdatering med återförsök; 139 tester godkända och verkligt vänflöde kontrollerat.
 - [x] Månadens topp 20: frivilligt deltagande, landslista, egen placering, föregående månad; två deltagare och delad placering kontrollerade, 135 tester godkända
 - [x] Tydligare vänlista med dagens tre privata resultat och färdigstatus; 131 tester och verkligt vänflöde kontrollerade

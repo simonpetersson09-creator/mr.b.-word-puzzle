@@ -3,6 +3,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { patchInterstitialSafety, patchPluginSafety } from './admob-safety.mjs';
 import { patchConsentEligibility } from './consent-eligibility.mjs';
+import { applyAndroidSafety } from './patch-admob-android-safety.mjs';
 const root = resolve('node_modules/@capacitor-community/admob');
 const platform = process.argv[2];
 const marker = 'MRB_READ_CONSENT';
@@ -95,6 +96,7 @@ if (!platform || platform === 'android') {
         getActivity().runOnUiThread(() -> {
             JSObject result = new JSObject();
             result.put("canRequestAds", com.google.android.ump.UserMessagingPlatform.getConsentInformation(getContext()).canRequestAds());
+            result.put("privacyOptionsRequirementStatus", com.google.android.ump.UserMessagingPlatform.getConsentInformation(getContext()).getPrivacyOptionsRequirementStatus().name());
             call.resolve(result);
         });
     }
@@ -103,6 +105,8 @@ if (!platform || platform === 'android') {
     public void requestConsentInfo(`);
     }
     if (!source.includes('.canRequestAds()')) throw new Error('UMP eligibility reader missing');
+    if (!source.includes('result.put("privacyOptionsRequirementStatus"')) source=source.replace('result.put("canRequestAds", com.google.android.ump.UserMessagingPlatform.getConsentInformation(getContext()).canRequestAds());','result.put("canRequestAds", com.google.android.ump.UserMessagingPlatform.getConsentInformation(getContext()).canRequestAds());\n            result.put("privacyOptionsRequirementStatus", com.google.android.ump.UserMessagingPlatform.getConsentInformation(getContext()).getPrivacyOptionsRequirementStatus().name());');
     return source;
   });
+  applyAndroidSafety();
 }

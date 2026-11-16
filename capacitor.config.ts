@@ -7,4 +7,9 @@ const config: CapacitorConfig = {
   ios: { contentInset: 'never' },
   android: { allowMixedContent: false },
 };
+// Only Android commands set this; iOS's identity and configuration stay unchanged.
+if (process.env['MRB_NATIVE_PLATFORM'] === 'android') {
+  config.appId = 'com.mrb.wordpuzzle';
+  config.plugins = { SystemBars: { insetsHandling: 'native', style: 'DARK' } };
+}
 export default config;
