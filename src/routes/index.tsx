@@ -1,3 +1,4 @@
+import { randomPlayerNumber } from '@/lib/i18n/player-copy';
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ChartNoAxesColumnIncreasing, CircleHelp, Settings, Delete, ArrowRight, Users } from 'lucide-react';
@@ -87,6 +88,8 @@ function Index() {
   }
   const done = isFinished(round);
   const marks = useMemo(()=>keyboardMarks(reveal.row === null ? round : {...round,guesses:round.guesses.slice(0,reveal.row)}),[round,reveal.row]);
+  useEffect(()=>{ if(ready && !saveRef.current.settings.playerNumber) commit({...saveRef.current,settings:{...saveRef.current.settings,playerNumber:randomPlayerNumber()}}); // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[ready]);
   function commit(next: Save) {
     saveRef.current = next; setSave(next);
     if (!persistSave(next)) { saveNeedsRetry.current=true; setMessage(t('storage')); }

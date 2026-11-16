@@ -34,8 +34,9 @@ function decode(text: string | null): Save | null {
       rounds[key] = { date, answer: r.answer, guesses: [...r.guesses], ...(r.language ? {language:r.language} : {}), ...(slot ? {slot} : {}) };
     }
     const settingLanguage = (v: unknown): Language | 'auto' | undefined => v === 'auto' ? v : typeof v === 'string' && v in languages ? v as Language : undefined;
+    const playerName: unknown = value.settings?.playerName, playerNumber: unknown = value.settings?.playerNumber;
     const language = settingLanguage(value.settings?.language), gameLanguage = settingLanguage(value.settings?.gameLanguage);
-    return { version: 1, rounds, settings: { sound: value.settings?.sound !== false, haptics: value.settings?.haptics !== false, ...(language ? {language} : {}), ...(gameLanguage ? {gameLanguage} : {}) } };
+    return { version: 1, rounds, settings: { sound: value.settings?.sound !== false, haptics: value.settings?.haptics !== false, ...(language ? {language} : {}), ...(gameLanguage ? {gameLanguage} : {}), ...(typeof playerName === 'string' && playerName.trim() ? {playerName: playerName.slice(0,24)} : {}), ...(typeof playerNumber === 'number' && Number.isInteger(playerNumber) && playerNumber >= 1000 && playerNumber <= 9999 ? {playerNumber} : {}) } };
   } catch { return null; }
 }
 const samePuzzle = (a: Round, b: Round) => a.answer === b.answer && (a.language ?? 'sv') === (b.language ?? 'sv');

@@ -7,6 +7,7 @@ import { resolveLanguage, type Language } from './languages';
 const dictionaries: Record<string,Partial<Record<TranslationKey,string>>> = catalog;
 let current: Language = 'sv';
 const listeners = new Set<() => void>();
+export const appLanguage = (): Language => current;
 export function setAppLanguage(language: Language) {
  current=language;
  if (typeof document !== 'undefined') document.documentElement.lang=language;

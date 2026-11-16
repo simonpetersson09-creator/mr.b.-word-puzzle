@@ -7,11 +7,11 @@ vi.mock('@capacitor/core',()=>({Capacitor:{isNativePlatform:mocks.native}}));
 import {syncSocialResults} from './social-sync';
 describe('automatic social results',()=>{
   beforeEach(()=>{vi.resetAllMocks();mocks.cache.mockResolvedValue({code:'ABC123'});mocks.friends.mockResolvedValue({});mocks.monthly.mockResolvedValue({});mocks.native.mockReturnValue(true);});
-  it('uploads completed results without opening either panel and never joins the ranking',async()=>{
+  it('uploads completed results without opening either panel and joins the ranking under the automatic player name',async()=>{
     const save=emptySave();save.rounds['2026-11-16']={date:'2026-11-16',answer:'KANEL',guesses:['KANEL']};
     expect(await syncSocialResults(save,'2026-11-16')).toBe(true);
     expect(mocks.friends).toHaveBeenCalledWith('sync',{save,day:'2026-11-16'});
-    expect(mocks.monthly).toHaveBeenCalledWith('2026-11',save,'2026-11-16','sync');
+    expect(mocks.monthly).toHaveBeenCalledWith('2026-11',save,'2026-11-16','join',expect.stringMatching(/\d{4}/));
   });
   it('retains local results on failure and permits a later retry',async()=>{
     const save=emptySave();mocks.friends.mockRejectedValueOnce(new Error('offline'));
