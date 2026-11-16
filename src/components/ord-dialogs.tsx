@@ -1,5 +1,5 @@
 import * as Switch from '@radix-ui/react-switch';
-import { Vibrate, Check, ArrowRight, Globe2, ShieldCheck, ChevronRight, Sparkles, LockKeyhole, X, Trophy } from 'lucide-react';
+import { Vibrate, Check, ArrowRight, Globe2, ShieldCheck, ChevronRight, Sparkles, LockKeyhole, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import mrB from '@/assets/mr-b.png';
 import { Button } from './ui/button';
@@ -104,7 +104,7 @@ export function OrdDialogs({ panel, close, save, round, setSettings, welcome, di
          <Button className="guess-button rules-continue" onClick={close}><ArrowRight />{t('resume')}</Button>
        </div>
     </GameDialog>
-    <GameDialog open={panel === 'stats'} onClose={monthlyOpen?()=>setMonthlyOpen(false):close} title={monthlyOpen?monthlyTitle:t('stats')} description={monthlyOpen?monthlyTitle:t('stats')} className="stats-modal" fullscreen headerAction={!monthlyOpen&&<Button variant="ghost" className="tool-button" aria-label={monthlyTitle} title={monthlyTitle} onClick={()=>setMonthlyOpen(true)}><Trophy /></Button>}>
+    <GameDialog open={panel === 'stats'} onClose={monthlyOpen?()=>setMonthlyOpen(false):close} title={monthlyOpen?monthlyTitle:t('stats')} description={monthlyOpen?monthlyTitle:t('stats')} className="stats-modal" fullscreen headerAction={!monthlyOpen&&<Button variant="secondary" className="shrink-0 h-11 px-2 text-xs text-primary" title={monthlyTitle} onClick={()=>setMonthlyOpen(true)}>{language==='sv'?'Världstoppen':'World ranking'}</Button>}>
       {monthlyOpen ? <MonthlyLeaderboard save={save} day={round.date} open /> : <>
       <div className="stats-hcp-hero"><HandicapResult round={round} rounds={save.rounds} showWindow={false} showTrend /></div>
       <div className="stat-metrics stats-summary">{([['played',stats.played],['wins',stats.percentage+'%'],['longest',stats.longest]] as const).map(([key,value])=><div key={key}><strong>{value}</strong><span>{t(key)}{key === 'wins' ? ' %' : ''}</span></div>)}</div>
