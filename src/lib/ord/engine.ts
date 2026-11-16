@@ -3,7 +3,7 @@ import { answers } from './words/answers';
 import inflections from './words/inflections.json';
 import { acceptsWord, letters, localizedAnswer, uppercase, wordPacks } from './words/localized';
 import type { Language } from '@/lib/i18n/languages';
-import { scheduledPool, unsavedAnswerPool } from './words/answer-policy';
+import { scheduledPool, unsavedAnswerPool, SCHEDULE_V2_EPOCH } from './words/answer-policy';
 
 export type Mark = 'correct' | 'present' | 'absent';
 export interface Round { date: string; answer: string; guesses: string[]; language?: Language; slot?: number }
@@ -71,9 +71,29 @@ function cycleOrder(pool: readonly string[], language: string, cycle: number): s
   cycleCache.set(key, order);
   return order;
 }
+function v2Cycle(pool: readonly string[], language: Language, cycle: number): string[] {
+  const order = cycleOrder(pool, `v2:${language}`, cycle);
+  if (cycle > 0) return order;
+  const key = `v2first|${language}|${pool.length}`;
+  const hit = cycleCache.get(key); if (hit) return hit;
+  const played = new Set<string>();
+  for (let d = dayNumber(ROTATION_EPOCH); d < dayNumber(SCHEDULE_V2_EPOCH); d++) {
+    const day = new Date(d * 86400000).toISOString().slice(0, 10);
+    for (let s = 0; s < DAILY_WORDS; s++) played.add(rotationAnswer(day, language, s));
+  }
+  const out = [...order.filter(w => !played.has(w)), ...order.filter(w => played.has(w))];
+  cycleCache.set(key, out);
+  return out;
+}
 export function rotationAnswer(date: string, language: Language, slot: number): string {
   const pool = unsavedAnswerPool(date, language);
   if (!pool.length) return '';
+  if (date >= SCHEDULE_V2_EPOCH) {
+    // Fresh v2 rotation; words played under v1 move to the end of its first cycle.
+    const index = (dayNumber(date) - dayNumber(SCHEDULE_V2_EPOCH)) * DAILY_WORDS + slot;
+    const cycle = Math.floor(index / pool.length);
+    return v2Cycle(pool, language, cycle)[index % pool.length] ?? '';
+  }
   const index = (dayNumber(date) - dayNumber(ROTATION_EPOCH)) * DAILY_WORDS + slot;
   return cycleOrder(pool, language, Math.floor(index / pool.length))[index % pool.length] ?? '';
 }
