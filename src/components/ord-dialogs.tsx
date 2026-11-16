@@ -1,3 +1,6 @@
+import { Input } from './ui/input';
+import { UserRound } from 'lucide-react';
+import { playerCopy, PLAYER_NAME_MAX, cleanPlayerName, defaultPlayerName } from '@/lib/i18n/player-copy';
 import * as Switch from '@radix-ui/react-switch';
 import { Vibrate, Check, ArrowRight, Globe2, ShieldCheck, ChevronRight, Sparkles, LockKeyhole, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -26,6 +29,9 @@ export type Panel = 'rules' | 'stats' | 'settings' | null;
 export function OrdDialogs({ panel, close, save, round, setSettings, welcome, dismissWelcome, phoneLanguage, nextWord, dailyDone }: { panel: Panel; close: () => void | Promise<void>; save: Save; round: Round; setSettings: (settings: Settings) => void; welcome:boolean; dismissWelcome:()=>void; phoneLanguage:Language; nextWord:()=>void; dailyDone:boolean }) {
   const {t,language}=useTranslation();
   const [monthlyOpen,setMonthlyOpen]=useState(false);
+  const [nameDraft,setNameDraft]=useState(save.settings.playerName ?? '');
+  useEffect(()=>{setNameDraft(save.settings.playerName ?? '');},[save.settings.playerName,panel]);
+  function saveName(){const name=cleanPlayerName(nameDraft);setNameDraft(name);if(name!==(save.settings.playerName ?? '')){const {playerName:_,...rest}=save.settings;setSettings(name?{...rest,playerName:name}:rest);}}
   useEffect(()=>{if(panel!=='stats')setMonthlyOpen(false);},[panel]);
   const [worldTitle,monthlyTitle]=monthlyCopy[language];
   const [licensesOpen, setLicensesOpen] = useState(false);
@@ -119,6 +125,7 @@ export function OrdDialogs({ panel, close, save, round, setSettings, welcome, di
     <GameDialog open={panel === 'settings' && !licensesOpen} onClose={close} title={t('settings')} description={t('settingsIntro')}>
       <h2>{t('settings')}</h2><p className="modal-description">{t('settingsIntro')}</p>
       <div className="setting-row"><span className="setting-label"><Vibrate />{t('haptics')}</span><Switch.Root className="switch" checked={save.settings.haptics} onCheckedChange={checked => {const settings={...save.settings,haptics:checked};setSettings(settings);if(checked) void feedback(settings);}} aria-label={t('haptics')}><Switch.Thumb className="switch-thumb" /></Switch.Root></div>
+      <label className="setting-row player-name-row"><span className="setting-label"><UserRound />{playerCopy[language][1]}</span><Input value={nameDraft} maxLength={PLAYER_NAME_MAX} placeholder={defaultPlayerName(save.settings,language)} aria-label={playerCopy[language][1]} onChange={e=>setNameDraft(e.target.value)} onBlur={saveName} onKeyDown={e=>{if(e.key==='Enter'){e.currentTarget.blur();}}} /></label>
       <div className="setting-row language-row"><span className="setting-label"><Globe2 />{t('language')}</span>{languagePicker('language')}</div><div className="setting-row language-row"><span>{t('gameLanguage')}</span>{languagePicker('gameLanguage')}</div>{started && <p className="license-note">{t('lockedLanguage')}</p>}
       <div className="setting-detail"><span>{t('changes')}</span><span>{t('localTime')}</span></div>
       <Button variant="secondary" className="privacy-toggle" aria-expanded={privacyOpen} aria-controls="saved-ad-choices" onClick={() => setPrivacyOpen(open => !open)}><ShieldCheck /><span className="flex-1">{t('adPrivacy')}</span><ChevronRight className={privacyOpen ? 'rotate-90' : ''} /></Button>
