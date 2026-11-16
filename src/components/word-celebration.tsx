@@ -2,9 +2,11 @@ import { useEffect, useRef } from 'react';
 import { Button } from './ui/button';
 import { ArrowRight } from 'lucide-react';
 import { useTranslation } from '@/lib/i18n';
+import { HandicapResult } from './handicap-result';
+import type { Round } from '@/lib/ord/engine';
 
 /** Sudoku-family confetti cannons, adapted to a word result without changing play. */
-export function WordCelebration({ answer, dailyDone, onNext, onResult }: { answer: string; dailyDone: boolean; onNext: () => void; onResult: () => void }) {
+export function WordCelebration({ round, rounds, dailyDone, onNext, onResult }: { round: Round; rounds: Record<string, Round>; dailyDone: boolean; onNext: () => void; onResult: () => void }) {
   const busy = useRef(false);
   const canvas = useRef<HTMLCanvasElement>(null);
   const { t } = useTranslation();
@@ -33,7 +35,7 @@ export function WordCelebration({ answer, dailyDone, onNext, onResult }: { answe
     const stop = setTimeout(() => {cancelAnimationFrame(raf); g.clearRect(0,0,W,H);}, 4000);
     return () => {clearTimeout(stop);cancelAnimationFrame(raf);};
   }, []);
-  return <div className="word-celebration"><canvas ref={canvas} aria-hidden="true" /><div className="word-celebration-copy" role="status"><h2>{t('won')}</h2><strong>{answer}</strong></div><div className="celebration-actions">{dailyDone
+  return <div className="word-celebration"><canvas ref={canvas} aria-hidden="true" /><div className="word-celebration-copy" role="status"><h2>{t('won')}</h2><strong>{round.answer}</strong></div><HandicapResult round={round} rounds={rounds} /><div className="celebration-actions">{dailyDone
     ? <Button className="welcome-play" onClick={onResult}>{t('result')}</Button>
     : <><Button className="welcome-play" onClick={()=>{if(busy.current)return;busy.current=true;onNext();}}><ArrowRight />{t('nextWord')}</Button><Button variant="ghost" className="celebration-continue" onClick={onResult}>{t('result')}</Button></>}</div></div>;
 }
