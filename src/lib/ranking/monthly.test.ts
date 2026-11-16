@@ -1,8 +1,9 @@
 import {describe,it,expect} from 'vitest';
-import {MONTHLY_MINIMUM,monthlyRounds,previousMonth} from './monthly';
+import {MONTHLY_MINIMUM,monthlyRounds,previousMonth,currentMonth} from './monthly';
 import {emptySave} from '../ord/engine';
 describe('monthly ranking',()=>{
   it('qualifies after 30 words',()=>expect(MONTHLY_MINIMUM).toBe(30));
+  it('selects only the current game month',()=>{expect(currentMonth('2026-11-16')).toBe('2026-11');expect(currentMonth('2026-12-01')).toBe('2026-12');});
   it('retains the previous month across year boundaries',()=>expect(previousMonth('2027-01')).toBe('2026-12'));
   it('shares only completed bounded slots, preserves failure +3 and par 0',()=>{
     const save=emptySave();
