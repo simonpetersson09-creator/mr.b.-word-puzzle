@@ -1,4 +1,7 @@
 # Roadmap
+- [ ] Förladda och behåll senaste Världstoppen utan tom öppningsvy.
+- [ ] Verifiera riktiga väninbjudningar, acceptans och privata dagsresultat.
+- [ ] Kontrollera och rätta TestFlight-samtycke; fysisk iPhone och AdMob-kontots meddelanden kan inte verifieras här.
 - [x] Kontrollera båda svarsschemana på alla 32 språk och införa språkvis spärr med tester mot kända olämpliga ord; sparade svar lämnas orörda.
 - [ ] Oberoende modersmålsgranskning av svarsorden på samtliga språk; kräver granskare för respektive språk.
 - [x] Topplista: automatiskt deltagande med spelarnamn från inställningar (standard "Spelare 1234"); svep vänster→höger för att gå tillbaka.

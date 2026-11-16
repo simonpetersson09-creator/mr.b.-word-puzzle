@@ -3,6 +3,7 @@ import { rankingIdentity } from './identity';
 import { countryFromLocale } from './country';
 import { wordScore } from '../ord/handicap';
 import { roundKey, type Save } from '../ord/engine';
+import { cacheMonthlyBoard, restoreMonthlyCache } from './monthly-cache';
 
 export const MONTHLY_MINIMUM = 30;
 export interface MonthlyEntry { name:string;played:number;average:number;place:number|null;self?:boolean }
@@ -17,6 +18,7 @@ export function monthlyRounds(save:Save,day:string) {
   });
 }
 export async function monthlyBoard(month:string,save:Save,day:string,action:'list'|'sync'|'join'|'leave'='sync',name=''):Promise<MonthlyBoard> {
+  await restoreMonthlyCache(month);
   let country:string|null=null;
   if(Capacitor.isNativePlatform()) {const {Device}=await import('@capacitor/device');country=countryFromLocale((await Device.getLanguageTag()).value);}
   if(!country) for(const tag of navigator.languages??[navigator.language]) {country=countryFromLocale(tag);if(country)break;}
@@ -26,5 +28,6 @@ export async function monthlyBoard(month:string,save:Save,day:string,action:'lis
   if(error)throw error;
   const board=data as unknown as MonthlyBoard;
   if(!board||!Array.isArray(board.leaders)||board.month!==month)throw new Error('Invalid board');
+  await cacheMonthlyBoard(board);
   return board;
 }

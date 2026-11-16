@@ -72,8 +72,9 @@ const adapter:AdAdapter={
       if(info.isConsentFormAvailable && info.status===mod.AdmobConsentStatus.REQUIRED)info=await nativeDialog(()=>mod.AdMob.showConsentForm());
       privacyRequired=privacyOptionsRequired(info.privacyOptionsRequirementStatus,privacyRequired);canRequest=info.canRequestAds;
     } catch {
+      privacyRequired=true;
       // Read persisted UMP eligibility; never infer consent from a failed refresh.
-      const info=await withDeadline(safety()?.getConsentEligibility() ?? Promise.reject(new Error('reader_missing')),AD_REQUEST_TIMEOUT);
+      const info=await withDeadline(safety()?.getConsentEligibility() ?? Promise.reject(new Error('reader_missing')),AD_REQUEST_TIMEOUT).catch(()=>({canRequestAds:false,privacyOptionsRequirementStatus:'UNKNOWN'}));
       privacyRequired=privacyOptionsRequired(info.privacyOptionsRequirementStatus,privacyRequired);canRequest=info.canRequestAds;
     }
     if(!canRequest)return false;

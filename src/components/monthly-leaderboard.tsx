@@ -8,12 +8,13 @@ import {monthlyBoard,currentMonth,MONTHLY_MINIMUM,type MonthlyBoard} from '@/lib
 import type {Save} from '@/lib/ord/engine';
 import {monthlyCopy} from '@/lib/i18n/monthly-copy';
 import {monthlyRuleCopy} from '@/lib/i18n/monthly-rule-copy';
+import {readMonthlyCache} from '@/lib/ranking/monthly-cache';
 
 export function MonthlyLeaderboard({save,day,open}:{save:Save;day:string;open:boolean}) {
   const {language}=useTranslation();
   const [,title,refresh,failed,loading,played,position]=monthlyCopy[language];
   const month=currentMonth(day);
-  const [board,setBoard]=useState<MonthlyBoard|null>(null);const [busy,setBusy]=useState(false);const [error,setError]=useState(false);
+  const [board,setBoard]=useState<MonthlyBoard|null>(()=>readMonthlyCache(month));const [busy,setBusy]=useState(false);const [error,setError]=useState(false);
   // Native players join automatically under their settings name (or the default numbered name).
   const name=playerDisplayName(save.settings,language);const auto=Capacitor.isNativePlatform()?'join':'sync';
   useEffect(()=>{if(!open)return;let live=true;setBusy(true);setError(false);void monthlyBoard(month,save,day,auto,name).then(value=>{if(live)setBoard(value);}).catch(()=>{if(live)setError(true);}).finally(()=>{if(live)setBusy(false);});return()=>{live=false;};},[open,month,save,day,auto,name]);

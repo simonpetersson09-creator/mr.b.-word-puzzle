@@ -22,6 +22,8 @@ import { feedback } from '@/lib/native/feedback';
 import { HandicapResult } from './handicap-result';
 import { MonthlyLeaderboard } from './monthly-leaderboard';
 import {monthlyCopy} from '@/lib/i18n/monthly-copy';
+import {monthlyBoard,currentMonth} from '@/lib/ranking/monthly';
+import {restoreMonthlyCache} from '@/lib/ranking/monthly-cache';
 
 const PRIVACY_POLICY_URL = 'https://mr-b-word-puzzle-legal-guide.lovable.app';
 
@@ -29,6 +31,20 @@ export type Panel = 'rules' | 'stats' | 'settings' | null;
 export function OrdDialogs({ panel, close, save, round, setSettings, welcome, dismissWelcome, phoneLanguage, nextWord, dailyDone }: { panel: Panel; close: () => void | Promise<void>; save: Save; round: Round; setSettings: (settings: Settings) => void; welcome:boolean; dismissWelcome:()=>void; phoneLanguage:Language; nextWord:()=>void; dailyDone:boolean }) {
   const {t,language}=useTranslation();
   const [monthlyOpen,setMonthlyOpen]=useState(false);
+  const [monthlyPreparing,setMonthlyPreparing]=useState(false);
+  useEffect(()=>{
+    if(panel!=='stats')return;
+    void monthlyBoard(currentMonth(round.date),save,round.date,'list').catch(()=>{});
+  },[panel,save,round.date]);
+  async function openMonthly(){
+    if(monthlyPreparing)return;
+    setMonthlyPreparing(true);
+    try {
+      const cached=await restoreMonthlyCache(currentMonth(round.date));
+      if(!cached)await monthlyBoard(currentMonth(round.date),save,round.date,'list');
+    }catch { /* The page offers retry without hiding a saved board. */ }
+    finally {setMonthlyPreparing(false);setMonthlyOpen(true);}
+  }
   const [nameDraft,setNameDraft]=useState(save.settings.playerName ?? '');
   useEffect(()=>{setNameDraft(save.settings.playerName ?? '');},[save.settings.playerName,panel]);
   function saveName(){const name=cleanPlayerName(nameDraft);setNameDraft(name);if(name!==(save.settings.playerName ?? '')){const {playerName:_,...rest}=save.settings;setSettings(name?{...rest,playerName:name}:rest);}}
@@ -111,7 +127,7 @@ export function OrdDialogs({ panel, close, save, round, setSettings, welcome, di
          <Button className="guess-button rules-continue" onClick={close}><ArrowRight />{t('resume')}</Button>
        </div>
     </GameDialog>
-    <GameDialog open={panel === 'stats'} onClose={monthlyOpen?()=>setMonthlyOpen(false):close} title={monthlyOpen?monthlyTitle:t('stats')} description={monthlyOpen?monthlyTitle:t('stats')} className={`stats-modal ${monthlyOpen ? '' : 'stats-overview'}`} fullscreen headerAction={!monthlyOpen&&<Button variant="secondary" className="monthly-header-button" title={monthlyTitle} onClick={()=>setMonthlyOpen(true)}>{worldTitle}</Button>}>
+    <GameDialog open={panel === 'stats'} onClose={monthlyOpen?()=>setMonthlyOpen(false):close} title={monthlyOpen?monthlyTitle:t('stats')} description={monthlyOpen?monthlyTitle:t('stats')} className={`stats-modal ${monthlyOpen ? '' : 'stats-overview'}`} fullscreen headerAction={!monthlyOpen&&<Button variant="secondary" className="monthly-header-button" title={monthlyTitle} disabled={monthlyPreparing} aria-busy={monthlyPreparing} onClick={()=>void openMonthly()}>{worldTitle}</Button>}>
       {monthlyOpen ? <MonthlyLeaderboard save={save} day={round.date} open /> : <>
       <div className="stats-hcp-hero"><HandicapResult round={round} rounds={save.rounds} showWindow={false} showTrend /></div>
       <div className="stat-metrics stats-summary">{([['played',stats.played],['wins',stats.percentage+'%'],['longest',stats.longest]] as const).map(([key,value])=><div key={key}><strong>{value}</strong><span>{t(key)}{key === 'wins' ? ' %' : ''}</span></div>)}</div>
