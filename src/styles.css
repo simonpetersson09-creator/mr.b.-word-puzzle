@@ -374,6 +374,7 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .stats-overview .distribution h3 { margin: 8px 0 5px; }
 .stats-overview .distribution-row { margin: 3px 0; }
 .stats-overview .bar { height: 19px; padding: 1px 8px; }
+.stats-overview .welcome-play { margin-top: 12px; }
 .stats-overview .next-puzzle { margin: 8px 0 0; }
 @media (max-height: 740px) {
   .stats-overview .fullscreen-panel-header { padding-top: calc(env(safe-area-inset-top, 0px) + 6px); padding-bottom: 6px; gap: 8px; }
@@ -394,6 +395,8 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
   .stats-overview .stats-hcp-hero .hcp-current > strong { font-size: 34px; }
   .stats-overview .hcp-trend { height: 18px; }
   .stats-overview .country-rank-slot { height: 46px; }
+  .stats-overview .welcome-play { margin-top: 6px; }
+  .stats-overview .distribution-row { line-height: 16px; }
   .stats-overview .country-rank-slot .country-rank { height: 40px; }
   .stats-overview .distribution h3 { margin-top: 4px; }
   .stats-overview .next-puzzle { margin-top: 3px; }
