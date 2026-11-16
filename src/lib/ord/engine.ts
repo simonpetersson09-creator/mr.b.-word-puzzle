@@ -72,18 +72,21 @@ function cycleOrder(pool: readonly string[], language: string, cycle: number): s
   return order;
 }
 function v2Cycle(pool: readonly string[], language: Language, cycle: number): string[] {
-  const order = cycleOrder(pool, `v2:${language}`, cycle);
-  if (cycle > 0) return order;
-  const key = `v2first|${language}|${pool.length}`;
+  const key = `v2|${language}|${cycle}|${pool.length}`;
   const hit = cycleCache.get(key); if (hit) return hit;
-  const played = new Set<string>();
-  for (let d = dayNumber(ROTATION_EPOCH); d < dayNumber(SCHEDULE_V2_EPOCH); d++) {
+  const tag = `v2:${language}`, gap = Math.floor(pool.length / 2);
+  // The tail to avoid is the previous v2 cycle, or v1 words played before the v2 epoch.
+  const recent = new Set<string>();
+  if (cycle > 0) v2Cycle(pool, language, cycle - 1).slice(-gap).forEach(w => recent.add(w));
+  else for (let d = dayNumber(ROTATION_EPOCH); d < dayNumber(SCHEDULE_V2_EPOCH); d++) {
     const day = new Date(d * 86400000).toISOString().slice(0, 10);
-    for (let s = 0; s < DAILY_WORDS; s++) played.add(rotationAnswer(day, language, s));
+    for (let s = 0; s < DAILY_WORDS; s++) recent.add(rotationAnswer(day, language, s));
   }
-  const out = [...order.filter(w => !played.has(w)), ...order.filter(w => played.has(w))];
-  cycleCache.set(key, out);
-  return out;
+  let order = shuffledCycle(pool, tag, cycle);
+  for (let attempt = 1; attempt < 500 && order.slice(0, gap).some(w => recent.has(w)); attempt++) order = shuffledCycle(pool, tag, cycle, attempt);
+  if (order.slice(0, gap).some(w => recent.has(w))) order = [...order.filter(w => !recent.has(w)), ...order.filter(w => recent.has(w))];
+  cycleCache.set(key, order);
+  return order;
 }
 export function rotationAnswer(date: string, language: Language, slot: number): string {
   const pool = unsavedAnswerPool(date, language);
