@@ -104,13 +104,13 @@ export function OrdDialogs({ panel, close, save, round, setSettings, welcome, di
        </div>
     </GameDialog>
     <GameDialog open={panel === 'stats'} onClose={close} title={t('stats')} description={t('stats')} className="stats-modal" fullscreen>
+      <div className="stats-hcp-hero"><HandicapResult round={round} rounds={save.rounds} /></div>
+      <div className="stat-metrics stats-summary">{([['played',stats.played],['wins',stats.percentage+'%'],['longest',stats.longest]] as const).map(([key,value])=><div key={key}><strong>{value}</strong><span>{t(key)}{key === 'wins' ? ' %' : ''}</span></div>)}</div>
       {done && <div className="result-banner"><img src={mrB} alt="Mr. B" /><div><h2>{hasWon(round) ? t('won') : t('lost')}</h2><p>{hasWon(round) ? t('found',{word:round.answer,count:round.guesses.length}) : t('answer',{word:round.answer})}</p></div></div>}
-      <HandicapResult round={round} rounds={save.rounds} />
-      <div className="streak-hero"><div className={`streak-flame ${stats.current ? 'lit' : ''}`}><Flame /></div><div className="streak-text"><strong>{stats.current}</strong><span>{t('streakDays')}</span></div><div className="streak-best"><Trophy /><span>{stats.longest}</span></div></div>
+      <div className="streak-hero"><div className={`streak-flame ${stats.current ? 'lit' : ''}`}><Flame /></div><div className="streak-text"><strong>{stats.current}</strong><span>{t('streakDays')}</span></div></div>
       <div className="streak-goal"><div className="streak-goal-label"><span>{stats.current ? t('nextGoal',{count: goal - stats.current, goal}) : t('startStreak')}</span><b>{goal}</b></div><div className="streak-goal-track"><div style={{width: `${Math.max(4, goalPct)}%`}} /></div></div>
       <div className="today-words"><span>{t('todayWords')}</span><div>{today.map((r,i)=><i key={i} className={!r || !isFinished(r) ? '' : hasWon(r) ? 'won' : 'lost'}>{r && isFinished(r) ? (hasWon(r) ? r.guesses.length : '×') : ''}</i>)}</div></div>
       {stats.played > 0 && <div className="country-rank-slot">{rank && <div className="country-rank"><span className="country-flag" aria-hidden="true">{flagFor(rank.country)}</span><div><strong>{t('betterThan',{pct: rank.betterThan})}</strong><span>{t('inCountry',{country: new Intl.DisplayNames([document.documentElement.lang || 'en'],{type:'region'}).of(rank.country) ?? rank.country})}</span></div></div>}</div>}
-      <div className="stat-metrics">{([['played',stats.played],['wins',stats.percentage+'%']] as const).map(([key,value])=><div key={key}><strong>{value}</strong><span>{t(key)}</span></div>)}</div>
       <div className="distribution"><h3>{t('distribution')}</h3>{stats.distribution.map((count, i) => <div className="distribution-row" key={i}><span>{i+1}</span><div className="bar-track"><div className={`bar ${count ? 'nonzero' : ''}`} style={{width: `${Math.max(9, count / Math.max(1,...stats.distribution) * 100)}%`}}>{count}</div></div></div>)}</div>
       {done && <>{!dailyDone && <Button className="welcome-play" onClick={()=>{void Promise.resolve(close()).then(nextWord);}}><ArrowRight />{t('nextWord')}</Button>}<p className="next-puzzle">{t('next')}</p></>}
     </GameDialog>
