@@ -404,5 +404,27 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .friend-day-total svg { width: 14px; height: 14px; color: var(--primary); }
 .friend-day-total strong { margin-left: auto; color: var(--primary); font: 700 17px var(--font-display); }
 .friend-last-update { margin: 12px 0 0; font-size: 10px; color: var(--muted-foreground); }
+.monthly-leaderboard { border-block: 1px solid var(--border); padding: 18px 0; margin: 18px 0; }
+.monthly-heading { display: flex; align-items: center; gap: 8px; }
+.monthly-heading > svg { width: 18px; color: var(--primary); }
+.monthly-heading h3 { flex: 1; margin: 0; font: 700 16px var(--font-display); }
+.monthly-heading button,.monthly-navigation button { width: 40px; height: 40px; padding: 0; flex-shrink: 0; }
+.monthly-navigation { display: flex; align-items: center; justify-content: space-between; margin-top: 6px; }
+.monthly-navigation strong { font-size: 12px; text-transform: capitalize; text-align: center; }
+.monthly-country { margin: 6px 0 12px; font-size: 13px; color: var(--muted-foreground); }
+.monthly-list { list-style: none; margin: 0; padding: 0; }
+.monthly-list li { display: flex; align-items: center; gap: 10px; padding: 12px 8px; border-bottom: 1px solid var(--border); }
+.monthly-list li > div { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.monthly-list li strong { font-size: 13px; }
+.monthly-list li > strong { color: var(--primary); }
+.monthly-list small { display: block; color: var(--muted-foreground); font-size: 10px; margin-top: 3px; }
+.monthly-place { width: 26px; flex-shrink: 0; text-align: center; font: 700 16px var(--font-display); }
+.monthly-self { background: var(--secondary); }
+.monthly-own { display: flex; justify-content: space-between; gap: 8px; padding: 14px 0; font-size: 13px; }
+.monthly-own strong { color: var(--primary); }
+.monthly-note { font-size: 11px; color: var(--muted-foreground); line-height: 1.6; margin: 10px 0; }
+.monthly-join { display: flex; gap: 8px; margin: 14px 0; }
+.monthly-join input { min-width: 0; height: 44px; }
+.monthly-join button { height: 44px; }
 @keyframes friends-spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .friends-loading { animation: none; } }

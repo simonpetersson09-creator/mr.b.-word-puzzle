@@ -43,6 +43,13 @@
       "when": 1794830854926,
       "tag": "0005_friend_daily_results",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1794831598461,
+      "tag": "0006_monthly_top_twenty",
+      "breakpoints": true
     }
   ]
 }

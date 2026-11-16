@@ -89,6 +89,67 @@ export type Database = {
           },
         ]
       }
+      monthly_players: {
+        Row: {
+          country: string
+          device_id: string
+          enabled: boolean
+          name: string
+          platform: string
+        }
+        Insert: {
+          country: string
+          device_id: string
+          enabled?: boolean
+          name: string
+          platform: string
+        }
+        Update: {
+          country?: string
+          device_id?: string
+          enabled?: boolean
+          name?: string
+          platform?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "monthly_players_device_id_fkey"
+            columns: ["device_id"]
+            isOneToOne: true
+            referencedRelation: "friend_devices"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      monthly_rounds: {
+        Row: {
+          day: string
+          device_id: string
+          score: number
+          slot: number
+        }
+        Insert: {
+          day: string
+          device_id: string
+          score: number
+          slot: number
+        }
+        Update: {
+          day?: string
+          device_id?: string
+          score?: number
+          slot?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "monthly_rounds_device_id_fkey"
+            columns: ["device_id"]
+            isOneToOne: false
+            referencedRelation: "monthly_players"
+            referencedColumns: ["device_id"]
+          },
+        ]
+      }
       player_scores: {
         Row: {
           country: string
@@ -146,6 +207,19 @@ export type Database = {
           p_name?: string
           p_results?: Json
           p_target?: string
+          p_token: string
+        }
+        Returns: Json
+      }
+      monthly_board: {
+        Args: {
+          p_action?: string
+          p_country: string
+          p_device: string
+          p_month: string
+          p_name?: string
+          p_platform?: string
+          p_rounds?: Json
           p_token: string
         }
         Returns: Json

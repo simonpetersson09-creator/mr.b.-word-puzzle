@@ -17,6 +17,7 @@ import { dailyAds, getAdConsentChoices, initializeAds, nativeAdsEnabled, needsAd
 import { readAdConsentChoices } from '@/lib/native/ad-consent';
 import { feedback } from '@/lib/native/feedback';
 import { HandicapResult } from './handicap-result';
+import { MonthlyLeaderboard } from './monthly-leaderboard';
 
 const PRIVACY_POLICY_URL = 'https://mr-b-word-puzzle-legal-guide.lovable.app';
 
@@ -106,6 +107,7 @@ export function OrdDialogs({ panel, close, save, round, setSettings, welcome, di
       {done && <div className="result-banner"><img src={mrB} alt="Mr. B" /><div><h2>{hasWon(round) ? t('won') : t('lost')}</h2><p>{hasWon(round) ? t('found',{word:round.answer,count:round.guesses.length}) : t('answer',{word:round.answer})}</p></div></div>}
       <div className="today-words"><span>{t('todayWords')}</span><div>{today.map((r,i)=><i key={i} className={!r || !isFinished(r) ? '' : hasWon(r) ? 'won' : 'lost'}>{r && isFinished(r) ? (hasWon(r) ? r.guesses.length : '×') : ''}</i>)}</div></div>
       {stats.played > 0 && <div className="country-rank-slot">{rank && <div className="country-rank"><span className="country-flag" aria-hidden="true">{flagFor(rank.country)}</span><div><strong>{t('betterThan',{pct: rank.betterThan})}</strong><span>{t('inCountry',{country: new Intl.DisplayNames([document.documentElement.lang || 'en'],{type:'region'}).of(rank.country) ?? rank.country})}</span></div></div>}</div>}
+      <MonthlyLeaderboard save={save} day={round.date} open={panel==='stats'} />
       <div className="distribution"><h3>{t('distribution')}</h3>{stats.distribution.map((count, i) => <div className="distribution-row" key={i}><span>{i+1}</span><div className="bar-track"><div className={`bar ${count ? 'nonzero' : ''}`} style={{width: `${Math.max(9, count / Math.max(1,...stats.distribution) * 100)}%`}}>{count}</div></div></div>)}</div>
       {done && <>{!dailyDone && <Button className="welcome-play" onClick={()=>{void Promise.resolve(close()).then(nextWord);}}><ArrowRight />{t('nextWord')}</Button>}<p className="next-puzzle">{t('next')}</p></>}
     </GameDialog>
