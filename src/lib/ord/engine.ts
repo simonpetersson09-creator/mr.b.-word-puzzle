@@ -7,7 +7,7 @@ import { scheduledPool, unsavedAnswerPool, SCHEDULE_V2_EPOCH } from './words/ans
 
 export type Mark = 'correct' | 'present' | 'absent';
 export interface Round { date: string; answer: string; guesses: string[]; language?: Language; slot?: number }
-export interface Settings { sound: boolean; haptics: boolean; language?: Language | 'auto'; gameLanguage?: Language | 'auto' }
+export interface Settings { sound: boolean; haptics: boolean; language?: Language | 'auto'; gameLanguage?: Language | 'auto'; playerName?: string; playerNumber?: number }
 export interface Save { version: 1; rounds: Record<string, Round>; settings: Settings }
 export const dictionarySet = new Set<string>([...dictionary,...inflections]);
 export const emptySave = (): Save => ({ version: 1, rounds: {}, settings: { sound: true, haptics: true } });

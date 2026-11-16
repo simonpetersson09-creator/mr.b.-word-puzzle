@@ -35,7 +35,7 @@ function decode(text: string | null): Save | null {
     }
     const settingLanguage = (v: unknown): Language | 'auto' | undefined => v === 'auto' ? v : typeof v === 'string' && v in languages ? v as Language : undefined;
     const language = settingLanguage(value.settings?.language), gameLanguage = settingLanguage(value.settings?.gameLanguage);
-    return { version: 1, rounds, settings: { sound: value.settings?.sound !== false, haptics: value.settings?.haptics !== false, ...(language ? {language} : {}), ...(gameLanguage ? {gameLanguage} : {}) } };
+    return { version: 1, rounds, settings: { sound: value.settings?.sound !== false, haptics: value.settings?.haptics !== false, ...(language ? {language} : {}), ...(gameLanguage ? {gameLanguage} : {}), ...(typeof value.settings?.playerName === 'string' && value.settings.playerName.trim() ? {playerName: value.settings.playerName.slice(0,24)} : {}), ...(Number.isInteger(value.settings?.playerNumber) && value.settings.playerNumber >= 1000 && value.settings.playerNumber <= 9999 ? {playerNumber: value.settings.playerNumber} : {}) } };
   } catch { return null; }
 }
 const samePuzzle = (a: Round, b: Round) => a.answer === b.answer && (a.language ?? 'sv') === (b.language ?? 'sv');
