@@ -364,6 +364,16 @@ button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .friend-row button { width: 40px; height: 44px; padding: 0; flex-shrink: 0; }
 .friends-note { font-size: 11px; line-height: 1.7; color: var(--muted-foreground); margin-top: 32px; }
 .friends-loading { animation: friends-spin 1s linear infinite; }
+.friends-topbar { display: flex; align-items: center; gap: 6px; padding: 4px 0 14px; border-bottom: 1px solid var(--border); }
+.friends-topbar > div { flex: 1; min-width: 0; }
+.friends-topbar h3 { margin: 0 0 5px; }
+.friends-topbar > div > span { font-size: 11px; color: var(--muted-foreground); }
+.friends-topbar button { height: 40px; flex-shrink: 0; padding: 0 8px; font-size: 12px; }
+.friends-topbar button svg { width: 15px; height: 15px; }
+.friends-topbar .friends-chevron-open { transform: rotate(180deg); }
+.friends-invite-area { padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+.friend-action-menu { z-index: 100; background: var(--card); color: var(--foreground); box-shadow: var(--shadow); }
+.friend-action-menu [role="menuitem"] { min-height: 44px; }
 .friend-player { padding: 16px; margin-top: 12px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; }
 .friend-player-heading { display: flex; align-items: center; gap: 10px; min-width: 0; }
 .friend-avatar { width: 38px; height: 38px; flex-shrink: 0; display: grid; place-items: center; border-radius: 50%; background: var(--secondary); color: var(--primary); font: 700 19px var(--font-display); }
