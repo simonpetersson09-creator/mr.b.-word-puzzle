@@ -18,6 +18,7 @@ export type Database = {
         Row: {
           code: string
           completed: number
+          daily_results: Json | null
           day: string | null
           hcp: number | null
           id: string
@@ -30,6 +31,7 @@ export type Database = {
         Insert: {
           code?: string
           completed?: number
+          daily_results?: Json | null
           day?: string | null
           hcp?: number | null
           id: string
@@ -42,6 +44,7 @@ export type Database = {
         Update: {
           code?: string
           completed?: number
+          daily_results?: Json | null
           day?: string | null
           hcp?: number | null
           id?: string
@@ -127,6 +130,21 @@ export type Database = {
           p_device: string
           p_hcp?: number
           p_name?: string
+          p_target?: string
+          p_token: string
+        }
+        Returns: Json
+      }
+      friends_daily_action: {
+        Args: {
+          p_action: string
+          p_code?: string
+          p_completed?: number
+          p_day?: string
+          p_device: string
+          p_hcp?: number
+          p_name?: string
+          p_results?: Json
           p_target?: string
           p_token: string
         }

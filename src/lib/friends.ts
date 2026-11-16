@@ -1,10 +1,11 @@
 import { Capacitor } from '@capacitor/core';
 import { rankingIdentity } from './ranking/identity';
 import { deliverResult } from './native/result-share';
-import { handicap } from './ord/handicap';
-import { isFinished, type Save } from './ord/engine';
+import { handicap, wordScore } from './ord/handicap';
+import { DAILY_WORDS, hasWon, isFinished, roundKey, type Save } from './ord/engine';
 
-export interface Friend { id: string; name: string; status: 'pending' | 'accepted' | 'blocked'; incoming: boolean; hcp: number | null; day: string | null; completed: number | null }
+export interface FriendResult { won: boolean; attempts: number; score: number }
+export interface Friend { id: string; name: string; status: 'pending' | 'accepted' | 'blocked'; incoming: boolean; hcp: number | null; day: string | null; completed: number | null; results?: (FriendResult | null)[] | null }
 export interface FriendsState { name: string; code: string; people: Friend[] }
 export type FriendAction = 'list' | 'name' | 'invite' | 'accept' | 'remove' | 'block' | 'unblock' | 'sync';
 const CACHE = 'mrb-word-puzzle:friends-v1';
@@ -12,7 +13,19 @@ export function validFriendName(name: string) { return name.trim().length >= 1 &
 export function normalizeFriendCode(code: string) { return code.replace(/\s/g, '').toUpperCase(); }
 export function validFriendCode(code: string) { return /^(?:[A-F0-9]{6}|[A-F0-9]{12})$/.test(normalizeFriendCode(code)); }
 export function friendSummary(save: Save, day: string) {
-  return { hcp: handicap(save.rounds, day).value, day, completed: Object.values(save.rounds).filter(r => r.date === day && isFinished(r)).length };
+  const results = Array.from({length: DAILY_WORDS}, (_, slot) => {
+    const round = save.rounds[roundKey(day, slot)];
+    if (!round || round.date !== day || !isFinished(round)) return null;
+    const won = hasWon(round);
+    return {won, attempts: won ? round.guesses.indexOf(round.answer) + 1 : 6, score: wordScore(round) ?? 3};
+  });
+  return { hcp: handicap(save.rounds, day).value, day, completed: results.filter(Boolean).length, results };
+}
+export function friendToday(person: Friend, day: string) {
+  const current = person.day === day;
+  const completed = current ? Math.min(DAILY_WORDS, Math.max(0, person.completed ?? 0)) : 0;
+  const results = Array.from({length: DAILY_WORDS}, (_, slot) => current ? person.results?.[slot] ?? null : null);
+  return {current, completed, complete: completed === DAILY_WORDS, results};
 }
 function decode(raw: string | null): FriendsState | null {
   try {
@@ -30,7 +43,7 @@ export async function friendsAction(action: FriendAction, data: { name?: string;
   const identity = await rankingIdentity();
   const { supabase } = await import('@/integrations/supabase/client');
   const summary = data.save && data.day ? friendSummary(data.save, data.day) : null;
-  const {data:result,error} = await supabase.rpc('friends_action', {p_device:identity.id,p_token:identity.token,p_action:action,p_name:data.name ?? '',p_code:normalizeFriendCode(data.code ?? ''),...(data.target ? {p_target:data.target} : {}),...(summary ? {p_day:summary.day,p_completed:summary.completed,...(summary.hcp !== null ? {p_hcp:summary.hcp} : {})} : {})});
+  const {data:result,error} = await supabase.rpc('friends_daily_action', {p_device:identity.id,p_token:identity.token,p_action:action,p_name:data.name ?? '',p_code:normalizeFriendCode(data.code ?? ''),...(data.target ? {p_target:data.target} : {}),...(summary ? {p_day:summary.day,p_completed:summary.completed,p_results:summary.results,...(summary.hcp !== null ? {p_hcp:summary.hcp} : {})} : {})});
   if (error) throw error;
   const state = decode(JSON.stringify(result));
   if (!state) throw new Error('Invalid friends response');
