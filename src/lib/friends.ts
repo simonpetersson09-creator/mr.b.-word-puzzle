@@ -10,13 +10,14 @@ export type FriendAction = 'list' | 'name' | 'invite' | 'accept' | 'remove' | 'b
 const CACHE = 'mrb-word-puzzle:friends-v1';
 export function validFriendName(name: string) { return name.trim().length >= 1 && name.trim().length <= 24 && !/[\x00-\x1f\x7f]/.test(name); }
 export function normalizeFriendCode(code: string) { return code.replace(/\s/g, '').toUpperCase(); }
+export function validFriendCode(code: string) { return /^(?:[A-F0-9]{6}|[A-F0-9]{12})$/.test(normalizeFriendCode(code)); }
 export function friendSummary(save: Save, day: string) {
   return { hcp: handicap(save.rounds, day).value, day, completed: Object.values(save.rounds).filter(r => r.date === day && isFinished(r)).length };
 }
 function decode(raw: string | null): FriendsState | null {
   try {
     const value = JSON.parse(raw ?? 'null');
-    return value && typeof value.name === 'string' && /^[A-F0-9]{12}$/.test(value.code) && Array.isArray(value.people) ? value : null;
+    return value && typeof value.name === 'string' && validFriendCode(value.code) && Array.isArray(value.people) ? value : null;
   } catch { return null; }
 }
 export async function cachedFriends() {
