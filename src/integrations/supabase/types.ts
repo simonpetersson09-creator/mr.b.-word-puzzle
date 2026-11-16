@@ -211,6 +211,19 @@ export type Database = {
         }
         Returns: Json
       }
+      global_monthly_board: {
+        Args: {
+          p_action?: string
+          p_country?: string
+          p_device: string
+          p_month: string
+          p_name?: string
+          p_platform?: string
+          p_rounds?: Json
+          p_token: string
+        }
+        Returns: Json
+      }
       monthly_board: {
         Args: {
           p_action?: string
