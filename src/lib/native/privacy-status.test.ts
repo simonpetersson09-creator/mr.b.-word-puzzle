@@ -8,6 +8,8 @@ it('retains required privacy options when a refresh returns unknown or missing s
   expect(privacyOptionsRequired(undefined, true)).toBe(true);
   expect(privacyOptionsRequired('UNKNOWN', true)).toBe(true);
   expect(privacyOptionsRequired('NOT_REQUIRED', true)).toBe(false);
+  expect(privacyOptionsRequired('UNKNOWN', false)).toBe(true);
+  expect(privacyOptionsRequired(undefined, false)).toBe(true);
 });
 it('repairs the installed fallback to report the real UMP privacy requirement reproducibly', () => {
   const old = 'call.resolve(["canRequestAds": ConsentInformation.shared.canRequestAds])';

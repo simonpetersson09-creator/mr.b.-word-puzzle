@@ -3,6 +3,8 @@ import { rankingIdentity } from './ranking/identity';
 import { deliverResult } from './native/result-share';
 import { handicap, wordScore } from './ord/handicap';
 import { DAILY_WORDS, hasWon, isFinished, roundKey, type Save } from './ord/engine';
+import {appLanguage} from './i18n';
+import {playerDisplayName} from './i18n/player-copy';
 
 export interface FriendResult { won: boolean; attempts: number; score: number }
 export interface Friend { id: string; name: string; status: 'pending' | 'accepted' | 'blocked'; incoming: boolean; hcp: number | null; day: string | null; completed: number | null; results?: (FriendResult | null)[] | null }
@@ -43,6 +45,11 @@ export async function friendsAction(action: FriendAction, data: { name?: string;
   const identity = await rankingIdentity();
   const { supabase } = await import('@/integrations/supabase/client');
   const summary = data.save && data.day ? friendSummary(data.save, data.day) : null;
+  // Register/update the same settings name before invitations or result sync.
+  if (data.save && action !== 'name') {
+    const {error:nameError}=await supabase.rpc('friends_daily_action',{p_device:identity.id,p_token:identity.token,p_action:'name',p_name:playerDisplayName(data.save.settings,appLanguage())});
+    if(nameError)throw nameError;
+  }
   const {data:result,error} = await supabase.rpc('friends_daily_action', {p_device:identity.id,p_token:identity.token,p_action:action,p_name:data.name ?? '',p_code:normalizeFriendCode(data.code ?? ''),...(data.target ? {p_target:data.target} : {}),...(summary ? {p_day:summary.day,p_completed:summary.completed,p_results:summary.results,...(summary.hcp !== null ? {p_hcp:summary.hcp} : {})} : {})});
   if (error) throw error;
   const state = decode(JSON.stringify(result));
