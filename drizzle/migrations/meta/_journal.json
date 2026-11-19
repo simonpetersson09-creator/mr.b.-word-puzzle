@@ -57,6 +57,13 @@
       "when": 1794832220282,
       "tag": "0007_global_monthly_board",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1795116586769,
+      "tag": "0008_word_admin_daily_stats",
+      "breakpoints": true
     }
   ]
 }

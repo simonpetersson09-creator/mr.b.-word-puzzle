@@ -258,6 +258,7 @@ export type Database = {
             }
             Returns: Json
           }
+      word_admin_daily_stats: { Args: never; Returns: Json }
     }
     Enums: {
       [_ in never]: never
