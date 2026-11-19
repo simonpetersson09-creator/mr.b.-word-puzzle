@@ -1,4 +1,5 @@
 # Roadmap
+- [ ] Lägg till admin enligt Yatzys upplägg; jämför funktioner och behörigheter, invänta svar om administratörens profildata före inloggningsarbete.
 - [x] +300 koreanska ordboksord (totalt 356), eget fryst schema från 2026-11-20; fem stavelser, dubletter, källor, säkerhetsspärr och rotationsskydd testade. 181 tester godkända; ny gissning, vinst och omstart verifierade. Oberoende modersmålsgranskning kvar enligt nedan.
 - [x] Ny felkontroll: 174 tester godkända; rättat native-cache vid månadsbyte, namnuppdatering till sociala resultat och reservväg vid misslyckad native-språkavläsning. Mobilspel, sparat namn, vinst/HCP efter omstart och fyra skärmstorlekar verifierade utan aktuella körfel.
 - [ ] Senaste ändringar till iOS/Android behöver native-synk och fysisk enhetskontroll; kräver Mac/Xcode respektive Android SDK och telefoner.
