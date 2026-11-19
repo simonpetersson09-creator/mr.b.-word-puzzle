@@ -1,5 +1,11 @@
 # Swedish word lists
 
+## Korean expansion (2026-11-20)
+
+`schedule-korean-v3.json` adds exactly 300 Korean dictionary headwords to the existing 56 answers, independently of the immutable v1/v2 schedules. Each addition has five NFC Hangul syllable blocks and an original dictionary URL. They are also accepted as guesses. The new rotation starts on 2026-11-20 (local game day at 03:00); historical assignments and saved answers are unchanged. Other languages retain their schedules.
+
+Source: [spellcheck-ko/hunspell-dict-ko](https://github.com/spellcheck-ko/hunspell-dict-ko), non-legacy `data/entries/*.yaml`, downloaded 2026-11-19. Copyright © 2008–2019 hunspell-dict-ko contributors; © 2017–2019 National Institute of Korean Language. This separately distributed adapted subset is CC BY-SA 4.0, see `CC-BY-SA-4.0.txt`; the combined GPL Hunspell dictionary is not bundled. The snapshot records archive SHA-256, source URLs and selection method. AI editorial screening checked the headwords and definitions for everyday meaning and inappropriate senses; independent native-speaker review is still required, and the blocklist is not a safety certification.
+
 ## Expanded validation and international candidate packs
 
 `inflections.json` adds 2,569 Swedish five-letter entries from wordfreq candidates that pass the original Swedish Hunspell dictionary with its affix rules (spylls lookup). Original entries and frozen daily answers are unchanged. This includes real inflections such as BILAR and HUSET, not arbitrary generated suffixes.

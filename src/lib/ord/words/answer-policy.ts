@@ -2,11 +2,14 @@ import type {Language} from '@/lib/i18n/languages';
 import {approvedAnswers, APPROVED_ANSWERS_EPOCH} from './approved-answers';
 import schedule from './schedule-v1.json';
 import scheduleV2 from './schedule-v2.json';
+import koreanV3 from './schedule-korean-v3.json';
 // v2 appends reviewed answers from its own epoch; earlier dates keep v1 untouched.
 export const SCHEDULE_V2_EPOCH = scheduleV2.epoch;
+export const KOREAN_V3_EPOCH = koreanV3.epoch;
 
 // Immutable schedule data is independent of dictionaries and future editorial additions.
 export function scheduledPool(date: string, language: Language): readonly string[] {
+ if (language === 'ko' && date >= KOREAN_V3_EPOCH) return koreanV3.approved;
  if (date >= SCHEDULE_V2_EPOCH) return (scheduleV2.approved as Partial<Record<Language, readonly string[]>>)[language] ?? [];
  const pools: Partial<Record<Language, readonly string[]>> = date < ANSWER_POLICY_EPOCH ? schedule.legacy : schedule.approved;
  return pools[language] ?? [];
@@ -104,7 +107,8 @@ export function answerPool(date:string,language:Language,frozen:readonly string[
  if(date<ANSWER_POLICY_EPOCH)return frozen;
  const normalize=(word:string)=>word.normalize('NFC').toLocaleUpperCase(language === 'no' ? 'nb' : language === 'el' ? 'und' : language);
  const excluded=new Set((excludedAnswers[language] ?? []).map(normalize));
- const approved=new Set((approvedAnswers[language] ?? []).map(normalize));
+ const approvals=language === 'ko' && date >= KOREAN_V3_EPOCH ? koreanV3.approved : approvedAnswers[language] ?? [];
+ const approved=new Set(approvals.map(normalize));
  // Fail closed: unreviewed words and languages cannot supply new daily answers.
  return frozen.filter(word=>!isUnsafeAnswer(word,language) && !excluded.has(normalize(word)) && (date<APPROVED_ANSWERS_EPOCH || approved.has(normalize(word))));
 }

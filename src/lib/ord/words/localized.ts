@@ -1,6 +1,7 @@
 import packs from './packs.json';
 import { type Language } from '@/lib/i18n/languages';
 import { scheduledPool } from './answer-policy';
+import koreanV3 from './schedule-korean-v3.json';
 export interface WordPack { guesses: string[]; answers: string[] }
 export const wordPacks: Partial<Record<Language, WordPack>> = packs;
 const segmenter = new Intl.Segmenter(undefined, {granularity:'grapheme'});
@@ -10,7 +11,11 @@ export const uppercase = (word: string, language: Language) => language === 'el'
 const sets = new Map<Language, Set<string>>();
 export function acceptsWord(word: string, language: Language): boolean {
   let set = sets.get(language);
-  if (!set) { set = new Set((wordPacks[language]?.guesses ?? []).map(word => word.normalize('NFC'))); sets.set(language,set); }
+  if (!set) {
+    const additions = language === 'ko' ? koreanV3.additions.map(entry => entry.word) : [];
+    set = new Set([...(wordPacks[language]?.guesses ?? []), ...additions].map(word => word.normalize('NFC')));
+    sets.set(language,set);
+  }
   return set.has(word.normalize('NFC'));
 }
 export function localizedAnswer(date: string, language: Language): string | null {

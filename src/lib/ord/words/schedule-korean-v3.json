@@ -1,0 +1,1872 @@
+{
+  "epoch": "2026-11-20",
+  "language": "ko",
+  "approved": [
+    "업그레이드",
+    "시뮬레이션",
+    "디스플레이",
+    "다큐멘터리",
+    "라이브러리",
+    "오케스트라",
+    "하이라이트",
+    "프로그래머",
+    "베스트셀러",
+    "멀티미디어",
+    "프레임워크",
+    "애니메이션",
+    "아이스크림",
+    "다이아몬드",
+    "엘리베이터",
+    "아르바이트",
+    "프랜차이즈",
+    "플레이오프",
+    "피아니스트",
+    "카운트다운",
+    "아이스하키",
+    "하이파이브",
+    "무형문화재",
+    "롤러코스터",
+    "아쿠아리움",
+    "모터사이클",
+    "칼럼니스트",
+    "기타리스트",
+    "웨딩드레스",
+    "천연기념물",
+    "가이드라인",
+    "채식주의자",
+    "스토리텔링",
+    "포트폴리오",
+    "보컬리스트",
+    "엄지손가락",
+    "우주비행사",
+    "라디에이터",
+    "코디네이터",
+    "내비게이션",
+    "스트라이프",
+    "역사박물관",
+    "프리스타일",
+    "트라이앵글",
+    "자동변속기",
+    "전자레인지",
+    "가위바위보",
+    "애니메이터",
+    "외할아버지",
+    "스테인리스",
+    "장난꾸러기",
+    "소프트웨어",
+    "에스프레소",
+    "아메리카노",
+    "사다리타기",
+    "패스트푸드",
+    "가스레인지",
+    "가스보일러",
+    "개교기념일",
+    "개구리헤엄",
+    "결혼기념일",
+    "고기잡이배",
+    "고등어자반",
+    "고무줄놀이",
+    "고무지우개",
+    "고조할머니",
+    "고추잠자리",
+    "그물주머니",
+    "기름보일러",
+    "김치냉장고",
+    "김치볶음밥",
+    "나무젓가락",
+    "나비넥타이",
+    "나이트가운",
+    "녹음테이프",
+    "느타리버섯",
+    "늘푸른나무",
+    "달걀노른자",
+    "담쟁이덩굴",
+    "도라지나물",
+    "돋보기안경",
+    "동음이의어",
+    "두발자전거",
+    "레모네이드",
+    "막내며느리",
+    "메달리스트",
+    "모노드라마",
+    "목구멍소리",
+    "무척추동물",
+    "미니시리즈",
+    "밀크셰이크",
+    "바느질거리",
+    "바닷물고기",
+    "바바리코트",
+    "바지저고리",
+    "바짓가랑이",
+    "방울토마토",
+    "배냇저고리",
+    "버들강아지",
+    "베이비시터",
+    "보따리장수",
+    "빨랫방망이",
+    "새끼발가락",
+    "새끼손가락",
+    "색동저고리",
+    "생활필수품",
+    "서치라이트",
+    "세반고리관",
+    "세발자전거",
+    "셀프서비스",
+    "스노우보드",
+    "스케이트장",
+    "스테디셀러",
+    "스테이플러",
+    "스트라이커",
+    "스트라이크",
+    "스트레이트",
+    "손아랫사람",
+    "수건돌리기",
+    "순두부찌개",
+    "식기세척기",
+    "신발주머니",
+    "쓰레기봉투",
+    "아이스박스",
+    "아이스커피",
+    "양송이버섯",
+    "엄지발가락",
+    "옛날이야기",
+    "오래달리기",
+    "오른손잡이",
+    "오므라이스",
+    "오이소박이",
+    "외나무다리",
+    "우스갯소리",
+    "우편배달부",
+    "우편집배원",
+    "운전면허증",
+    "원반던지기",
+    "의붓아버지",
+    "의붓어머니",
+    "이동도서관",
+    "이삿짐센터",
+    "이십사절기",
+    "이야깃거리",
+    "이어달리기",
+    "인간문화재",
+    "일일생활권",
+    "자동판매기",
+    "자원봉사자",
+    "작은따옴표",
+    "작은며느리",
+    "작은아버지",
+    "작은어머니",
+    "작은할머니",
+    "전기면도기",
+    "전자계산기",
+    "전자오락실",
+    "전화번호부",
+    "제자리걸음",
+    "조개껍데기",
+    "조카며느리",
+    "종조할머니",
+    "주인아저씨",
+    "중고등학교",
+    "증조할머니",
+    "직업소개소",
+    "진공청소기",
+    "집게손가락",
+    "치마저고리",
+    "친정아버지",
+    "친정어머니",
+    "친할아버지",
+    "칠판지우개",
+    "카레라이스",
+    "카페테리아",
+    "캐스터네츠",
+    "캠프파이어",
+    "콘도미니엄",
+    "콘택트렌즈",
+    "크리스마스",
+    "테이블스푼",
+    "토마토케첩",
+    "트렌치코트",
+    "파라다이스",
+    "파운데이션",
+    "포크커틀릿",
+    "포환던지기",
+    "프라이버시",
+    "프로그래밍",
+    "플라타너스",
+    "행글라이더",
+    "헤드라이트",
+    "헤어스타일",
+    "화이트보드",
+    "화이트칼라",
+    "화재경보기",
+    "화학조미료",
+    "환경미화원",
+    "회오리바람",
+    "가만가만히",
+    "곧이곧대로",
+    "공명정대히",
+    "구구절절이",
+    "더더군다나",
+    "다양화하다",
+    "먹음직스레",
+    "물샐틈없이",
+    "성심성의껏",
+    "스스럼없이",
+    "시시때때로",
+    "정정당당히",
+    "주도면밀히",
+    "차근차근히",
+    "가느다랗다",
+    "가지런하다",
+    "간드러지다",
+    "감격스럽다",
+    "감탄스럽다",
+    "경사스럽다",
+    "경탄스럽다",
+    "고급스럽다",
+    "고즈넉하다",
+    "고풍스럽다",
+    "공공연하다",
+    "광범위하다",
+    "그럴듯하다",
+    "그럴싸하다",
+    "깜찍스럽다",
+    "나지막하다",
+    "높지막하다",
+    "다소곳하다",
+    "다정스럽다",
+    "다행스럽다",
+    "대견스럽다",
+    "덕성스럽다",
+    "로맨틱하다",
+    "만족스럽다",
+    "맛깔스럽다",
+    "먹음직하다",
+    "멋들어지다",
+    "명예스럽다",
+    "믿음직하다",
+    "바람직하다",
+    "바지런하다",
+    "반투명하다",
+    "발그레하다",
+    "부지런하다",
+    "비스듬하다",
+    "사랑스럽다",
+    "상냥스럽다",
+    "소담스럽다",
+    "소망스럽다",
+    "수더분하다",
+    "수두룩하다",
+    "순진스럽다",
+    "스마트하다",
+    "시원스럽다",
+    "신비스럽다",
+    "애교스럽다",
+    "양지바르다",
+    "어렴풋하다",
+    "어른스럽다",
+    "엇비슷하다",
+    "영광스럽다",
+    "예쁘장하다",
+    "오동통하다",
+    "용맹스럽다",
+    "우람스럽다",
+    "우직스럽다",
+    "위엄스럽다",
+    "가까워지다",
+    "가까이하다",
+    "가벼워지다",
+    "가라앉히다",
+    "가로지르다",
+    "가물거리다",
+    "가져다주다",
+    "고마워하다",
+    "귀여워하다",
+    "웃어넘기다",
+    "기웃거리다",
+    "꿈틀거리다",
+    "끄집어내다",
+    "끌어당기다",
+    "끌어올리다",
+    "끓어오르다",
+    "날아다니다",
+    "날아오르다",
+    "내려다보다",
+    "녹아내리다",
+    "눈여겨보다",
+    "늘어뜨리다",
+    "달아오르다",
+    "돌려보내다",
+    "돌아다니다",
+    "돌아다보다",
+    "되돌아가다",
+    "되돌아보다",
+    "되돌아오다",
+    "되살아나다",
+    "두근거리다",
+    "두드러지다",
+    "둘러싸이다",
+    "뒤돌아보다",
+    "들락거리다",
+    "들여다보다",
+    "따라나서다",
+    "따라다니다",
+    "떠내려가다",
+    "뛰어나오다",
+    "뛰어내리다",
+    "뛰어다니다",
+    "뛰쳐나가다",
+    "뛰쳐나오다",
+    "머뭇거리다",
+    "바라다보다",
+    "바래다주다",
+    "반짝거리다",
+    "받아들이다",
+    "북적거리다",
+    "불러들이다",
+    "뿌리내리다",
+    "서성거리다",
+    "솟아오르다",
+    "알아맞히다",
+    "알아차리다",
+    "어루만지다",
+    "어우러지다",
+    "오르내리다",
+    "올려다보다",
+    "이루어지다",
+    "잡아당기다",
+    "중얼거리다",
+    "즐거워하다",
+    "찾아다니다",
+    "튀어나오다",
+    "피어오르다",
+    "흘러나오다",
+    "흘러내리다",
+    "흥얼거리다",
+    "나누어지다",
+    "나들이하다",
+    "나붓거리다",
+    "나풀거리다",
+    "다독거리다",
+    "다듬어지다",
+    "다듬질하다",
+    "다림질하다",
+    "마무리되다",
+    "마무리하다",
+    "마스터하다",
+    "반가워하다",
+    "반들거리다",
+    "반올림하다",
+    "보글거리다",
+    "손세탁하다"
+  ],
+  "additions": [
+    {
+      "word": "가스레인지",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=14639",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "가스보일러",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=14640",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "개교기념일",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=23751",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "개구리헤엄",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=23727",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "결혼기념일",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=30402",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "고기잡이배",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=28087",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "고등어자반",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=23374",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "고무줄놀이",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=20138",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "고무지우개",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=20141",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "고조할머니",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=27191",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "고추잠자리",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=18361",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "그물주머니",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=33687",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "기름보일러",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=40033",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "김치냉장고",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=45141",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "김치볶음밥",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=89886",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "나무젓가락",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=17926",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "나비넥타이",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=38885",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "나이트가운",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=38901",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "녹음테이프",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=24245",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "느타리버섯",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=40459",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "늘푸른나무",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=41259",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "달걀노른자",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=20008",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "담쟁이덩굴",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=44205",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "도라지나물",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=47865",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "돋보기안경",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=48608",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "동음이의어",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=48627",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "두발자전거",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=45274",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "레모네이드",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=52275",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "막내며느리",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=49946",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "메달리스트",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=55522",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "모노드라마",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=55766",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "목구멍소리",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=55851",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "무척추동물",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=55176",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "미니시리즈",
+      "source": "http://opendict.korean.go.kr/dictionary/view?sense_no=702036",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "밀크셰이크",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=56660",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "바느질거리",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=56397",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "바닷물고기",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=56429",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "바바리코트",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=57571",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "바지저고리",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=90238",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "바짓가랑이",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=57540",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "방울토마토",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=58115",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "배냇저고리",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=58776",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "버들강아지",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=58923",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "베이비시터",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=58284",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "보따리장수",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=58332",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "빨랫방망이",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=61059",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "새끼발가락",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=62930",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "새끼손가락",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=62932",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "색동저고리",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=63674",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "생활필수품",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=62731",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "서치라이트",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=65567",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "세반고리관",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=70182",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "세발자전거",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=70183",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "셀프서비스",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=74834",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "스노우보드",
+      "source": "http://opendict.korean.go.kr/dictionary/view?sense_no=805275",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "스케이트장",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=65051",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "스테디셀러",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=65074",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "스테이플러",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=65078",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "스트라이커",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=65208",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "스트라이크",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=65210",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "스트레이트",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=65286",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "손아랫사람",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=63955",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "수건돌리기",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=64082",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "순두부찌개",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=93377",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "식기세척기",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=90715",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "신발주머니",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=65878",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "쓰레기봉투",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=66441",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "아이스박스",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=23116",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "아이스커피",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=23237",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "양송이버섯",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=17471",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "엄지발가락",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=67344",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "옛날이야기",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=68107",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "오래달리기",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=70168",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "오른손잡이",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=68101",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "오므라이스",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=68182",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "오이소박이",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=68066",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "외나무다리",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=68129",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "우스갯소리",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=69492",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "우편배달부",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=68972",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "우편집배원",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=89415",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "운전면허증",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=70817",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "원반던지기",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=69806",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "의붓아버지",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=71871",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "의붓어머니",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=71872",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "이동도서관",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=72078",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "이삿짐센터",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=71997",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "이십사절기",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=92458",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "이야깃거리",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=74009",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "이어달리기",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=76783",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "인간문화재",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=72950",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "일일생활권",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=72195",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "자동판매기",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=73949",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "자원봉사자",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=73568",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "작은따옴표",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=76096",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "작은며느리",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=76099",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "작은아버지",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=24830",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "작은어머니",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=24833",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "작은할머니",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=76139",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "전기면도기",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=74191",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "전자계산기",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=90317",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "전자오락실",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=74509",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "전화번호부",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=75120",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "제자리걸음",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=90768",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "조개껍데기",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=75570",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "조카며느리",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=75994",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "종조할머니",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=75952",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "주인아저씨",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=76997",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "중고등학교",
+      "source": "http://opendict.korean.go.kr/dictionary/view?sense_no=640527",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "증조할머니",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=91648",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "직업소개소",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=76738",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "진공청소기",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=76505",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "집게손가락",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=78370",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "치마저고리",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=79373",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "친정아버지",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=80590",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "친정어머니",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=80591",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "친할아버지",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=80622",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "칠판지우개",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=80719",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "카레라이스",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=80960",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "카페테리아",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=81002",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "캐스터네츠",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=83099",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "캠프파이어",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=83110",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "콘도미니엄",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=81242",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "콘택트렌즈",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=81248",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "크리스마스",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=32793",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "테이블스푼",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=80159",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "토마토케첩",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=80553",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "트렌치코트",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=82443",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "파라다이스",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=82224",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "파운데이션",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=82426",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "포크커틀릿",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=84717",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "포환던지기",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=84834",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "프라이버시",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=84487",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "프로그래밍",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=84495",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "플라타너스",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=84510",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "행글라이더",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=84972",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "헤드라이트",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=86988",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "헤어스타일",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=86979",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "화이트보드",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=87581",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "화이트칼라",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=87586",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "화재경보기",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=87600",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "화학조미료",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=87288",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "환경미화원",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=87273",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "회오리바람",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=88149",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "가만가만히",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=15377",
+      "partOfSpeech": "부사"
+    },
+    {
+      "word": "곧이곧대로",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=27701",
+      "partOfSpeech": "부사"
+    },
+    {
+      "word": "공명정대히",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=22884",
+      "partOfSpeech": "부사"
+    },
+    {
+      "word": "구구절절이",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=34925",
+      "partOfSpeech": "부사"
+    },
+    {
+      "word": "더더군다나",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=47370",
+      "partOfSpeech": "부사"
+    },
+    {
+      "word": "다양화하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=90472",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "먹음직스레",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=91161",
+      "partOfSpeech": "부사"
+    },
+    {
+      "word": "물샐틈없이",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=91201",
+      "partOfSpeech": "부사"
+    },
+    {
+      "word": "성심성의껏",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=64396",
+      "partOfSpeech": "부사"
+    },
+    {
+      "word": "스스럼없이",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=65079",
+      "partOfSpeech": "부사"
+    },
+    {
+      "word": "시시때때로",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=85270",
+      "partOfSpeech": "부사"
+    },
+    {
+      "word": "정정당당히",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=75905",
+      "partOfSpeech": "부사"
+    },
+    {
+      "word": "주도면밀히",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=75956",
+      "partOfSpeech": "부사"
+    },
+    {
+      "word": "차근차근히",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=88864",
+      "partOfSpeech": "부사"
+    },
+    {
+      "word": "가느다랗다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=28097",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "가지런하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=14193",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "간드러지다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=35651",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "감격스럽다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=15256",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "감탄스럽다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=22655",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "경사스럽다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=30559",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "경탄스럽다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=26038",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "고급스럽다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=28075",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "고즈넉하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=27214",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "고풍스럽다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=18386",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "공공연하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=19855",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "광범위하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=30964",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "그럴듯하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=37064",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "그럴싸하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=36286",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "깜찍스럽다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=37753",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "나지막하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=38918",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "높지막하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=91069",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "다소곳하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=40550",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "다정스럽다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=40586",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "다행스럽다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=41923",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "대견스럽다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=42225",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "덕성스럽다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=47414",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "로맨틱하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=52522",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "만족스럽다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=15837",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "맛깔스럽다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=51586",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "먹음직하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=54817",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "멋들어지다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=54984",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "명예스럽다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=55350",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "믿음직하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=57409",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "바람직하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=15806",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "바지런하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=57543",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "반투명하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=57629",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "발그레하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=56582",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "부지런하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=26500",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "비스듬하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=60659",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "사랑스럽다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=15851",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "상냥스럽다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=84076",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "소담스럽다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=63617",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "소망스럽다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=63460",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "수더분하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=64557",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "수두룩하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=64938",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "순진스럽다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=65129",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "스마트하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=65518",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "시원스럽다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=66008",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "신비스럽다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=65576",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "애교스럽다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=66383",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "양지바르다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=67229",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "어렴풋하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=70487",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "어른스럽다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=70494",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "엇비슷하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=67422",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "영광스럽다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=67673",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "예쁘장하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=68459",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "오동통하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=68303",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "용맹스럽다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=69234",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "우람스럽다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=68956",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "우직스럽다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=69397",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "위엄스럽다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=69636",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "가까워지다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=59888",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "가까이하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=28056",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "가벼워지다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=91176",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "가라앉히다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=14844",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "가로지르다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=15004",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "가물거리다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=14927",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "가져다주다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=62369",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "고마워하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=20015",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "귀여워하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=38317",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "웃어넘기다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=71438",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "기웃거리다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=38082",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "꿈틀거리다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=37883",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "끄집어내다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=37869",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "끌어당기다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=16270",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "끌어올리다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=38033",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "끓어오르다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=38114",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "날아다니다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=16552",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "날아오르다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=40857",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "내려다보다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=64372",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "녹아내리다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=40701",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "눈여겨보다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=41626",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "늘어뜨리다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=90894",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "달아오르다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=90901",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "돌려보내다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=92526",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "돌아다니다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=14793",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "돌아다보다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=64692",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "되돌아가다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=14923",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "되돌아보다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=14913",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "되돌아오다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=14917",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "되살아나다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=48193",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "두근거리다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=48261",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "두드러지다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=90705",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "둘러싸이다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=14984",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "뒤돌아보다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=58024",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "들락거리다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=49860",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "들여다보다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=64546",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "따라나서다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=50555",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "따라다니다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=15072",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "떠내려가다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=53770",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "뛰어나오다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=14448",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "뛰어내리다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=14452",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "뛰어다니다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=62374",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "뛰쳐나가다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=53915",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "뛰쳐나오다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=53916",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "머뭇거리다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=54791",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "바라다보다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=56473",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "바래다주다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=56520",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "반짝거리다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=15857",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "받아들이다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=69489",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "북적거리다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=59444",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "불러들이다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=60696",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "뿌리내리다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=62098",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "서성거리다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=63060",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "솟아오르다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=64480",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "알아맞히다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=66778",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "알아차리다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=66781",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "어루만지다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=70490",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "어우러지다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=67047",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "오르내리다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=21852",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "올려다보다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=22101",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "이루어지다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=71690",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "잡아당기다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=24754",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "중얼거리다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=26150",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "즐거워하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=27742",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "찾아다니다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=24912",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "튀어나오다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=82397",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "피어오르다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=85908",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "흘러나오다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=62351",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "흘러내리다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=89255",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "흥얼거리다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=89525",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "나누어지다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=92520",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "나들이하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=39413",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "나붓거리다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=38879",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "나풀거리다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=38931",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "다독거리다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=41722",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "다듬어지다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=63283",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "다듬질하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=63284",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "다림질하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=40525",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "마무리되다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=53972",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "마무리하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=53973",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "마스터하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=53995",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "반가워하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=56745",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "반들거리다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=56800",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "반올림하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=57175",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "보글거리다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=58582",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "손세탁하다",
+      "source": "https://krdict.korean.go.kr/dicSearch/SearchView?ParaWordNo=63800",
+      "partOfSpeech": "동사"
+    }
+  ],
+  "provenance": {
+    "source": "https://github.com/spellcheck-ko/hunspell-dict-ko",
+    "archiveSha256": "368d4d042b2d9e579e854f59f42eb323ef3752f2e3e13659e73ca4efd9f26cf0",
+    "retrieved": "2026-11-19",
+    "license": "CC-BY-SA-4.0",
+    "method": "Explicit selection of five NFC Hangul syllables from non-legacy data/entries/*.yaml; no generated inflections, proper names or known offensive senses. Existing answers preserved.",
+    "review": "AI editorial screening of dictionary headwords and definitions; independent native-speaker review remains required."
+  }
+}

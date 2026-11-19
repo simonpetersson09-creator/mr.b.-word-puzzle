@@ -3,7 +3,7 @@ import { answers } from './words/answers';
 import inflections from './words/inflections.json';
 import { acceptsWord, letters, localizedAnswer, uppercase, wordPacks } from './words/localized';
 import type { Language } from '@/lib/i18n/languages';
-import { scheduledPool, unsavedAnswerPool, SCHEDULE_V2_EPOCH } from './words/answer-policy';
+import { scheduledPool, unsavedAnswerPool, SCHEDULE_V2_EPOCH, KOREAN_V3_EPOCH } from './words/answer-policy';
 
 export type Mark = 'correct' | 'present' | 'absent';
 export interface Round { date: string; answer: string; guesses: string[]; language?: Language; slot?: number }
@@ -91,6 +91,10 @@ function v2Cycle(pool: readonly string[], language: Language, cycle: number): st
 export function rotationAnswer(date: string, language: Language, slot: number): string {
   const pool = unsavedAnswerPool(date, language);
   if (!pool.length) return '';
+  if (language === 'ko' && date >= KOREAN_V3_EPOCH) {
+    const index = (dayNumber(date) - dayNumber(KOREAN_V3_EPOCH)) * DAILY_WORDS + slot;
+    return koreanCycle(pool, Math.floor(index / pool.length))[index % pool.length] ?? '';
+  }
   if (date >= SCHEDULE_V2_EPOCH) {
     // Fresh v2 rotation; words played under v1 move to the end of its first cycle.
     const index = (dayNumber(date) - dayNumber(SCHEDULE_V2_EPOCH)) * DAILY_WORDS + slot;
@@ -99,6 +103,21 @@ export function rotationAnswer(date: string, language: Language, slot: number): 
   }
   const index = (dayNumber(date) - dayNumber(ROTATION_EPOCH)) * DAILY_WORDS + slot;
   return cycleOrder(pool, language, Math.floor(index / pool.length))[index % pool.length] ?? '';
+}
+function koreanCycle(pool: readonly string[], cycle: number): string[] {
+  const key = `ko-v3|${cycle}|${pool.length}`;
+  const hit = cycleCache.get(key); if (hit) return hit;
+  const gap = Math.floor(pool.length / 2);
+  const recent = new Set<string>();
+  if (cycle > 0) koreanCycle(pool, cycle - 1).slice(-gap).forEach(word => recent.add(word));
+  else for (let day = dayNumber('2026-11-12'); day < dayNumber(KOREAN_V3_EPOCH); day++) {
+    const date = new Date(day * 86400000).toISOString().slice(0, 10);
+    for (let slot = 0; slot < DAILY_WORDS; slot++) recent.add(newRound(date, 'ko', slot).answer);
+  }
+  const shuffled = shuffledCycle(pool, 'ko-v3', cycle);
+  const order = [...shuffled.filter(word => !recent.has(word)), ...shuffled.filter(word => recent.has(word))];
+  cycleCache.set(key, order);
+  return order;
 }
 export function newRound(date: string, language: Language = 'sv', slot = 0, excluded: string[] = []): Round {
   if (date >= ROTATION_EPOCH) return {date,answer:rotationAnswer(date,language,slot),guesses:[],...(language !== 'sv' ? {language} : {}),...(slot ? {slot} : {})};

@@ -1,4 +1,5 @@
 import type { Language } from '@/lib/i18n/languages';
+import koreanV3 from './schedule-korean-v3.json';
 
 // Frozen positive list (v1 + v2 additions appended): only these neutral candidates can become new answers.
 // Additions require editorial review; never automatically promote dictionary entries.
@@ -14825,6 +14826,7 @@ export const approvedAnswers: Partial<Record<Language, readonly string[]>> = {
   "テレパシー"
  ],
  "ko": [
+  ...koreanV3.additions.map(entry => entry.word),
   "업그레이드",
   "시뮬레이션",
   "디스플레이",

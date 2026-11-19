@@ -12,6 +12,7 @@ import sources from '@/lib/ord/words/README.md?raw';
 import guesses from '@/lib/ord/words/guesses.json';
 import inflections from '@/lib/ord/words/inflections.json';
 import packs from '@/lib/ord/words/packs.json';
+import koreanV3 from '@/lib/ord/words/schedule-korean-v3.json';
 import { answers } from '@/lib/ord/words/answers';
 import { useTranslation } from '@/lib/i18n';
 
@@ -20,7 +21,7 @@ export function WordLicenses() {
   const { t } = useTranslation();
   const [selected, setSelected] = useState('Sources & attribution');
   function download() {
-    const blob = new Blob([JSON.stringify({ documents, guesses, inflections, answers, packs })], { type: 'application/json' });
+    const blob = new Blob([JSON.stringify({ documents, guesses, inflections, answers, packs, koreanV3 })], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url; link.download = 'mr-b-word-puzzle-wordlists-licenses.json'; link.click();

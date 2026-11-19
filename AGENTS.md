@@ -34,6 +34,7 @@ use the editor.
 - Store all daily rounds in one device-local versioned snapshot with a recovery copy and a serialized native Preferences mirror; derive statistics from completed rounds to keep results idempotent across restarts and WebView eviction.
 - Retain immutable dated answer schedules and saved answers; app updates must not change already assigned puzzles.
 - Freeze schedules apart from dictionaries; changes need a new epoch to preserve assignments.
+- Use a language-scoped frozen expansion snapshot with dictionary provenance for later additions; its own epoch preserves every other language and historical rotation while the same entries extend guess validation and offline license export.
 - Use tested native Share/Clipboard adapters; cancellation is harmless and answers stay private.
 - Use native Vietnamese composition and bounded large keyboards; normalize after composition ends.
 - Retain failed commits in memory; reconcile native copies before retrying writes.
