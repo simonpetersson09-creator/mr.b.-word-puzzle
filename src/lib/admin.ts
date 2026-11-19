@@ -8,6 +8,19 @@ export interface AdminDay {
   average: number | null;
 }
 
+export const ADMIN_START_DAY = '2026-11-19';
+export function adminVisibleDays(days: AdminDay[]) {
+  return days.filter(day => day.day >= ADMIN_START_DAY).sort((a, b) => b.day.localeCompare(a.day));
+}
+
+export function adminRollingAverage(days: AdminDay[], day: string, key: 'played' | 'ios' | 'android' | 'finished' | 'wins') {
+  const start = new Date(`${day}T12:00:00Z`);
+  start.setUTCDate(start.getUTCDate() - 29);
+  const earliest = start.toISOString().slice(0, 10);
+  const rows = adminVisibleDays(days).filter(row => row.day >= earliest && row.day <= day);
+  return rows.length ? rows.reduce((sum, row) => sum + row[key], 0) / rows.length : null;
+}
+
 // Fixed-size digests avoid leaking the credential through early comparisons.
 export async function validAdminKey(provided: string, expected: string | undefined) {
   if (!expected || !provided || provided.length > 1024) return false;

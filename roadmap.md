@@ -1,4 +1,5 @@
 # Roadmap
+- [x] Statistik från 19 november 2026; äldre resultat bevaras men visas inte. Inloggning jämförd med Yatzy i bilder, kompakt tabell med medelvärden och summa anpassad till Word Puzzles verkliga uppgifter. Datumgräns, diagram och utloggning verifierade; fem admintester godkända.
 - [x] Admin enligt Yatzy utan profil: serverkontrollerat lösenord, 30 dagars registrerade appresultat, tabell och diagram. Fel/rätt lösenord, 30 rader, diagram och utloggning verifierade; 184 tester godkända. Appöppningar och annonsdiagnostik saknar mätunderlag i Word Puzzle och ingår inte.
 - [x] +300 koreanska ordboksord (totalt 356), eget fryst schema från 2026-11-20; fem stavelser, dubletter, källor, säkerhetsspärr och rotationsskydd testade. 181 tester godkända; ny gissning, vinst och omstart verifierade. Oberoende modersmålsgranskning kvar enligt nedan.
 - [x] Ny felkontroll: 174 tester godkända; rättat native-cache vid månadsbyte, namnuppdatering till sociala resultat och reservväg vid misslyckad native-språkavläsning. Mobilspel, sparat namn, vinst/HCP efter omstart och fyra skärmstorlekar verifierade utan aktuella körfel.

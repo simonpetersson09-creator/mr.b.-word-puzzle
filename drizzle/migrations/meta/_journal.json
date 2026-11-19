@@ -64,6 +64,13 @@
       "when": 1795116586769,
       "tag": "0008_word_admin_daily_stats",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1795117055019,
+      "tag": "0009_word_admin_start_november_19",
+      "breakpoints": true
     }
   ]
 }
