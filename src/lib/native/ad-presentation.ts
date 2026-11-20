@@ -18,7 +18,7 @@ export interface PresentationBridge {
 
 // The native deadline prevents a queued bridge call from presenting after timeout.
 // Once visible, never unlock a new word merely because the ad has taken a long time.
-export async function presentPreparedAd(bridge: PresentationBridge) {
+export async function presentPreparedAd(bridge: PresentationBridge, onShown?: () => void) {
   let visible=false, finished=false, closed=false;
   const handles: Array<{remove(): Promise<void>}> = [];
   const register = async (event: 'shown' | 'dismissed' | 'failed', callback: () => void) => {
@@ -27,7 +27,7 @@ export async function presentPreparedAd(bridge: PresentationBridge) {
   };
   try {
     await withDeadline(Promise.all([
-      register('shown',()=>{visible=true;}),
+      register('shown',()=>{if (!visible) { visible=true; try { onShown?.(); } catch { /* Diagnostics never block dismissal. */ } }}),
       register('dismissed',()=>{finished=true;}),
       register('failed',()=>{finished=true;}),
     ]),AD_START_TIMEOUT);

@@ -57,7 +57,7 @@ function Admin() {
   const maximum = Math.max(1, ...days.map(day => day.played));
   const mean = (day: string, key: 'played' | 'ios' | 'android' | 'finished' | 'wins') => adminRollingAverage(days, day, key)?.toLocaleString('sv-SE', { maximumFractionDigits: 1 }) ?? '—';
   const fmtDay = (day: string) => new Date(`${day}T12:00:00Z`).toLocaleDateString('sv-SE', { day: 'numeric', month: 'short', timeZone: 'Europe/Stockholm' });
-  const columns = ['Enheter som spelade', 'iPhone / Android', 'Färdiga ord totalt', 'Vinster', 'Vinst %', 'Snittpoäng'];
+  const columns = ['Enheter som spelade', 'iPhone / Android', 'Färdiga ord totalt', 'Vinster', 'Vinst %', 'Snittpoäng', 'Annonser', 'Annons iPhone / Android', 'Testannonser'];
   return <main className="yatzy-admin min-h-screen max-h-screen overflow-y-auto overscroll-contain bg-background text-foreground p-4 md:p-8">
     <header className="flex flex-wrap items-center justify-between gap-4 mb-4">
       <div><h1 className="text-xl font-semibold">{diagram ? 'Linjediagram – 19 november och hit' : '19 november och hit, per dag'}</h1>
@@ -83,10 +83,12 @@ function Admin() {
         <tbody>{days.map(day => <tr key={day.day} className="border-t border-border"><td className="px-2 py-1 whitespace-nowrap">{fmtDay(day.day)}</td>
           {(['played', 'ios', 'finished', 'wins'] as const).map(key => <td key={key} className="px-2 py-1 whitespace-nowrap text-right tabular-nums">{day[key]} <span className="text-muted-foreground">({mean(day.day, key)})</span>{key === 'ios' && <> / {day.android} <span className="text-muted-foreground">({mean(day.day, 'android')})</span></>}</td>)}
           <td className="px-2 py-1 text-right whitespace-nowrap">{adminWinPercent(day) === null ? '—' : `${adminWinPercent(day)} %`}</td><td className="px-2 py-1 text-right">{day.average?.toLocaleString('sv-SE', { maximumFractionDigits: 2 }) ?? '—'}</td>
+          <td className="px-2 py-1 text-right tabular-nums">{day.adShown ?? 0}</td><td className="px-2 py-1 text-right whitespace-nowrap tabular-nums">{day.adIos ?? 0} / {day.adAndroid ?? 0}</td><td className="px-2 py-1 text-right tabular-nums">{day.adTest ?? 0}</td>
         </tr>)}</tbody>
-        <tfoot className="bg-card font-medium"><tr className="border-t border-border">{['Summa', '—', '—', finished, wins, adminWinPercent({ finished, wins }) === null ? '—' : `${adminWinPercent({ finished, wins })} %`, '—'].map((value, index) => <td key={index} className="px-2 py-1.5 whitespace-nowrap text-right first:text-left">{value}</td>)}</tr></tfoot>
+        <tfoot className="bg-card font-medium"><tr className="border-t border-border">{['Summa', '—', '—', finished, wins, adminWinPercent({ finished, wins }) === null ? '—' : `${adminWinPercent({ finished, wins })} %`, '—', days.reduce((sum, day) => sum + (day.adShown ?? 0), 0), `${days.reduce((sum, day) => sum + (day.adIos ?? 0), 0)} / ${days.reduce((sum, day) => sum + (day.adAndroid ?? 0), 0)}`, days.reduce((sum, day) => sum + (day.adTest ?? 0), 0)].map((value, index) => <td key={index} className="px-2 py-1.5 whitespace-nowrap text-right first:text-left">{value}</td>)}</tr></tfoot>
       </table>
     </div>}
     <p className="text-xs text-muted-foreground mt-3">Registrerade ordresultat, inte alla appöppningar. Spelarnas lokala speldatum används. Enhetssummor visas inte eftersom samma enhet spelar flera dagar.</p>
+    <p className="text-xs text-muted-foreground mt-2">Annonser: bekräftat visade mellanannonser, inte bara försök. Testannonser räknas separat. Visningsdatum följer svensk tid. Loggningen kräver den nya appversionen; äldre visningar saknar underlag. AdMob ansvarar för intäktsstatistiken.</p>
   </main>;
 }

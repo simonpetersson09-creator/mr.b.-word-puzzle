@@ -177,6 +177,56 @@ export type Database = {
         }
         Relationships: []
       }
+      word_ad_devices: {
+        Row: {
+          device_id: string
+          token_hash: string
+        }
+        Insert: {
+          device_id: string
+          token_hash: string
+        }
+        Update: {
+          device_id?: string
+          token_hash?: string
+        }
+        Relationships: []
+      }
+      word_ad_displays: {
+        Row: {
+          device_id: string
+          displayed_at: string
+          is_test: boolean
+          platform: string
+          received_at: string
+          round_id: string
+        }
+        Insert: {
+          device_id: string
+          displayed_at: string
+          is_test: boolean
+          platform: string
+          received_at?: string
+          round_id: string
+        }
+        Update: {
+          device_id?: string
+          displayed_at?: string
+          is_test?: boolean
+          platform?: string
+          received_at?: string
+          round_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "word_ad_displays_device_id_fkey"
+            columns: ["device_id"]
+            isOneToOne: false
+            referencedRelation: "word_ad_devices"
+            referencedColumns: ["device_id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -259,6 +309,17 @@ export type Database = {
             Returns: Json
           }
       word_admin_daily_stats: { Args: never; Returns: Json }
+      word_record_ad_display: {
+        Args: {
+          p_device: string
+          p_displayed_at: string
+          p_platform: string
+          p_round: string
+          p_test: boolean
+          p_token: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never

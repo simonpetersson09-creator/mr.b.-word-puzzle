@@ -6,6 +6,10 @@ export interface AdminDay {
   finished: number;
   wins: number;
   average: number | null;
+  adShown?: number;
+  adIos?: number;
+  adAndroid?: number;
+  adTest?: number;
 }
 
 export const ADMIN_START_DAY = '2026-11-19';

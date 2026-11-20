@@ -2,6 +2,14 @@ import {describe,it,expect,vi,afterEach} from 'vitest';
 import {AD_START_TIMEOUT,presentPreparedAd} from './ad-presentation';
 describe('native result-exit presentation',()=>{
   afterEach(()=>vi.useRealTimers());
+  it('logs only the first confirmed Showed event, never a failed presentation',async()=>{
+    const events=new Map<string,()=>void>(),shown=vi.fn();
+    const listen=async(e:string,cb:()=>void)=>{events.set(e,cb);return{remove:async()=>{}};};
+    await presentPreparedAd({listen,show:async()=>{events.get('failed')?.();},isShowing:async()=>false,discard:async()=>{}},shown);
+    expect(shown).not.toHaveBeenCalled();
+    await presentPreparedAd({listen,show:async()=>{events.get('shown')?.();events.get('shown')?.();events.get('dismissed')?.();},isShowing:async()=>false,discard:async()=>{}},shown);
+    expect(shown).toHaveBeenCalledTimes(1);
+  });
   it('unblocks a stalled presentation bridge after eight seconds, before another round',async()=>{
     vi.useFakeTimers();const discard=vi.fn().mockResolvedValue(undefined),remove=vi.fn().mockResolvedValue(undefined);
     const work=presentPreparedAd({listen:async()=>({remove}),show:()=>new Promise(()=>{}),isShowing:async()=>false,discard});

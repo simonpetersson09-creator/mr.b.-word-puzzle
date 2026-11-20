@@ -3,9 +3,10 @@ import { readAdConsentChoices, type AdConsentChoices } from './ad-consent';
 import { AD_LOAD_TIMEOUT, AD_REQUEST_TIMEOUT, presentPreparedAd, withDeadline } from './ad-presentation';
 import { privacyOptionsRequired } from './privacy-status';
 import { androidAdUnit } from './android-config';
+import { recordAdDisplay, startAdDisplayLog } from './ad-display-log';
 
 export const AD_TTL = 45 * 60 * 1000;
-export interface AdAdapter { consent(): Promise<boolean>; prepare(): Promise<void>; show(): Promise<void>; discard?(): Promise<void> }
+export interface AdAdapter { consent(): Promise<boolean>; prepare(): Promise<void>; show(roundId?: string): Promise<void>; discard?(): Promise<void> }
 export function createDailyAds(adapter: AdAdapter, clock = Date.now) {
   let eligible=false, prepared: {roundId:string;at:number} | null=null;
   let pending: Promise<void> | null=null, pendingRound: string | null=null, generation=0;
@@ -30,7 +31,7 @@ export function createDailyAds(adapter: AdAdapter, clock = Date.now) {
       consumed.add(roundId);
       const inventory=prepared;prepared=null;
       if(!eligible || inventory?.roundId!==roundId || clock()-inventory.at>=AD_TTL)return;
-      try { await adapter.show(); } catch { /* Ads never control saved game results. */ }
+      try { await adapter.show(roundId); } catch { /* Ads never control saved game results. */ }
     },
     settled:()=>pending ?? Promise.resolve(),
     invalidate() { generation++;eligible=false;prepared=null;pendingRound=null; },
@@ -87,7 +88,7 @@ const adapter:AdAdapter={
   },
   async prepare(){const unit=adUnit();if(!module || !unit)throw new Error('unavailable');await module.AdMob.prepareInterstitial({adId:unit,isTesting:useTestAds()});},
   discard:discardInventory,
-  async show(){
+  async show(roundId){
     const mod=module,native=safety();if(!mod || !native || privacyChanging)return;
     await nativeDialog(()=>presentPreparedAd({
       listen:(event,cb)=>{
@@ -98,13 +99,14 @@ const adapter:AdAdapter={
       show:deadline=>native.showInterstitial({deadline}),
       isShowing:async()=>(await native.getWordPuzzleInterstitialState()).showing,
       discard:discardInventory,
-    }));
+    }, () => { if (roundId) recordAdDisplay(roundId, useTestAds()); }));
   },
 };
 export const dailyAds=createDailyAds(adapter);
 let initialization:Promise<void>|null=null;
 let initialized=false;
 export function initializeAds(){
+  startAdDisplayLog();
   if(initialized)return Promise.resolve();
   if(!initialization)initialization=dailyAds.initialize().then(ok=>{initialized=ok;}).finally(()=>{initialization=null;});
   return initialization;
