@@ -9,7 +9,7 @@ import { friendToday, type Friend } from '@/lib/friends';
 export function FriendResults({person,day,language,busy,onRemove,onBlock,test=false}:{person:Friend;day:string;language:Language;busy:boolean;onRemove:()=>void;onBlock?:()=>void;test?:boolean}) {
   const text=friendCopy(language);
   const today=friendToday(person,day);
-  const number=new Intl.NumberFormat(language==='no'?'nb':language,{minimumFractionDigits:1,maximumFractionDigits:1});
+  const number=new Intl.NumberFormat(language==='no'?'nb':language,{minimumFractionDigits:2,maximumFractionDigits:2});
   return <article className="friend-player">
     <div className="friend-player-heading">
       <span className="friend-avatar" aria-hidden="true">{person.name.slice(0,1).toLocaleUpperCase()}</span>
