@@ -1,10 +1,12 @@
 import { createHash } from 'node:crypto';
-import { readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
 const publicDir = 'android/app/src/main/assets/public';
 const sourceDirs = ['src', 'native-shell', 'scripts', 'resources/android', 'dist-native', publicDir];
 const sourceFiles = ['android/app/src/main/assets/capacitor.config.json', 'android/app/src/main/assets/capacitor.plugins.json', 'android/app/build.gradle', 'android/build.gradle', 'android/variables.gradle', 'android/capacitor.settings.gradle', 'android/app/capacitor.build.gradle', 'android/app/src/main/AndroidManifest.xml', 'android/app/src/main/java/com/mrb/wordpuzzle/MainActivity.java', 'capacitor.config.ts', 'vite.native.config.ts', 'package.json', 'bun.lock'];
+const optionalFiles = ['package-lock.json', 'android/gradlew', 'android/gradlew.bat', 'android/gradle/wrapper/gradle-wrapper.jar', 'android/gradle/wrapper/gradle-wrapper.properties', 'android/gradle.properties', 'android/settings.gradle'];
+const nativePackages = ['@capacitor/android', '@capacitor-community/admob', '@capacitor/app', '@capacitor/clipboard', '@capacitor/device', '@capacitor/haptics', '@capacitor/preferences', '@capacitor/share'];
 
 export function packageFiles(root = '.', dir) {
   return readdirSync(join(root, dir), { withFileTypes: true }).flatMap(entry => {
@@ -14,7 +16,18 @@ export function packageFiles(root = '.', dir) {
 }
 const sha = (root, path) => createHash('sha256').update(readFileSync(join(root, path))).digest('hex');
 export function androidPackageHashes(root = '.') {
-  const paths = [...sourceDirs.flatMap(dir => packageFiles(root, dir)), ...sourceFiles].sort();
+  const installed = nativePackages.flatMap(name => {
+    const base = `node_modules/${name}`;
+    return [
+      ...['android', ...(name === '@capacitor/android' ? ['capacitor'] : [])].flatMap(dir => {
+        const path = `${base}/${dir}`;
+        // Ignore machine-specific build output: only distributable plugin inputs belong in receipts.
+        return existsSync(join(root, path)) ? packageFiles(root, path).filter(file => !/\/(build|\.gradle)\//.test(file)) : [];
+      }),
+      ...(existsSync(join(root, `${base}/package.json`)) ? [`${base}/package.json`] : []),
+    ];
+  });
+  const paths = [...sourceDirs.flatMap(dir => packageFiles(root, dir)), ...sourceFiles, ...optionalFiles.filter(path => existsSync(join(root, path))), ...installed].sort();
   return Object.fromEntries(paths.map(path => [path, sha(root, path)]));
 }
 export function verifyAndroidPackage(receipt, root = '.') {

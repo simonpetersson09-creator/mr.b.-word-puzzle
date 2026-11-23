@@ -1,5 +1,7 @@
 import {readFileSync} from 'node:fs';
-const production=JSON.parse(readFileSync('src/lib/native/android-admob.json','utf8'));
+import {join} from 'node:path';
+import {projectRoot} from './android-tools.mjs';
+const production=JSON.parse(readFileSync(join(projectRoot,'src/lib/native/android-admob.json'),'utf8'));
 export const ANDROID_PACKAGE = 'com.mrb.wordpuzzle';
 export const TEST_APP_ID = 'ca-app-pub-3940256099942544~3347511713';
 export const TEST_INTERSTITIAL_ID = 'ca-app-pub-3940256099942544/1033173712';

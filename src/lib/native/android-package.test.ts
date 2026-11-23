@@ -44,6 +44,22 @@ describe('Android offline release package',()=>{
     const saved=receipt(root);write('android/app/capacitor.build.gradle','wrong plugins');
     expect(()=>verifyAndroidPackage(saved,root)).toThrow('Native package stale');
   }));
+  it('rejects changed installed native plugin source after sync',()=>fixture((root,write)=>{
+    write('node_modules/@capacitor-community/admob/android/src/main/java/AdMob.java','patched');
+    const saved=receipt(root);
+    write('node_modules/@capacitor-community/admob/android/src/main/java/AdMob.java','reinstalled unpatched');
+    expect(()=>verifyAndroidPackage(saved,root)).toThrow('Native package stale');
+  }));
+  it('rejects changed npm lockfile after sync',()=>fixture((root,write)=>{
+    write('package-lock.json','locked dependencies');
+    const saved=receipt(root);write('package-lock.json','new dependencies');
+    expect(()=>verifyAndroidPackage(saved,root)).toThrow('Native package stale');
+  }));
+  it('rejects changed Gradle wrapper after sync',()=>fixture((root,write)=>{
+    write('android/gradle/wrapper/gradle-wrapper.properties','8.14.3');
+    const saved=receipt(root);write('android/gradle/wrapper/gradle-wrapper.properties','wrong version');
+    expect(()=>verifyAndroidPackage(saved,root)).toThrow('Native package stale');
+  }));
   it('rejects obsolete extra bundled assets',()=>fixture((root,write)=>{
     write('android/app/src/main/assets/public/assets/obsolete.js','old code');
     expect(()=>verifyAndroidPackage(receipt(root),root)).toThrow('stale files');

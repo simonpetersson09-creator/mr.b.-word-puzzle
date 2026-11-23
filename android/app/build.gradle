@@ -4,6 +4,7 @@ def wordPuzzleAds = new groovy.json.JsonSlurper().parse(file('../../src/lib/nati
 android {
     namespace = "com.mrb.wordpuzzle"
     compileSdk = rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_21
         targetCompatibility JavaVersion.VERSION_21
