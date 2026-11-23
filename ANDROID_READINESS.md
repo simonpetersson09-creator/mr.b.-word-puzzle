@@ -20,7 +20,7 @@ bun run native:verify:android -- --synced
 bun run native:open:android
 ```
 
-`native:sync:android` bygger den senaste lokala webbdelen, patchar Android-pluginen, synkar sju plugins och återställer Word Puzzle-bilder. Använd detta kommando, inte ett fristående `cap sync android`: kommandot väljer Androids separata paketnamn. iOS-kommandona är kvar.
+`native:sync:android` bygger den senaste lokala webbdelen, patchar Android-pluginen, synkar plugins och återställer Word Puzzle-bilder. Använd detta kommando för ett komplett verifierat paket. Även ett direkt `cap sync android` väljer nu Androids separata paketnamn, men skapar inget nytt verifieringskvitto. `cap sync ios` väljer alltid iOS även om Android-miljövariabeln är kvar. Plattformslösa synkkommandon avvisas för att förhindra att samma identitet skrivs till båda apparna. iOS-kommandona är kvar.
 
 För en test-APK:
 ```sh
@@ -45,7 +45,7 @@ bun run native:sync:android -- --release
 bun run native:verify:android -- --synced --release
 bun run native:bundle:android
 ```
-Sista kommandot försöker skapa en **osignerad** AAB i `android/app/build/outputs/bundle/release/`. Det vägrar utan egna annonsvärden eller om källor/synkpaket har ändrats sedan synken. Ingen signeringsnyckel eller signeringskonfiguration har skapats.
+Sista kommandot försöker skapa en **osignerad** AAB i `android/app/build/outputs/bundle/release/`. Det vägrar utan egna annonsvärden eller om källor/synkpaket har ändrats sedan synken. Kontrollversion 2 verifierar paketidentitet, samtliga källfiler, plugin-konfiguration och hela offlinepaketet, inte bara HTML-filen; även tillagda/borttagna filer och gamla extra paketresurser avvisas. Äldre kvitton kräver en ny synk. Ingen signeringsnyckel eller signeringskonfiguration har skapats.
 
 ## Återstår inför signerad AAB
 1. Konfigurera och kontrollera Googles UMP-meddelande för Word Puzzles Android-app i AdMob. Egna ID:n är nu inlagda; AdMob-kontots meddelandestatus har inte verifierats här.
@@ -57,6 +57,12 @@ Sista kommandot försöker skapa en **osignerad** AAB i `android/app/build/outpu
 7. Google Play: butiksmaterial, integritetspolicy, datasäkerhet inklusive AdMob och delade vän-/rankningsdata, annonser, målgrupp/åldersklassning och erforderlig testperiod.
 
 Ingen app har publicerats. Ingen APK/AAB-kompilering eller fysisk Android-verifiering är genomförd här. Befintliga lokala sparnycklar är oförändrade; Android har separat lagring och importerar inte iPhone-historik. Avinstallation/datarensning kan radera lokala resultat.
+
+## Konfigurationskontroll 2026-11-23
+- Rättat identiteten även för direkta Capacitor Android-kommandon; uttrycklig iOS-plattform går före ärvda miljövärden. Gradles befintliga `applicationId` och `namespace` är redan `com.mrb.wordpuzzle` och har inte ändrats.
+- Offlinepaketeringen tog tidigare oavsiktligt med webbadministration och dess serverkod, vilket stoppade Android-synken. Native-paketeringen använder nu samma oförändrade spelsida via ett separat spelträd, utan adminsidan. Webbadmin och iOS-projektet ändras inte.
+- Synkpaketets kvitto är lokalt genererat; det måste förnyas efter ändringar. Releasekontrollen verifierar fullständiga filuppsättningar och motsvarande kopierade resurser.
+- Test- och release-synk godkända; direkt `cap sync android` utan plattformsmiljövariabel behåller korrekt identitet och klarar efterföljande releasekontroll. 206 tester passerar. Faktiska kopierade Android-webbfiler öppnades utan nätåtkomst; gissningen KANEL godkändes och fanns kvar efter omladdning utan sidfel. Detta är inte en körning i Androids WebView eller en APK/AAB-kompilering; Java 21/SDK 36 och fysisk telefon saknas här. iOS-källkontroller passerar och iOS-projektfilerna är orörda.
 
 ## Verifierat 2026-11-16
 - 156 automatiska tester godkända, inklusive exakta Android-release-ID:n, test/release-separering, UMP före annonsbegäran, nekad behörighet, verkliga ändamålsval, ändrade annonsval, ingen ATT på Android, tre separata resultatutgångar, dubbeltryck och utebliven/misslyckad annons. Android-bryggan simulerades; faktisk SDK-körning på telefon är inte verifierad.

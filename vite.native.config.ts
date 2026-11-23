@@ -6,6 +6,7 @@ import { resolve } from 'node:path';
 const nativeModules: Plugin = {
   name: 'ord-native-modules', enforce: 'pre',
   resolveId(source, importer) {
+    if (source === './routeTree.gen' && importer?.endsWith('/src/router.tsx')) return resolve('src/native/route-tree.ts');
     if (source === './routes/__root' && importer?.endsWith('routeTree.gen.ts')) return resolve('src/native/root.tsx');
     return null;
   },

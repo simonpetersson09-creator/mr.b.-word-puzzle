@@ -1,8 +1,7 @@
 import {spawnSync} from 'node:child_process';
-import {existsSync,readFileSync,readdirSync,writeFileSync} from 'node:fs';
-import {join} from 'node:path';
-import {createHash} from 'node:crypto';
+import {existsSync,writeFileSync} from 'node:fs';
 import {androidAdsConfig} from './android-ads-config.mjs';
+import {androidPackageHashes} from './android-package.mjs';
 const action=process.argv[2] ?? 'sync';
 const release=process.argv.includes('--release') || action==='bundle';
 const env={...process.env,MRB_NATIVE_PLATFORM:'android',VITE_MRB_ANDROID_ADS_RELEASE:release?'true':'false'};
@@ -11,7 +10,6 @@ function run(cmd,args,cwd) {
   if(result.error)throw result.error;
   if(result.status!==0)process.exit(result.status || 1);
 }
-function files(dir) { return readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?files(join(dir,e.name)):[join(dir,e.name)]); }
 try {
   if(!['sync','open','build','bundle'].includes(action))throw new Error('Use sync, open, build or bundle');
   const ads=androidAdsConfig(env,release);
@@ -28,9 +26,8 @@ try {
   if(!existsSync('android'))run('bunx',['cap','add','android']);
   run('bunx',['cap','sync','android']);
   run('node',['scripts/set-android-resources.mjs']);
-  const inputs=[...files('src'),...files('native-shell'),...files('scripts'),...files('resources/android'),...files('android/app/src/main/assets/public'),'android/app/src/main/assets/capacitor.config.json','android/app/build.gradle','android/variables.gradle','android/app/src/main/AndroidManifest.xml','capacitor.config.ts','vite.native.config.ts','package.json','bun.lock'];
-  const hashes=Object.fromEntries(inputs.map(p=>[p,createHash('sha256').update(readFileSync(p)).digest('hex')]));
-  writeFileSync('android/sync-receipt.json',JSON.stringify({appId:ads.appId,interstitialId:ads.interstitialId,adsEnabled:ads.configured,release,hashes},null,2));
+  const hashes=androidPackageHashes();
+  writeFileSync('android/sync-receipt.json',JSON.stringify({version:2,packageId:'com.mrb.wordpuzzle',appId:ads.appId,interstitialId:ads.interstitialId,adsEnabled:ads.configured,release,hashes},null,2));
   run('node',['scripts/verify-android.mjs','--synced',...(release?['--release']:[])]);
   if(action==='open')run('bunx',['cap','open','android']);
   if(action==='build')run(process.platform==='win32'?'gradlew.bat':'./gradlew',['assembleDebug'],'android');

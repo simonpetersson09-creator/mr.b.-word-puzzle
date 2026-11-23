@@ -2,6 +2,7 @@ import {existsSync,readFileSync,readdirSync} from 'node:fs';
 import {join} from 'node:path';
 import {createHash} from 'node:crypto';
 import {androidAdsConfig} from './android-ads-config.mjs';
+import {verifyAndroidPackage} from './android-package.mjs';
 const release=process.argv.includes('--release'),synced=process.argv.includes('--synced');
 const read=p=>readFileSync(p,'utf8');
 const assert=(valid,message)=>{if(!valid)throw new Error(message);};
@@ -26,12 +27,10 @@ try {
   }
   const ads=androidAdsConfig(process.env,release);
   if(synced || release) {
-    const config=JSON.parse(read('android/app/src/main/assets/capacitor.config.json'));
-    assert(config.appId==='com.mrb.wordpuzzle' && !config.server,'Android must load own offline bundle');
+    assert(existsSync('android/sync-receipt.json'),'Android sync receipt missing; run native:sync:android first');
     const receipt=JSON.parse(read('android/sync-receipt.json'));
     assert(receipt.appId===ads.appId && receipt.interstitialId===ads.interstitialId && receipt.adsEnabled===ads.configured && receipt.release===release,'Ad configuration or release mode changed since last sync');
-    for(const [path,hash] of Object.entries(receipt.hashes))assert(sha(path)===hash,`Native package stale: ${path}; repeat native:sync:android`);
-    assert(sha('dist-native/index.html')===sha('android/app/src/main/assets/public/index.html'),'Local Android package stale');
+    verifyAndroidPackage(receipt);
     const code=readdirSync('android/app/src/main/assets/public/assets').filter(f=>f.endsWith('.js')).map(f=>read('android/app/src/main/assets/public/assets/'+f)).join('\n');
     if(release)assert(code.includes(ads.interstitialId),'Production Android ad unit absent from bundle');
   }

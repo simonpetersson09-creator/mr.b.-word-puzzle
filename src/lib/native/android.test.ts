@@ -2,11 +2,46 @@ import {describe,it,expect,vi} from 'vitest';
 import {readFileSync} from 'node:fs';
 import {androidAdUnit,ANDROID_TEST_INTERSTITIAL,ANDROID_ADMOB} from './android-config';
 import {createAndroidBackHandler} from './android-back';
+import {nativePlatform} from '../../../capacitor.config';
 // @ts-expect-error Build-time scripts are JavaScript.
 import {androidAdsConfig} from '../../../scripts/android-ads-config.mjs';
 // @ts-expect-error Native patch scripts are JavaScript.
 import {patchAndroidExecutor,patchAndroidCallback} from '../../../scripts/patch-admob-android-safety.mjs';
 describe('Android release preparation',()=>{
+  it('selects com.mrb.wordpuzzle for direct Capacitor Android commands',async()=>{
+    const oldArgs=process.argv;
+    const oldPlatform=process.env['MRB_NATIVE_PLATFORM'];
+    try {
+      delete process.env['MRB_NATIVE_PLATFORM'];
+      for(const command of ['sync','copy','update','add','open','run','build']) {
+        process.argv=['node','cap',command,'android'];vi.resetModules();
+        expect((await import('../../../capacitor.config')).default).toMatchObject({appId:'com.mrb.wordpuzzle',webDir:'dist-native'});
+      }
+    }finally{process.argv=oldArgs;if(oldPlatform===undefined)delete process.env['MRB_NATIVE_PLATFORM'];else process.env['MRB_NATIVE_PLATFORM']=oldPlatform;vi.resetModules();}
+  });
+  it('keeps se.shiningdays.mrbwordpuzzle for explicit iOS sync despite inherited Android env',async()=>{
+    const oldArgs=process.argv;
+    const oldPlatform=process.env['MRB_NATIVE_PLATFORM'];
+    try {
+      process.argv=['node','cap','sync','ios'];process.env['MRB_NATIVE_PLATFORM']='android';vi.resetModules();
+      expect((await import('../../../capacitor.config')).default).toMatchObject({appId:'se.shiningdays.mrbwordpuzzle',ios:{contentInset:'never'}});
+      expect((await import('../../../capacitor.config')).default.plugins).toBeUndefined();
+    }finally{process.argv=oldArgs;if(oldPlatform===undefined)delete process.env['MRB_NATIVE_PLATFORM'];else process.env['MRB_NATIVE_PLATFORM']=oldPlatform;vi.resetModules();}
+  });
+  it('rejects unscoped Capacitor sync instead of writing one identity to both platforms',()=>{
+    expect(()=>nativePlatform(['node','cap','sync'])).toThrow('Choose a platform explicitly');
+  });
+  it('does not mistake Vite packaging or the Android wrapper for a Capacitor command',()=>{
+    expect(nativePlatform(['node','vite','build','--config','vite.native.config.ts'],'android')).toBe('android');
+    expect(nativePlatform(['node','scripts/android.mjs','sync'],'android')).toBe('android');
+    expect(nativePlatform(['node','C:\\tools\\capacitor','sync','android'])).toBe('android');
+  });
+  it('keeps Gradle namespace and applicationId exactly com.mrb.wordpuzzle',()=>{
+    const gradle=readFileSync('android/app/build.gradle','utf8');
+    expect(gradle).toContain('applicationId "com.mrb.wordpuzzle"');
+    expect(gradle).toContain('namespace = "com.mrb.wordpuzzle"');
+    expect(gradle).not.toContain('applicationIdSuffix');
+  });
   it('uses com.mrb.wordpuzzle without changing the default iOS identity',async()=>{
     const old=process.env['MRB_NATIVE_PLATFORM'];
     try {
