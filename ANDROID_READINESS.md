@@ -30,6 +30,7 @@ För en test-APK:
 npm run native:build:android
 ```
 Utdata: `android/app/build/outputs/apk/debug/app-debug.apk`. Detta är inte en Google Play-release.
+`native:build:android -- --release` avvisas före paketering: test-APK får aldrig innehålla ett releaseförberett klientpaket. Använd bundle-kommandot för release.
 
 ## Android-annonsvärden
 Ägarens angivna Android-ID:n finns i `src/lib/native/android-admob.json`, gemensamt för klient och Gradle:
@@ -53,6 +54,17 @@ För att enbart förbereda release inför Android Studio:
 npm run native:open:android -- --release
 ```
 Vanlig öppning/debug-synk använder fortfarande testannonser. Direkt Gradle Release kräver ett aktuellt releasekvitto. Node måste finnas i Android Studios processmiljö för denna kontroll; starta Studio via projektets öppningskommando vid behov.
+Även direkt Gradle/Studio **Debug** kontrollerar ett aktuellt testpaket. Efter releaseförberedelse måste vanlig `native:sync:android` köras före debugbygge; inget behöver ändras i koden.
+
+## Kontroll av samtliga byggvägar
+Regel: Android ska alltid använda sin egen identitet och rätt, aktuellt offlinepaket för test respektive release.
+- npm-installation/postinstall, projektets sync/open/build/bundle/doctor och direkta synk-hooks: kod läst; ren installation, test/release-synk och kontroller körda. SDK/JDK-kontroll finns före kompilering.
+- Direkt Capacitor copy/update: kod läst; dessa är partiella operationer, inte full paketering. Efter ändringar krävs full synk. Både Gradle Debug och Release avvisar inaktuella/variantfelaktiga paket.
+- Direkt Capacitor run: kod läst; vanlig körning anropar synk-hooks. `--no-sync` omfattas fortfarande av Gradles paketkontroll.
+- Direkt Capacitor build och Android Studio/Gradle: kod läst; build går direkt till Gradle. Båda varianterna har paketkontroll. Inbyggd Capacitor-signering lämnas oförändrad och har inte körts.
+- Vite/native-start/spelträd, resurskopiering, pluginpatchning, wrapper/SDK-konfiguration och filkvitton: kod läst; offlinepaketering och sparad gissning efter omladdning körda. Webbadmin/serverfunktioner ingår inte i native-spelträdet; databasfunktioner utför ingen Android-paketering och har inte ändrats.
+- Två syskonfel rättade: releaseflagga på test-APK samt avsaknad av Debug-kontroll vid direkt Gradle/Studio. **217 tester passerar**; båda felaktiga test/release-kombinationerna avvisades vid faktisk kontroll.
+- Kvar lokalt: Gradle-kompilering, osignerad/signerad AAB, Studio-/telefontest, faktisk UMP/annonsleverans och iOS-synk/arkivering. SDK/JDK, telefoner, ägarens signering och AdMob-konto saknas här. iOS, app-ID:n, versioner, speldata och annonser är oförändrade.
 
 ## Återstår inför signerad AAB
 1. Konfigurera och kontrollera Googles UMP-meddelande för Word Puzzles Android-app i AdMob. Egna ID:n är nu inlagda; AdMob-kontots meddelandestatus har inte verifierats här.

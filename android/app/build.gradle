@@ -56,13 +56,15 @@ dependencies {
 apply from: 'capacitor.build.gradle'
 
 // Release signing is intentionally absent; supply the owner's upload key externally.
-// Prevent Android Studio/direct Gradle from accidentally shipping a stale or test bundle.
+// Both variants require a current matching offline bundle, including direct Studio/Gradle runs.
 tasks.configureEach { task ->
-    if (task.name == 'preReleaseBuild') {
+    if (task.name == 'preReleaseBuild' || task.name == 'preDebugBuild') {
         task.doFirst {
             exec {
                 workingDir rootProject.projectDir.parentFile
-                commandLine 'node', 'scripts/verify-android.mjs', '--synced', '--release'
+                def verifyArgs = ['node', 'scripts/verify-android.mjs', '--synced']
+                if (task.name == 'preReleaseBuild') verifyArgs.add('--release')
+                commandLine verifyArgs
             }
         }
     }

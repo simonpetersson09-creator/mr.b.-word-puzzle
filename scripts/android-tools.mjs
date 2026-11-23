@@ -14,6 +14,9 @@ export function checkNode(version = process.versions.node) {
   const [major = 0, minor = 0] = version.split('.').map(Number);
   if (major < 22 || (major === 22 && minor < 12)) throw new Error('Node 22.12+ required by Vite and Capacitor.');
 }
+export function checkAndroidBuildMode(action, release) {
+  if (action === 'build' && release) throw new Error('native:build:android creates a test APK; use native:bundle:android for release.');
+}
 export function javaMajor(output) {
   return Number(output.match(/(?:openjdk|java) version "(\d+)/)?.[1] ?? 0);
 }

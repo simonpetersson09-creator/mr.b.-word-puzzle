@@ -3,9 +3,20 @@ import { mkdtempSync, mkdirSync, writeFileSync, rmSync, readFileSync } from 'nod
 import { join, dirname } from 'node:path';
 import { tmpdir } from 'node:os';
 // @ts-expect-error Build-time JavaScript helpers do not enter the application.
-import { checkNode, javaMajor, localSdk, androidEnvironment } from '../../../scripts/android-tools.mjs';
+import { checkNode, checkAndroidBuildMode, javaMajor, localSdk, androidEnvironment } from '../../../scripts/android-tools.mjs';
 
 describe('Android build tool prerequisites', () => {
+  it('never builds a debug APK from release preparation', () => {
+    expect(() => checkAndroidBuildMode('build', true)).toThrow('test APK');
+    expect(() => checkAndroidBuildMode('build', false)).not.toThrow();
+    expect(() => checkAndroidBuildMode('bundle', true)).not.toThrow();
+  });
+  it('guards both direct Gradle debug and release builds with variant-matched verification', () => {
+    const gradle = readFileSync('android/app/build.gradle', 'utf8');
+    expect(gradle).toContain("task.name == 'preReleaseBuild' || task.name == 'preDebugBuild'");
+    expect(gradle).toContain("if (task.name == 'preReleaseBuild') verifyArgs.add('--release')");
+    expect(gradle).toContain('commandLine verifyArgs');
+  });
   it('requires Node 22.12 or later', () => {
     expect(() => checkNode('22.11.0')).toThrow('22.12');
     expect(() => checkNode('22.12.0')).not.toThrow();

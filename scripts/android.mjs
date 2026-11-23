@@ -1,6 +1,6 @@
 import {existsSync} from 'node:fs';
 import {androidAdsConfig} from './android-ads-config.mjs';
-import {androidEnvironment,checkNode,projectRoot,runNode,runGradle} from './android-tools.mjs';
+import {androidEnvironment,checkNode,checkAndroidBuildMode,projectRoot,runNode,runGradle} from './android-tools.mjs';
 const action=process.argv[2] ?? 'sync';
 const release=process.argv.includes('--release') || action==='bundle';
 let env={...process.env,MRB_NATIVE_PLATFORM:'android',VITE_MRB_ANDROID_ADS_RELEASE:release?'true':'false'};
@@ -8,6 +8,7 @@ try {
   process.chdir(projectRoot);
   checkNode();
   if(!['sync','open','build','bundle','doctor'].includes(action))throw new Error('Use sync, open, build, bundle or doctor');
+  checkAndroidBuildMode(action,release);
   if(['build','bundle','doctor'].includes(action))env=androidEnvironment(env);
   if(action==='doctor') {console.log('Android environment ready: Node, JDK 21, SDK 36, Build Tools 36.0.0 and Platform Tools.');process.exit(0);}
   const ads=androidAdsConfig(env,release);
