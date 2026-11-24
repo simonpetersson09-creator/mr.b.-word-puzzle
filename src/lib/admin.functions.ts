@@ -1,13 +1,20 @@
 import { createServerFn } from '@tanstack/react-start';
 import { getRequestHeader, setResponseHeader } from '@tanstack/react-start/server';
-import { validAdminKey, type AdminDay } from './admin';
+import { validAdminKey, validHubToken, type AdminDay } from './admin';
 
 export const loadAdminStats = createServerFn({ method: 'POST' }).handler(async () => {
   setResponseHeader('Cache-Control', 'no-store');
-  const expected = process.env['ADMIN_API_KEY'];
-  if (!expected) return { days: null, error: 'Adminlösenord har inte konfigurerats.' };
-  if (!await validAdminKey(getRequestHeader('x-admin-key') ?? '', expected)) {
-    return { days: null, error: 'Adminlösenordet godkändes inte.' };
+  const hubToken = getRequestHeader('x-admin-hub-token');
+  if (hubToken !== undefined) {
+    if (!await validHubToken(hubToken, process.env['HUB_SHARED_SECRET'])) {
+      return { days: null, error: 'Hubbinloggningen godkändes inte. Öppna admin igen från MrB. Admin.' };
+    }
+  } else {
+    const expected = process.env['ADMIN_API_KEY'];
+    if (!expected) return { days: null, error: 'Adminlösenord har inte konfigurerats.' };
+    if (!await validAdminKey(getRequestHeader('x-admin-key') ?? '', expected)) {
+      return { days: null, error: 'Adminlösenordet godkändes inte.' };
+    }
   }
   // Privileged reads only after server-side verification; credentials never returned.
   const { supabaseAdmin } = await import('@/integrations/supabase/client.server');

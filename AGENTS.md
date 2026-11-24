@@ -32,6 +32,7 @@ use the editor.
 ## Project architecture
 - Record native interstitial Showed callbacks in a serialized Preferences/local recovery queue, deduplicate by dated round and send through a capability-checked RPC; admin aggregates test and production separately without exposing device IDs, and telemetry never blocks gameplay.
 - Keep admin credentials only in transient page memory and verify the configured secret server-side before privileged reads; aggregate app-only daily results in SQL without exposing device identifiers.
+- Hub admin uses exp.hex HMAC-SHA256 via Web Crypto verification on every admin request; keep tokens in page memory and remove them from the URL, never cookies/storage, so cross-domain iframes work without changing password access or statistics.
 - Keep daily-game logic and licensed dictionaries separate from presentation; pure tests protect scoring and calendar rules.
 - Store all daily rounds in one device-local versioned snapshot with a recovery copy and a serialized native Preferences mirror; derive statistics from completed rounds to keep results idempotent across restarts and WebView eviction.
 - Retain immutable dated answer schedules and saved answers; app updates must not change already assigned puzzles.

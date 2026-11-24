@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useServerFn } from '@tanstack/react-start';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { ChartLine, ArrowLeft, RefreshCw, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -16,6 +16,7 @@ export const Route = createFileRoute('/admin')({
     { property: 'og:type', content: 'website' },
     { name: 'twitter:card', content: 'summary' },
     { name: 'robots', content: 'noindex, nofollow' },
+    { name: 'referrer', content: 'no-referrer' },
   ] }),
   component: Admin,
 });
@@ -23,28 +24,45 @@ export const Route = createFileRoute('/admin')({
 function Admin() {
   const fetchStats = useServerFn(loadAdminStats);
   const [password, setPassword] = useState('');
-  const credential = useRef('');
+  const credential = useRef<{ key: string } | { hubToken: string }>({ key: '' });
+  const [initializing, setInitializing] = useState(true);
+  const initialized = useRef(false);
   const [days, setDays] = useState<AdminDay[] | null>(null);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const [diagram, setDiagram] = useState(false);
   const pending = useRef(false);
-  async function load(key: string) {
+  const load = useCallback(async (auth: { key: string } | { hubToken: string }) => {
     if (pending.current) return;
     pending.current = true; setBusy(true); setError('');
     try {
-      const result = await fetchStats({ headers: { 'x-admin-key': key } });
+      const headers = 'hubToken' in auth ? { 'x-admin-hub-token': auth.hubToken } : { 'x-admin-key': auth.key };
+      const result = await fetchStats({ headers });
       if (!result.days) {
         setError(result.error ?? 'Admin kunde inte öppnas.');
-        if (result.error?.includes('godkändes')) { credential.current = ''; setDays(null); }
+        if (result.error?.includes('godkändes')) { credential.current = { key: '' }; setDays(null); }
         return;
       }
-      credential.current = key; setPassword(''); setDays(adminVisibleDays(result.days));
+      credential.current = auth; setPassword(''); setDays(adminVisibleDays(result.days));
     } catch { setError('Admin kunde inte öppnas just nu. Försök igen.'); }
     finally { pending.current = false; setBusy(false); }
-  }
+  }, [fetchStats]);
+  useEffect(() => {
+    if (initialized.current) return;
+    initialized.current = true;
+    const url = new URL(window.location.href);
+    const hubToken = url.searchParams.get('hub_token');
+    if (hubToken !== null) {
+      // Remove the bearer credential from the address/history; never persist it or use cookies.
+      url.searchParams.delete('hub_token');
+      window.history.replaceState(window.history.state, '', `${url.pathname}${url.search}${url.hash}`);
+      credential.current = { hubToken };
+      void load({ hubToken }).finally(() => setInitializing(false));
+    } else setInitializing(false);
+  }, [load]);
+  if (initializing) return <main className="yatzy-admin min-h-screen flex items-center justify-center bg-background text-foreground p-6"><p role="status">Laddar…</p></main>;
   if (!days) return <main className="yatzy-admin min-h-screen flex items-center justify-center bg-background text-foreground p-6">
-    <form className="w-full max-w-sm space-y-3" onSubmit={event => { event.preventDefault(); void load(password); }}>
+    <form className="w-full max-w-sm space-y-3" onSubmit={event => { event.preventDefault(); void load({ key: password }); }}>
       <h1 className="text-xl font-semibold">Admin</h1>
       <Input id="admin-password" name="admin-password" aria-label="Adminnyckel" placeholder="Adminnyckel" className="h-auto bg-card px-3 py-2 text-sm shadow-none" type="password" autoComplete="current-password" required value={password} onChange={event => setPassword(event.target.value)} disabled={busy} />
       <Button className="w-full h-10 shadow-none" type="submit" disabled={busy || !password}>{busy ? 'Laddar…' : 'Logga in'}</Button>
@@ -65,7 +83,7 @@ function Admin() {
       <div className="flex flex-wrap gap-2">
         <Button size="sm" className="h-9 text-sm shadow-none" variant="outline" onClick={() => setDiagram(!diagram)}>{diagram ? <ArrowLeft /> : <ChartLine />}{diagram ? 'Till tabellen' : 'Diagram'}</Button>
         <Button size="sm" className="h-9 text-sm shadow-none" variant="outline" disabled={busy} onClick={() => void load(credential.current)}><RefreshCw className={busy ? 'motion-safe:animate-spin' : ''} />{busy ? 'Uppdaterar…' : 'Uppdatera'}</Button>
-        <Button size="sm" className="h-9 text-sm shadow-none" variant="outline" disabled={busy} onClick={() => { credential.current = ''; setDays(null); setPassword(''); setError(''); }}><LogOut />Logga ut</Button>
+        <Button size="sm" className="h-9 text-sm shadow-none" variant="outline" disabled={busy} onClick={() => { credential.current = { key: '' }; setDays(null); setPassword(''); setError(''); }}><LogOut />Logga ut</Button>
       </div>
     </header>
     {error && <p role="alert" className="text-destructive mb-4">{error}</p>}

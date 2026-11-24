@@ -39,6 +39,21 @@ export async function validAdminKey(provided: string, expected: string | undefin
   return difference === 0;
 }
 
+// Web Crypto verifies the fixed-length MAC without a JavaScript string comparison.
+export async function validHubToken(token: string, secret: string | undefined, now = Date.now()) {
+  if (!secret || token.length > 128) return false;
+  const match = /^(\d{1,16})\.([a-fA-F0-9]{64})$/.exec(token);
+  const exp = match?.[1], hex = match?.[2];
+  if (!exp || !hex) return false;
+  const expires = Number(exp);
+  if (!Number.isSafeInteger(expires)) return false;
+  const signature = Uint8Array.from(hex.match(/.{2}/g) ?? [], byte => parseInt(byte, 16));
+  const encoder = new TextEncoder();
+  const key = await crypto.subtle.importKey('raw', encoder.encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['verify']);
+  const valid = await crypto.subtle.verify('HMAC', key, signature, encoder.encode(`mrb-hub:${exp}`));
+  return valid && expires > now;
+}
+
 export function adminWinPercent(day: Pick<AdminDay, 'finished' | 'wins'>) {
   return day.finished ? Math.round(day.wins / day.finished * 100) : null;
 }
