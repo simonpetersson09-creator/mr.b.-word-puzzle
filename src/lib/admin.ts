@@ -12,7 +12,7 @@ export interface AdminDay {
   adTest?: number;
 }
 
-export const ADMIN_START_DAY = '2026-11-19';
+export const ADMIN_START_DAY = '2026-11-24';
 export function adminVisibleDays(days: AdminDay[]) {
   return days.filter(day => day.day >= ADMIN_START_DAY).sort((a, b) => b.day.localeCompare(a.day));
 }

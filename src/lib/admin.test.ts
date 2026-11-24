@@ -3,13 +3,13 @@ import { validAdminKey, validHubToken, adminWinPercent, adminVisibleDays, adminR
 
 describe('admin access', () => {
   const row = (day: string, played: number): AdminDay => ({ day, played, ios: played, android: 0, finished: played * 3, wins: played, average: 0 });
-  it('starts on November 19, 2026 and excludes older statistics without changing input', () => {
-    const days = [row('2026-11-18', 8), row('2026-11-19', 2), row('2026-11-20', 4)];
-    expect(adminVisibleDays(days).map(day => day.day)).toEqual(['2026-11-20', '2026-11-19']);
+  it('starts on November 24, 2026 and excludes older statistics without changing input', () => {
+    const days = [row('2026-11-23', 8), row('2026-11-24', 2), row('2026-11-25', 4)];
+    expect(adminVisibleDays(days).map(day => day.day)).toEqual(['2026-11-25', '2026-11-24']);
     expect(days).toHaveLength(3);
   });
   it('calculates means from available days since the start, not old records', () => {
-    expect(adminRollingAverage([row('2026-11-18', 100), row('2026-11-19', 2), row('2026-11-20', 4)], '2026-11-20', 'played')).toBe(3);
+    expect(adminRollingAverage([row('2026-11-23', 100), row('2026-11-24', 2), row('2026-11-25', 4)], '2026-11-25', 'played')).toBe(3);
   });
   it('rejects an unconfigured, empty or incorrect credential', async () => {
     expect(await validAdminKey('test-only', undefined)).toBe(false);
