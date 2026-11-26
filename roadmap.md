@@ -28,3 +28,5 @@
 - [x] HCP: poängregler, visning efter avslutat ord, tester och skärmkontroll
 - [x] Utöka godkända svarsord för alla 32 språk (365+ dagar)
 - [x] Efter avslutat ord: firande + resultat syns, knapp "Nästa ord" (annons vid tryck), ingen auto-vidare
+
+- [x] Google Ads-bild 1200x628 på svenska och engelska (spelsida, ikon, "3 nya ord varje dag" / "3 new words every day")
